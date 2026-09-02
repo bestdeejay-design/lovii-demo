@@ -1,132 +1,87 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>LOVII</title>
-<link rel="icon" type="image/svg+xml" href="assets/lovii-icon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/demo.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>LOVII — всё в шаговой доступности</title>
+  <meta name="description" content="Витрина торговых точек района: товары и услуги рядом, наличие в каждой точке и минуты пешком.">
+  <meta name="theme-color" content="#f64a8a">
+  <link rel="icon" type="image/svg+xml" href="lovii-heart.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/lovii.css">
 </head>
 <body>
+  <div class="app">
+    <!-- Шапка: логотип, район, корзина -->
+    <header class="app-header">
+      <div class="app-header-in">
+        <button class="logo" data-go="home" aria-label="На главную">
+          <svg viewBox="115 190 100 100" fill="none" aria-hidden="true"><path fill="currentColor" stroke="currentColor" stroke-width="3" d="M204.41 218.06c-4.05-6.63-9.49-11.91-16.3-15.84-6.81-3.93-14.38-5.9-22.69-5.9s-15.83 1.97-22.66 5.9c-6.83 3.93-12.28 9.21-16.33 15.84-4.05 6.63-6.08 13.97-6.08 22.04s2.03 15.42 6.08 22.04c4.05 6.63 9.5 11.92 16.33 15.87 6.83 3.95 14.39 5.93 22.66 5.93s15.88-1.98 22.69-5.93c6.81-3.95 12.25-9.24 16.3-15.87 4.05-6.63 6.08-13.97 6.08-22.04s-2.03-15.41-6.08-22.04z"/><path fill="#ffffff" fill-rule="evenodd" d="M187.92 223.98c-5.58-5.58-14.62-5.58-20.2 0l-2.31 2.31-2.31-2.31c-5.58-5.58-14.62-5.58-20.2 0-4.91 4.91-5.5 12.5-1.76 18.06 4.63 5.66 10.69 11.91 24.42 24.5l22.36-22.36c5.58-5.58 5.58-14.62 0-20.2z"/></svg>
+          <span>LOV<span class="lv">II</span></span>
+        </button>
+        <div style="display:flex;align-items:center;gap:8px">
+          <button class="pill-btn" data-action="open-sheet" aria-label="Выбрать район">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span class="lbl" id="district-label">Район</span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <button class="icon-btn" data-go="cart" aria-label="Корзина">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            <span class="count-badge brand-gradient" id="cart-badge" style="display:none">0</span>
+          </button>
+        </div>
+      </div>
+    </header>
 
-<div id="splash">
-  <div class="splash-visual">
-    <img class="splash-logo" src="assets/lovii-logo-light.svg" alt="LOVII">
-    <div class="splash-cover"></div>
+    <!-- Экраны -->
+    <main id="view"></main>
+
+    <!-- Нижняя навигация -->
+    <nav class="app-nav" aria-label="Нижняя навигация">
+      <div class="app-nav-in">
+        <button class="nav-btn" data-nav="home" data-go="home">
+          <span class="top-ind"></span>
+          <span class="nav-ico"><svg viewBox="115 190 100 100" fill="none" aria-hidden="true"><path fill="currentColor" stroke="currentColor" stroke-width="3" d="M204.41 218.06c-4.05-6.63-9.49-11.91-16.3-15.84-6.81-3.93-14.38-5.9-22.69-5.9s-15.83 1.97-22.66 5.9c-6.83 3.93-12.28 9.21-16.33 15.84-4.05 6.63-6.08 13.97-6.08 22.04s2.03 15.42 6.08 22.04c4.05 6.63 9.5 11.92 16.33 15.87 6.83 3.95 14.39 5.93 22.66 5.93s15.88-1.98 22.69-5.93c6.81-3.95 12.25-9.24 16.3-15.87 4.05-6.63 6.08-13.97 6.08-22.04s-2.03-15.41-6.08-22.04z"/><path fill="#ffffff" fill-rule="evenodd" d="M187.92 223.98c-5.58-5.58-14.62-5.58-20.2 0l-2.31 2.31-2.31-2.31c-5.58-5.58-14.62-5.58-20.2 0-4.91 4.91-5.5 12.5-1.76 18.06 4.63 5.66 10.69 11.91 24.42 24.5l22.36-22.36c5.58-5.58 5.58-14.62 0-20.2z"/></svg></span>
+          Главная
+        </button>
+        <button class="nav-btn" data-nav="search" data-go="search">
+          <span class="top-ind"></span>
+          <span class="nav-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+          Поиск
+        </button>
+        <button class="nav-btn" data-nav="cart" data-go="cart">
+          <span class="top-ind"></span>
+          <span class="nav-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="nav-count brand-gradient" id="nav-cart-badge" style="display:none">0</span></span>
+          Корзина
+        </button>
+        <button class="nav-btn" data-nav="orders" data-go="orders">
+          <span class="top-ind"></span>
+          <span class="nav-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span>
+          Заказы
+        </button>
+      </div>
+    </nav>
   </div>
-</div>
 
-<div id="app">
-  <!-- Header -->
-  <header id="app-header">
-    <a href="#home" id="app-logo-link"><img id="app-logo" src="assets/lovii-logo-light.svg" alt="LOVII"></a>
-    <div class="header-actions">
-      <div class="cart-btn" id="cartPill" style="display:none">
-        <svg class="cart-icon" viewBox="0 0 24 24" fill="none" role="img" aria-label="Корзина"><path d="M3 4h2l2.4 12.2a1 1 0 0 0 1 .8h8.7a1 1 0 0 0 1-.8L21 8H6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="20" r="1.4" fill="#fff"/><circle cx="18" cy="20" r="1.4" fill="#fff"/></svg>
-        <span class="cart-num" id="cartPillCount">0</span>
-      </div>
-      <div class="avatar-wrap">
-        <svg class="avatar-icon" viewBox="0 0 512 512" fill="none" role="img" aria-label="Профиль">
-          <rect width="512" height="512" rx="80" fill="var(--bg)" stroke="var(--border)" stroke-width="8"/>
-          <path d="M160 360c0-50 43-90 96-90s96 40 96 90" stroke="var(--pink)" stroke-width="24" stroke-linecap="round" fill="none"/>
-          <circle cx="256" cy="200" r="60" fill="var(--pink)"/>
-          <path d="M210 320l-38-44-24 20 62 66 100-106-30-28-70 77z" fill="var(--pink)" transform="translate(0,-15)"/>
-        </svg>
-        <span class="notif-dot"></span>
-      </div>
+  <!-- Шит выбора района -->
+  <div class="sheet-overlay" id="sheet-overlay"></div>
+  <div class="sheet" id="district-sheet" role="dialog" aria-modal="true" aria-label="Выбор района">
+    <div class="sheet-head">
+      <h2>Где вы сейчас?</h2>
+      <p>Покажем точки и товары в шаговой доступности</p>
     </div>
-  </header>
+    <div class="sheet-body"></div>
+  </div>
 
-  <!-- Content -->
-  <main id="app-content"></main>
+  <!-- Тосты -->
+  <div class="toast-wrap" id="toast-wrap"></div>
 
-  <!-- Bottom Nav -->
-  <nav id="app-nav">
-    <a href="#home" class="nav-item" data-tab="home">
-      <svg class="icon" role="img" aria-label="Главная"><use href="#i-home"/></svg>
-      <span>Главная</span>
-    </a>
-    <a href="#cart" class="nav-item" data-tab="cart">
-      <svg class="icon" role="img" aria-label="Корзина"><use href="#i-shopping-bag"/></svg>
-      <span>Корзина</span>
-    </a>
-    <a href="#orders" class="nav-item" data-tab="orders">
-      <svg class="icon" role="img" aria-label="Заказы"><use href="#i-package"/></svg>
-      <span>Заказы</span>
-    </a>
-    <a href="#profile" class="nav-item" data-tab="profile">
-      <svg class="icon" role="img" aria-label="Профиль"><use href="#i-user"/></svg>
-      <span>Профиль</span>
-    </a>
-  </nav>
-</div>
-
-<svg style="display:none" id="app-sprite" aria-hidden="true">
-  <title>LOVII icon sprite</title>
-  <symbol id="i-home" viewBox="115 190 100 100">
-    <title>Home</title>
-    <path fill="currentColor" stroke="currentColor" stroke-width="3" d="M204.41 218.06c-4.05-6.63-9.49-11.91-16.3-15.84-6.81-3.93-14.38-5.9-22.69-5.9s-15.83 1.97-22.66 5.9c-6.83 3.93-12.28 9.21-16.33 15.84-4.05 6.63-6.08 13.97-6.08 22.04s2.03 15.42 6.08 22.04c4.05 6.63 9.5 11.92 16.33 15.87 6.83 3.95 14.39 5.93 22.66 5.93s15.88-1.98 22.69-5.93c6.81-3.95 12.25-9.24 16.3-15.87 4.05-6.63 6.08-13.97 6.08-22.04s-2.03-15.41-6.08-22.04z"/>
-    <path fill="#ffffff" fill-rule="evenodd" d="M187.92 223.98c-5.58-5.58-14.62-5.58-20.2 0l-2.31 2.31-2.31-2.31c-5.58-5.58-14.62-5.58-20.2 0-4.91 4.91-5.5 12.5-1.76 18.06 4.63 5.66 10.69 11.91 24.42 24.5l22.36-22.36c5.58-5.58 5.58-14.62 0-20.2z"/>
-  </symbol>
-  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Search</title><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></symbol>
-  <symbol id="i-package" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Package</title><path d="M16.5 9.4L7.55 4.24"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/></symbol>
-  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>User</title><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
-  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Bell</title><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></symbol>
-  <symbol id="i-store" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Store</title><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
-  <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Star</title><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
-  <symbol id="i-bar-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Bar chart</title><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></symbol>
-  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Users</title><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></symbol>
-  <symbol id="i-building" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Building</title><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><line x1="8" y1="6" x2="10" y2="6"/><line x1="14" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/></symbol>
-  <symbol id="i-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Zap</title><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
-  <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Settings</title><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></symbol>
-  <symbol id="i-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Map pin</title><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></symbol>
-  <symbol id="i-shopping-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Shopping bag</title><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></symbol>
-  <symbol id="i-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Gift</title><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></symbol>
-  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Clock</title><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
-  <symbol id="i-wallet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Wallet</title><path d="M21 12V7H5a2 2 0 010-4h14v4"/><path d="M3 5v14a2 2 0 002 2h16v-5"/><path d="M18 12a2 2 0 000 4h4v-4z"/></symbol>
-  <symbol id="i-trending-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Trending up</title><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></symbol>
-  <symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Chevron right</title><polyline points="9 18 15 12 9 6"/></symbol>
-  <symbol id="i-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Chevron left</title><polyline points="15 18 9 12 15 6"/></symbol>
-  <symbol id="i-chevron-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Chevron up</title><polyline points="18 15 12 9 6 15"/></symbol>
-  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Chevron down</title><polyline points="6 9 12 15 18 9"/></symbol>
-  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Plus</title><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
-  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Check</title><polyline points="20 6 9 17 4 12"/></symbol>
-  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Arrow left</title><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></symbol>
-  <symbol id="i-log-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Log out</title><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></symbol>
-  <symbol id="i-bread" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Bread</title><path d="M18 4a3 3 0 0 1 2 5.235v8.765a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-8.764a3 3 0 0 1 1.824 -5.231h12.176v-.005" /></symbol>
-  <symbol id="i-flower" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Flower</title><path d="M9 12a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M12 2a3 3 0 0 1 3 3c0 .562 -.259 1.442 -.776 2.64l-.724 1.36l1.76 -1.893c.499 -.6 .922 -1 1.27 -1.205a2.968 2.968 0 0 1 4.07 1.099a3.011 3.011 0 0 1 -1.09 4.098c-.374 .217 -.99 .396 -1.846 .535l-2.664 .366l2.4 .326c1 .145 1.698 .337 2.11 .576a3.011 3.011 0 0 1 1.09 4.098a2.968 2.968 0 0 1 -4.07 1.098c-.348 -.202 -.771 -.604 -1.27 -1.205l-1.76 -1.893l.724 1.36c.516 1.199 .776 2.079 .776 2.64a3 3 0 0 1 -6 0c0 -.562 .259 -1.442 .776 -2.64l.724 -1.36l-1.76 1.893c-.499 .601 -.922 1 -1.27 1.205a2.968 2.968 0 0 1 -4.07 -1.098a3.011 3.011 0 0 1 1.09 -4.098c.374 -.218 .99 -.396 1.846 -.536l2.664 -.366l-2.4 -.325c-1 -.145 -1.698 -.337 -2.11 -.576a3.011 3.011 0 0 1 -1.09 -4.099a2.968 2.968 0 0 1 4.07 -1.099c.348 .203 .771 .604 1.27 1.205l1.76 1.894c-1 -2.292 -1.5 -3.625 -1.5 -4a3 3 0 0 1 3 -3" /></symbol>
-  <symbol id="i-sushi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Sushi</title><path d="M16.4 3.3a8.23 8.23 0 0 0 -8.8 0L3.8 6c-2.4 1.7-2.4 4.4 0 6.1l3.9 2.7c2.4 1.7 6.3 1.7 8.7 0l3.9-2.7c2.4-1.7 2.4-4.4 0-6.1Z" /><path d="M2 9v6c0 1.1.6 2.2 1.8 3l3.9 2.7c2.4 1.7 6.3 1.7 8.7 0l3.9-2.7c1.2-.8 1.8-1.9 1.8-3V9" /><path d="M7.7 10.1c-.9-.6-.9-1.6 0-2.2l2.7-1.8c.9-.6 2.4-.6 3.3 0l2.7 1.8c.9.6.9 1.6 0 2.2l-2.7 1.8c-.9.6-2.4.6-3.3 0Z" /><path d="M15 11c-2-3-5-2-6 0" /></symbol>
-  <symbol id="i-coffee" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Coffee</title><path d="M3 14c.83 .642 2.077 1.017 3.5 1c1.423 .017 2.67 -.358 3.5 -1c.83 -.642 2.077 -1.017 3.5 -1c1.423 -.017 2.67 .358 3.5 1" /><path d="M8 3a2.4 2.4 0 0 0 -1 2a2.4 2.4 0 0 0 1 2" /><path d="M12 3a2.4 2.4 0 0 0 -1 2a2.4 2.4 0 0 0 1 2" /><path d="M3 10h14v5a6 6 0 0 1 -6 6h-2a6 6 0 0 1 -6 -6v-5" /><path d="M16.746 16.726a3 3 0 1 0 .252 -5.555" /></symbol>
-  <symbol id="i-discount" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Discount</title><path d="M9 15l6 -6" /><path d="M9 9.5a.5 .5 0 1 0 1 0a.5 .5 0 1 0 -1 0" fill="currentColor" /><path d="M14 14.5a.5 .5 0 1 0 1 0a.5 .5 0 1 0 -1 0" fill="currentColor" /><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /></symbol>
-</svg>
-
-<script src="js/data.js?v=12"></script>
-<script src="js/components.js?v=12"></script>
-<script src="js/screens/home.js?v=12"></script>
-<script src="js/screens/search.js?v=12"></script>
-<script src="js/screens/store.js?v=12"></script>
-<script src="js/screens/product.js?v=12"></script>
-<script src="js/screens/orders.js?v=12"></script>
-<script src="js/screens/profile.js?v=12"></script>
-<script src="js/screens/partner/dashboard.js?v=12"></script>
-<script src="js/screens/partner/products.js?v=12"></script>
-<script src="js/screens/partner/p-orders.js?v=12"></script>
-<script src="js/screens/partner/reports.js?v=12"></script>
-<script src="js/screens/rep/dashboard.js?v=12"></script>
-<script src="js/screens/rep/points.js?v=12"></script>
-<script src="js/screens/rep/income.js?v=12"></script>
-<script src="js/screens/rep/rep-profile.js?v=12"></script>
-<script src="js/screens/rep/map.js?v=12"></script>
-<script src="js/screens/ambassador/dashboard.js?v=12"></script>
-<script src="js/screens/ambassador/reps.js?v=12"></script>
-<script src="js/screens/ambassador/a-income.js?v=12"></script>
-<script src="js/screens/ambassador/training.js?v=12"></script>
-<script src="js/screens/cart.js?v=12"></script>
-<script src="js/screens/promo.js?v=12"></script>
-<script src="js/screens/city-select.js?v=12"></script>
-<script src="js/screens/bonus-info.js?v=12"></script>
-<script src="js/demo.js?v=12"></script>
+  <script src="js/data.js"></script>
+  <script src="js/geo.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/screens.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
