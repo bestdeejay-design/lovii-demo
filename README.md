@@ -1,4 +1,6 @@
-# LOVII Витрина — версия для GitHub Pages
+# LOVII Витрина
+
+**🔗 Демо: [https://bestdeejay-design.github.io/lovii_demo/](https://bestdeejay-design.github.io/lovii_demo/)**
 
 Клиентская витрина LOVII: торговые точки района выкладывают товары и услуги,
 клиент находит точку и товар и видит, **где он есть в наличии** и сколько минут
