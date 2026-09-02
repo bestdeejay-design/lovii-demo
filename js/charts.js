@@ -80,7 +80,7 @@ function barsChart({ data, labels = [], tone = 'pink', height = 150, fmt = numFm
     pink: ['#f64a8a', '#c92a6a'],
     tiffany: ['#0abab5', '#078d89'],
     gold: ['#d4a854', '#b98d3e'],
-    ink: ['#3a3a3a', '#1a1a1a'],
+    ink: ['var(--ch-ink-a)', 'var(--ch-ink-b)'],
   };
   const [c1, c2] = gradMap[tone] || gradMap.pink;
   const labelStep = Math.ceil(data.length / 6);
@@ -99,15 +99,15 @@ function barsChart({ data, labels = [], tone = 'pink', height = 150, fmt = numFm
     ? labels
         .map((l, i) =>
           i % labelStep === 0 || i === data.length - 1
-            ? `<text x="${(pad + i * (bw + gap) + bw / 2).toFixed(1)}" y="${H - 4}" text-anchor="middle" font-size="9" fill="#b3a8ad">${esc(l)}</text>`
+            ? `<text x="${(pad + i * (bw + gap) + bw / 2).toFixed(1)}" y="${H - 4}" text-anchor="middle" font-size="9" style="fill:var(--dim)">${esc(l)}</text>`
             : ''
         )
         .join('')
     : '';
 
   return `<svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">
-    <defs><linearGradient id="${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs>
-    <line x1="0" y1="${14 + innerH + 0.5}" x2="${W}" y2="${14 + innerH + 0.5}" stroke="#f0e8ec" stroke-width="1"/>
+    <defs><linearGradient id="${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:${c1}"/><stop offset="1" style="stop-color:${c2}"/></linearGradient></defs>
+    <line x1="0" y1="${14 + innerH + 0.5}" x2="${W}" y2="${14 + innerH + 0.5}" style="stroke:var(--line)" stroke-width="1"/>
     ${rects}${lbls}
   </svg>`;
 }
@@ -145,10 +145,10 @@ function areaChart({ data, labels = [], forecast = [], tone = 'pink', height = 1
 
   // подпись последнего значения
   const lastP = pts[pts.length - 1];
-  const lastLbl = `<text x="${Math.min(W - 4, lastP[0]).toFixed(1)}" y="${Math.max(10, lastP[1] - 6).toFixed(1)}" text-anchor="end" font-size="10" font-weight="700" fill="#1a1a1a">${esc(yFmt(data[data.length - 1]))}</text>`;
+  const lastLbl = `<text x="${Math.min(W - 4, lastP[0]).toFixed(1)}" y="${Math.max(10, lastP[1] - 6).toFixed(1)}" text-anchor="end" font-size="10" font-weight="700" style="fill:var(--ink)">${esc(yFmt(data[data.length - 1]))}</text>`;
 
   const grid = [0.33, 0.66]
-    .map((k) => `<line x1="0" y1="${(padT + innerH * k).toFixed(1)}" x2="${W}" y2="${(padT + innerH * k).toFixed(1)}" stroke="#f7f2f5" stroke-width="1"/>`)
+    .map((k) => `<line x1="0" y1="${(padT + innerH * k).toFixed(1)}" x2="${W}" y2="${(padT + innerH * k).toFixed(1)}" style="stroke:var(--line-2)" stroke-width="1"/>`)
     .join('');
 
   const labelStep = Math.ceil(total / 6);
@@ -157,18 +157,18 @@ function areaChart({ data, labels = [], forecast = [], tone = 'pink', height = 1
         .map(
           (l, i) =>
             i % labelStep === 0 || i === total - 1
-              ? `<text x="${(4 + i * stepX).toFixed(1)}" y="${H - 4}" text-anchor="middle" font-size="9" fill="#b3a8ad">${esc(l)}</text>`
+              ? `<text x="${(4 + i * stepX).toFixed(1)}" y="${H - 4}" text-anchor="middle" font-size="9" style="fill:var(--dim)">${esc(l)}</text>`
               : ''
         )
         .join('')
     : '';
 
   return `<svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">
-    <defs><linearGradient id="${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c1}" stop-opacity=".25"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs>
+    <defs><linearGradient id="${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:${c1}" stop-opacity=".25"/><stop offset="1" style="stop-color:${c2}"/></linearGradient></defs>
     ${grid}
     <path d="${areaPath}" fill="url(#${uid})"/>
     <path d="${line}" fill="none" stroke="${c1}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="${lastP[0].toFixed(1)}" cy="${lastP[1].toFixed(1)}" r="3.4" fill="${c1}" stroke="#fff" stroke-width="1.6"/>
+    <circle cx="${lastP[0].toFixed(1)}" cy="${lastP[1].toFixed(1)}" r="3.4" fill="${c1}" style="stroke:var(--card)" stroke-width="1.6"/>
     ${forecastPath}${lastLbl}${lbls}
   </svg>`;
 }

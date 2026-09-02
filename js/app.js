@@ -7,6 +7,35 @@
 
 const PERSIST_KEY = 'lovii_vitrina';
 
+/* ================= Тема (светлая/тёмная) ================= */
+
+const THEME_KEY = 'lovii_theme';
+const THEME_META = { light: '#f64a8a', dark: '#171219' };
+
+function currentTheme() {
+  return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+}
+
+function applyTheme(t) {
+  document.documentElement.dataset.theme = t;
+  const meta = document.getElementById('meta-theme');
+  if (meta) meta.setAttribute('content', THEME_META[t]);
+}
+
+function toggleTheme() {
+  const t = currentTheme() === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem(THEME_KEY, t); } catch { /* приватный режим */ }
+  applyTheme(t);
+  toast(t === 'dark' ? 'Тёмная тема включена' : 'Светлая тема включена');
+}
+
+// пока пользователь не выбрал тему явно — следим за системной
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', (e) => {
+  let saved = null;
+  try { saved = localStorage.getItem(THEME_KEY); } catch { /* no-op */ }
+  if (saved !== 'dark' && saved !== 'light') applyTheme(e.matches ? 'dark' : 'light');
+});
+
 function loadPersisted() {
   try {
     return JSON.parse(localStorage.getItem(PERSIST_KEY) || '{}');
@@ -540,6 +569,14 @@ document.addEventListener('click', (e) => {
     case 'export-csv':
       exportCsv();
       break;
+
+    case 'theme-toggle':
+      toggleTheme();
+      break;
+
+    case 'install-app':
+      startInstall();
+      break;
   }
 });
 
@@ -594,14 +631,88 @@ document.addEventListener('input', (e) => {
   }
 });
 
-// Оверлей и Esc закрывают шит
+// Оверлеи и Esc закрывают шиты
 document.getElementById('sheet-overlay').addEventListener('click', closeSheet);
+document.getElementById('install-overlay').addEventListener('click', closeInstallSheet);
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && state.sheetOpen) closeSheet();
+  if (e.key === 'Escape') {
+    if (state.sheetOpen) closeSheet();
+    closeInstallSheet();
+  }
 });
 
 // Роутер
 window.addEventListener('hashchange', renderView);
+
+/* ================= PWA: установка + service worker ================= */
+
+let deferredPrompt = null;
+
+const isStandalone = () =>
+  window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+// Chrome/Edge/Android: браузер сам готов показать диалог установки
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+});
+
+window.addEventListener('appinstalled', () => {
+  closeInstallSheet();
+  toast('LOVII установлен', 'Ищите иконку на главном экране');
+});
+
+async function startInstall() {
+  if (isStandalone()) {
+    toast('Приложение уже установлено', 'Вы открыли LOVII с иконки');
+    return;
+  }
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    if (outcome === 'accepted') toast('Готово!', 'Иконка LOVII появится на главном экране');
+    else closeInstallSheet();
+    return;
+  }
+  openInstallSheet(); // iOS/десктоп Safari и прочие: пошаговая инструкция
+}
+
+function installStepsHtml() {
+  const step = (n, t) => `<div class="install-step"><span class="n">${n}</span><span class="t">${t}</span></div>`;
+  const iOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && 'ontouchend' in document);
+  if (iOS) {
+    return (
+      step(1, `Нажмите кнопку ${icon('share', 'install-ico')} <b>«Поделиться»</b> в Safari`) +
+      step(2, `Выберите ${icon('smartphone', 'install-ico')} <b>«На экран “Домой”»</b>`) +
+      step(3, 'Нажмите <b>«Добавить»</b> — иконка LOVII появится на главном экране')
+    );
+  }
+  return (
+    step(1, `Нажмите ${icon('download', 'install-ico')} <b>значок установки</b> в адресной строке браузера`) +
+    step(2, 'Подтвердите <b>«Установить»</b> — появится ярлык на рабочем столе') +
+    '<div class="install-note">Если значка нет: меню браузера (⋮ или ⋯) → «Установить приложение LOVII» / «Добавить на главный экран»</div>'
+  );
+}
+
+function openInstallSheet() {
+  document.getElementById('install-body').innerHTML = installStepsHtml();
+  document.getElementById('install-overlay').classList.add('open');
+  document.getElementById('install-sheet').classList.add('open');
+}
+
+function closeInstallSheet() {
+  document.getElementById('install-overlay').classList.remove('open');
+  document.getElementById('install-sheet').classList.remove('open');
+}
+
+// Service worker — офлайн-кэш и установимость (не на localhost-превью)
+if ('serviceWorker' in navigator && !['localhost', '127.0.0.1'].includes(location.hostname)) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+}
+
+// Синхронизировать цвет статус-бара с темой при старте
+applyTheme(currentTheme());
 
 // Инициализация ролей: сид чатов, точка пользователя на витрине, авто-модерация
 ensureChats();

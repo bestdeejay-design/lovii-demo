@@ -5,7 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>LOVII — всё в шаговой доступности</title>
   <meta name="description" content="Витрина торговых точек района: товары и услуги рядом, наличие в каждой точке и минуты пешком.">
-  <meta name="theme-color" content="#f64a8a">
+  <meta name="theme-color" id="meta-theme" content="#f64a8a">
+  <script>
+    /* Тема до отрисовки: явный выбор → системная. Без вспышки светлого */
+    (function () {
+      try {
+        var t = localStorage.getItem('lovii_theme');
+        if (t !== 'dark' && t !== 'light') {
+          t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.dataset.theme = t;
+      } catch (e) { document.documentElement.dataset.theme = 'light'; }
+    })();
+  </script>
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -17,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/lovii.css?v=14">
+  <link rel="stylesheet" href="css/lovii.css?v=18">
 </head>
 <body>
   <div class="app">
@@ -25,13 +37,18 @@
     <header class="app-header">
       <div class="app-header-in">
         <button class="logo" data-go="home" aria-label="LOVII — на главную">
-          <img class="logo-img" src="assets/lovii-logo-light.svg" alt="LOVII" width="153" height="32">
+          <img class="logo-img logo-light-img" src="assets/lovii-logo-light.svg" alt="LOVII" width="153" height="32">
+          <img class="logo-img logo-dark-img" src="assets/lovii-logo-dark.svg" alt="LOVII" width="153" height="32">
         </button>
         <div style="display:flex;align-items:center;gap:8px">
           <button class="pill-btn" data-action="open-sheet" aria-label="Выбрать район">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
             <span class="lbl" id="district-label">Район</span>
             <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <button class="icon-btn" data-action="theme-toggle" aria-label="Сменить тему" title="Светлая/тёмная тема">
+            <svg class="theme-ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+            <svg class="theme-ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
           </button>
           <button class="icon-btn" data-go="cart" aria-label="Корзина">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
@@ -86,15 +103,25 @@
     <div class="sheet-body"></div>
   </div>
 
+  <!-- Шит установки приложения -->
+  <div class="sheet-overlay" id="install-overlay"></div>
+  <div class="sheet" id="install-sheet" role="dialog" aria-modal="true" aria-label="Установка приложения">
+    <div class="sheet-head">
+      <h2>Установить LOVII</h2>
+      <p>Открывайте витрину как приложение — с иконки на главном экране</p>
+    </div>
+    <div class="sheet-body" id="install-body"></div>
+  </div>
+
   <!-- Тосты -->
   <div class="toast-wrap" id="toast-wrap"></div>
 
-  <script src="js/data.js?v=13"></script>
-  <script src="js/geo.js?v=13"></script>
-  <script src="js/icons.js?v=13"></script>
-  <script src="js/charts.js?v=13"></script>
-  <script src="js/screens.js?v=13"></script>
-  <script src="js/dash.js?v=14"></script>
-  <script src="js/app.js?v=13"></script>
+  <script src="js/data.js?v=16"></script>
+  <script src="js/geo.js?v=16"></script>
+  <script src="js/icons.js?v=16"></script>
+  <script src="js/charts.js?v=16"></script>
+  <script src="js/screens.js?v=16"></script>
+  <script src="js/dash.js?v=16"></script>
+  <script src="js/app.js?v=16"></script>
 </body>
 </html>

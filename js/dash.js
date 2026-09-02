@@ -271,6 +271,18 @@ function renderProfile() {
     <div class="section-head" style="margin-top:20px"><h2>Демо-доступ</h2></div>
     <div class="list-card">${demoRows}</div>
 
+    <div class="section-head" style="margin-top:20px"><h2>Приложение</h2></div>
+    <div class="list-card">
+      <button class="row-item install-card-btn" data-action="install-app" aria-label="Установить приложение">
+        <span class="ri-emoji ${tileBg('pink')}">${icon('download')}</span>
+        <div class="ri-mid">
+          <div class="nm">Установить приложение</div>
+          <div class="sb">Иконка LOVII на главном экране телефона или рабочем столе компьютера</div>
+        </div>
+        <span class="cta-btn brand-gradient">Установить</span>
+      </button>
+    </div>
+
     <p class="dash-note tone-dim" style="margin-top:14px">Демо-режим: без авторизации. Роли сохраняются в этом браузере.</p>
 
     <footer class="prof-legal">
