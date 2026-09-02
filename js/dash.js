@@ -274,7 +274,7 @@ function renderProfile() {
     <div class="section-head" style="margin-top:20px"><h2>Приложение</h2></div>
     <div class="list-card">
       <button class="row-item install-card-btn" data-action="install-app" aria-label="Установить приложение">
-        <span class="ri-emoji ${tileBg('pink')}">${icon('download')}</span>
+        <span class="ri-emoji ${tileBg('sand')}">📲</span>
         <div class="ri-mid">
           <div class="nm">Установить приложение</div>
           <div class="sb">Иконка LOVII на главном экране телефона или рабочем столе компьютера</div>
