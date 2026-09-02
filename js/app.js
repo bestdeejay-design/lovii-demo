@@ -22,6 +22,11 @@ const state = {
   district: persisted.district || 'Тверской',
   cart: persisted.cart || [],
   orders: persisted.orders || [],
+  // роли и профиль (localStorage)
+  favorites: persisted.favorites || [],
+  roles: persisted.roles || {},
+  activeRole: persisted.activeRole || null,
+  chats: persisted.chats || null, // сид создаёт dash.js (ensureChats)
   // сессионное (не сохраняется)
   category: 'all',
   kindTab: 'goods',
@@ -30,13 +35,23 @@ const state = {
   searchTab: 'products',
   flashStore: null,
   sheetOpen: false,
+  dashPeriod: 'week',
+  ownerRegion: 'Все',
 };
 
 function persist() {
   try {
     localStorage.setItem(
       PERSIST_KEY,
-      JSON.stringify({ district: state.district, cart: state.cart, orders: state.orders })
+      JSON.stringify({
+        district: state.district,
+        cart: state.cart,
+        orders: state.orders,
+        favorites: state.favorites,
+        roles: state.roles,
+        activeRole: state.activeRole,
+        chats: state.chats,
+      })
     );
   } catch {
     /* приватный режим — просто не сохраняем */
@@ -155,7 +170,7 @@ function back() {
 function parseHash() {
   const h = location.hash.replace(/^#\/?/, '');
   const [name, param] = h.split('/');
-  const known = ['home', 'store', 'product', 'search', 'cart', 'orders'];
+  const known = ['home', 'store', 'product', 'search', 'cart', 'orders', 'profile', 'apply', 'dash', 'chat'];
   return { name: known.includes(name) ? name : 'home', param: param || null };
 }
 
@@ -165,10 +180,13 @@ function currentScreenHtml() {
   const { name, param } = state.view;
   if (name === 'store' && param) return renderStore(param);
   if (name === 'product' && param) return renderProduct(param);
+  if (name === 'apply' && param) return renderApply(param);
+  if (name === 'dash') return renderDash(param || 'index');
+  if (name === 'chat' && param) return renderChat(param);
   return (SCREENS[name] || renderHome)();
 }
 
-function renderView() {
+function renderView(keepScroll) {
   const { name, param } = parseHash();
   state.view = { name, param };
 
@@ -183,15 +201,35 @@ function renderView() {
   } else if (name === 'product' && param) {
     const p = LOVII_DATA.products.find((x) => x.slug === param);
     sub = subHeaderHtml(p ? p.name : 'Товар');
+  } else if (name === 'apply' && param) {
+    sub = subHeaderHtml('Заявка на роль');
   }
   if (sub) {
     html = sub + `<div>${html}</div>`;
     // подсшапка sticky top учитывает шапку (56px) — уже в CSS
   }
 
+  // При смене экрана — наверх; при точечных фильтрах (keepScroll) — держим позицию,
+  // чтобы выбранная категория/сортировка не сбрасывали прокрутку
+  const sy = keepScroll ? window.scrollY : 0;
   view.innerHTML = html;
-  window.scrollTo(0, 0);
+  window.scrollTo(0, sy);
   updateChrome();
+  watchCatsSticky();
+}
+
+/* Липкие чипы: тень только в прилипшем состоянии. Сентинел перед плашкой уходит выше линии шапки (56px) → .stuck */
+let catsStickyObserver = null;
+function watchCatsSticky() {
+  if (catsStickyObserver) { catsStickyObserver.disconnect(); catsStickyObserver = null; }
+  const bar = document.querySelector('.cats-sticky');
+  const sentinel = document.querySelector('.cats-sentinel');
+  if (!bar || !sentinel || typeof IntersectionObserver === 'undefined') return;
+  catsStickyObserver = new IntersectionObserver((entries) => {
+    const e = entries[entries.length - 1];
+    bar.classList.toggle('stuck', !e.isIntersecting);
+  }, { rootMargin: '-56px 0px 0px 0px', threshold: 0 });
+  catsStickyObserver.observe(sentinel);
 }
 
 function subHeaderHtml(title) {
@@ -219,9 +257,12 @@ function updateChrome() {
     el.textContent = count;
   });
 
-  // активная кнопка навигации
+  // активная кнопка навигации (роли подсвечивают «Профиль»)
+  const navName = state.view.name;
+  const roleScreens = ['profile', 'apply', 'dash', 'chat'];
   document.querySelectorAll('.nav-btn').forEach((btn) => {
-    btn.classList.toggle('active', btn.dataset.nav === state.view.name);
+    const isActive = btn.dataset.nav === 'profile' ? roleScreens.includes(navName) : btn.dataset.nav === navName;
+    btn.classList.toggle('active', isActive);
   });
 }
 
@@ -334,6 +375,23 @@ document.addEventListener('click', (e) => {
       back();
       break;
 
+    case 'hero-toggle': {
+      const hero = document.getElementById('hero');
+      if (!hero) break;
+      hero.classList.toggle('collapsed');
+      const isOpen = !hero.classList.contains('collapsed');
+      try { localStorage.setItem('lovii_hero', isOpen ? '1' : '0'); } catch (_) {}
+      actEl.setAttribute('aria-expanded', String(isOpen));
+      const lbl = document.getElementById('hero-tab-lbl');
+      if (lbl) {
+        const d = selectors.districtObj();
+        lbl.textContent = isOpen
+          ? `Ваш район: ${esc(d.name)} · м. ${esc(d.metro)}`
+          : 'Всё нужное — в шаговой доступности';
+      }
+      break;
+    }
+
     case 'district': {
       state.district = actEl.dataset.name;
       persist();
@@ -346,18 +404,18 @@ document.addEventListener('click', (e) => {
     case 'category': {
       const val = actEl.dataset.val;
       state.category = state.category === val ? 'all' : val;
-      renderView();
+      refreshHomeCatalog();
       break;
     }
 
     case 'kind':
       state.kindTab = actEl.dataset.val;
-      renderView();
+      refreshHomeCatalog();
       break;
 
     case 'sort':
       state.sort = actEl.dataset.val;
-      renderView();
+      refreshHomeCatalog();
       break;
 
     case 'stab':
@@ -422,6 +480,94 @@ document.addEventListener('click', (e) => {
       go('orders');
       break;
     }
+
+    /* ---- Роли, дашборды, избранное ---- */
+
+    case 'fav':
+      toggleFavorite(actEl.dataset.slug);
+      break;
+
+    case 'enter-role':
+      enterRole(actEl.dataset.role);
+      break;
+
+    case 'exit-role':
+      exitRole();
+      break;
+
+    case 'dash-tab':
+      go('dash', actEl.dataset.val);
+      break;
+
+    case 'period':
+      state.dashPeriod = actEl.dataset.val;
+      renderViewPreserveScroll();
+      break;
+
+    case 'approve-store':
+      approveUserStore(false);
+      break;
+
+    case 'rm-good': {
+      const r = state.roles.store;
+      if (!r) break;
+      r.goods = (r.goods || []).filter((g) => g.slug !== actEl.dataset.slug);
+      syncUserStore();
+      persist();
+      renderViewPreserveScroll();
+      toast('Товар убран с витрины');
+      break;
+    }
+
+    case 'add-good': {
+      const r = state.roles.store;
+      const src = LOVII_DATA.products.find((x) => x.slug === actEl.dataset.slug);
+      if (!r || !src) break;
+      r.goods = r.goods || [];
+      r.goods.push({ slug: 'g-' + src.slug, name: src.name, emoji: src.emoji, price: src.price, unit: src.unit, stock: 10 });
+      syncUserStore();
+      persist();
+      renderViewPreserveScroll();
+      toast('Товар добавлен', 'Появится на витрине после одобрения точки');
+      break;
+    }
+
+    case 'region':
+      state.ownerRegion = actEl.dataset.val;
+      renderViewPreserveScroll();
+      break;
+
+    case 'export-csv':
+      exportCsv();
+      break;
+  }
+});
+
+/* ---- Формы: заявка, карточка точки, чат ---- */
+
+document.addEventListener('submit', (e) => {
+  const f = e.target;
+  if (f.id === 'apply-form') {
+    e.preventDefault();
+    handleApply(f);
+  } else if (f.id === 'card-form') {
+    e.preventDefault();
+    handleCardSave(f);
+  } else if (f.id === 'chat-form') {
+    e.preventDefault();
+    const input = f.querySelector('#chat-input');
+    const text = (input.value || '').trim();
+    if (!text) return;
+    input.value = '';
+    const id = f.dataset.chat;
+    pushChatMessage(id, 'me', text);
+    renderViewPreserveScroll();
+    setTimeout(() => {
+      ensureChats();
+      const canned = LOVII_DASH.cannedReplies[(state.chats[id].msgs.length + id.length) % LOVII_DASH.cannedReplies.length];
+      pushChatMessage(id, 'them', canned);
+      if (state.view.name === 'chat' && state.view.param === id) renderViewPreserveScroll();
+    }, 1400);
   }
 });
 
@@ -456,6 +602,11 @@ document.addEventListener('keydown', (e) => {
 
 // Роутер
 window.addEventListener('hashchange', renderView);
+
+// Инициализация ролей: сид чатов, точка пользователя на витрине, авто-модерация
+ensureChats();
+syncUserStore();
+moderationCheck(true);
 
 // Первый рендер
 renderView();

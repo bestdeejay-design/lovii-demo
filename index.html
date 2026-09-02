@@ -6,20 +6,26 @@
   <title>LOVII — всё в шаговой доступности</title>
   <meta name="description" content="Витрина торговых точек района: товары и услуги рядом, наличие в каждой точке и минуты пешком.">
   <meta name="theme-color" content="#f64a8a">
-  <link rel="icon" type="image/svg+xml" href="lovii-heart.svg">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="LOVII">
+  <link rel="icon" type="image/svg+xml" href="assets/lovii-icon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/lovii-icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/lovii-icon-180.png">
+  <link rel="manifest" href="manifest.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/lovii.css">
+  <link rel="stylesheet" href="css/lovii.css?v=13">
 </head>
 <body>
   <div class="app">
     <!-- Шапка: логотип, район, корзина -->
     <header class="app-header">
       <div class="app-header-in">
-        <button class="logo" data-go="home" aria-label="На главную">
-          <svg viewBox="115 190 100 100" fill="none" aria-hidden="true"><path fill="currentColor" stroke="currentColor" stroke-width="3" d="M204.41 218.06c-4.05-6.63-9.49-11.91-16.3-15.84-6.81-3.93-14.38-5.9-22.69-5.9s-15.83 1.97-22.66 5.9c-6.83 3.93-12.28 9.21-16.33 15.84-4.05 6.63-6.08 13.97-6.08 22.04s2.03 15.42 6.08 22.04c4.05 6.63 9.5 11.92 16.33 15.87 6.83 3.95 14.39 5.93 22.66 5.93s15.88-1.98 22.69-5.93c6.81-3.95 12.25-9.24 16.3-15.87 4.05-6.63 6.08-13.97 6.08-22.04s-2.03-15.41-6.08-22.04z"/><path fill="#ffffff" fill-rule="evenodd" d="M187.92 223.98c-5.58-5.58-14.62-5.58-20.2 0l-2.31 2.31-2.31-2.31c-5.58-5.58-14.62-5.58-20.2 0-4.91 4.91-5.5 12.5-1.76 18.06 4.63 5.66 10.69 11.91 24.42 24.5l22.36-22.36c5.58-5.58 5.58-14.62 0-20.2z"/></svg>
-          <span>LOV<span class="lv">II</span></span>
+        <button class="logo" data-go="home" aria-label="LOVII — на главную">
+          <img class="logo-img" src="assets/lovii-logo-light.svg" alt="LOVII" width="153" height="32">
         </button>
         <div style="display:flex;align-items:center;gap:8px">
           <button class="pill-btn" data-action="open-sheet" aria-label="Выбрать район">
@@ -61,6 +67,11 @@
           <span class="nav-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span>
           Заказы
         </button>
+        <button class="nav-btn" data-nav="profile" data-go="profile">
+          <span class="top-ind"></span>
+          <span class="nav-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+          Профиль
+        </button>
       </div>
     </nav>
   </div>
@@ -78,10 +89,12 @@
   <!-- Тосты -->
   <div class="toast-wrap" id="toast-wrap"></div>
 
-  <script src="js/data.js"></script>
-  <script src="js/geo.js"></script>
-  <script src="js/icons.js"></script>
-  <script src="js/screens.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/data.js?v=13"></script>
+  <script src="js/geo.js?v=13"></script>
+  <script src="js/icons.js?v=13"></script>
+  <script src="js/charts.js?v=13"></script>
+  <script src="js/screens.js?v=13"></script>
+  <script src="js/dash.js?v=13"></script>
+  <script src="js/app.js?v=13"></script>
 </body>
 </html>

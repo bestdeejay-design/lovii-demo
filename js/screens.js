@@ -153,7 +153,7 @@ function qtyHtml(qty, slug, storeSlug) {
 /* ================= Экран: Главная ================= */
 
 function renderHome() {
-  const d = state.districtObj;
+  const d = selectors.districtObj();
   const stores = selectors.storesRows();
   const products = selectors.productRows({ category: state.category, sort: state.sort });
   const promos = LOVII_DATA.promos;
@@ -161,31 +161,31 @@ function renderHome() {
   const goodsCount = products.filter((p) => !p.isService).length;
   const servicesCount = products.filter((p) => p.isService).length;
   const shown = products.filter((p) => (state.kindTab === 'services' ? p.isService : !p.isService));
+  const heroOpen = localStorage.getItem('lovii_hero') !== '0';
 
   return `
   <div class="lv-enter">
-    <section class="hero">
-      <div class="crumb">${icon('pin')}${d ? `Ваш район: ${esc(d.name)} · м. ${esc(d.metro)}` : 'Ваш район'}</div>
-      <h1>Всё нужное — <span class="accent">в шаговой доступности</span></h1>
-      <p class="lead">Точки района выкладывают товары и услуги. Мы покажем, <b>где что есть</b> — и сколько идти пешком.</p>
-      <div class="stat-row">
-        <span class="stat-pill pink">${icon('pin')}${stores.length} точек рядом</span>
-        ${nearest ? `<span class="stat-pill tiffany">${icon('footprints')}ближайшая — ${nearest.walkMinutes} мин</span>` : ''}
-        <span class="stat-pill gold">${icon('sparkles')}баллы 1:1</span>
+    <section class="hero ${heroOpen ? '' : 'collapsed'}" id="hero">
+      <button class="hero-tab" type="button" data-action="hero-toggle" aria-expanded="${heroOpen}" aria-controls="hero-body">
+        <span class="ht-ico">${icon('pin')}</span>
+        <span class="ht-lbl" id="hero-tab-lbl">${heroOpen ? `Ваш район: ${esc(d.name)} · м. ${esc(d.metro)}` : 'Всё нужное — в шаговой доступности'}</span>
+        <span class="ht-chev">${icon('chev-down')}</span>
+      </button>
+      <div class="hero-body" id="hero-body">
+        <div class="hero-body-in">
+          <h1>Всё нужное — <span class="accent">в шаговой доступности</span></h1>
+          <p class="lead">Точки района выкладывают товары и услуги. Мы покажем, <b>где что есть</b> — и сколько идти пешком.</p>
+          <div class="stat-row">
+            <span class="stat-pill pink">${icon('pin')}${stores.length} точек рядом</span>
+            ${nearest ? `<span class="stat-pill tiffany">${icon('footprints')}ближайшая — ${nearest.walkMinutes} мин</span>` : ''}
+            <span class="stat-pill gold">${icon('sparkles')}баллы 1:1</span>
+          </div>
+        </div>
       </div>
       <button class="search-trigger" data-go="search">
         ${icon('search')}
         Найти товар или точку рядом…
       </button>
-    </section>
-
-    <section aria-label="Категории" style="padding-top:8px">
-      <div class="cats no-scrollbar">
-        ${CATS.map((c) => {
-          const active = state.category === c.slug;
-          return `<button class="cat-chip ${active ? 'active' : ''}" data-action="category" data-val="${c.slug}"><span class="e">${c.emoji}</span>${c.label}</button>`;
-        }).join('')}
-      </div>
     </section>
 
     <section aria-label="Акции" class="section">
@@ -201,9 +201,19 @@ function renderHome() {
       <div class="hscroll no-scrollbar">${stores.slice(0, 8).map(storeCardHtml).join('')}</div>
     </section>
 
-    <section aria-label="Товары и услуги" class="section" style="padding-left:16px;padding-right:16px">
-      <div class="section-head" style="padding:0">
-        <h2>${state.kindTab === 'goods' ? 'Товары' : 'Услуги'} <span class="sub">рядом с вами</span></h2>
+    <section aria-label="Товары и услуги" class="section">
+      <div class="cats-sentinel" aria-hidden="true"></div>
+      <div class="cats-sticky">
+        <div class="cats no-scrollbar" aria-label="Категории">
+          ${CATS.map((c) => {
+            const active = state.category === c.slug;
+            return `<button class="cat-chip ${active ? 'active' : ''}" data-action="category" data-val="${c.slug}"><span class="e">${c.emoji}</span>${c.label}</button>`;
+          }).join('')}
+        </div>
+      </div>
+
+      <div class="section-head" id="catalog-head">
+        <h2><span id="kind-title">${state.kindTab === 'goods' ? 'Товары' : 'Услуги'}</span> <span class="sub">рядом с вами</span></h2>
         <div class="sort-group">
           <button class="sort-btn ${state.sort === 'walk' ? 'active' : ''}" data-action="sort" data-val="walk">Ближе</button>
           <button class="sort-btn ${state.sort === 'price' ? 'active' : ''}" data-action="sort" data-val="price">Дешевле</button>
@@ -215,18 +225,10 @@ function renderHome() {
         <button class="${state.kindTab === 'services' ? 'active' : ''}" data-action="kind" data-val="services">Услуги · ${servicesCount}</button>
       </div>
 
-      ${
-        shown.length
-          ? `<div class="prod-grid" style="padding-left:0;padding-right:0">${shown.map(productCardHtml).join('')}</div>`
-          : `<div class="empty-cat">
-               <div class="big-emoji">${state.kindTab === 'goods' ? '🧺' : '🧵'}</div>
-               <div class="t">${state.kindTab === 'goods' ? 'Товаров пока нет' : 'Услуг пока нет'}</div>
-               <p class="d">Попробуйте другую категорию — точки района добавляют новое каждый день</p>
-             </div>`
-      }
+      <div id="home-catalog">${catalogInnerHtml(shown)}</div>
     </section>
 
-    <section aria-label="Лояльность" style="padding:4px 16px 0">
+    <section aria-label="Лояльность" class="section">
       <div class="loyalty ink-gradient">
         <div class="blob lv-float"></div>
         <div class="kicker">Программа района</div>
@@ -239,6 +241,56 @@ function renderHome() {
       </div>
     </section>
   </div>`;
+}
+
+/** Содержимое каталога (сетка или пустой стейт) — общее для рендера и точечного обновления */
+function catalogInnerHtml(shown) {
+  return shown.length
+    ? `<div class="prod-grid">${shown.map(productCardHtml).join('')}</div>`
+    : `<div class="empty-cat">
+         <div class="big-emoji">${state.kindTab === 'goods' ? '🧺' : '🧵'}</div>
+         <div class="t">${state.kindTab === 'goods' ? 'Товаров пока нет' : 'Услуг пока нет'}</div>
+         <p class="d">Попробуйте другую категорию — точки района добавляют новое каждый день</p>
+       </div>`;
+}
+
+/**
+ * Точечное обновление каталога без перерисовки страницы:
+ * активные чипы, заголовок, счётчики сегмента, сортировка и сама сетка.
+ * Страница не дёргается: нет замены DOM выше каталога, нет анимации входа, скролл не сбрасывается.
+ */
+function refreshHomeCatalog() {
+  const grid = document.getElementById('home-catalog');
+  if (!grid) { renderView(true); return; }
+
+  const products = selectors.productRows({ category: state.category, sort: state.sort });
+  const goodsCount = products.filter((p) => !p.isService).length;
+  const servicesCount = products.filter((p) => p.isService).length;
+  const shown = products.filter((p) => (state.kindTab === 'services' ? p.isService : !p.isService));
+
+  document.querySelectorAll('.cats-sticky .cat-chip').forEach((chip) => {
+    chip.classList.toggle('active', chip.dataset.val === state.category);
+  });
+
+  const kt = document.getElementById('kind-title');
+  if (kt) kt.textContent = state.kindTab === 'goods' ? 'Товары' : 'Услуги';
+
+  const segGoods = document.querySelector('.seg [data-val="goods"]');
+  const segServ = document.querySelector('.seg [data-val="services"]');
+  if (segGoods) {
+    segGoods.classList.toggle('active', state.kindTab === 'goods');
+    segGoods.textContent = `Товары · ${goodsCount}`;
+  }
+  if (segServ) {
+    segServ.classList.toggle('active', state.kindTab === 'services');
+    segServ.textContent = `Услуги · ${servicesCount}`;
+  }
+
+  document.querySelectorAll('.sort-btn').forEach((b) => {
+    b.classList.toggle('active', b.dataset.val === state.sort);
+  });
+
+  grid.innerHTML = catalogInnerHtml(shown);
 }
 
 /* ================= Экран: Точка ================= */
@@ -350,10 +402,11 @@ function renderProduct(slug) {
     .join('');
 
   return `
-  <div class="lv-enter" style="padding-bottom:16px">
+  <div class="lv-enter lv-narrow" style="padding-bottom:16px">
     <div class="pd-cover ${tileBg(coverColor)}">
       <span class="em">${p.emoji}</span>
       ${badge ? `<span class="badge-pill ${badge.cls}">${badge.label}</span>` : ''}
+      <button class="fav-btn ${state.favorites.includes(p.slug) ? 'on' : ''}" data-action="fav" data-slug="${p.slug}" aria-label="В избранное">${icon('heart', '', 2, state.favorites.includes(p.slug))}</button>
     </div>
 
     <div class="price-row">
@@ -430,7 +483,7 @@ function searchListHtml() {
 
 function renderSearch() {
   return `
-  <div class="lv-enter">
+  <div class="lv-enter lv-narrow">
     <div class="search-bar-wrap">
       <div class="search-bar">
         ${icon('search')}
@@ -452,7 +505,7 @@ function renderSearch() {
 function renderCart() {
   if (state.cart.length === 0) {
     return `
-    <div class="lv-enter empty">
+    <div class="lv-enter lv-narrow empty">
       <div class="big-emoji">🛍️</div>
       <h3>Корзина пуста</h3>
       <p>Найдите товар рядом с домом — и заберите его по пути</p>
@@ -500,7 +553,7 @@ function renderCart() {
     .join('');
 
   return `
-  <div class="lv-enter" style="padding-bottom:16px">
+  <div class="lv-enter lv-narrow" style="padding-bottom:16px">
     <div class="page-h"><h1>Корзина<span class="cnt">· ${state.cart.length}</span></h1></div>
     <div class="cart-list">${cards}</div>
 
@@ -532,7 +585,7 @@ function orderStatus(o) {
 function renderOrders() {
   if (state.orders.length === 0) {
     return `
-    <div class="lv-enter empty">
+    <div class="lv-enter lv-narrow empty">
       <div class="big-emoji">📦</div>
       <h3>Заказов пока нет</h3>
       <p>Оформите первый заказ — и он появится здесь</p>
@@ -544,7 +597,7 @@ function renderOrders() {
     new Date(ts).toLocaleString('ru-RU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
 
   return `
-  <div class="lv-enter" style="padding-bottom:16px">
+  <div class="lv-enter lv-narrow" style="padding-bottom:16px">
     <div class="page-h"><h1>Заказы<span class="cnt">· ${state.orders.length}</span></h1></div>
     <div class="orders-list">
       ${state.orders

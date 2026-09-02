@@ -96,3 +96,106 @@ const LOVII_DATA = {
     { title: 'Баллы 1:1 у всех точек', desc: 'кэшбэк баллами с каждого чека', timer: 'всегда', tag: 'loyalty', storeSlug: 'daily', color: 'pink' },
   ],
 };
+
+/* ============================================================
+   Роли и дашборды (демо-данные).
+   Любой пользователь — клиент; роли выдаются через профиль:
+   store (точка) / rep (представитель) / amb (амбасадор),
+   owner и investor — демо-доступ. Всё моковое, детерминированное:
+   графики генерирует PRNG с фиксированным сидом (js/charts.js).
+   ============================================================ */
+const LOVII_DASH = {
+
+  // Демо-профиль клиента (без авторизации)
+  user: { name: 'Александра', avatar: '👩🏻', phone: '+7 926 •••-45-67', points: 1250 },
+
+  // Карточки ролей: заголовок, описание, эмодзи, цвет плитки
+  roleMeta: {
+    store:    { title: 'Торговая точка', short: 'точку',          desc: 'Своя витрина в приложении',      emoji: '🏪', color: 'pink' },
+    rep:      { title: 'Представитель',  short: 'представителя',  desc: 'Точки района на связи',          emoji: '🤝', color: 'tiffany' },
+    amb:      { title: 'Амбасадор',      short: 'амбасадора',     desc: 'Структура представителей',       emoji: '🚀', color: 'gold' },
+    owner:    { title: 'Владелец',       short: 'владельца',      desc: 'Платформа целиком',              emoji: '👑', color: 'sand' },
+    investor: { title: 'Инвестор',       short: 'инвестора',      desc: 'Рост и доходность',              emoji: '📈', color: 'tiffany' },
+  },
+
+  // ---- Представитель: подключённые точки (статусы: active / waiting / offline) ----
+  repPoints: [
+    { slug: 'daily',   status: 'active',  revenueWeek: 242800, orders: 341, views: 2540 },
+    { slug: 'sloyka',  status: 'active',  revenueWeek: 186400, orders: 214, views: 1980 },
+    { slug: 'flowers', status: 'active',  revenueWeek: 158300, orders: 96,  views: 1210 },
+    { slug: 'master',  status: 'offline', revenueWeek: 42300,  orders: 51,  views: 640 },
+    { slug: 'forno',   status: 'waiting', revenueWeek: 0,      orders: 0,   views: 0 },
+  ],
+
+  // ---- Амбасадор: представители и их точки ----
+  ambReps: [
+    { id: 'rep1', name: 'Марат С.',   city: 'Тверской',     points: ['sloyka', 'daily', 'shokolad'], revenueWeek: 412300, growth: 12 },
+    { id: 'rep2', name: 'Ольга В.',   city: 'Арбат',        points: ['flowers', 'forno'],            revenueWeek: 265900, growth: 8 },
+    { id: 'rep3', name: 'Дмитрий К.', city: 'Китай-город',  points: ['udoma', 'derevnya', 'grill'],  revenueWeek: 189500, growth: -3 },
+  ],
+
+  // ---- Владелец: дерево амбасадоров (структура платформы) ----
+  ambassadors: [
+    { name: 'Марат С.',  city: 'Тверской',    reps: [ { name: 'Ольга В.',  points: 3, rev: 412300 }, { name: 'Игорь Д.', points: 2, rev: 265900 } ] },
+    { name: 'Нина Л.',   city: 'Арбат',       reps: [ { name: 'Пётр А.',   points: 4, rev: 510200 }, { name: 'Ева К.',   points: 2, rev: 188400 }, { name: 'Роман Т.', points: 1, rev: 94600 } ] },
+    { name: 'Сергей М.', city: 'Китай-город', reps: [ { name: 'Дина Ф.',   points: 3, rev: 377500 } ] },
+  ],
+
+  // Финансы платформы (в месяц, поверх GMV)
+  finance: { commissionRate: 0.1, repPayoutRate: 0.04, opexMonth: 420000, capexTotal: 2400000, subPerPoint: 5000 },
+
+  // ---- Инвестор: динамика по месяцам (12 месяцев + прогноз на 3) ----
+  investor: {
+    monthLabels: ['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'],
+    users:  [2400, 2900, 3700, 4600, 5800, 7200, 8900, 10800, 13100, 15600, 18300, 21400],
+    points: [18, 22, 27, 34, 41, 49, 57, 65, 72, 80, 88, 96],
+    gmv:    [890, 1050, 1280, 1560, 1890, 2270, 2690, 3130, 3560, 3960, 4300, 4620], // тыс ₽
+    forecastGmv: [5150, 5720, 6360],   // тыс ₽, пунктир
+    forecastUsers: [24800, 28600, 32900],
+    forecastPoints: [105, 114, 122],
+    avgCheck: 890, conversion: 6.8,
+    categories: [
+      { label: 'Выпечка и кофе', share: 27 },
+      { label: 'Продукты',       share: 19 },
+      { label: 'Суши и пицца',   share: 16 },
+      { label: 'Бургеры',        share: 11 },
+      { label: 'Цветы',          share: 10 },
+      { label: 'Красота',        share: 9 },
+      { label: 'Услуги',         share: 8 },
+    ],
+    topProducts: ['cr-almond', 'cappuccino', 'philadelphia', 'cheeseburger', 'roses-ecuador'],
+  },
+
+  // ---- Товары новой точки по умолчанию (после заявки «Стать точкой») ----
+  storeGoodsSeed: [
+    { slug: 'g-croissant', name: 'Круассан классический', emoji: '🥐', price: 129, unit: 'шт', stock: 18 },
+    { slug: 'g-cappuccino', name: 'Капучино 0,3',         emoji: '☕', price: 199, unit: '0,3 л', stock: 99 },
+    { slug: 'g-bowl', name: 'Боул с гранолой',            emoji: '🥣', price: 320, unit: 'шт', stock: 9 },
+    { slug: 'g-juice', name: 'Свежевыжатый сок',          emoji: '🧃', price: 260, unit: '0,4 л', stock: 14 },
+    { slug: 'g-sandwich', name: 'Сэндвич с лососем',      emoji: '🥪', price: 390, unit: 'шт', stock: 6 },
+    { slug: 'g-berry', name: 'Пирог с ягодами',           emoji: '🍰', price: 540, unit: 'шт', stock: 4 },
+  ],
+
+  // ---- Чаты: сиды сообщений ----
+  chatSeeds: {
+    'p-daily':   { unread: 2, msgs: [ ['sys', 'Новый заказ: Капучино ×2 · 440 ₽'], ['them', 'Добрый день! Обжарка пришла, всё выкладываем 👌'], ['sys', 'Новый заказ: Чизкейк Нью-Йорк · 340 ₽'] ] },
+    'p-sloyka':  { unread: 0, msgs: [ ['them', 'Слоек с вишней испекли партию к 12:00'], ['me', 'Отлично, добавьте акцию на вечер'], ['them', 'Сделано, витрина обновится сама'] ] },
+    'p-flowers': { unread: 1, msgs: [ ['them', 'Пионы приехали, ставим в витрину 💐'] ] },
+    'p-master':  { unread: 0, msgs: [ ['sys', 'Точка offline — нет связи с кассой'] ] },
+    'p-forno':   { unread: 0, msgs: [ ['sys', 'Заявка на подключение отправлена'] ] },
+    'r-rep1':    { unread: 1, msgs: [ ['them', 'Отчёт за неделю отправил, выручка +12%'] ] },
+    'r-rep2':    { unread: 0, msgs: [ ['me', 'Как подключение «Forno»?'], ['them', 'Документы подписали, ждём модерацию'] ] },
+    'r-rep3':    { unread: 2, msgs: [ ['them', 'У «Гриль» упала выручка, нужна помощь с акцией'], ['sys', 'Новый представитель в структуре: точка «Деревня»'] ] },
+    'group':     { unread: 3, msgs: [ ['sys', 'Групповой чат всех представителей'], ['them', 'Коллеги, с 1-го числа новая комиссия 10%'], ['them', 'Спасибо, предупредили точки 🙌'] ] },
+  },
+
+  // Автоответы в чатах (демо)
+  cannedReplies: [
+    'Принял, сделаем к вечеру 💪',
+    'Спасибо! Посмотрим и вернёмся с ответом',
+    'Уже исправляем — будет готово сегодня',
+    'Отлично, тогда ждём поставку',
+    'Готово! Загляните в витрину ✅',
+    'Понял вас, договорились',
+  ],
+};
