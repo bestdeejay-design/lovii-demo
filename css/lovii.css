@@ -510,6 +510,13 @@ main#view { flex: 1; }
 .dash-note.tone-gold { background: var(--soft-gold); color: var(--gold-text); }
 .dash-note.tone-dim { background: var(--grey-soft); color: #8a8a8a; }
 
+/* ---------- Юр. блок профиля (как в основном приложении LOVII) ---------- */
+.prof-legal { margin-top: 18px; padding: 16px 16px 2px; border-top: 1px solid rgba(26, 26, 26, .08); text-align: center; }
+.prof-legal nav { display: flex; flex-direction: column; gap: 7px; margin-bottom: 10px; }
+.prof-legal a { color: var(--pink-dark); font-weight: 600; font-size: 13px; text-decoration: none; }
+.prof-legal a:active { opacity: .7; }
+.prof-legal p { margin: 0; color: #8a8a8a; font-size: 12px; line-height: 1.55; }
+
 /* ---------- KPI ---------- */
 .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 14px 16px 0; }
 .kpi { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; box-shadow: 0 1px 3px rgba(26, 26, 26, .06); min-width: 0; }

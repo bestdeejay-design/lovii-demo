@@ -272,6 +272,14 @@ function renderProfile() {
     <div class="list-card">${demoRows}</div>
 
     <p class="dash-note tone-dim" style="margin-top:14px">Демо-режим: без авторизации. Роли сохраняются в этом браузере.</p>
+
+    <footer class="prof-legal">
+      <nav>
+        <a href="https://axiiom-ru.github.io/lovii/docs/Публичная_оферта.html" target="_blank" rel="noopener">Публичная Оферта</a>
+        <a href="https://axiiom-ru.github.io/lovii/docs/Оферта_присоединения.html" target="_blank" rel="noopener">Оферта присоединения</a>
+      </nav>
+      <p>LOVII · AXIIOM · ООО «Аксиома»<br>ИНН 7842223709 · ОГРН 1247800067690</p>
+    </footer>
   </div>`;
 }
 
