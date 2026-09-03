@@ -8,13 +8,14 @@
      добавляются в кэш при первом запросе
    ============================================================ */
 
-const CACHE = 'lovii-v16';
+const CACHE = 'lovii-v17';
 
 const CORE = [
   './',
   './index.html',
   './manifest.webmanifest',
   './assets/lovii-logo-light.svg',
+  './assets/logo-dark.svg',
   './assets/lovii-icon.svg',
   './assets/lovii-icon-180.png',
   './assets/lovii-icon-192.png',
