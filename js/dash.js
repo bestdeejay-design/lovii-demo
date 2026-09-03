@@ -310,10 +310,10 @@ function renderApply(role) {
         field('address', 'Адрес', 'ул. Тверская, 15') +
         field('hours', 'Часы работы', '09:00-21:00', '09:00-21:00', false) +
         `<label class="f-field"><span class="lb">Описание</span><textarea name="about" placeholder="Что продаёте, чем полезна точка району…"></textarea></label>`
-      : field('name', 'Как вас зовут', 'Имя Фамилия') +
+      : field('name', 'Как тебя зовут', 'Имя Фамилия') +
         `<label class="f-field"><span class="lb">Район работы</span>
           <select name="city">${LOVII_DATA.districts.map((d) => `<option>${esc(d.name)}</option>`).join('')}</select></label>` +
-        (role === 'amb' ? `<label class="f-field"><span class="lb">Опыт (необязательно)</span><textarea name="about" placeholder="Расскажите коротко о своём опыте"></textarea></label>` : '');
+        (role === 'amb' ? `<label class="f-field"><span class="lb">Опыт (необязательно)</span><textarea name="about" placeholder="Расскажи коротко о своём опыте"></textarea></label>` : '');
 
   return `
   <div class="lv-enter lv-narrow" style="padding-bottom:16px">
@@ -553,7 +553,7 @@ function renderAmbDash(tab) {
   <div class="tree">
     <div class="tree-row root">
       <span class="t-emoji ${tileBg('gold')}">🚀</span>
-      <div class="ri-mid"><div class="nm">Вы · амбасадор</div><div class="sb">${reps.length} представителя · ${totalPoints} точки</div></div>
+      <div class="ri-mid"><div class="nm">Ты · амбасадор</div><div class="sb">${reps.length} представителя · ${totalPoints} точки</div></div>
       <div class="ri-right"><div class="v">${moneyFmt(totalRev)}</div><span class="sb">за неделю</span></div>
     </div>
     <div class="tree-kids">

@@ -415,7 +415,7 @@ document.addEventListener('click', (e) => {
       if (lbl) {
         const d = selectors.districtObj();
         lbl.textContent = isOpen
-          ? `Ваш район: ${esc(d.name)} · м. ${esc(d.metro)}`
+          ? `Твой район: ${esc(d.name)} · м. ${esc(d.metro)}`
           : 'Всё нужное — в шаговой доступности';
       }
       break;
@@ -659,12 +659,12 @@ window.addEventListener('beforeinstallprompt', (e) => {
 
 window.addEventListener('appinstalled', () => {
   closeInstallSheet();
-  toast('Лови установлен', 'Ищите иконку на главном экране');
+  toast('Лови установлен', 'Ищи иконку на главном экране');
 });
 
 async function startInstall() {
   if (isStandalone()) {
-    toast('Приложение уже установлено', 'Вы открыли Лови с иконки');
+    toast('Приложение уже установлено', 'Лови запущен с иконки');
     return;
   }
   if (deferredPrompt) {
@@ -683,14 +683,14 @@ function installStepsHtml() {
   const iOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && 'ontouchend' in document);
   if (iOS) {
     return (
-      step(1, `Нажмите кнопку ${icon('share', 'install-ico')} <b>«Поделиться»</b> в Safari`) +
-      step(2, `Выберите ${icon('smartphone', 'install-ico')} <b>«На экран “Домой”»</b>`) +
-      step(3, 'Нажмите <b>«Добавить»</b> — иконка Лови появится на главном экране')
+      step(1, `Нажми кнопку ${icon('share', 'install-ico')} <b>«Поделиться»</b> в Safari`) +
+      step(2, `Выбери ${icon('smartphone', 'install-ico')} <b>«На экран “Домой”»</b>`) +
+      step(3, 'Нажми <b>«Добавить»</b> — иконка Лови появится на главном экране')
     );
   }
   return (
-    step(1, `Нажмите ${icon('download', 'install-ico')} <b>значок установки</b> в адресной строке браузера`) +
-    step(2, 'Подтвердите <b>«Установить»</b> — появится ярлык на рабочем столе') +
+    step(1, `Нажми ${icon('download', 'install-ico')} <b>значок установки</b> в адресной строке браузера`) +
+    step(2, 'Подтверди <b>«Установить»</b> — появится ярлык на рабочем столе') +
     '<div class="install-note">Если значка нет: меню браузера (⋮ или ⋯) → «Установить приложение Лови» / «Добавить на главный экран»</div>'
   );
 }

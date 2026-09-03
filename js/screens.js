@@ -168,13 +168,13 @@ function renderHome() {
     <section class="hero ${heroOpen ? '' : 'collapsed'}" id="hero">
       <button class="hero-tab" type="button" data-action="hero-toggle" aria-expanded="${heroOpen}" aria-controls="hero-body">
         <span class="ht-ico">${icon('pin')}</span>
-        <span class="ht-lbl" id="hero-tab-lbl">${heroOpen ? `Ваш район: ${esc(d.name)} · м. ${esc(d.metro)}` : 'Всё нужное — в шаговой доступности'}</span>
+        <span class="ht-lbl" id="hero-tab-lbl">${heroOpen ? `Твой район: ${esc(d.name)} · м. ${esc(d.metro)}` : 'Всё нужное — в шаговой доступности'}</span>
         <span class="ht-chev">${icon('chev-down')}</span>
       </button>
       <div class="hero-body" id="hero-body">
         <div class="hero-body-in">
           <h1>Всё нужное — <span class="accent">в шаговой доступности</span></h1>
-          <p class="lead">Точки района выкладывают товары и услуги. Мы покажем, <b>где что есть</b> — и сколько идти пешком.</p>
+          <p class="lead">Торговые точки твоего района выкладывают товары и услуги. Покажем, <b>где что есть, сколько стоит</b> — и сколько идти пешком.</p>
           <div class="stat-row">
             <span class="stat-pill pink">${icon('pin')}${stores.length} точек рядом</span>
             ${nearest ? `<span class="stat-pill tiffany">${icon('footprints')}ближайшая — ${nearest.walkMinutes} мин</span>` : ''}
@@ -213,7 +213,7 @@ function renderHome() {
       </div>
 
       <div class="section-head" id="catalog-head">
-        <h2><span id="kind-title">${state.kindTab === 'goods' ? 'Товары' : 'Услуги'}</span> <span class="sub">рядом с вами</span></h2>
+        <h2><span id="kind-title">${state.kindTab === 'goods' ? 'Товары' : 'Услуги'}</span> <span class="sub">рядом с тобой</span></h2>
         <div class="sort-group">
           <button class="sort-btn ${state.sort === 'walk' ? 'active' : ''}" data-action="sort" data-val="walk">Ближе</button>
           <button class="sort-btn ${state.sort === 'price' ? 'active' : ''}" data-action="sort" data-val="price">Дешевле</button>
@@ -429,7 +429,7 @@ function renderProduct(slug) {
 
     <section class="where-h" aria-label="Где есть рядом">
       <h2>${p.isService ? 'Где записаться' : 'Где есть рядом'}<span class="cnt">· ${avail.length}</span></h2>
-      <p class="note">Точки отсортированы по близости к вам. Цена может отличаться на пару рублей.</p>
+      <p class="note">Точки отсортированы по близости к тебе. Цена может отличаться на пару рублей.</p>
     </section>
     <div class="avail-list">${rows}</div>
   </div>`;

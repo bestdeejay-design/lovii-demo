@@ -22,7 +22,7 @@ const LOVII_DATA = {
   stores: [
     { slug: 'sloyka',   name: 'Пекарня «Слойка»',      category: 'bakery',     emoji: '🥐', color: 'gold',    rating: 4.8, reviews: 214, address: 'Столешников пер., 7',  lat: 55.7601, lng: 37.6103, hours: '08:00-21:00', about: 'Своя выпечка каждые 3 часа: слойки, круассаны и пироги из печи на дровах. Тесто — на закваске, без маргарина.', tags: ['hit', 'pickup'], isService: false },
     { slug: 'daily',    name: 'Кофейня «Daily»',       category: 'coffee',     emoji: '☕', color: 'pink',    rating: 4.7, reviews: 342, address: 'ул. Тверская, 12',     lat: 55.7620, lng: 37.6080, hours: '08:00-22:00', about: 'Спешелти-кофе на двух эспрессо-станциях. Обжарка по вторникам, альтернатива в воронке и на фильтре.', tags: ['hit', 'pickup'], isService: false },
-    { slug: 'flowers',  name: 'Цветы «Fresh»',         category: 'flowers',    emoji: '🌷', color: 'tiffany', rating: 4.9, reviews: 128, address: 'Никитский пер., 5',    lat: 55.7585, lng: 37.5980, hours: '09:00-21:00', about: 'Свежие поставки из Голландии и Эквадора дважды в неделю. Соберём букет при вас за 10 минут.', tags: ['new', 'delivery'], isService: false },
+    { slug: 'flowers',  name: 'Цветы «Fresh»',         category: 'flowers',    emoji: '🌷', color: 'tiffany', rating: 4.9, reviews: 128, address: 'Никитский пер., 5',    lat: 55.7585, lng: 37.5980, hours: '09:00-21:00', about: 'Свежие поставки из Голландии и Эквадора дважды в неделю. Соберём букет при тебе за 10 минут.', tags: ['new', 'delivery'], isService: false },
     { slug: 'miya',     name: 'Суши «Мия»',            category: 'restaurant', emoji: '🍣', color: 'tiffany', rating: 4.6, reviews: 189, address: 'Большая Дмитровка, 15', lat: 55.7614, lng: 37.6165, hours: '11:00-23:00', about: 'Японский шеф, рыба с утра с рынка. Рис на красном уксусе, ножи — японские гарды.', tags: ['delivery'], isService: false },
     { slug: 'forno',    name: 'Пиццерия «Forno»',      category: 'pizza',      emoji: '🍕', color: 'gold',    rating: 4.7, reviews: 256, address: 'Камергерский пер., 3', lat: 55.7597, lng: 37.6136, hours: '10:00-23:00', about: 'Неаполитанская пицца из дровяной печи при 480°C. Тесто вызревает 48 часов, мука Caputo.', tags: ['hit', 'pickup', 'delivery'], isService: false },
     { slug: 'udoma',    name: 'Продукты «У дома»',     category: 'grocery',    emoji: '🥑', color: 'tiffany', rating: 4.5, reviews: 96,  address: 'ул. Тверская, 18',     lat: 55.7627, lng: 37.6069, hours: '09:00-23:00', about: 'Свежие овощи, фермерские молочные и всё к ужину в двух минутах от дома. Соберём заказ к выдаче за 15 минут.', tags: ['pickup', 'delivery'], isService: false },
@@ -52,7 +52,7 @@ const LOVII_DATA = {
     { slug: 'filter-ethiopia', name: 'Фильтр-кофе Эфиопия', description: 'Лёгкая воронка: ягодные ноты, жасмин и бергамот. Зерно Guji Uraga.', emoji: '🫖', category: 'coffee', unit: '0,25 л', price: 290, badge: 'new', avail: [['daily', 99, 0]] },
     // Цветы
     { slug: 'roses-ecuador', name: 'Розы эквадорские, 5 шт', description: 'Крупные розы высотой 60 см из свежей поставки. Любой цвет при наличии.', emoji: '🌹', category: 'flowers', unit: 'букет', price: 1490, badge: 'hit', avail: [['flowers', 25, 0]] },
-    { slug: 'peony-bouquet', name: 'Монобукет из пионовидных роз', description: 'Пышный монобукет в крафтовой упаковке. Соберём при вас за 10 минут.', emoji: '💐', category: 'flowers', unit: 'букет', price: 3900, badge: 'new', avail: [['flowers', 8, 0]] },
+    { slug: 'peony-bouquet', name: 'Монобукет из пионовидных роз', description: 'Пышный монобукет в крафтовой упаковке. Соберём при тебе за 10 минут.', emoji: '💐', category: 'flowers', unit: 'букет', price: 3900, badge: 'new', avail: [['flowers', 8, 0]] },
     { slug: 'spring-mix', name: 'Букет «Весна» микс', description: 'Тюльпаны, ранункулюсы и эустомы в нежной гамме. Отлично на день рождения.', emoji: '🌷', category: 'flowers', unit: 'букет', price: 2200, oldPrice: 2600, badge: 'sale', avail: [['flowers', 12, 0]] },
     // Суши
     { slug: 'philadelphia', name: 'Ролл «Филадельфия»', description: 'Лосось, сыр Филадельфия, авокадо и огурец. 8 кусочков, рыба с утренней поставки.', emoji: '🍣', category: 'restaurant', unit: '8 шт', price: 590, badge: 'hit', avail: [['miya', 30, 0]] },
@@ -84,7 +84,7 @@ const LOVII_DATA = {
     { slug: 'carpet-clean', name: 'Химчистка ковра', description: 'Глубокая чистка ковра до 6 м² с вывозом и доставкой обратно.', emoji: '🧶', category: 'service', unit: 'услуга', price: 2400, badge: 'new', isService: true, avail: [['snejinka', 99, 0]] },
     { slug: 'trousers-hem', name: 'Подшить брюки', description: 'Примерка, подгонка длины с сохранением фабричного шва. Готово за день.', emoji: '👖', category: 'service', unit: 'услуга', price: 800, isService: true, avail: [['igla', 99, 0]] },
     { slug: 'dress-fit', name: 'Подгонка платья по фигуре', description: 'Ушить по бокам, укоротить, перестроить вытачки. Одна примерка.', emoji: '👗', category: 'service', unit: 'услуга', price: 1500, badge: 'hit', isService: true, avail: [['igla', 99, 0]] },
-    { slug: 'heels-fix', name: 'Замена набоек', description: 'Оригинальные набойки из полиуретана за 20 минут при вас.', emoji: '👞', category: 'service', unit: 'услуга', price: 600, isService: true, avail: [['master', 99, 0]] },
+    { slug: 'heels-fix', name: 'Замена набоек', description: 'Оригинальные набойки из полиуретана за 20 минут при тебе.', emoji: '👞', category: 'service', unit: 'услуга', price: 600, isService: true, avail: [['master', 99, 0]] },
     { slug: 'shoes-shine', name: 'Полная реставрация обуви', description: 'Чистка, покраска, восстановление подошвы и фурнитуры. 2–4 дня.', emoji: '✨', category: 'service', unit: 'услуга', price: 1900, badge: 'eco', isService: true, avail: [['master', 99, 0]] },
   ],
 
@@ -195,7 +195,7 @@ const LOVII_DASH = {
     'Спасибо! Посмотрим и вернёмся с ответом',
     'Уже исправляем — будет готово сегодня',
     'Отлично, тогда ждём поставку',
-    'Готово! Загляните в витрину ✅',
-    'Понял вас, договорились',
+    'Готово! Загляни в витрину ✅',
+    'Понял тебя, договорились',
   ],
 };
