@@ -277,7 +277,7 @@ function renderProfile() {
         <span class="ri-emoji ${tileBg('sand')}">📲</span>
         <div class="ri-mid">
           <div class="nm">Установить приложение</div>
-          <div class="sb">Иконка LOVII на главном экране телефона или рабочем столе компьютера</div>
+          <div class="sb">Иконка Лови на главном экране телефона или рабочем столе компьютера</div>
         </div>
         <span class="cta-btn brand-gradient">Установить</span>
       </button>

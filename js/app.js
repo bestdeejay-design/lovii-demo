@@ -659,19 +659,19 @@ window.addEventListener('beforeinstallprompt', (e) => {
 
 window.addEventListener('appinstalled', () => {
   closeInstallSheet();
-  toast('LOVII установлен', 'Ищите иконку на главном экране');
+  toast('Лови установлен', 'Ищите иконку на главном экране');
 });
 
 async function startInstall() {
   if (isStandalone()) {
-    toast('Приложение уже установлено', 'Вы открыли LOVII с иконки');
+    toast('Приложение уже установлено', 'Вы открыли Лови с иконки');
     return;
   }
   if (deferredPrompt) {
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
     deferredPrompt = null;
-    if (outcome === 'accepted') toast('Готово!', 'Иконка LOVII появится на главном экране');
+    if (outcome === 'accepted') toast('Готово!', 'Иконка Лови появится на главном экране');
     else closeInstallSheet();
     return;
   }
@@ -685,13 +685,13 @@ function installStepsHtml() {
     return (
       step(1, `Нажмите кнопку ${icon('share', 'install-ico')} <b>«Поделиться»</b> в Safari`) +
       step(2, `Выберите ${icon('smartphone', 'install-ico')} <b>«На экран “Домой”»</b>`) +
-      step(3, 'Нажмите <b>«Добавить»</b> — иконка LOVII появится на главном экране')
+      step(3, 'Нажмите <b>«Добавить»</b> — иконка Лови появится на главном экране')
     );
   }
   return (
     step(1, `Нажмите ${icon('download', 'install-ico')} <b>значок установки</b> в адресной строке браузера`) +
     step(2, 'Подтвердите <b>«Установить»</b> — появится ярлык на рабочем столе') +
-    '<div class="install-note">Если значка нет: меню браузера (⋮ или ⋯) → «Установить приложение LOVII» / «Добавить на главный экран»</div>'
+    '<div class="install-note">Если значка нет: меню браузера (⋮ или ⋯) → «Установить приложение Лови» / «Добавить на главный экран»</div>'
   );
 }
 
