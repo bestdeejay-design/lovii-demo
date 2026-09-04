@@ -8,7 +8,7 @@
 ## 1. File Structure
 
 ```
-lovii_demo/
+lovii-demo/
 ├── index.html              # Entry point: base layout + SVG sprite
 ├── css/
 │   └── demo.css            # All styles (design tokens, components, screens)

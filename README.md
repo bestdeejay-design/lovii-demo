@@ -1,6 +1,6 @@
 # LOVII Витрина — демо · lovii.mobiap.com
 
-**Живое демо: https://lovii.mobiap.com** (GitHub Pages, репозиторий `bestdeejay-design/lovii_demo`, домен привязан файлом `CNAME` — не удалять).
+**Живое демо: https://lovii.mobiap.com** (GitHub Pages, репозиторий `bestdeejay-design/lovii-demo`, домен привязан файлом `CNAME` — не удалять).
 
 Клиентская витрина LOVII: торговые точки района выкладывают товары и услуги,
 клиент находит точку и товар и видит, **где он есть в наличии** и сколько минут
@@ -111,9 +111,9 @@ git push -u origin main
 |---|---|---|---|
 | **Дизайн-система «Лови»** | [lovii-design](https://github.com/bestdeejay-design/lovii-design) | [bestdeejay-design.github.io/lovii-design](https://bestdeejay-design.github.io/lovii-design/) | Канон бренда: токены, документация, стиль-гайд, иконки. Источник истины для стиля всех проектов |
 | **Сайт продукта · lovii.ru** | [lovii](https://github.com/bestdeejay-design/lovii) | [lovii.ru](https://lovii.ru) | White paper v2.0 на каноне ДС; целевая точка финального релиза сайта продукта |
-| **Инвест-портал** | [lovii_presentation](https://github.com/bestdeejay-design/lovii_presentation) | [invest.lovii.ru](https://invest.lovii.ru) | Инвестиции в долю: презентация, стратегия, калькулятор оценки, whitepaper, риск-политика, база знаний (CANON, финмодель), PDF |
-| **Демо-витрина** | [lovii_demo](https://github.com/bestdeejay-design/lovii_demo) | [lovii.mobiap.com](https://lovii.mobiap.com) | Рабочее демо капсулы: покупатель, B2B-кабинет поставщика, админ-панель |
-| **Легаси-сайт** | [lovii-site](https://github.com/bestdeejay-design/lovii-site) | [bestdeejay-design.github.io/lovii-site](https://bestdeejay-design.github.io/lovii-site/) | Первый статичный сайт (до дизайн-системы); уходит в архив после финального релиза на lovii.ru |
+| **Инвест-портал** | [lovii-invest](https://github.com/bestdeejay-design/lovii-invest) | [invest.lovii.ru](https://invest.lovii.ru) | Инвестиции в долю: презентация, стратегия, калькулятор оценки, whitepaper, риск-политика, база знаний (CANON, финмодель), PDF |
+| **Демо-витрина** | [lovii-demo](https://github.com/bestdeejay-design/lovii-demo) | [lovii.mobiap.com](https://lovii.mobiap.com) | Рабочее демо капсулы: покупатель, B2B-кабинет поставщика, админ-панель |
+| **Легаси-сайт** | [lovii-legacy](https://github.com/bestdeejay-design/lovii-legacy) | [bestdeejay-design.github.io/lovii-legacy](https://bestdeejay-design.github.io/lovii-legacy/) | Первый статичный сайт (до дизайн-системы); уходит в архив после финального релиза на lovii.ru |
 
-**Пайплайн стиля:** `lovii-design` (канон) → `lovii` (lovii.ru) → `lovii_demo` · `lovii-site`.
-**Факты и цифры продукта:** база знаний инвест-портала — `lovii_presentation/docs/knowledge-base/` (CANON, PARAMS, FINANCIAL_MODEL, FACT_MAP); маркетинговые материалы факты не искажают.
+**Пайплайн стиля:** `lovii-design` (канон) → `lovii` (lovii.ru) → `lovii-demo` · `lovii-legacy`.
+**Факты и цифры продукта:** база знаний инвест-портала — `lovii-invest/docs/knowledge-base/` (CANON, PARAMS, FINANCIAL_MODEL, FACT_MAP); маркетинговые материалы факты не искажают.
