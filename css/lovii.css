@@ -2,72 +2,16 @@
    LOVII Витрина — статическая версия для GitHub Pages
    Дизайн-система сайта-референса lovii-site:
    pink #f64a8a · tiffany #0abab5 · gold #d4a854 · ink #1a1a1a
+   ============================================================
+   ТОКЕНЫ: с v1.12.0 живут во фреймворке lovii-design и
+   подключаются из assets/lovii-tokens.css (см. index.html).
+   Легаси-имена (--pink, --bg, --card…) ниже по файлу работают
+   через compat-алиасы снапшота (--pink: var(--lv-pink) и т.д.).
+   Правка значений/новых токенов — только в lovii-design:
+     tokens/tokens.css → build-lovii-css.py → propagate --push.
    ============================================================ */
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
-
-:root {
-  --pink: #f64a8a;
-  --pink-dark: #c92a6a;
-  --tiffany: #0abab5;
-  --gold: #d4a854;
-  --sand: #e8d5b7;
-  --ink: #1a1a1a;
-  --dim: #888;
-  --surface: #f8f8f8;
-  --line: #f0e8ec;
-  --line-2: #f7f2f5;
-  --soft-pink: rgba(246, 74, 138, .12);
-  --mist-pink: rgba(246, 74, 138, .06);
-  --soft-tiffany: rgba(10, 186, 181, .12);
-  --soft-gold: rgba(212, 168, 84, .16);
-  --sand-soft: #f6ecdf;
-  --grey-soft: #f1f1f1;
-  --gold-text: #8a6a25;
-  --tiffany-text: #07726f;
-  --green-text: #4a7a2a;
-  --green-soft: #eef7e6;
-  /* тема: поверхности и текст */
-  --bg: #f7f2f4;
-  --page: #ffffff;
-  --card: #ffffff;
-  --glass: rgba(255, 255, 255, .85);
-  --on-brand: #ffffff;
-  --hero-top: #fdf1f6;
-  --kpi-soft: #fff5f8;
-  --hairline: rgba(26, 26, 26, .08);
-  --ch-ink-a: #3a3a3a;
-  --ch-ink-b: #1a1a1a;
-  --toast-d: rgba(255, 255, 255, .7);
-  color-scheme: light;
-}
-
-/* ---------- Тёмная тема ---------- */
-[data-theme="dark"] {
-  --ink: #f3ebf0;
-  --dim: #a798a6;
-  --surface: #2b2331;
-  --line: #372d3e;
-  --line-2: #2e2535;
-  --sand-soft: #38302a;
-  --grey-soft: #2e2535;
-  --gold-text: #e2c88c;
-  --tiffany-text: #6fd9d4;
-  --green-text: #a8d686;
-  --green-soft: rgba(110, 180, 80, .16);
-  --bg: #171219;
-  --page: #171219;
-  --card: #211b26;
-  --glass: rgba(30, 23, 34, .86);
-  --on-brand: #ffffff;
-  --hero-top: #1e1524;
-  --kpi-soft: #2b1f2b;
-  --hairline: rgba(255, 255, 255, .12);
-  --ch-ink-a: #c9b6c4;
-  --ch-ink-b: #9c8496;
-  --toast-d: rgba(26, 26, 26, .55);
-  color-scheme: dark;
-}
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;

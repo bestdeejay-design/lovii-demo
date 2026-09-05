@@ -1,0 +1,347 @@
+/* СНАПШОТ LOVII UI из репо bestdeejay-design/lovii-design@d32c417
+   Потребитель: lovii-demo. НЕ РЕДАКТИРОВАТЬ ЗДЕСЬ.
+   Артефакт: lovii-tokens.css (слой токенов без компонентов).
+   Правки только в lovii-design: css/lovii-components.css или
+   tokens/tokens.css → build-lovii-css.py → sync-lovii-css.py. */
+
+/* ============================================================
+   LOVII UI v1.0.0 — СЛОЙ ТОКЕНОВ (lovii-tokens.css)
+   Канон токенов: v1.11.0 · собрано 2026-09-05
+   Провенанс снапшота добавляется разносчиком — см. шапку файла
+   на сайте-потребителе.
+   ------------------------------------------------------------
+   Токены + база + движение + легаси-алиасы — БЕЗ компонентов.
+   Для потребителей, ведущих свой компонентный слой (сейчас:
+   витрина lovii.mobiap.com). Полный lovii.css им подключать
+   НЕЛЬЗЯ — канонические классы конфликтуют с их локальными.
+   Править здесь нельзя — правятся исходники:
+     tokens/tokens.css, tokens/compat-legacy.css → сборка.
+   ============================================================ */
+
+/* ============================================================
+   LOVII «Лови» — канонические дизайн-токены v1.11.0 (значения без изменений с 1.9.1)
+   Источник истины: lovii.mobiap.com (репо lovii_demo, css/lovii.css)
+   Репо дизайн-системы: bestdeejay-design/lovii-design
+
+   Как подключать:
+     <link rel="stylesheet" href="tokens/tokens.css">
+   Как использовать: только var(--lv-*). Хардкод цветов/теней запрещён.
+
+   Совместимость (маппинг легаси-имён):
+     lovii_demo  css/lovii.css : --pink, --bg, --card, --soft-pink …
+     lovii-site  globals.css   : --color-lovii-* (Tailwind), --lv-* (частично)
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. БРЕНДОВЫЕ ЦВЕТА — не зависят от темы
+   ------------------------------------------------------------ */
+:root {
+  --lv-pink: #f64a8a;          /* primary-акцент: CTA, ссылки, фокус */
+  --lv-pink-dark: #c92a6a;     /* hover CTA, конец градиента, текст на soft-pink */
+  --lv-tiffany: #0abab5;       /* secondary-акцент: «рядом», «в наличии», успех */
+  --lv-gold: #d4a854;          /* tertiary: премиум, рейтинг, лояльность */
+  --lv-sand: #e8d5b7;          /* золотой акцент-бордер/текст на тёмном */
+
+  /* Градиенты */
+  --lv-gradient-brand: linear-gradient(135deg, #f64a8a 0%, #c92a6a 100%);
+  --lv-gradient-ink: linear-gradient(150deg, #262023 0%, #1a1a1a 55%, #2b1219 100%);
+  --lv-gradient-tiffany: linear-gradient(90deg, #0abab5, #078d89);
+  --lv-gradient-gold: linear-gradient(90deg, #d4a854, #b98d3e);
+
+  /* Подложки-плитки категорий (только светлая подача) */
+  --lv-tile-pink: linear-gradient(135deg, #fde8f1, #fbf0f5);
+  --lv-tile-tiffany: linear-gradient(135deg, #e0f7f6, #eefcfb);
+  --lv-tile-gold: linear-gradient(135deg, #f7edda, #fbf5ea);
+  --lv-tile-sand: linear-gradient(135deg, #f3e9dc, #faf4ec);
+  --lv-tile-ink: linear-gradient(135deg, #f4f4f4, #fafafa);
+
+  /* Плашки-бейджи на обложках (фиксированные светлые подложки) */
+  --lv-badge-hit: #fde8f1;
+  --lv-badge-new: #e0f7f6;
+  --lv-badge-sale: #f7edda;
+
+  /* Текст и чипы НА фиксированно-светлых подложках (tile-*) — не зависят от темы.
+     Введено в v1.1.0: плитки остаются светлыми в тёмной теме, поэтому их текст
+     нельзя брать из темовых --lv-ink/--lv-dim. */
+  --lv-on-tile: #1a1a1a;
+  --lv-on-tile-dim: #8a7a84;
+  --lv-tile-chip: rgba(26, 26, 26, .07);
+
+  /* Типографика */
+  --lv-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Механика тем */
+  --lv-theme-key: 'lovii_theme';      /* localStorage ключ */
+  --lv-meta-light: #f64a8a;           /* meta theme-color для светлой */
+  --lv-meta-dark: #171219;            /* meta theme-color для тёмной */
+
+  /* Радиусы (канон docs/04): пилюли-капсулы, карточки, шиты.
+     v1.7.0: токенизированы — раньше дрейфовали как литералы */
+  --lv-r-sm: 12px;                    /* плитки, мелкие контролы */
+  --lv-r-md: 14px;                    /* поля ввода */
+  --lv-r-lg: 16px;                    /* карточки, панели, тосты */
+  --lv-r-xl: 24px;                    /* bottom-sheet, премиум-обложки */
+  --lv-r-pill: 999px;                 /* все капсулы/пилюли */
+
+  /* Каркас */
+  --lv-header-h: 56px;                /* шапка приложения-витрины */
+  --lv-subheader-h: 48px;             /* подшапка «назад» */
+  --lv-nav-h: 64px;                   /* нижняя навигация (десктоп-капсула 60px) */
+  --lv-container: 480px;              /* мобильная капсула приложения */
+  --lv-container-wide: 1120px;        /* общий поток ≥640px */
+  --lv-container-narrow: 760px;       /* линейные экраны ≥640px */
+  --lv-pad-x: 16px;                   /* боковой отступ экрана */
+}
+
+/* ------------------------------------------------------------
+   2. СВЕТЛАЯ ТЕМА (по умолчанию; [data-theme="light"])
+   ------------------------------------------------------------ */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* Текст */
+  --lv-ink: #1a1a1a;                  /* основной текст */
+  --lv-dim: #888888;                  /* вторичный текст */
+
+  /* Поверхности */
+  --lv-bg: #f8f5f0;                   /* фон вокруг капсулы приложения (v1.3: тёплый бежевый вместо розоватого #f7f2f4) */
+  --lv-page: #ffffff;                 /* фон страницы (посадка) */
+  --lv-card: #ffffff;                 /* карточки */
+  --lv-surface: #f8f8f8;              /* заливка контролов: пилюли, инпуты, сегменты */
+  --lv-glass: rgba(255, 255, 255, .85);  /* стеклянный хедер/навигация */
+  --lv-on-brand: #ffffff;             /* текст НА брендовом градиенте */
+
+  /* Бордеры и разделители */
+  --lv-line: #ece5da;                 /* бордер карточек (v1.3: бежевый нейтральный вместо розоватого) */
+  --lv-line-2: #f6f1e8;               /* разделитель строк внутри карточки (v1.3) */
+  --lv-hairline: rgba(26, 26, 26, .08);   /* тонкая линия (юр.блок) */
+
+  /* Soft-заливки акцентов (плашки статусов, тоновые карточки) */
+  --lv-soft-pink: rgba(246, 74, 138, .12);
+  --lv-mist-pink: rgba(246, 74, 138, .06);
+  --lv-soft-tiffany: rgba(10, 186, 181, .12);
+  --lv-soft-gold: rgba(212, 168, 84, .16);
+  --lv-sand-soft: #f6ecdf;
+  --lv-grey-soft: #f1f1f1;
+
+  /* Читаемые тексты на soft-заливках (пары: soft → text) */
+  --lv-gold-text: #8a6a25;
+  --lv-tiffany-text: #07726f;
+  --lv-green-text: #4a7a2a;
+  --lv-green-soft: #eef7e6;
+
+  /* Спец-поверхности */
+  --lv-hero-top: #fdf1f6;             /* верх hero-градиента */
+  --lv-kpi-soft: #fff5f8;             /* фон акцентного KPI */
+  --lv-ch-ink-a: #3a3a3a;             /* чернильная пара A (чаты/декор) */
+  --lv-ch-ink-b: #1a1a1a;             /* чернильная пара B */
+  --lv-toast-d: rgba(255, 255, 255, .7);  /* подпись на тосте */
+
+  /* Тени */
+  --lv-shadow-soft: 0 1px 3px rgba(26, 26, 26, .06);
+  --lv-shadow-lift: 0 12px 32px -12px rgba(201, 42, 106, .22);
+  --lv-shadow-nav: 0 12px 32px -12px rgba(26, 26, 26, .28);
+  --lv-shadow-stuck: 0 12px 16px -16px rgba(26, 26, 26, .28);
+  --lv-shadow-toast: 0 12px 32px -12px rgba(201, 42, 106, .35);
+  --lv-shadow-float: 0 2px 8px rgba(26, 26, 26, .1);
+  --lv-shadow-app: 0 0 60px rgba(26, 26, 26, .08);
+  --lv-ring-search: 0 0 0 2px rgba(246, 74, 138, .4);
+  --lv-ring-field: 0 0 0 4px rgba(246, 74, 138, .1);
+
+  /* Скроллбар */
+  --lv-scroll-thumb: rgba(26, 26, 26, .15);
+}
+
+/* ------------------------------------------------------------
+   3. ТЁМНАЯ ТЕМА — [data-theme="dark"] на <html>
+   Тёмно-сливовые поверхности, тёплый светлый текст.
+   Брендовые pink/tiffany/gold НЕ меняются.
+   ------------------------------------------------------------ */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --lv-ink: #f3ebf0;
+  --lv-dim: #a798a6;
+
+  --lv-bg: #171219;
+  --lv-page: #171219;
+  --lv-card: #211b26;
+  --lv-surface: #2b2331;
+  --lv-glass: rgba(30, 23, 34, .86);
+  --lv-on-brand: #ffffff;
+
+  --lv-line: #372d3e;
+  --lv-line-2: #2e2535;
+  --lv-hairline: rgba(255, 255, 255, .12);
+
+  /* v1.2: альфы подняты (решение по docs/06 #1–#2) — на тёмном .12 читались слабо */
+  --lv-soft-pink: rgba(246, 74, 138, .20);
+  --lv-mist-pink: rgba(246, 74, 138, .10);
+  --lv-soft-tiffany: rgba(10, 186, 181, .18);
+  --lv-soft-gold: rgba(212, 168, 84, .20);
+  --lv-sand-soft: #38302a;
+  --lv-grey-soft: #2e2535;
+
+  /* v1.9 «Тихая тёмная тема» (docs/05): тексты-пары приглушены —
+     неоновые #e2c88c/#6fd9d4 на тёмном кричали; пыльные варианты
+     контраст не потеряли (≥ 8:1 на #171219/#211b26) */
+  --lv-gold-text: #d6bd8d;
+  --lv-tiffany-text: #82c8c3;
+  --lv-green-text: #a8d686;
+  --lv-green-soft: rgba(110, 180, 80, .16);
+
+  --lv-hero-top: #1e1524;
+  --lv-kpi-soft: #2b1f2b;
+  --lv-ch-ink-a: #c9b6c4;
+  --lv-ch-ink-b: #9c8496;
+  --lv-toast-d: rgba(26, 26, 26, .55);
+
+  /* v1.2: тени глубже (решение по docs/06 #3) — «сливовая» тень на тёмном не видна */
+  --lv-shadow-soft: 0 1px 3px rgba(0, 0, 0, .45);
+  --lv-shadow-lift: 0 12px 32px -12px rgba(0, 0, 0, .55);
+  --lv-shadow-nav: 0 12px 32px -12px rgba(0, 0, 0, .55);
+  --lv-shadow-stuck: 0 12px 16px -16px rgba(26, 26, 26, .28);
+  --lv-shadow-toast: 0 12px 32px -12px rgba(201, 42, 106, .35);
+  --lv-shadow-float: 0 2px 8px rgba(26, 26, 26, .1);
+  --lv-shadow-app: 0 0 60px rgba(26, 26, 26, .08);
+  --lv-ring-search: 0 0 0 2px rgba(246, 74, 138, .4);
+  --lv-ring-field: 0 0 0 4px rgba(246, 74, 138, .1);
+
+  --lv-scroll-thumb: rgba(255, 255, 255, .18);
+}
+
+/* ------------------------------------------------------------
+   4. БАЗОВЫЕ СТИЛИ (опционально — можно не подключать)
+   ------------------------------------------------------------ */
+body {
+  font-family: var(--lv-font);
+  background: var(--lv-bg);
+  color: var(--lv-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button { font-family: inherit; border: 0; background: none; padding: 0; cursor: pointer; color: inherit; font-size: inherit; }
+input, textarea, select { font-family: inherit; }
+
+/* Фокус с клавиатуры — всегда розовый брендовый */
+:focus-visible { outline: 2px solid var(--lv-pink); outline-offset: 2px; border-radius: 8px; }
+
+/* Выделение текста — тоже бренд (v1.7.0): системное синее выбивалось из палитры */
+::selection { background: var(--lv-pink); color: #ffffff; }
+
+/* Уважение к reduce motion — обязательное a11y-правило */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   5. ДВИЖЕНИЕ (ключевые кадры канона)
+   ------------------------------------------------------------ */
+@keyframes lv-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes lv-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes lv-pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .45; transform: scale(.8); } }
+
+.lv-enter { animation: lv-enter .35s ease-out both; }
+.lv-float { animation: lv-float 5s ease-in-out infinite; }
+.lv-dot { width: 6px; height: 6px; border-radius: 999px; display: inline-block; animation: lv-pulse-dot 1.4s ease-in-out infinite; }
+
+/* Ленты-карусели: карточки растворяются у краёв */
+.lv-edge-fade {
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+}
+
+/* ══════════════ СЛОЙ A-COMPAT: ЛЕГАСИ-АЛИАСЫ ══════════════ */
+
+/* ------------------------------------------------------------
+   СЛОЙ A-COMPAT: легаси-алиасы (мост миграции)
+   ------------------------------------------------------------
+   Зачем: потребители, выросшие ДО канона --lv-* (витрина
+   lovii.mobiap.com и старые прототипы), используют короткие
+   имена --pink, --bg, --card… Эти алиасы связывают их с
+   каноническими токенами: правка значения в tokens.css
+   доезжает до легаси-кода без его правки.
+
+   ПРАВИЛА:
+   • только var(--lv-*) справа — никаких литералов (следит
+     check-sync);
+   • НОВЫЙ код алиасы не использует — только var(--lv-*);
+   • не удалять: легаси-потребители живут на снапшотах.
+
+   Полный список см. docs/05-theming.md.
+   ------------------------------------------------------------ */
+
+:root,
+[data-theme="light"] {
+  --pink: var(--lv-pink);
+  --pink-dark: var(--lv-pink-dark);
+  --tiffany: var(--lv-tiffany);
+  --gold: var(--lv-gold);
+  --sand: var(--lv-sand);
+  --ink: var(--lv-ink);
+  --dim: var(--lv-dim);
+  --surface: var(--lv-surface);
+  --line: var(--lv-line);
+  --line-2: var(--lv-line-2);
+  --soft-pink: var(--lv-soft-pink);
+  --mist-pink: var(--lv-mist-pink);
+  --soft-tiffany: var(--lv-soft-tiffany);
+  --soft-gold: var(--lv-soft-gold);
+  --sand-soft: var(--lv-sand-soft);
+  --grey-soft: var(--lv-grey-soft);
+  --gold-text: var(--lv-gold-text);
+  --tiffany-text: var(--lv-tiffany-text);
+  --green-text: var(--lv-green-text);
+  --green-soft: var(--lv-green-soft);
+  --bg: var(--lv-bg);
+  --page: var(--lv-page);
+  --card: var(--lv-card);
+  --glass: var(--lv-glass);
+  --on-brand: var(--lv-on-brand);
+  --hero-top: var(--lv-hero-top);
+  --kpi-soft: var(--lv-kpi-soft);
+  --hairline: var(--lv-hairline);
+  --ch-ink-a: var(--lv-ch-ink-a);
+  --ch-ink-b: var(--lv-ch-ink-b);
+  --toast-d: var(--lv-toast-d);
+}
+
+[data-theme="dark"] {
+  --pink: var(--lv-pink);
+  --pink-dark: var(--lv-pink-dark);
+  --tiffany: var(--lv-tiffany);
+  --gold: var(--lv-gold);
+  --sand: var(--lv-sand);
+  --ink: var(--lv-ink);
+  --dim: var(--lv-dim);
+  --surface: var(--lv-surface);
+  --line: var(--lv-line);
+  --line-2: var(--lv-line-2);
+  --soft-pink: var(--lv-soft-pink);
+  --mist-pink: var(--lv-mist-pink);
+  --soft-tiffany: var(--lv-soft-tiffany);
+  --soft-gold: var(--lv-soft-gold);
+  --sand-soft: var(--lv-sand-soft);
+  --grey-soft: var(--lv-grey-soft);
+  --gold-text: var(--lv-gold-text);
+  --tiffany-text: var(--lv-tiffany-text);
+  --green-text: var(--lv-green-text);
+  --green-soft: var(--lv-green-soft);
+  --bg: var(--lv-bg);
+  --page: var(--lv-page);
+  --card: var(--lv-card);
+  --glass: var(--lv-glass);
+  --on-brand: var(--lv-on-brand);
+  --hero-top: var(--lv-hero-top);
+  --kpi-soft: var(--lv-kpi-soft);
+  --hairline: var(--lv-hairline);
+  --ch-ink-a: var(--lv-ch-ink-a);
+  --ch-ink-b: var(--lv-ch-ink-b);
+  --toast-d: var(--lv-toast-d);
+}
