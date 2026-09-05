@@ -381,6 +381,17 @@ function storePeriodData(period) {
 
 function renderStoreDash(tab) {
   const r = state.roles.store;
+  // Guard: роль есть, а карточки точки нет (старая схема в localStorage) —
+  // вежливая заглушка вместо TypeError и пустого экрана. Только токены --lv-*.
+  if (!r || !r.point) {
+    return `
+    <div class="empty">
+      <div class="big-emoji">🏪</div>
+      <h3>Выберите магазин</h3>
+      <p>К панели не привязана торговая точка. Оформите заявку — и дашборд появится здесь.</p>
+      <button class="cta-btn brand-gradient" data-go="apply:store">Оформить заявку на точку</button>
+    </div>`;
+  }
   const p = r.point;
   const head = dashHeadHtml('store', esc(p.name) + ' · ' + esc(p.address));
   const tabs = dashTabsHtml('store', tab);
@@ -460,6 +471,7 @@ function renderStoreDash(tab) {
     ${kpiCard('Средний чек', priceFmt(st.avg), { delta: seededSeries('avg-dlt', 2, -6, 12)[1], tone: 'gold' })}
     ${kpiCard('Кэшбэк баллами', '+' + numFmt(cashback), { tone: 'gold' })}
   </div>
+  ${dashNote('Касса 54-ФЗ: подключаем к запуску — в демо выручка, заказы и чеки эмулируются', 'gold')}
   ${chartCard('Выручка', period === 'day' ? 'по часам, ₽' : period === 'week' ? 'по дням недели, ₽' : 'за 30 дней, ₽', barsChart({ data: st.series, labels: st.labels, tone: 'pink', height: 150 }))}
   <div class="section-head" style="margin-top:20px"><h2>Топ-5 товаров</h2></div>
   ${

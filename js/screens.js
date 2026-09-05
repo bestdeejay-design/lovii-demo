@@ -569,6 +569,7 @@ function renderCart() {
         ${icon('pin', 'pin')}Заберёте в точке ${esc(state.cart[0].storeName)} · ${esc(state.district)}
         ${icon('clock', 'clk')}~30 мин
       </div>
+      <div class="pickup-hint">Демо: оплата не проводится, фискальный чек — эмуляция</div>
     </div>
   </div>`;
 }
