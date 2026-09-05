@@ -374,7 +374,7 @@ function renderSheetRows() {
         <span class="ic">${icon('pin')}</span>
         <span><span class="nm">${esc(x.name)}</span><span class="mt">м. ${esc(x.metro)}</span></span>
       </span>
-      ${x.name === state.district ? '<span class="lv-dot" style="background:var(--pink)"></span>' : ''}
+      ${x.name === state.district ? '<span class="lv-dot" style="background:var(--lv-pink)"></span>' : ''}
     </button>`
     )
     .join('');

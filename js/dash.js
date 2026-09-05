@@ -106,7 +106,7 @@ function statusChip(status) {
     offline: ['Offline', 'st-off'],
   };
   const [label, cls] = map[status] || map.active;
-  return `<span class="st-chip ${cls}">${status === 'active' ? '<span class="lv-dot" style="background:var(--tiffany)"></span>' : ''}${label}</span>`;
+  return `<span class="st-chip ${cls}">${status === 'active' ? '<span class="lv-dot" style="background:var(--lv-tiffany)"></span>' : ''}${label}</span>`;
 }
 
 function deltaHtml(pct, { invert = false } = {}) {

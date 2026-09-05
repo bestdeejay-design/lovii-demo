@@ -116,7 +116,7 @@ function productCardHtml(p) {
 
 function promoCardHtml(p) {
   const tone = p.color === 'tiffany' ? 'tone-tiffany' : p.color === 'gold' ? 'tone-gold' : 'tone-pink';
-  const dot = p.color === 'tiffany' ? 'background:var(--tiffany)' : p.color === 'gold' ? 'background:var(--gold)' : 'background:var(--pink)';
+  const dot = p.color === 'tiffany' ? 'background:var(--lv-tiffany)' : p.color === 'gold' ? 'background:var(--lv-gold)' : 'background:var(--lv-pink)';
   return `
   <button class="promo-card ${tone}" data-go="store:${p.storeSlug}">
     <span class="promo-mini"><span class="dot" style="${dot}"></span>Акция</span>
@@ -608,7 +608,7 @@ function renderOrders() {
         <div class="order-card">
           <div class="order-head">
             <span class="oid">Заказ ${esc(o.id)}</span>
-            <span class="status-pill ${tone}">${st.tone === 'pink' ? '<span class="lv-dot" style="background:var(--pink)"></span>' : ''}${st.label}</span>
+            <span class="status-pill ${tone}">${st.tone === 'pink' ? '<span class="lv-dot" style="background:var(--lv-pink)"></span>' : ''}${st.label}</span>
           </div>
           <div class="order-meta">${icon('store')}${esc(o.pickupStore)}<span>·</span>${fmtDate(o.createdAt)}</div>
           <div class="item-chips">
