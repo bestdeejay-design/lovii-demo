@@ -158,7 +158,8 @@ function renderPayProfile() {
   const tierIdx = seed.tiers.findIndex((t) => t.id === seed.currentTier);
 
   /* Прогресс до следующего уровня: подписка — бинарное условие,
-     VIP — оборот по карте за месяц. */
+     VIP — оборот по карте (порог 300 000 ₽; период — решение
+     владельца, беклог lovii_docs/canon/BACKLOG.md §6). */
   let progress = 100;
   let nextLine = 'Максимальный уровень программы — держи его';
   if (next) {
@@ -169,7 +170,7 @@ function renderPayProfile() {
         : 'Оформи подписку Лови — откроется уровень <b>LOVII PASS</b>';
     } else {
       progress = Math.min(100, Math.round((seed.monthTurnover / next.need) * 100));
-      nextLine = `До уровня <b>${esc(next.name)}</b> — обороты ещё ${priceFmt(next.need - seed.monthTurnover)} в этом месяце`;
+      nextLine = `До уровня <b>${esc(next.name)}</b> — обороты ещё ${priceFmt(next.need - seed.monthTurnover)}`;
     }
   }
 
