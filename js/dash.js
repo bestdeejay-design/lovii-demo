@@ -706,17 +706,26 @@ function renderRepDash(tab) {
 
   if (tab === 'income') {
     const incomeByPoint = totals.activePts.map((x) => ({ label: x.name, emoji: x.emoji, value: x.roleIncome }));
+    const avgIncome = Math.round(totals.roleIncome / Math.max(1, totals.activePts.length));
+    const catEmojiMap = {};
+    CATS.forEach(c => { catEmojiMap[c.label] = c.emoji; });
+    const catMap = {};
+    totals.activePts.forEach(p => { const c = p.category || 'Другое'; catMap[c] = (catMap[c] || 0) + p.roleIncome; });
+    const incomeByCategory = Object.entries(catMap)
+      .map(([label, value]) => ({ label, emoji: catEmojiMap[label] || '📊', value }))
+      .sort((a, b) => b.value - a.value);
     return `
     ${head}${tabs}
     <div class="kpi-grid">
-      ${kpiCard('Доход представителя · месяц', moneyFmt(totals.roleIncome), { delta: 12, accent: true })}
-      ${kpiCard('Доход LOVII с точек', moneyFmt(totals.platformIncome), { tone: 'gold' })}
-      ${kpiCard('Экономия точек vs 25%', moneyFmt(totals.activePts.reduce((s, x) => s + x.savedVsAggregators, 0)), { tone: 'tiffany' })}
-      ${kpiCard('Средний доход/точка', moneyFmt(totals.roleIncome / Math.max(1, totals.activePts.length)), { tone: 'tiffany' })}
-      ${kpiCard('Ближайшая выплата', moneyFmt(totals.roleIncome * 0.46), { delta: 0, tone: 'pink' })}
+      ${kpiCard('Доход · месяц', moneyFmt(totals.roleIncome), { delta: 12, accent: true })}
+      ${kpiCard('Средний доход/точка', moneyFmt(avgIncome), { tone: 'tiffany', spark: sparkSvg(seededSeries('rep-avg-inc', 7, 40000, 80000), 'tiffany') })}
+      ${kpiCard('Активные точки', `${totals.activePts.length}`, { tone: 'tiffany', spark: sparkSvg(seededSeries('rep-kpi', 7, 2, 4), 'tiffany') })}
+      ${kpiCard('Ближайшая выплата', moneyFmt(totals.roleIncome * 0.46), { tone: 'pink' })}
     </div>
     ${revenueModelNote('rep')}
     ${chartCard('Доход представителя', '6 месяцев, ₽', areaChart({ data: seededSeries('rep-income-6m', 6, 58000, 182000), labels: ['май','июн','июл','авг','сен','окт'], tone: 'tiffany', height: 155 }))}
+    <div class="section-head" style="margin-top:20px"><h2>Доход по категориям</h2></div>
+    <div class="chart-card" style="margin-top:10px">${hbarsHtml(incomeByCategory, { emojiKey: true })}</div>
     <div class="section-head" style="margin-top:20px"><h2>Доход по точкам</h2></div>
     <div class="chart-card" style="margin-top:10px">${hbarsHtml(incomeByPoint, { emojiKey: true })}</div>
     <div class="section-head" style="margin-top:20px"><h2>История выплат</h2></div>
