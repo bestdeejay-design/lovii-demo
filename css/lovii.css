@@ -859,27 +859,29 @@ main#view { flex: 1; }
 .tc-desc { font-size: 11.5px; color: var(--lv-dim); line-height: 1.35; }
 
 /* ============================================================
-   LOVII CLUB · LOVII PAY — клубный профиль (редизайн 2026-09)
+   LOVII PAY — профиль лояльности (редизайн 2026-09)
    ------------------------------------------------------------
    Канон цветов/теней — только var(--lv-*). Белые rgba-оверлеи —
    только НА ink-градиенте (прецедент: .glass-chip, .prof-ava).
+   ⚠ Класс 3D-карты — .paycard (без дефиса): .pay-card занят
+   карточкой шага «Платёж и возврат» в онбординге МСП.
    Секции: хедер · 3D-карта (flip+tilt) · счёт · история ·
-   статус LC · привилегии · избранные МСП.
+   уровни PAY→PASS→VIP · привилегии · избранные МСП.
    ============================================================ */
 
-/* ---------- 1. Клубный хедер ---------- */
-.club-head { display: flex; align-items: center; gap: 14px; margin: 16px 16px 0; }
-.club-head .prof-name { font-size: 17px; }
-.lc-badge { margin-left: auto; flex-shrink: 0; display: inline-flex; align-items: center; gap: 5px; height: 28px; padding: 0 12px; border-radius: 999px; background: var(--lv-soft-gold); color: var(--lv-gold-text); font-size: 11px; font-weight: 800; letter-spacing: .04em; white-space: nowrap; }
-.lc-badge svg { width: 13px; height: 13px; }
+/* ---------- 1. Хедер участника ---------- */
+.pay-head { display: flex; align-items: center; gap: 14px; margin: 16px 16px 0; }
+.pay-head .prof-name { font-size: 17px; }
+.pay-badge { margin-left: auto; flex-shrink: 0; display: inline-flex; align-items: center; gap: 5px; height: 28px; padding: 0 12px; border-radius: 999px; background: var(--lv-soft-gold); color: var(--lv-gold-text); font-size: 11px; font-weight: 800; letter-spacing: .04em; white-space: nowrap; }
+.pay-badge svg { width: 13px; height: 13px; }
 
 /* ---------- 2. Карта LOVII PAY ---------- */
 .pay-stage { margin: 14px 16px 0; }
 .pay-tilt { perspective: 1100px; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .25s ease; }
-.pay-card { position: relative; display: block; width: 100%; aspect-ratio: 1.586 / 1; border: 0; padding: 0; cursor: pointer; transform-style: preserve-3d; transition: transform .65s cubic-bezier(.2,.75,.25,1); text-align: left; border-radius: var(--lv-r-xl); box-shadow: 0 18px 44px -18px rgba(26, 26, 26, .5); }
-.pay-card.flipped { transform: rotateY(180deg); }
-.pay-card:active { transform: scale(.985); }
-.pay-card.flipped:active { transform: rotateY(180deg) scale(.985); }
+.paycard { position: relative; display: block; width: 100%; margin: 0; aspect-ratio: 1.586 / 1; border: 0; padding: 0; cursor: pointer; transform-style: preserve-3d; transition: transform .65s cubic-bezier(.2,.75,.25,1); text-align: left; border-radius: var(--lv-r-xl); box-shadow: 0 18px 44px -18px rgba(26, 26, 26, .5); }
+.paycard.flipped { transform: rotateY(180deg); }
+.paycard:active { transform: scale(.985); }
+.paycard.flipped:active { transform: rotateY(180deg) scale(.985); }
 .pay-face { position: absolute; inset: 0; display: flex; flex-direction: column; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: var(--lv-r-xl); background-image: var(--lv-gradient-ink); overflow: hidden; color: #ffffff; padding: 18px 20px; }
 /* золотой блик на лицевой стороне */
 .pay-sheen { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 90% at 88% -8%, rgba(212, 168, 84, .38) 0%, rgba(212, 168, 84, .1) 34%, transparent 62%), radial-gradient(90% 70% at -6% 108%, rgba(246, 74, 138, .28) 0%, transparent 55%); }
@@ -950,12 +952,17 @@ main#view { flex: 1; }
 .tx-sum { flex-shrink: 0; font-size: 13.5px; font-weight: 800; color: var(--lv-ink); font-variant-numeric: tabular-nums; }
 .tx-sum.plus { color: var(--lv-tiffany-text); }
 
-/* ---------- 5. Статус LC ---------- */
+/* ---------- 5. Статус LOVII PAY ---------- */
 .tier-card { margin: 10px 16px 0; padding: 16px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: 0 1px 3px rgba(26, 26, 26, .06); }
 .tier-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .tier-name { display: inline-flex; align-items: center; gap: 6px; font-size: 14.5px; font-weight: 800; color: var(--lv-ink); }
 .tier-name svg { width: 15px; height: 15px; color: var(--lv-gold); }
-.tier-cb { padding: 3px 10px; border-radius: 999px; background: var(--lv-soft-gold); color: var(--lv-gold-text); font-size: 11px; font-weight: 800; }
+.tier-cond { padding: 3px 10px; border-radius: 999px; background: var(--lv-soft-gold); color: var(--lv-gold-text); font-size: 11px; font-weight: 800; }
+.tier-levels { display: flex; gap: 6px; }
+.tl { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 0; height: 30px; padding: 0 6px; border-radius: 999px; background: var(--lv-surface); font-size: 10px; font-weight: 800; letter-spacing: .02em; color: var(--lv-dim); white-space: nowrap; overflow: hidden; }
+.tl svg { width: 11px; height: 11px; flex-shrink: 0; }
+.tl.done { color: var(--lv-ink); }
+.tl.cur { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
 .tier-bar { height: 6px; margin-top: 12px; border-radius: 999px; background: var(--lv-surface); overflow: hidden; }
 .tier-bar span { display: block; height: 100%; border-radius: 999px; background-image: var(--lv-gradient-gold); transition: width .4s ease; }
 .tier-next { margin-top: 10px; font-size: 12px; line-height: 1.5; color: var(--lv-dim); }
@@ -981,4 +988,4 @@ main#view { flex: 1; }
 .msp-fav svg { width: 17px; height: 17px; }
 /* Полировка: светлая окантовка карты (сепарация на тёмном фоне) + ритм секций */
 .pay-face { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .09); }
-.club-screen .section-head { margin-top: 22px; }
+.pay-screen .section-head { margin-top: 22px; }

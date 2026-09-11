@@ -55,7 +55,7 @@ const state = {
   favorites: persisted.favorites || [],
   roles: persisted.roles || {},
   activeRole: persisted.activeRole || null,
-  club: persisted.club || null, // LOVII CLUB · LOVII PAY (сид — ensureClub() в club.js)
+  pay: persisted.pay || null, // LOVII PAY (сид — ensurePay() в club.js)
   chats: persisted.chats || null, // сид создаёт dash.js (ensureChats)
   mspLead: persisted.mspLead || null, // QR-сценарий регистрации торговой точки через представителя
   // сессионное (не сохраняется)
@@ -81,7 +81,7 @@ function persist() {
         favorites: state.favorites,
         roles: state.roles,
         activeRole: state.activeRole,
-        club: state.club,
+        pay: state.pay,
         chats: state.chats,
         mspLead: state.mspLead,
       })
