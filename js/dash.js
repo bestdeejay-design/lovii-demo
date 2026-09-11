@@ -85,8 +85,8 @@ function dashHeadHtml(role, sub) {
 function dashTabsHtml(role, active) {
   const tabs = {
     store: [['index', 'Обзор'], ['goods', 'Товары'], ['card', 'Точка']],
-    rep: [['index', 'Обзор'], ['chats', 'Чаты']],
-    amb: [['index', 'Структура'], ['chats', 'Чаты']],
+    rep: [['index', 'Обзор'], ['connect', 'Подключение'], ['points', 'Точки'], ['income', 'Доход'], ['profile', 'Профиль'], ['chats', 'Чаты']],
+    amb: [['index', 'Обзор'], ['reps', 'Представители'], ['income', 'Доход'], ['training', 'Обучение'], ['chats', 'Чаты']],
     owner: [['index', 'Обзор'], ['finance', 'Финансы'], ['structure', 'Структура']],
     investor: [['index', 'Рост'], ['sales', 'Продажи'], ['money', 'Доходность']],
   }[role] || [['index', 'Обзор']];
@@ -103,6 +103,11 @@ function statusChip(status) {
     active: ['Активна', 'st-active'],
     moderation: ['На модерации', 'st-mod'],
     waiting: ['Подключается', 'st-wait'],
+    lead: ['Лид', 'st-wait'],
+    pending_rep: ['Ждёт представителя', 'st-mod'],
+    catalog: ['В каталоге', 'st-active'],
+    payment: ['Проверка платежа', 'st-wait'],
+    ready: ['Готова к продажам', 'st-active'],
     offline: ['Offline', 'st-off'],
   };
   const [label, cls] = map[status] || map.active;
@@ -485,135 +490,373 @@ function renderStoreDash(tab) {
   </div>`;
 }
 
-/* ================= Дашборд: Представитель ================= */
+/* ================= Дашборды: Представитель и Амбасадор ================= */
 
-function renderRepDash(tab) {
-  const head = dashHeadHtml('rep', 'Точки района на связи');
-  const tabs = dashTabsHtml('rep', tab);
+const LOVII_MODEL = {
+  repShare: 0.4,
+  ambShare: 0.2,
+  weeksInMonth: 4.33,
+  tariffs: {
+    start: { label: 'Лови Старт', rate: 0, sub: 0, note: '0 ₽ и 0% до 30 000 ₽' },
+    basic: { label: 'Лови Базовый', rate: 0.1, sub: 0, note: '0 ₽/мес · 10%' },
+    pro: { label: 'Лови Про', rate: 0.06, sub: 2990, note: '2 990 ₽/мес · 4–7%' },
+  },
+};
 
-  if (tab === 'chats') return chatListHtml('rep', head, tabs, 'Чаты с точками');
+function tariffForPoint(slug, status) {
+  const map = { daily: 'pro', sloyka: 'basic', flowers: 'pro', master: 'start', forno: 'start' };
+  const id = status === 'waiting' ? 'start' : (map[slug] || 'basic');
+  return { id, ...LOVII_MODEL.tariffs[id] };
+}
 
-  const pts = LOVII_DASH.repPoints.map((rp) => {
-    const st = selectors.storesRows().find((s) => s.slug === rp.slug);
-    return { ...rp, name: st ? st.name : rp.slug, emoji: st ? st.emoji : '🏪', walk: st ? st.walkMinutes : null, dist: st ? st.distance : '' };
+function pointEconomics(weekRevenue, share, tariff) {
+  const monthRevenue = Math.round(weekRevenue * LOVII_MODEL.weeksInMonth);
+  const rateIncome = Math.round(monthRevenue * (tariff.rate || 0));
+  const platformIncome = Math.round(rateIncome + (tariff.sub || 0));
+  const roleIncome = Math.round(platformIncome * share);
+  const aggregatorFeeMin = Math.round(monthRevenue * 0.25);
+  const aggregatorFeeMax = Math.round(monthRevenue * 0.4);
+  const savedVsAggregators = Math.max(0, aggregatorFeeMin - platformIncome);
+  return { monthRevenue, platformIncome, roleIncome, weekIncome: Math.round(roleIncome / LOVII_MODEL.weeksInMonth), aggregatorFeeMin, aggregatorFeeMax, savedVsAggregators };
+}
+
+function repPointRows() {
+  return LOVII_DASH.repPoints.map((rp) => {
+    const st = selectors.storesRows().find((s) => s.slug === rp.slug) || selectors.storeBySlug(rp.slug);
+    const tariff = tariffForPoint(rp.slug, rp.status);
+    const econ = pointEconomics(rp.revenueWeek, LOVII_MODEL.repShare, tariff);
+    return {
+      ...rp,
+      ...econ,
+      tariff,
+      name: st ? st.name : rp.slug,
+      emoji: st ? st.emoji : '🏪',
+      category: st ? catLabel(st.category) : 'Точка',
+      address: st ? st.address : '',
+      walk: st && st.walkMinutes != null ? st.walkMinutes : null,
+      dist: st ? st.distance : '',
+      rating: st ? st.rating : null,
+      active: rp.status === 'active',
+    };
   });
+}
+
+function repTotals() {
+  const pts = repPointRows();
   const activePts = pts.filter((x) => x.status === 'active');
-  const revenue = activePts.reduce((s, x) => s + x.revenueWeek, 0);
+  const allWeekRevenue = activePts.reduce((s, x) => s + x.revenueWeek, 0);
+  const monthRevenue = Math.round(allWeekRevenue * LOVII_MODEL.weeksInMonth);
+  const platformIncome = activePts.reduce((s, x) => s + x.platformIncome, 0);
+  const roleIncome = activePts.reduce((s, x) => s + x.roleIncome, 0);
   const orders = activePts.reduce((s, x) => s + x.orders, 0);
   const views = activePts.reduce((s, x) => s + x.views, 0);
   const conv = views ? (orders / views) * 100 : 0;
-  const growth = 9; // к прошлой неделе (демо)
-  const top = [...activePts].sort((a, b) => b.revenueWeek - a.revenueWeek).map((x) => ({ label: x.name, emoji: x.emoji, value: x.revenueWeek }));
+  return { pts, activePts, allWeekRevenue, monthRevenue, platformIncome, roleIncome, orders, views, conv };
+}
+
+function repRankInfo(pointsCount, cities = 1, monthRevenue = 0) {
+  if (cities >= 3 && pointsCount >= 90 && monthRevenue >= 15000000) {
+    return { emoji: '👑', title: 'Цифровой Губернатор', next: 'Максимальный статус', progress: 100, hint: '3+ города · 90+ точек · 15 млн ₽/мес' };
+  }
+  if (pointsCount >= 30) {
+    const govProgress = Math.min(100, Math.round(Math.min(pointsCount / 90, cities / 3, monthRevenue / 15000000) * 100));
+    return { emoji: '🥇', title: 'Цифровой Мэр', next: 'Губернатор', progress: govProgress, hint: `${pointsCount}/90 точек · ${cities}/3 города · ${moneyFmt(monthRevenue)}/15 млн ₽` };
+  }
+  return { emoji: '🥈', title: 'Цифровой Представитель', next: 'Мэр', progress: Math.round((pointsCount / 30) * 100), hint: `${pointsCount}/30 точек до статуса «Мэр»` };
+}
+
+function rankCardHtml(rank, tone = 'tiffany') {
+  return `
+  <div class="rank-card tone-${tone}">
+    <div class="rank-top">
+      <span class="rank-emoji">${rank.emoji}</span>
+      <div><div class="rank-kicker">Текущий статус</div><div class="rank-title">${esc(rank.title)}</div></div>
+    </div>
+    <div class="progress"><span style="width:${Math.max(6, Math.min(100, rank.progress))}%"></span></div>
+    <div class="rank-foot"><span>Следующий: ${esc(rank.next)}</span><b>${esc(rank.hint)}</b></div>
+  </div>`;
+}
+
+function payoutRowsHtml(seed, total, roleLabel) {
+  const series = seededSeries(seed, 6, total * 0.16, total * 0.28);
+  const labels = ['май', 'июн', 'июл', 'авг', 'сен', 'окт'];
+  return `
+  <div class="list-card">
+    ${series.map((v, i) => `
+    <div class="fin-row ${i === series.length - 1 ? 'ok' : ''}">
+      <span class="l">${labels[i]} · ${roleLabel}</span>
+      <span class="v">${i === series.length - 1 ? '+' : ''}${moneyFmt(v)}</span>
+    </div>`).join('')}
+  </div>`;
+}
+
+function revenueModelNote(role) {
+  const share = role === 'rep' ? 'доля представителя по партнёрской модели' : 'доля амбасадора за обучение и мотивацию сети';
+  return dashNote(`Модель демо: тарифы МСП — «Старт» 0 ₽ и 0% до 30 000 ₽, «Базовый» 10%, «Про» 2 990 ₽/мес и 4–7%. Платёж прозрачно расщепляется: 90% точке, комиссия агенту. В кабинете показана ${share}.`, 'gold');
+}
+
+function codeCardHtml(title, code, desc, tone = 'pink') {
+  return `
+  <div class="code-card tone-${tone}">
+    <div class="kicker">${esc(title)}</div>
+    <div class="code">${esc(code)}</div>
+    <p>${esc(desc)}</p>
+  </div>`;
+}
+
+function renderRepDash(tab) {
+  const profile = state.roles.rep || {};
+  const city = profile.city || state.district;
+  const head = dashHeadHtml('rep', `${esc(city)} · подключение и поддержка точек`);
+  const tabs = dashTabsHtml('rep', tab);
+  if (tab === 'chats') return chatListHtml('rep', head, tabs, 'Чаты с точками');
+  if (tab === 'connect') return renderRepConnectDash(head, tabs);
+
+  const totals = repTotals();
+  const rank = repRankInfo(totals.activePts.length, 1, totals.monthRevenue);
+  const top = [...totals.activePts].sort((a, b) => b.revenueWeek - a.revenueWeek).map((x) => ({ label: x.name, emoji: x.emoji, value: x.revenueWeek }));
+
+  if (tab === 'points') {
+    const pipeline = totals.pts.filter((x) => x.status !== 'active');
+    return `
+    ${head}${tabs}
+    <div class="section-head" style="margin-top:20px"><h2>Мои точки<span class="sub"> · ${totals.pts.length}</span></h2><button class="link-btn" data-go="search">${icon('search')}Найти</button></div>
+    <div class="list-card">
+      ${totals.pts.map((x) => `
+      <div class="row-item">
+        <span class="ri-emoji ${tileBg(x.active ? 'tiffany' : 'sand')}">${x.emoji}</span>
+        <div class="ri-mid">
+          <div class="nm">${esc(x.name)}${statusChip(x.status)}</div>
+          <div class="sb">${esc(x.category)} · ${esc(x.tariff.label)}${x.walk != null ? ' · ' + icon('footprints') + ' ' + x.walk + ' мин' : ''}${x.rating ? ' · ★ ' + x.rating : ''}</div>
+        </div>
+        <div class="ri-right"><div class="v">${x.active ? moneyFmt(x.revenueWeek) : '—'}</div><span class="sb">GMV/нед.</span></div>
+        ${x.status !== 'waiting' ? `<button class="chev-btn" data-go="store:${x.slug}" aria-label="Открыть точку">${icon('chev-right')}</button>` : ''}
+      </div>`).join('')}
+    </div>
+    <div class="section-head" style="margin-top:20px"><h2>Воронка подключения</h2></div>
+    <div class="timeline-card">
+      <div class="tl-item done"><b>Лид найден</b><span>7 точек в районе подходят по категории</span></div>
+      <div class="tl-item done"><b>Презентация</b><span>2 владельца посмотрели условия</span></div>
+      <div class="tl-item active"><b>Документы</b><span>${pipeline.length || 1} точка в подключении</span></div>
+      <div class="tl-item"><b>Запуск витрины</b><span>товары, фото, касса и первая акция</span></div>
+    </div>
+    ${codeCardHtml('Код представителя', 'REP-' + city.slice(0, 3).toUpperCase() + '-042', 'Передайте код новой точке — она закрепится за вашей локацией.', 'tiffany')}`;
+  }
+
+  if (tab === 'income') {
+    const incomeByPoint = totals.activePts.map((x) => ({ label: x.name, emoji: x.emoji, value: x.roleIncome }));
+    return `
+    ${head}${tabs}
+    <div class="kpi-grid">
+      ${kpiCard('Доход представителя · месяц', moneyFmt(totals.roleIncome), { delta: 12, accent: true })}
+      ${kpiCard('Доход LOVII с точек', moneyFmt(totals.platformIncome), { tone: 'gold' })}
+      ${kpiCard('Экономия точек vs 25%', moneyFmt(totals.activePts.reduce((s, x) => s + x.savedVsAggregators, 0)), { tone: 'tiffany' })}
+      ${kpiCard('Средний доход/точка', moneyFmt(totals.roleIncome / Math.max(1, totals.activePts.length)), { tone: 'tiffany' })}
+      ${kpiCard('Ближайшая выплата', moneyFmt(totals.roleIncome * 0.46), { delta: 0, tone: 'pink' })}
+    </div>
+    ${revenueModelNote('rep')}
+    ${chartCard('Доход представителя', '6 месяцев, ₽', areaChart({ data: seededSeries('rep-income-6m', 6, 58000, 182000), labels: ['май','июн','июл','авг','сен','окт'], tone: 'tiffany', height: 155 }))}
+    <div class="section-head" style="margin-top:20px"><h2>Доход по точкам</h2></div>
+    <div class="chart-card" style="margin-top:10px">${hbarsHtml(incomeByPoint, { emojiKey: true })}</div>
+    <div class="section-head" style="margin-top:20px"><h2>История выплат</h2></div>
+    ${payoutRowsHtml('rep-payouts', totals.roleIncome, 'выплата на карту')}`;
+  }
+
+  if (tab === 'profile') {
+    return `
+    ${head}${tabs}
+    ${rankCardHtml(rank, 'tiffany')}
+    ${codeCardHtml('Код для точек', 'REP-' + city.slice(0, 3).toUpperCase() + '-042', 'Новые партнёры вводят код при подключении. Так система закрепляет точку и доход за представителем.', 'tiffany')}
+    <div class="list-card">
+      <div class="fin-row"><span class="l">Имя</span><span class="v">${esc(profile.name || LOVII_DASH.user.name)}</span></div>
+      <div class="fin-row"><span class="l">Локация</span><span class="v">${esc(city)}</span></div>
+      <div class="fin-row"><span class="l">Активные точки</span><span class="v">${totals.activePts.length}</span></div>
+      <div class="fin-row"><span class="l">План до «Мэра»</span><span class="v">${Math.max(0, 30 - totals.activePts.length)} точек</span></div>
+    </div>
+    <div class="section-head" style="margin-top:20px"><h2>Привилегии статуса</h2></div>
+    <div class="chips-row no-scrollbar">
+      <span class="tab-btn active">обучение</span><span class="tab-btn active">чат с точками</span><span class="tab-btn active">приоритетные лиды</span><span class="tab-btn active">бейдж в сети</span>
+    </div>`;
+  }
 
   return `
   ${head}${tabs}
+  ${rankCardHtml(rank, 'tiffany')}
   <div class="kpi-grid">
-    ${kpiCard('Выручка сети · неделя', moneyFmt(revenue), { delta: growth, accent: true })}
-    ${kpiCard('Активные точки', `${activePts.length} / ${pts.length}`, { spark: sparkSvg(seededSeries('rep-kpi', 7, 3, 5), 'tiffany') })}
-    ${kpiCard('Конверсия', conv.toFixed(1) + '%', { delta: 0.8, tone: 'gold' })}
-    ${kpiCard('Заказы за неделю', numFmt(orders), { delta: 12, tone: 'tiffany' })}
+    ${kpiCard('Доход · месяц', moneyFmt(totals.roleIncome), { delta: 12, accent: true })}
+    ${kpiCard('Активные точки', `${totals.activePts.length} / ${totals.pts.length}`, { spark: sparkSvg(seededSeries('rep-kpi', 7, 3, 5), 'tiffany') })}
+    ${kpiCard('Конверсия заказов', totals.conv.toFixed(1) + '%', { delta: 0.8, tone: 'gold' })}
+    ${kpiCard('GMV сети · месяц', moneyFmt(totals.monthRevenue), { delta: 9, tone: 'pink' })}
   </div>
-
-  <div class="section-head" style="margin-top:20px"><h2>Мои точки<span class="sub"> · ${pts.length}</span></h2></div>
-  <div class="list-card">
-    ${pts
-      .map(
-        (x) => `
-    <div class="row-item">
-      <span class="ri-emoji ${tileBg('pink')}">${x.emoji}</span>
-      <div class="ri-mid">
-        <div class="nm">${esc(x.name)}</div>
-        <div class="sb">${x.walk != null ? icon('footprints') + ' ' + x.walk + ' мин · ' + esc(x.dist) : ''}</div>
-      </div>
-      <div class="ri-right">
-        <div class="v">${x.status === 'waiting' ? '—' : moneyFmt(x.revenueWeek)}</div>
-        ${statusChip(x.status)}
-      </div>
-      ${x.status !== 'waiting' ? `<button class="chev-btn" data-go="store:${x.slug}" aria-label="Открыть точку">${icon('chev-right')}</button>` : ''}
-    </div>`
-      )
-      .join('')}
-  </div>
-
-  <div class="section-head" style="margin-top:20px"><h2>Топ точек по выручке</h2></div>
-  <div class="chart-card" style="margin-top:10px">${hbarsHtml(top)}</div>
-
+  ${chartCard('Выручка точек по дням', 'неделя, ₽', barsChart({ data: seededSeries('rep-week', 7, 18000, 96000), labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'], tone: 'tiffany', height: 130 }))}
+  <div class="section-head" style="margin-top:20px"><h2>Топ точек по GMV</h2></div>
+  <div class="chart-card" style="margin-top:10px">${hbarsHtml(top, { emojiKey: true })}</div>
   <div class="btn-row">
-    <button class="ghost-btn" data-action="dash-tab" data-val="chats">${icon('message')}Чаты с точками ${unreadTotal('rep') ? `<span class="tab-unread">${unreadTotal('rep')}</span>` : ''}</button>
-  </div>
-  ${chartCard('Выручка сети по дням', 'неделя, ₽', barsChart({ data: seededSeries('rep-week', 7, 18000, 96000), labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'], tone: 'tiffany', height: 130 }))}`;
+    <button class="ghost-btn" data-action="dash-tab" data-val="connect">${icon('smartphone')}QR-подключение</button>
+    <button class="ghost-btn" data-action="dash-tab" data-val="points">${icon('store')}Точки</button>
+    <button class="ghost-btn" data-action="dash-tab" data-val="income">${icon('wallet')}Доход</button>
+    <button class="ghost-btn" data-action="dash-tab" data-val="chats">${icon('message')}Чаты ${unreadTotal('rep') ? `<span class="tab-unread">${unreadTotal('rep')}</span>` : ''}</button>
+  </div>`;
 }
 
 /* ================= Дашборд: Амбасадор ================= */
 
-function renderAmbDash(tab) {
-  const head = dashHeadHtml('amb', 'Структура представителей');
-  const tabs = dashTabsHtml('amb', tab);
+function ambRepRows() {
+  return LOVII_DASH.ambReps.map((r) => {
+    const weekRevenue = r.revenueWeek;
+    const monthRevenue = Math.round(weekRevenue * LOVII_MODEL.weeksInMonth);
+    const platformIncome = Math.round(r.points.reduce((sum, slug) => {
+      const tariff = tariffForPoint(slug, 'active');
+      return sum + (monthRevenue / Math.max(1, r.points.length)) * tariff.rate + tariff.sub;
+    }, 0));
+    const roleIncome = Math.round(platformIncome * LOVII_MODEL.ambShare);
+    return {
+      ...r,
+      monthRevenue,
+      platformIncome,
+      roleIncome,
+      pointsNames: r.points.map((s) => selectors.storeBySlug(s)).filter(Boolean),
+    };
+  });
+}
 
-  if (tab === 'chats') return chatListHtml('amb', head, tabs, 'Чаты с представителями');
-
-  const reps = LOVII_DASH.ambReps.map((r) => ({
-    ...r,
-    pointsNames: r.points.map((s) => selectors.storeBySlug(s)).filter(Boolean),
-  }));
-  const totalRev = reps.reduce((s, r) => s + r.revenueWeek, 0);
+function ambTotals() {
+  const reps = ambRepRows();
+  const weekRevenue = reps.reduce((s, r) => s + r.revenueWeek, 0);
+  const monthRevenue = reps.reduce((s, r) => s + r.monthRevenue, 0);
   const totalPoints = reps.reduce((s, r) => s + r.points.length, 0);
-  const avgGrowth = reps.reduce((s, r) => s + r.growth, 0) / reps.length;
-  const top = [...reps].sort((a, b) => b.revenueWeek - a.revenueWeek).map((r) => ({ label: r.name, value: r.revenueWeek }));
+  const platformIncome = reps.reduce((s, r) => s + r.platformIncome, 0);
+  const roleIncome = reps.reduce((s, r) => s + r.roleIncome, 0);
+  const avgGrowth = reps.reduce((s, r) => s + r.growth, 0) / Math.max(1, reps.length);
+  return { reps, weekRevenue, monthRevenue, totalPoints, platformIncome, roleIncome, avgGrowth };
+}
 
-  const tree = `
+function renderAmbTree(reps, totalPoints, totalRev) {
+  return `
   <div class="tree">
     <div class="tree-row root">
       <span class="t-emoji ${tileBg('gold')}">🚀</span>
       <div class="ri-mid"><div class="nm">Ты · амбасадор</div><div class="sb">${reps.length} представителя · ${totalPoints} точки</div></div>
-      <div class="ri-right"><div class="v">${moneyFmt(totalRev)}</div><span class="sb">за неделю</span></div>
+      <div class="ri-right"><div class="v">${moneyFmt(totalRev)}</div><span class="sb">GMV/нед.</span></div>
     </div>
     <div class="tree-kids">
-      ${reps
-        .map(
-          (r) => `
+      ${reps.map((r) => `
       <div class="tree-row">
         <span class="t-emoji ${tileBg('tiffany')}">🤝</span>
         <div class="ri-mid">
           <div class="nm">${esc(r.name)}</div>
-          <div class="sb">${esc(r.city)} · ${r.points.length} точки</div>
+          <div class="sb">${esc(r.city)} · ${r.points.length} точки · доход ${moneyFmt(r.roleIncome)}/мес</div>
         </div>
         <div class="ri-right"><div class="v">${moneyFmt(r.revenueWeek)}</div>${deltaHtml(r.growth)}</div>
       </div>
       <div class="tree-kids">
-        ${r.pointsNames
-          .map(
-            (s) => `
+        ${r.pointsNames.map((s) => `
         <div class="tree-row leaf">
           <span class="t-emoji ${tileBg('sand')}">${s.emoji}</span>
           <div class="ri-mid"><div class="nm">${esc(s.name)}</div><div class="sb">${esc(catLabel(s.category))}</div></div>
           <button class="chev-btn" data-go="store:${s.slug}">${icon('chev-right')}</button>
-        </div>`
-          )
-          .join('')}
-      </div>`
-        )
-        .join('')}
+        </div>`).join('')}
+      </div>`).join('')}
     </div>
   </div>`;
+}
+
+function renderAmbDash(tab) {
+  const profile = state.roles.amb || {};
+  const city = profile.city || state.district;
+  const head = dashHeadHtml('amb', `${esc(city)} · развитие представителей`);
+  const tabs = dashTabsHtml('amb', tab);
+  if (tab === 'chats') return chatListHtml('amb', head, tabs, 'Чаты с представителями');
+
+  const totals = ambTotals();
+  const top = [...totals.reps].sort((a, b) => b.revenueWeek - a.revenueWeek).map((r) => ({ label: r.name, value: r.revenueWeek }));
+
+  if (tab === 'reps') {
+    return `
+    ${head}${tabs}
+    <div class="section-head" style="margin-top:20px"><h2>Мои представители<span class="sub"> · ${totals.reps.length}</span></h2></div>
+    <div class="list-card">
+      ${totals.reps.map((r) => `
+      <button class="row-item as-btn" data-go="chat:r-${r.id}">
+        <span class="ri-emoji ${tileBg('tiffany')}">🤝</span>
+        <div class="ri-mid">
+          <div class="nm">${esc(r.name)}${deltaHtml(r.growth)}</div>
+          <div class="sb">${esc(r.city)} · ${r.points.length} точки · ${r.pointsNames.map((s) => esc(s.name)).join(', ')}</div>
+        </div>
+        <div class="ri-right"><div class="v">${moneyFmt(r.roleIncome)}</div><span class="sb">доход/мес</span></div>
+        ${icon('chev-right', 'chev')}
+      </button>`).join('')}
+    </div>
+    ${codeCardHtml('Код амбасадора', 'AMB-' + city.slice(0, 3).toUpperCase() + '-777', 'Представитель вводит этот код — и попадает в вашу структуру обучения и мотивации.', 'gold')}
+    <div class="section-head" style="margin-top:20px"><h2>Структура</h2></div>
+    ${renderAmbTree(totals.reps, totals.totalPoints, totals.weekRevenue)}`;
+  }
+
+  if (tab === 'income') {
+    const incomeByRep = totals.reps.map((r) => ({ label: r.name, value: r.roleIncome }));
+    return `
+    ${head}${tabs}
+    <div class="kpi-grid">
+      ${kpiCard('Доход амбасадора · месяц', moneyFmt(totals.roleIncome), { delta: totals.avgGrowth, accent: true })}
+      ${kpiCard('Доход LOVII сети', moneyFmt(totals.platformIncome), { tone: 'gold' })}
+      ${kpiCard('Средний доход/предст.', moneyFmt(totals.roleIncome / Math.max(1, totals.reps.length)), { tone: 'tiffany' })}
+      ${kpiCard('GMV структуры · месяц', moneyFmt(totals.monthRevenue), { delta: 10, tone: 'pink' })}
+    </div>
+    ${revenueModelNote('amb')}
+    ${chartCard('Доход амбасадора', '6 месяцев, ₽', areaChart({ data: seededSeries('amb-income-6m', 6, 76000, 226000), labels: ['май','июн','июл','авг','сен','окт'], tone: 'gold', height: 155 }))}
+    <div class="section-head" style="margin-top:20px"><h2>Доход по представителям</h2></div>
+    <div class="chart-card" style="margin-top:10px">${hbarsHtml(incomeByRep)}</div>
+    <div class="section-head" style="margin-top:20px"><h2>История выплат</h2></div>
+    ${payoutRowsHtml('amb-payouts', totals.roleIncome, 'кураторская выплата')}`;
+  }
+
+  if (tab === 'training') {
+    const lessons = [
+      ['1', 'Как объяснить ценность LOVII точке', 'Скрипт первой встречи и возражения', 100],
+      ['2', 'Запуск представителя за 7 дней', 'План: районы, лиды, CRM, первые сделки', 74],
+      ['3', 'Мотивация и контроль качества', 'Еженедельные ритуалы структуры', 48],
+      ['4', 'Финмодель и статусы', 'Сплит 40/40/20, Мэр и Губернатор', 32],
+    ];
+    return `
+    ${head}${tabs}
+    <div class="mentor-card ink-gradient">
+      <div class="kicker">Обучающий трек амбасадора</div>
+      <div class="big">Запускайте представителей быстрее</div>
+      <p>Материалы помогают обучать, мотивировать и контролировать качество подключения точек.</p>
+    </div>
+    <div class="section-head" style="margin-top:20px"><h2>Материалы</h2></div>
+    <div class="list-card">
+      ${lessons.map((l) => `
+      <div class="row-item">
+        <span class="ri-emoji ${tileBg('gold')}">📚</span>
+        <div class="ri-mid"><div class="nm">${esc(l[1])}</div><div class="sb">Урок ${l[0]} · ${esc(l[2])}</div><div class="mini-progress"><span style="width:${l[3]}%"></span></div></div>
+        <span class="cta-btn plain">${l[3] === 100 ? 'Пройдено' : l[3] + '%'}</span>
+      </div>`).join('')}
+    </div>
+    <div class="section-head" style="margin-top:20px"><h2>План недели</h2></div>
+    <div class="timeline-card">
+      <div class="tl-item done"><b>Пн · Разбор цифр</b><span>доход, активные точки, проблемные категории</span></div>
+      <div class="tl-item active"><b>Ср · Созвон структуры</b><span>помочь с возражениями и документами</span></div>
+      <div class="tl-item"><b>Пт · Новые лиды</b><span>выдать коды представителям и зафиксировать план</span></div>
+    </div>`;
+  }
 
   return `
   ${head}${tabs}
   <div class="kpi-grid">
-    ${kpiCard('Выручка структуры · неделя', moneyFmt(totalRev), { delta: avgGrowth, accent: true })}
-    ${kpiCard('Представители', String(reps.length), { spark: sparkSvg(seededSeries('amb-reps', 6, 2, 4), 'tiffany') })}
-    ${kpiCard('Точки в структуре', String(totalPoints), { tone: 'gold' })}
-    ${kpiCard('Конверсия структуры', '5,4%', { delta: 0.6, tone: 'tiffany' })}
+    ${kpiCard('Доход · месяц', moneyFmt(totals.roleIncome), { delta: totals.avgGrowth, accent: true })}
+    ${kpiCard('Представители', String(totals.reps.length), { spark: sparkSvg(seededSeries('amb-reps', 6, 2, 4), 'tiffany') })}
+    ${kpiCard('Точки в структуре', String(totals.totalPoints), { tone: 'gold' })}
+    ${kpiCard('GMV структуры · месяц', moneyFmt(totals.monthRevenue), { delta: 10, tone: 'pink' })}
   </div>
-
   <div class="section-head" style="margin-top:20px"><h2>Моя структура</h2></div>
-  ${tree}
-
+  ${renderAmbTree(totals.reps, totals.totalPoints, totals.weekRevenue)}
   <div class="section-head" style="margin-top:20px"><h2>Топ представителей</h2></div>
   <div class="chart-card" style="margin-top:10px">${hbarsHtml(top)}</div>
   ${chartCard('Рост структуры', '6 месяцев, тыс ₽', areaChart({ data: seededSeries('amb-6m', 6, 380, 900), labels: ['апр', 'май', 'июн', 'июл', 'авг', 'сен'], tone: 'gold', height: 140 }))}
-
   <div class="btn-row">
+    <button class="ghost-btn" data-action="dash-tab" data-val="reps">${icon('users')}Представители</button>
+    <button class="ghost-btn" data-action="dash-tab" data-val="training">${icon('network')}Обучение</button>
     <button class="ghost-btn" data-action="dash-tab" data-val="chats">${icon('message')}Чаты ${unreadTotal('amb') ? `<span class="tab-unread">${unreadTotal('amb')}</span>` : ''}</button>
   </div>`;
 }
@@ -911,6 +1154,332 @@ function renderChat(id) {
       <button class="send-btn brand-gradient" type="submit" aria-label="Отправить">${icon('send')}</button>
     </form>
   </div>`;
+}
+
+
+/* ================= QR-сценарий подключения торговой точки ================= */
+
+function repInviteCode() {
+  const profile = state.roles.rep || {};
+  const city = (profile.city || state.district || 'Район').replace(/[^А-Яа-яA-Za-z0-9]/g, '').slice(0, 3).toUpperCase() || 'LOC';
+  return 'REP-' + city + '-042';
+}
+
+function ensureMspLead() {
+  if (state.mspLead) return state.mspLead;
+  state.mspLead = null;
+  return null;
+}
+
+function mspPointVisible(status) {
+  return ['catalog', 'payment', 'ready'].includes(status);
+}
+
+function syncMspStore() {
+  const lead = state.mspLead;
+  if (!lead || !lead.point || !mspPointVisible(lead.point.status)) return;
+  const p = lead.point;
+  const d = selectors.districtObj();
+  const existing = LOVII_DATA.stores.find((s) => s.slug === p.slug);
+  const payload = {
+    slug: p.slug,
+    name: p.name,
+    category: p.category || 'grocery',
+    emoji: p.emoji || '🏪',
+    color: p.color || 'tiffany',
+    rating: p.status === 'ready' ? 4.9 : 5.0,
+    reviews: p.status === 'ready' ? 12 : 0,
+    address: p.address,
+    lat: d.lat + 0.0016,
+    lng: d.lng - 0.0011,
+    hours: p.hours || '09:00-21:00',
+    about: p.about || 'Новая точка района в каталоге LOVII.',
+    tags: p.status === 'ready' ? ['pickup', 'delivery', 'new'] : ['new'],
+    isService: false,
+  };
+  if (existing) Object.assign(existing, payload);
+  else LOVII_DATA.stores.push(payload);
+
+  if (p.status === 'ready') {
+    (lead.goods || []).forEach((g) => {
+      const slug = 'msp-' + g.slug;
+      const found = LOVII_DATA.products.find((x) => x.slug === slug);
+      const prod = {
+        slug,
+        name: g.name,
+        description: `Товар точки «${p.name}». Доступен в районе через LOVII.`,
+        emoji: g.emoji,
+        category: p.category || 'grocery',
+        unit: g.unit,
+        price: g.price,
+        badge: 'new',
+        avail: [[p.slug, g.stock, 0]],
+      };
+      if (found) Object.assign(found, prod);
+      else LOVII_DATA.products.push(prod);
+    });
+  }
+}
+
+function qrGridHtml() {
+  const cells = Array.from({ length: 121 }, (_, i) => {
+    const x = i % 11, y = Math.floor(i / 11);
+    const finder = (x < 3 && y < 3) || (x > 7 && y < 3) || (x < 3 && y > 7);
+    const data = ((x * 7 + y * 11 + x * y) % 5 === 0) || ((x + y) % 7 === 0);
+    return `<span class="${finder || data ? 'on' : ''}"></span>`;
+  }).join('');
+  return `<div class="qr-grid" aria-label="Демо QR-код">${cells}</div>`;
+}
+
+function repMspApplicationHtml() {
+  const lead = ensureMspLead();
+  if (!lead) {
+    return `<div class="dash-note tone-dim">Заявок от МСП пока нет. Откройте QR-сценарий и пройдите регистрацию владельца точки.</div>`;
+  }
+  const p = lead.point;
+  return `
+  <div class="list-card">
+    <div class="row-item">
+      <span class="ri-emoji ${tileBg(p && p.status !== 'pending_rep' ? 'tiffany' : 'gold')}">${p ? p.emoji : '🧾'}</span>
+      <div class="ri-mid">
+        <div class="nm">${p ? esc(p.name) : esc(lead.legalName)}${statusChip(p ? p.status : 'lead')}</div>
+        <div class="sb">ИНН ${esc(lead.inn)} · ${p ? esc(p.address) : 'владелец ещё заполняет карточку точки'}</div>
+      </div>
+      ${p && p.status === 'pending_rep' ? `<button class="cta-btn brand-gradient" data-action="approve-msp-point">Апрув</button>` : `<button class="chev-btn" data-go="msp">${icon('chev-right')}</button>`}
+    </div>
+  </div>`;
+}
+
+function renderConnectScriptHtml() {
+  return `
+  <div class="script-card">
+    <div class="kicker">Сценарий у владельца точки</div>
+    <ol>
+      <li><b>Покажите QR.</b> Владелец сканирует код и открывает форму регистрации LOVII.</li>
+      <li><b>ИНН.</b> Владелец вводит ИНН юрлица или ИП — открывается мобильный экран МСП.</li>
+      <li><b>Карточка точки.</b> Название, адрес, описание и фото. Товаров пока нет.</li>
+      <li><b>Апрув представителя.</b> После одобрения точка видна в каталоге всем пользователям района.</li>
+      <li><b>Проверочный платёж.</b> LOVII показывает назначение платежа со спецкодом; после получения автоматически делает возврат.</li>
+      <li><b>Каталог товаров.</b> Ссылка-инструкция приходит в VK, Telegram или MAX. После заполнения товары доступны на витрине точки.</li>
+    </ol>
+  </div>`;
+}
+
+function renderRepConnectDash(head, tabs) {
+  const code = repInviteCode();
+  const inviteHash = '#/msp-signup/' + encodeURIComponent(code);
+  return `
+  ${head}${tabs}
+  <div class="connect-hero ink-gradient">
+    <div class="connect-copy">
+      <div class="kicker">QR-подключение МСП</div>
+      <h2>Покажите код владельцу точки</h2>
+      <p>Он сканирует QR, вводит ИНН и сам подаёт заявку на добавление точки в каталог LOVII.</p>
+      <div class="chips"><span class="glass-chip">0 ₽ старт</span><span class="glass-chip">3 дня запуск</span><span class="glass-chip">90/10 сплит</span></div>
+    </div>
+    <button class="qr-card" data-go="msp-signup:${code}" aria-label="Открыть регистрацию МСП">
+      ${qrGridHtml()}
+      <span>${esc(code)}</span>
+    </button>
+  </div>
+  <div class="btn-row">
+    <button class="cta-btn brand-gradient" data-go="msp-signup:${code}">Смоделировать скан QR</button>
+    <button class="ghost-btn" data-go="msp">Экран МСП</button>
+  </div>
+  ${renderConnectScriptHtml()}
+  <div class="section-head" style="margin-top:20px"><h2>Заявка от точки</h2></div>
+  ${repMspApplicationHtml()}
+  <div class="dash-note tone-tiffany">После апрува карточка точки сразу попадает в общий каталог района: адрес, фото, описание и расстояние в метрах. Продажи и товары включаются только после проверочного платежа и инструкции в выбранный канал.</div>`;
+}
+
+function renderMspSignup(code) {
+  const invite = code || repInviteCode();
+  return `
+  <div class="lv-enter lv-narrow" style="padding-bottom:16px">
+    <div class="apply-head tile-tiffany">
+      <span class="ah-emoji">📲</span>
+      <div class="ah-mid"><div class="kicker">QR от представителя · ${esc(invite)}</div><h1>Регистрация МСП в LOVII</h1></div>
+    </div>
+    <form id="msp-signup-form" data-code="${esc(invite)}">
+      <label class="f-field"><span class="lb">ИНН юрлица или ИП</span><input name="inn" inputmode="numeric" pattern="[0-9]{10,12}" placeholder="Например, 7801234567" required></label>
+      <label class="f-field"><span class="lb">Название юрлица</span><input name="legalName" placeholder="ООО «Ржаной дом»" required></label>
+      <label class="f-field"><span class="lb">Канал для инструкции</span>
+        <select name="channel"><option>Telegram</option><option>ВКонтакте</option><option>MAX</option></select></label>
+      <div class="dash-note tone-gold" style="margin-top:14px">Это демо мобильного сценария: после ИНН откроется экран МСП с заявкой и формой добавления точки в каталог.</div>
+      <div style="padding:16px 16px 0"><button class="cta-btn brand-gradient big" type="submit">Продолжить как владелец точки</button></div>
+    </form>
+  </div>`;
+}
+
+function mspStatusText(status) {
+  const map = {
+    lead: 'Введите ИНН и создайте заявку МСП',
+    draft: 'Заполните карточку точки для каталога района',
+    pending_rep: 'Заявка отправлена представителю на апрув',
+    catalog: 'Точка видна в каталоге. Следующий шаг — проверочный платёж',
+    payment: 'Платёж получен, автоматический возврат формируется',
+    ready: 'Точка готова принимать оплату и показывать товары',
+  };
+  return map[status] || map.lead;
+}
+
+function renderMspCabinet(tab = 'index') {
+  const lead = ensureMspLead();
+  if (!lead) return renderMspSignup(repInviteCode());
+  const p = lead.point;
+  const status = p ? p.status : 'draft';
+  const payCode = 'LOVII-' + lead.inn.slice(-4) + '-' + lead.repCode.slice(-3);
+  const tabs = `<div class="seg dash-tabs" style="margin:14px 16px 0">
+    ${[['index','Заявка'], ['catalog','Каталог'], ['pay','Платёж'], ['help','Инструкция']].map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="msp-tab" data-val="${id}">${label}</button>`).join('')}
+  </div>`;
+  const head = `
+  <div class="dash-head">
+    <span class="dash-ava ${tileBg('tiffany')}">🏪</span>
+    <div class="dash-title"><h1>Экран МСП</h1><div class="d">${esc(lead.legalName)} · ИНН ${esc(lead.inn)}</div></div>
+    <button class="ghost-btn sm" data-go="profile">${icon('user')}Профиль</button>
+  </div>`;
+
+  if (tab === 'catalog') {
+    if (status !== 'ready') {
+      return `${head}${tabs}<div class="empty"><div class="big-emoji">🧺</div><h3>Товары появятся после проверки</h3><p>На первом этапе точка видна только карточкой: фото, адрес, описание и расстояние. Каталог товаров откроется после проверочного платежа.</p><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="pay">Перейти к платежу</button></div>`;
+    }
+    const goods = lead.goods || [];
+    const chips = LOVII_DASH.storeGoodsSeed.slice(0, 6).map((g) => `<button class="cat-chip" data-action="add-msp-good" data-slug="${g.slug}"><span class="e">${g.emoji}</span>${esc(g.name)}</button>`).join('');
+    return `${head}${tabs}
+    <div class="section-head" style="margin-top:20px"><h2>Каталог товаров<span class="sub"> · ${goods.length}</span></h2></div>
+    <div class="list-card">${goods.length ? goods.map((g) => `<div class="row-item"><span class="ri-emoji ${tileBg('sand')}">${g.emoji}</span><div class="ri-mid"><div class="nm">${esc(g.name)}</div><div class="sb">${priceFmt(g.price)} / ${esc(g.unit)} · остаток ${g.stock}</div></div></div>`).join('') : '<div class="empty-cat"><div class="big-emoji">🛍️</div><div class="t">Каталог пуст</div><p class="d">Добавьте первые товары по инструкции.</p></div>'}</div>
+    <div class="section-head" style="margin-top:20px"><h2>Быстро добавить в демо</h2></div><div class="cats no-scrollbar" style="padding:10px 16px 4px">${chips}</div>`;
+  }
+
+  if (tab === 'pay') {
+    const canPay = p && p.status === 'catalog';
+    return `${head}${tabs}
+    <div class="pay-card">
+      <div class="kicker">Проверочный платёж и автоматический возврат</div>
+      <h2>${canPay ? 'Подтвердите реквизиты точки' : status === 'ready' ? 'Платёж проверен' : 'Доступно после апрува представителя'}</h2>
+      <div class="pay-row"><span>Сумма</span><b>1 ₽</b></div>
+      <div class="pay-row"><span>Назначение</span><b>${esc(payCode)}</b></div>
+      <p>После получения платежа LOVII автоматически формирует возврат. Если оплата, возврат и сверка успешны — точка получает апрув для приёма оплаты через LOVII.</p>
+      ${canPay ? `<button class="cta-btn brand-gradient big" data-action="demo-pay">Смоделировать оплату и возврат</button>` : ''}
+    </div>
+    ${status === 'payment' ? dashNote('Платёж получен. В демо возврат и финальный апрув произойдут автоматически через несколько секунд.', 'gold') : ''}
+    ${status === 'ready' ? dashNote(`Готово: инструкция отправлена в ${lead.channel}. Теперь владелец авторизуется и заполняет каталог товаров.`, 'tiffany') : ''}`;
+  }
+
+  if (tab === 'help') {
+    return `${head}${tabs}
+    <div class="mentor-card ink-gradient"><div class="kicker">Ссылка-инструкция</div><div class="big">Отправлена в ${esc(lead.channel)}</div><p>Владелец проходит авторизацию, добавляет товары, цены и остатки. Каждый товар станет доступен на витрине LOVII именно в этой точке.</p></div>
+    <div class="timeline-card">
+      <div class="tl-item ${status === 'ready' ? 'done' : 'active'}"><b>Авторизация владельца</b><span>${esc(lead.channel)} · ссылка одноразовая</span></div>
+      <div class="tl-item"><b>Заполнение каталога</b><span>товары, цены, остатки, фото</span></div>
+      <div class="tl-item"><b>Публикация на витрине</b><span>товар виден в карточке точки и общем поиске</span></div>
+    </div>`;
+  }
+
+  return `${head}${tabs}
+  <div class="status-flow-card">
+    <div class="kicker">Текущий этап</div>
+    <h2>${esc(mspStatusText(status))}</h2>
+    <div class="flow-steps">
+      ${['draft','pending_rep','catalog','ready'].map((x, i) => `<span class="${(['draft','pending_rep','catalog','payment','ready'].indexOf(status) >= ['draft','pending_rep','catalog','ready'].indexOf(x)) ? 'done' : ''}">${i + 1}</span>`).join('')}
+    </div>
+  </div>
+  ${p ? `
+    <div class="list-card">
+      <div class="row-item"><span class="ri-emoji ${tileBg('tiffany')}">${p.emoji}</span><div class="ri-mid"><div class="nm">${esc(p.name)}${statusChip(p.status)}</div><div class="sb">${esc(p.address)} · ${esc(p.about)}</div></div>${mspPointVisible(p.status) ? `<button class="chev-btn" data-go="store:${p.slug}">${icon('chev-right')}</button>` : ''}</div>
+    </div>
+  ` : ''}
+  ${(!p || p.status === 'draft') ? `
+    <form id="msp-point-form">
+      <label class="f-field"><span class="lb">Название точки</span><input name="name" placeholder="Пекарня «Ржаной дом»" required></label>
+      <label class="f-field"><span class="lb">Адрес</span><input name="address" placeholder="ул. Рубинштейна, 12" required></label>
+      <label class="f-field"><span class="lb">Описание</span><textarea name="about" placeholder="Что продаёте, почему вас любят соседи…" required></textarea></label>
+      <label class="f-field"><span class="lb">Фото точки</span><input name="photo" type="file" accept="image/*"></label>
+      <div class="dash-note tone-tiffany" style="margin-top:14px">В демо фото заменяется красивой карточкой с эмодзи. Товаров на этом этапе нет — точка просто появляется в каталоге после апрува представителя.</div>
+      <div style="padding:16px 16px 0"><button class="cta-btn brand-gradient big" type="submit">Добавить в каталог</button></div>
+    </form>` : ''}
+  ${status === 'pending_rep' ? dashNote('Заявка ушла представителю. Попросите его открыть вкладку «Подключение» и нажать «Апрув».', 'gold') : ''}
+  ${status === 'catalog' ? `<div class="btn-row"><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="pay">Что нужно для продаж</button><button class="ghost-btn" data-go="store:${p.slug}">Посмотреть в каталоге</button></div>` : ''}
+  ${status === 'ready' ? `<div class="btn-row"><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="catalog">Заполнить каталог</button><button class="ghost-btn" data-go="store:${p.slug}">Витрина точки</button></div>` : ''}`;
+}
+
+function handleMspSignup(form) {
+  const val = (name) => (form.querySelector(`[name="${name}"]`) || {}).value || '';
+  state.mspLead = {
+    repCode: form.dataset.code || repInviteCode(),
+    inn: val('inn').trim(),
+    legalName: val('legalName').trim() || 'Моя компания',
+    channel: val('channel') || 'Telegram',
+    createdAt: Date.now(),
+    point: null,
+    goods: [],
+  };
+  persist();
+  toast('ИНН принят', 'Открываем мобильный экран МСП');
+  go('msp', 'index');
+}
+
+function handleMspPoint(form) {
+  const lead = ensureMspLead();
+  if (!lead) return;
+  const val = (name) => (form.querySelector(`[name="${name}"]`) || {}).value || '';
+  lead.point = {
+    slug: 'msp-' + lead.inn.slice(-4),
+    name: val('name').trim() || 'Новая точка',
+    address: val('address').trim() || 'Адрес района',
+    about: val('about').trim() || 'Новая точка района в LOVII.',
+    hours: '09:00-21:00',
+    emoji: '🥖',
+    color: 'tiffany',
+    category: 'bakery',
+    status: 'pending_rep',
+    submittedAt: Date.now(),
+  };
+  persist();
+  toast('Заявка отправлена представителю', 'После апрува точка появится в каталоге');
+  renderView();
+}
+
+function approveMspPoint() {
+  const lead = ensureMspLead();
+  if (!lead || !lead.point || lead.point.status !== 'pending_rep') return;
+  lead.point.status = 'catalog';
+  lead.point.approvedAt = Date.now();
+  syncMspStore();
+  persist();
+  toast('Точка одобрена', 'Карточка уже видна в каталоге района');
+  renderViewPreserveScroll();
+}
+
+function demoPayMsp() {
+  const lead = ensureMspLead();
+  if (!lead || !lead.point || lead.point.status !== 'catalog') return;
+  lead.point.status = 'payment';
+  persist();
+  renderViewPreserveScroll();
+  toast('Платёж получен', 'Формируем автоматический возврат');
+  setTimeout(() => {
+    if (!state.mspLead || !state.mspLead.point || state.mspLead.point.status !== 'payment') return;
+    state.mspLead.point.status = 'ready';
+    state.mspLead.point.readyAt = Date.now();
+    state.mspLead.goods = state.mspLead.goods || [];
+    syncMspStore();
+    persist();
+    if (state.view.name === 'msp') renderView();
+    toast('Точка готова к продажам', `Инструкция отправлена в ${state.mspLead.channel}`);
+  }, 2500);
+}
+
+function addMspGood(slug) {
+  const lead = ensureMspLead();
+  const src = LOVII_DASH.storeGoodsSeed.find((g) => g.slug === slug);
+  if (!lead || !lead.point || lead.point.status !== 'ready' || !src) return;
+  lead.goods = lead.goods || [];
+  if (!lead.goods.some((g) => g.slug === src.slug)) lead.goods.push({ ...src });
+  syncMspStore();
+  persist();
+  renderViewPreserveScroll();
+  toast('Товар опубликован', 'Он доступен на витрине точки');
 }
 
 /* ================= Экспорт CSV ================= */

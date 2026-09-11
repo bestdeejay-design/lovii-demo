@@ -685,3 +685,77 @@ main#view { flex: 1; }
   .search-trigger { grid-area: 1 / 2; max-width: none; margin-top: 0; }
   .hero-body { grid-area: 2 / 1 / 3 / 3; }
 }
+
+/* ---------- Расширенные демо-страницы представителя и амбасадора ---------- */
+.rank-card, .code-card, .timeline-card, .mentor-card {
+  margin: 14px 16px 0;
+  border-radius: 18px;
+  border: 1px solid var(--lv-line);
+  box-shadow: 0 1px 3px rgba(26, 26, 26, .06);
+}
+.rank-card { padding: 16px; background: var(--lv-card); }
+.rank-card.tone-tiffany { background: linear-gradient(150deg, var(--lv-soft-tiffany), var(--lv-card)); border-color: rgba(10, 186, 181, .26); }
+.rank-card.tone-gold { background: linear-gradient(150deg, var(--lv-soft-gold), var(--lv-card)); border-color: rgba(212, 168, 84, .28); }
+.rank-top { display: flex; align-items: center; gap: 12px; }
+.rank-emoji { width: 46px; height: 46px; border-radius: 14px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,.62); font-size: 24px; }
+.rank-kicker { font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--lv-dim); }
+.rank-title { margin-top: 2px; font-size: 18px; font-weight: 800; letter-spacing: -.01em; }
+.progress, .mini-progress { height: 8px; border-radius: 999px; background: var(--lv-surface); overflow: hidden; }
+.progress { margin-top: 14px; }
+.progress span, .mini-progress span { display: block; height: 100%; border-radius: inherit; background-image: linear-gradient(90deg, #0abab5, #f64a8a); }
+.rank-foot { display: flex; justify-content: space-between; gap: 10px; margin-top: 8px; color: var(--lv-dim); font-size: 11.5px; font-weight: 600; }
+.rank-foot b { color: var(--lv-ink); font-weight: 800; text-align: right; }
+.code-card { padding: 16px; }
+.code-card.tone-pink { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
+.code-card.tone-tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
+.code-card.tone-gold { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
+.code-card .kicker, .mentor-card .kicker { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; opacity: .75; }
+.code-card .code { margin-top: 6px; font-size: 26px; line-height: 1; font-weight: 900; letter-spacing: .06em; }
+.code-card p { margin: 8px 0 0; font-size: 12.5px; line-height: 1.5; font-weight: 600; }
+.timeline-card { padding: 4px 14px; background: var(--lv-card); }
+.tl-item { position: relative; padding: 12px 0 12px 24px; border-left: 2px dashed var(--lv-line); }
+.tl-item::before { content: ''; position: absolute; left: -6px; top: 17px; width: 10px; height: 10px; border-radius: 999px; background: var(--lv-line); box-shadow: 0 0 0 4px var(--lv-card); }
+.tl-item.done::before { background: var(--lv-tiffany); }
+.tl-item.active::before { background: var(--lv-pink); animation: lv-pulse-dot 1.4s ease-in-out infinite; }
+.tl-item:last-child { border-left-color: transparent; }
+.tl-item b { display: block; font-size: 13px; }
+.tl-item span { display: block; margin-top: 2px; font-size: 11.5px; line-height: 1.45; color: var(--lv-dim); }
+.mentor-card { padding: 20px; color: var(--lv-on-brand); }
+.mentor-card .big { margin-top: 6px; font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
+.mentor-card p { margin: 6px 0 0; color: rgba(255,255,255,.72); font-size: 13px; line-height: 1.55; }
+.mini-progress { margin-top: 8px; height: 6px; }
+@media (max-width: 380px) {
+  .dash-tabs { overflow-x: auto; justify-content: flex-start; }
+  .dash-tabs button { flex: 0 0 auto; min-width: 74px; padding: 0 10px; }
+  .rank-foot { flex-direction: column; }
+  .rank-foot b { text-align: left; }
+}
+
+/* ---------- QR-сценарий подключения МСП ---------- */
+.connect-hero { margin: 14px 16px 0; border-radius: 24px; padding: 18px; color: var(--lv-on-brand); display: grid; grid-template-columns: minmax(0, 1fr) 126px; gap: 16px; align-items: center; overflow: hidden; }
+.connect-copy .kicker, .script-card .kicker, .pay-card .kicker, .status-flow-card .kicker { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; opacity: .7; }
+.connect-copy h2 { margin: 5px 0 0; font-size: 22px; line-height: 1.15; letter-spacing: -.02em; }
+.connect-copy p { margin: 7px 0 0; font-size: 12.5px; line-height: 1.55; color: rgba(255,255,255,.72); }
+.connect-copy .chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
+.qr-card { width: 126px; padding: 10px; border-radius: 18px; background: rgba(255,255,255,.94); color: #1a1a1a; box-shadow: 0 16px 38px -18px rgba(0,0,0,.42); text-align: center; }
+.qr-card > span { display: block; margin-top: 7px; font-size: 10px; font-weight: 900; letter-spacing: .08em; }
+.qr-grid { display: grid; grid-template-columns: repeat(11, 1fr); gap: 2px; aspect-ratio: 1; padding: 5px; border-radius: 12px; background: #fff; }
+.qr-grid span { border-radius: 2px; background: transparent; }
+.qr-grid span.on { background: #1a1a1a; }
+.script-card, .pay-card, .status-flow-card { margin: 14px 16px 0; padding: 16px; border-radius: 18px; background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: 0 1px 3px rgba(26, 26, 26, .06); }
+.script-card ol { margin: 10px 0 0; padding-left: 20px; }
+.script-card li { margin-top: 8px; font-size: 12.5px; line-height: 1.5; color: var(--lv-dim); }
+.script-card li b { color: var(--lv-ink); }
+.pay-card h2, .status-flow-card h2 { margin: 6px 0 12px; font-size: 20px; line-height: 1.22; letter-spacing: -.02em; }
+.pay-card p { margin: 12px 0 0; font-size: 12.5px; line-height: 1.55; color: var(--lv-dim); }
+.pay-card .cta-btn { margin-top: 14px; }
+.pay-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 0; border-top: 1px solid var(--lv-line-2); }
+.pay-row span { font-size: 12px; color: var(--lv-dim); font-weight: 700; }
+.pay-row b { font-size: 14px; font-weight: 900; letter-spacing: .04em; }
+.flow-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
+.flow-steps span { height: 30px; border-radius: 999px; background: var(--lv-surface); color: var(--lv-dim); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; position: relative; }
+.flow-steps span.done { background-image: linear-gradient(135deg, #0abab5, #078d89); color: var(--lv-on-brand); }
+@media (max-width: 430px) {
+  .connect-hero { grid-template-columns: 1fr; }
+  .qr-card { width: 148px; justify-self: center; }
+}
