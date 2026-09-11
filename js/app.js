@@ -56,6 +56,7 @@ const state = {
   roles: persisted.roles || {},
   activeRole: persisted.activeRole || null,
   chats: persisted.chats || null, // сид создаёт dash.js (ensureChats)
+  mspLead: persisted.mspLead || null, // QR-сценарий регистрации торговой точки через представителя
   // сессионное (не сохраняется)
   category: 'all',
   kindTab: 'goods',
@@ -80,6 +81,7 @@ function persist() {
         roles: state.roles,
         activeRole: state.activeRole,
         chats: state.chats,
+        mspLead: state.mspLead,
       })
     );
   } catch {
@@ -199,7 +201,7 @@ function back() {
 function parseHash() {
   const h = location.hash.replace(/^#\/?/, '');
   const [name, param] = h.split('/');
-  const known = ['home', 'store', 'product', 'search', 'cart', 'orders', 'profile', 'apply', 'dash', 'chat'];
+  const known = ['home', 'store', 'product', 'search', 'cart', 'orders', 'profile', 'apply', 'dash', 'chat', 'msp-signup', 'msp'];
   return { name: known.includes(name) ? name : 'home', param: param || null };
 }
 
@@ -212,6 +214,8 @@ function currentScreenHtml() {
   if (name === 'apply' && param) return renderApply(param);
   if (name === 'dash') return renderDash(param || 'index');
   if (name === 'chat' && param) return renderChat(param);
+  if (name === 'msp-signup') return renderMspSignup(param);
+  if (name === 'msp') return renderMspCabinet(param || 'index');
   return (SCREENS[name] || renderHome)();
 }
 
@@ -528,6 +532,22 @@ document.addEventListener('click', (e) => {
       go('dash', actEl.dataset.val);
       break;
 
+    case 'msp-tab':
+      go('msp', actEl.dataset.val || 'index');
+      break;
+
+    case 'approve-msp-point':
+      approveMspPoint();
+      break;
+
+    case 'demo-pay':
+      demoPayMsp();
+      break;
+
+    case 'add-msp-good':
+      addMspGood(actEl.dataset.slug);
+      break;
+
     case 'period':
       state.dashPeriod = actEl.dataset.val;
       renderViewPreserveScroll();
@@ -587,6 +607,12 @@ document.addEventListener('submit', (e) => {
   if (f.id === 'apply-form') {
     e.preventDefault();
     handleApply(f);
+  } else if (f.id === 'msp-signup-form') {
+    e.preventDefault();
+    handleMspSignup(f);
+  } else if (f.id === 'msp-point-form') {
+    e.preventDefault();
+    handleMspPoint(f);
   } else if (f.id === 'card-form') {
     e.preventDefault();
     handleCardSave(f);
@@ -707,7 +733,7 @@ function closeInstallSheet() {
 }
 
 // Service worker — офлайн-кэш и установимость (не на localhost-превью)
-if ('serviceWorker' in navigator && !['localhost', '127.0.0.1'].includes(location.hostname)) {
+if ('serviceWorker' in navigator && !['localhost', '127.0.0.1'].includes(location.hostname) && !location.hostname.endsWith('e2b.app')) {
   window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
 }
 
@@ -717,6 +743,7 @@ applyTheme(currentTheme());
 // Инициализация ролей: сид чатов, точка пользователя на витрине, авто-модерация
 ensureChats();
 syncUserStore();
+syncMspStore();
 moderationCheck(true);
 
 // Первый рендер

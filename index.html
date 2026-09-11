@@ -18,6 +18,30 @@
       } catch (e) { document.documentElement.dataset.theme = 'light'; }
     })();
   </script>
+  <script>
+    /* Dev/preview safety: if JS breaks, show the error instead of a white screen. */
+    (function () {
+      function showLoviiBootError(title, detail) {
+        try {
+          var box = document.getElementById('lovii-boot-error');
+          if (!box) {
+            box = document.createElement('div');
+            box.id = 'lovii-boot-error';
+            box.style.cssText = 'position:fixed;inset:12px;z-index:99999;overflow:auto;padding:16px;border-radius:16px;background:#171219;color:#fff;font:13px/1.45 Inter,system-ui,sans-serif;box-shadow:0 16px 60px rgba(0,0,0,.35)';
+            document.body.appendChild(box);
+          }
+          box.innerHTML = '<b style="font-size:16px">LOVII demo: ' + title + '</b><pre style="white-space:pre-wrap;margin:12px 0 0;color:#ffd6e5">' + String(detail || '').replace(/[&<>]/g, function (c) { return ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]); }) + '</pre><button onclick="localStorage.clear();location.reload()" style="margin-top:12px;border:0;border-radius:999px;padding:10px 14px;background:#f64a8a;color:white;font-weight:800">Сбросить демо и перезагрузить</button>';
+        } catch (_) {}
+      }
+      window.__loviiBootError = showLoviiBootError;
+      window.addEventListener('error', function (e) { showLoviiBootError('ошибка JavaScript', (e.message || '') + '\n' + (e.filename || '') + ':' + (e.lineno || '') + ':' + (e.colno || '') + '\n' + (e.error && e.error.stack || '')); });
+      window.addEventListener('unhandledrejection', function (e) { showLoviiBootError('ошибка Promise', e.reason && (e.reason.stack || e.reason.message) || e.reason); });
+      if ('serviceWorker' in navigator && /e2b\.app$/.test(location.hostname)) {
+        navigator.serviceWorker.getRegistrations().then(function (regs) { regs.forEach(function (r) { r.unregister(); }); }).catch(function () {});
+        if (window.caches) caches.keys().then(function (keys) { keys.filter(function (k) { return /^lovii-/.test(k); }).forEach(function (k) { caches.delete(k); }); }).catch(function () {});
+      }
+    })();
+  </script>
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -32,7 +56,7 @@
   <!-- Токены — из фреймворка lovii-design (снапшот, --lv-* + compat-алиасы легаси-имён).
        Правка стилей витрины теперь в одном месте: репо lovii-design → tools/propagate.py --push -->
   <link rel="stylesheet" href="assets/lovii-tokens.css?v=19">
-  <link rel="stylesheet" href="css/lovii.css?v=20">
+  <link rel="stylesheet" href="css/lovii.css?v=22">
 </head>
 <body>
   <div class="app">
@@ -62,7 +86,7 @@
     </header>
 
     <!-- Экраны -->
-    <main id="view"></main>
+    <main id="view"><div style="padding:32px 16px;font-family:Inter,system-ui,sans-serif"><b>LOVII demo загружается…</b><p style="color:#777;line-height:1.5">Если экран не обновился за пару секунд — нажмите Ctrl/Cmd+Shift+R или кнопку сброса в сообщении об ошибке.</p></div></main>
 
     <!-- Нижняя навигация -->
     <nav class="app-nav" aria-label="Нижняя навигация">
@@ -124,7 +148,7 @@
   <script src="js/icons.js?v=16"></script>
   <script src="js/charts.js?v=16"></script>
   <script src="js/screens.js?v=17"></script>
-  <script src="js/dash.js?v=21"></script>
-  <script src="js/app.js?v=17"></script>
+  <script src="js/dash.js?v=23"></script>
+  <script src="js/app.js?v=19"></script>
 </body>
 </html>
