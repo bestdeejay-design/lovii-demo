@@ -210,99 +210,13 @@ function moderationCheck(silent) {
 
 /* ================= Экран: Профиль ================= */
 
+/**
+ * Профиль переехал в клубный редизайн: LOVII CLUB · LOVII PAY
+ * (js/club.js). Старый «список функций» заменён структурой клуба:
+ * карта + счёт + история + статус + привилегии + избранные МСП.
+ */
 function renderProfile() {
-  const u = LOVII_DASH.user;
-  const favRows = selectors.productRows({}).filter((p) => state.favorites.includes(p.slug));
-
-  const roleRows = ROLE_LIST.map((role) => {
-    const m = roleMeta(role);
-    const has = state.roles[role];
-    const active = state.activeRole === role;
-    return `
-    <div class="row-item">
-      <span class="ri-emoji ${tileBg(m.color)}">${m.emoji}</span>
-      <div class="ri-mid">
-        <div class="nm">${esc(m.title)}${has ? '<span class="role-badge">моя роль</span>' : ''}</div>
-        <div class="sb">${esc(m.desc)}</div>
-      </div>
-      ${
-        has
-          ? `<button class="cta-btn ${active ? 'brand-gradient' : 'plain'}" data-action="enter-role" data-role="${role}">${active ? 'Открыто' : 'Войти как ' + esc(m.short || m.title)}</button>`
-          : `<button class="cta-btn brand-gradient" data-go="apply:${role}">Стать</button>`
-      }
-    </div>`;
-  }).join('');
-
-  const demoRows = ['owner', 'investor']
-    .map((role) => {
-      const m = roleMeta(role);
-      return `
-      <div class="row-item">
-        <span class="ri-emoji ${tileBg(m.color)}">${m.emoji}</span>
-        <div class="ri-mid">
-          <div class="nm">${esc(m.title)}<span class="demo-tag">демо</span></div>
-          <div class="sb">${esc(m.desc)}</div>
-        </div>
-        <button class="cta-btn plain" data-action="enter-role" data-role="${role}">Открыть</button>
-      </div>`;
-    })
-    .join('');
-
-  return `
-  <div class="lv-enter lv-narrow" style="padding-bottom:16px">
-    <div class="prof-head ink-gradient">
-      <span class="prof-ava">${u.avatar}</span>
-      <div class="min-w-0">
-        <div class="prof-name">${esc(u.name)}</div>
-        <div class="prof-phone">${esc(u.phone)}</div>
-        <div class="prof-chips">
-          <span class="glass-chip">${icon('star', 'g', 2, true)} ${u.points.toLocaleString('ru-RU')} баллов</span>
-          ${state.activeRole ? `<span class="glass-chip">${roleMeta(state.activeRole).emoji} в роли</span>` : ''}
-        </div>
-      </div>
-    </div>
-
-    <div class="quick-row">
-      <button class="quick" data-go="orders"><span class="v">${state.orders.length}</span><span class="l">Заказы</span></button>
-      <button class="quick"><span class="v">${state.favorites.length}</span><span class="l">Избранное</span></button>
-      <button class="quick" data-go="home"><span class="v">${selectors.storesRows().length}</span><span class="l">Точки рядом</span></button>
-    </div>
-
-    ${
-      favRows.length
-        ? `<section class="section"><div class="section-head"><h2>Избранное</h2></div>
-           <div class="hscroll no-scrollbar">${favRows.map(productCardHtml).join('')}</div></section>`
-        : `<div class="dash-note tone-tiffany" style="margin-top:14px">Жмите ♥ на карточке товара — он появится здесь</div>`
-    }
-
-    <div class="section-head" style="margin-top:20px"><h2>Роли</h2></div>
-    <div class="list-card">${roleRows}</div>
-
-    <div class="section-head" style="margin-top:20px"><h2>Демо-доступ</h2></div>
-    <div class="list-card">${demoRows}</div>
-
-    <div class="section-head" style="margin-top:20px"><h2>Приложение</h2></div>
-    <div class="list-card">
-      <button class="row-item install-card-btn" data-action="install-app" aria-label="Установить приложение">
-        <span class="ri-emoji ${tileBg('sand')}">📲</span>
-        <div class="ri-mid">
-          <div class="nm">Установить приложение</div>
-          <div class="sb">Иконка Лови на главном экране телефона или рабочем столе компьютера</div>
-        </div>
-        <span class="cta-btn brand-gradient">Установить</span>
-      </button>
-    </div>
-
-    <p class="dash-note tone-dim" style="margin-top:14px">Демо-режим: без авторизации. Роли сохраняются в этом браузере.</p>
-
-    <footer class="prof-legal">
-      <nav>
-        <a href="https://axiiom-ru.github.io/lovii/docs/Публичная_оферта.html" target="_blank" rel="noopener">Публичная Оферта</a>
-        <a href="https://axiiom-ru.github.io/lovii/docs/Оферта_присоединения.html" target="_blank" rel="noopener">Оферта присоединения</a>
-      </nav>
-      <p>LOVII · AXIIOM · ООО «Аксиома»<br>ИНН 7842223709 · ОГРН 1247800067690</p>
-    </footer>
-  </div>`;
+  return renderClubProfile();
 }
 
 /* ================= Экран: Заявка на роль ================= */
