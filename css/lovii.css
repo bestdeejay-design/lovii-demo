@@ -816,6 +816,9 @@ main#view { flex: 1; }
 .ns-desc { margin-top: 3px; font-size: 11.5px; color: var(--lv-dim); line-height: 1.4; }
 .ns-arrow { flex-shrink: 0; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; color: var(--lv-dim); }
 .ns-arrow svg { width: 16px; height: 16px; }
+.next-step-card.gold { border-left-color: var(--lv-gold); }
+.next-step-card.gold .ns-icon { background: var(--lv-soft-gold); }
+.next-step-card.gold:active { box-shadow: 0 1px 6px rgba(212, 168, 84, .18); }
 
 /* ---------- Быстрые действия (2×2 сетка) ---------- */
 .quick-actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 14px 16px 20px; }

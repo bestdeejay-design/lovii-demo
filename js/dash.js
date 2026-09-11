@@ -867,6 +867,7 @@ function renderAmbDash(tab) {
     </div>`;
   }
 
+  const needsHelp = Math.min(totals.reps.length, 2);
   return `
   ${head}${tabs}
   <div class="kpi-grid">
@@ -875,15 +876,40 @@ function renderAmbDash(tab) {
     ${kpiCard('Точки в структуре', String(totals.totalPoints), { tone: 'gold' })}
     ${kpiCard('GMV структуры · месяц', moneyFmt(totals.monthRevenue), { delta: 10, tone: 'pink' })}
   </div>
+  <div class="next-step-card gold" data-action="dash-tab" data-val="training" role="button" tabindex="0">
+    <span class="ns-icon">📞</span>
+    <div class="ns-body">
+      <div class="ns-title">Проведи созвон с структурой — ${needsHelp} ${needsHelp === 1 ? 'представитель нуждается' : 'представителя нуждаются'} в помощи</div>
+      <div class="ns-desc">Обзор обученности и точек ускорит рост сети</div>
+    </div>
+    <span class="ns-arrow">${icon('chev-right')}</span>
+  </div>
   <div class="section-head" style="margin-top:20px"><h2>Моя структура</h2></div>
   ${renderAmbTree(totals.reps, totals.totalPoints, totals.weekRevenue)}
   <div class="section-head" style="margin-top:20px"><h2>Топ представителей</h2></div>
   <div class="chart-card" style="margin-top:10px">${hbarsHtml(top)}</div>
   ${chartCard('Рост структуры', '6 месяцев, тыс ₽', areaChart({ data: seededSeries('amb-6m', 6, 380, 900), labels: ['апр', 'май', 'июн', 'июл', 'авг', 'сен'], tone: 'gold', height: 140 }))}
-  <div class="btn-row">
-    <button class="ghost-btn" data-action="dash-tab" data-val="reps">${icon('users')}Представители</button>
-    <button class="ghost-btn" data-action="dash-tab" data-val="training">${icon('network')}Обучение</button>
-    <button class="ghost-btn" data-action="dash-tab" data-val="chats">${icon('message')}Чаты ${unreadTotal('amb') ? `<span class="tab-unread">${unreadTotal('amb')}</span>` : ''}</button>
+  <div class="quick-actions-grid">
+    <button class="quick-action-card" data-action="dash-tab" data-val="reps">
+      <span class="qa-icon">${icon('users')}</span>
+      <span class="qa-title">Представители</span>
+      <span class="qa-desc">${totals.reps.length} ${totals.reps.length === 1 ? 'представитель в структуре' : 'представителя в структуре'}</span>
+    </button>
+    <button class="quick-action-card" data-action="dash-tab" data-val="training">
+      <span class="qa-icon">${icon('network')}</span>
+      <span class="qa-title">Обучение</span>
+      <span class="qa-desc">4 урока, 64% пройдено</span>
+    </button>
+    <button class="quick-action-card" data-action="dash-tab" data-val="income">
+      <span class="qa-icon">${icon('wallet')}</span>
+      <span class="qa-title">Доход</span>
+      <span class="qa-desc">${moneyFmt(totals.roleIncome)} в этом месяце</span>
+    </button>
+    <button class="quick-action-card" data-action="dash-tab" data-val="chats">
+      <span class="qa-icon">${icon('message')}</span>
+      <span class="qa-title">Чаты${unreadTotal('amb') ? ` <span class="qa-badge">${unreadTotal('amb')}</span>` : ''}</span>
+      <span class="qa-desc">${unreadTotal('amb') ? `${unreadTotal('amb')} непрочитанных` : 'Все прочитаны'}</span>
+    </button>
   </div>`;
 }
 
