@@ -540,6 +540,19 @@ document.addEventListener('click', (e) => {
       approveMspPoint();
       break;
 
+    case 'return-msp-point':
+      returnMspPoint();
+      break;
+
+    case 'reset-msp-demo':
+      resetMspDemo();
+      break;
+
+    case 'copy-code':
+      if (navigator.clipboard && actEl.dataset.code) navigator.clipboard.writeText(actEl.dataset.code).catch(() => {});
+      toast('Код скопирован', actEl.dataset.code || '');
+      break;
+
     case 'demo-pay':
       demoPayMsp();
       break;

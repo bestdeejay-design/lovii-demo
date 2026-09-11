@@ -1234,19 +1234,53 @@ function qrGridHtml() {
 function repMspApplicationHtml() {
   const lead = ensureMspLead();
   if (!lead) {
-    return `<div class="dash-note tone-dim">Заявок от МСП пока нет. Откройте QR-сценарий и пройдите регистрацию владельца точки.</div>`;
+    return `<div class="empty-state-card">
+      <div class="big-emoji">📭</div>
+      <h3>Очередь заявок пуста</h3>
+      <p>Покажите QR владельцу точки. После ввода ИНН и карточки точки заявка появится здесь.</p>
+      <button class="cta-btn brand-gradient" data-go="msp-signup:${repInviteCode()}">Смоделировать скан QR</button>
+    </div>`;
   }
   const p = lead.point;
+  const hasPoint = !!p;
   return `
-  <div class="list-card">
-    <div class="row-item">
-      <span class="ri-emoji ${tileBg(p && p.status !== 'pending_rep' ? 'tiffany' : 'gold')}">${p ? p.emoji : '🧾'}</span>
+  <div class="approval-card">
+    <div class="approval-head">
+      <span class="ri-emoji ${tileBg(hasPoint && p.status !== 'pending_rep' ? 'tiffany' : 'gold')}">${hasPoint ? p.emoji : '🧾'}</span>
       <div class="ri-mid">
-        <div class="nm">${p ? esc(p.name) : esc(lead.legalName)}${statusChip(p ? p.status : 'lead')}</div>
-        <div class="sb">ИНН ${esc(lead.inn)} · ${p ? esc(p.address) : 'владелец ещё заполняет карточку точки'}</div>
+        <div class="nm">${hasPoint ? esc(p.name) : 'МСП зарегистрировано'}${statusChip(hasPoint ? p.status : 'lead')}</div>
+        <div class="sb">ИНН ${esc(lead.inn)} · код ${esc(lead.repCode)}</div>
       </div>
-      ${p && p.status === 'pending_rep' ? `<button class="cta-btn brand-gradient" data-action="approve-msp-point">Апрув</button>` : `<button class="chev-btn" data-go="msp">${icon('chev-right')}</button>`}
     </div>
+    <div class="review-grid">
+      <div><span>Юрлицо</span><b>${esc(lead.legalName || 'будет уточнено в заявке')}</b></div>
+      <div><span>Канал</span><b>${esc(lead.channel || 'ещё не выбран')}</b></div>
+      <div><span>Адрес</span><b>${hasPoint ? esc(p.address) : 'точка ещё не добавлена'}</b></div>
+      <div><span>Описание</span><b>${hasPoint ? esc(p.about) : 'ждём карточку точки'}</b></div>
+    </div>
+    ${hasPoint && p.status === 'pending_rep' ? `<div class="approval-actions"><button class="cta-btn brand-gradient" data-action="approve-msp-point">Апрув: показать в каталоге</button><button class="ghost-btn" data-action="return-msp-point">Вернуть на правку</button></div>` : `<div class="approval-actions"><button class="ghost-btn" data-go="msp">Открыть экран МСП</button></div>`}
+  </div>`;
+}
+
+function mspStepsHtml(status, compact = false) {
+  const order = ['draft', 'pending_rep', 'catalog', 'payment', 'ready'];
+  const labels = {
+    draft: 'ИНН и карточка',
+    pending_rep: 'Апрув представителя',
+    catalog: 'Видна в каталоге',
+    payment: 'Платёж и возврат',
+    ready: 'Продажи включены',
+  };
+  const idx = Math.max(0, order.indexOf(status));
+  return `<div class="stepper ${compact ? 'compact' : ''}">${order.map((id, i) => `<div class="step ${i <= idx ? 'done' : ''} ${i === idx ? 'current' : ''}"><span>${i + 1}</span><b>${esc(labels[id])}</b></div>`).join('')}</div>`;
+}
+
+function trustCuesHtml() {
+  return `<div class="trust-cues">
+    <span>${icon('check-circle')}90% платежа — точке</span>
+    <span>${icon('banknote')}Т-Банк · мультирасчёты</span>
+    <span>${icon('percent')}0–10% комиссия</span>
+    <span>${icon('clock')}запуск за 3 дня</span>
   </div>`;
 }
 
@@ -1267,14 +1301,15 @@ function renderConnectScriptHtml() {
 
 function renderRepConnectDash(head, tabs) {
   const code = repInviteCode();
-  const inviteHash = '#/msp-signup/' + encodeURIComponent(code);
+  const lead = ensureMspLead();
+  const status = lead && lead.point ? lead.point.status : lead ? 'draft' : 'draft';
   return `
   ${head}${tabs}
   <div class="connect-hero ink-gradient">
     <div class="connect-copy">
       <div class="kicker">QR-подключение МСП</div>
-      <h2>Покажите код владельцу точки</h2>
-      <p>Он сканирует QR, вводит ИНН и сам подаёт заявку на добавление точки в каталог LOVII.</p>
+      <h2>Один понятный маршрут для владельца точки</h2>
+      <p>Покажите QR. Владелец вводит только ИНН, потом по шагам добавляет карточку точки, платёж и каталог товаров.</p>
       <div class="chips"><span class="glass-chip">0 ₽ старт</span><span class="glass-chip">3 дня запуск</span><span class="glass-chip">90/10 сплит</span></div>
     </div>
     <button class="qr-card" data-go="msp-signup:${code}" aria-label="Открыть регистрацию МСП">
@@ -1282,31 +1317,36 @@ function renderRepConnectDash(head, tabs) {
       <span>${esc(code)}</span>
     </button>
   </div>
+  <div class="qr-link-row">
+    <code>${esc(location.origin + location.pathname + '#/msp-signup/' + code)}</code>
+    <button class="ghost-btn sm" data-action="copy-code" data-code="${esc(code)}">${icon('download')}Код</button>
+  </div>
+  ${lead ? mspStepsHtml(status) : ''}
   <div class="btn-row">
     <button class="cta-btn brand-gradient" data-go="msp-signup:${code}">Смоделировать скан QR</button>
-    <button class="ghost-btn" data-go="msp">Экран МСП</button>
+    <button class="ghost-btn" data-action="reset-msp-demo">Сбросить сценарий</button>
   </div>
+  ${trustCuesHtml()}
   ${renderConnectScriptHtml()}
-  <div class="section-head" style="margin-top:20px"><h2>Заявка от точки</h2></div>
+  <div class="section-head" style="margin-top:20px"><h2>Очередь представителя</h2></div>
   ${repMspApplicationHtml()}
-  <div class="dash-note tone-tiffany">После апрува карточка точки сразу попадает в общий каталог района: адрес, фото, описание и расстояние в метрах. Продажи и товары включаются только после проверочного платежа и инструкции в выбранный канал.</div>`;
+  <div class="dash-note tone-tiffany">Лучший порядок для демо: представитель показывает QR → владелец вводит ИНН → добавляет карточку → представитель апрувит → точка видна в каталоге → проверочный платёж и авто-возврат → каталог товаров.</div>`;
 }
 
 function renderMspSignup(code) {
   const invite = code || repInviteCode();
   return `
   <div class="lv-enter lv-narrow" style="padding-bottom:16px">
-    <div class="apply-head tile-tiffany">
-      <span class="ah-emoji">📲</span>
-      <div class="ah-mid"><div class="kicker">QR от представителя · ${esc(invite)}</div><h1>Регистрация МСП в LOVII</h1></div>
+    <div class="msp-mobile-head ink-gradient">
+      <span class="mh-emoji">📲</span>
+      <div><div class="kicker">QR от представителя · ${esc(invite)}</div><h1>Подключение точки к LOVII</h1><p>Начинаем с одного поля — ИНН. Остальное приложение попросит по шагам.</p></div>
     </div>
     <form id="msp-signup-form" data-code="${esc(invite)}">
-      <label class="f-field"><span class="lb">ИНН юрлица или ИП</span><input name="inn" inputmode="numeric" pattern="[0-9]{10,12}" placeholder="Например, 7801234567" required></label>
-      <label class="f-field"><span class="lb">Название юрлица</span><input name="legalName" placeholder="ООО «Ржаной дом»" required></label>
-      <label class="f-field"><span class="lb">Канал для инструкции</span>
-        <select name="channel"><option>Telegram</option><option>ВКонтакте</option><option>MAX</option></select></label>
-      <div class="dash-note tone-gold" style="margin-top:14px">Это демо мобильного сценария: после ИНН откроется экран МСП с заявкой и формой добавления точки в каталог.</div>
-      <div style="padding:16px 16px 0"><button class="cta-btn brand-gradient big" type="submit">Продолжить как владелец точки</button></div>
+      <label class="f-field"><span class="lb">ИНН юрлица или ИП</span><input name="inn" inputmode="numeric" pattern="[0-9]{10,12}" placeholder="Например, 7801234567" required autofocus></label>
+      <div class="field-help">ИНН нужен, чтобы привязать заявку к юрлицу и подготовить проверочный платёж со спецкодом.</div>
+      ${trustCuesHtml()}
+      <div style="padding:16px 16px 0"><button class="cta-btn brand-gradient big" type="submit">Открыть экран МСП</button></div>
+      <div class="dash-note tone-gold" style="margin-top:14px">Демо не отправляет данные наружу. На следующем экране владелец добавит карточку точки: адрес, описание и фото.</div>
     </form>
   </div>`;
 }
@@ -1329,60 +1369,65 @@ function renderMspCabinet(tab = 'index') {
   const p = lead.point;
   const status = p ? p.status : 'draft';
   const payCode = 'LOVII-' + lead.inn.slice(-4) + '-' + lead.repCode.slice(-3);
-  const tabs = `<div class="seg dash-tabs" style="margin:14px 16px 0">
+  const tabs = `<div class="seg dash-tabs msp-tabs" style="margin:14px 16px 0">
     ${[['index','Заявка'], ['catalog','Каталог'], ['pay','Платёж'], ['help','Инструкция']].map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="msp-tab" data-val="${id}">${label}</button>`).join('')}
   </div>`;
   const head = `
   <div class="dash-head">
     <span class="dash-ava ${tileBg('tiffany')}">🏪</span>
-    <div class="dash-title"><h1>Экран МСП</h1><div class="d">${esc(lead.legalName)} · ИНН ${esc(lead.inn)}</div></div>
-    <button class="ghost-btn sm" data-go="profile">${icon('user')}Профиль</button>
+    <div class="dash-title"><h1>Экран МСП</h1><div class="d">ИНН ${esc(lead.inn)} · ${esc(lead.repCode)}</div></div>
+    <button class="ghost-btn sm" data-go="dash:connect">${icon('chev-left')}Представитель</button>
   </div>`;
 
   if (tab === 'catalog') {
     if (status !== 'ready') {
-      return `${head}${tabs}<div class="empty"><div class="big-emoji">🧺</div><h3>Товары появятся после проверки</h3><p>На первом этапе точка видна только карточкой: фото, адрес, описание и расстояние. Каталог товаров откроется после проверочного платежа.</p><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="pay">Перейти к платежу</button></div>`;
+      return `${head}${tabs}${mspStepsHtml(status)}<div class="empty-state-card"><div class="big-emoji">🧺</div><h3>Каталог товаров пока закрыт</h3><p>Сейчас точка может быть видна в каталоге только как карточка района. Товары откроются после апрува, проверочного платежа и автоматического возврата.</p><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="pay">Посмотреть следующий шаг</button></div>`;
     }
     const goods = lead.goods || [];
-    const chips = LOVII_DASH.storeGoodsSeed.slice(0, 6).map((g) => `<button class="cat-chip" data-action="add-msp-good" data-slug="${g.slug}"><span class="e">${g.emoji}</span>${esc(g.name)}</button>`).join('');
-    return `${head}${tabs}
+    const chips = LOVII_DASH.storeGoodsSeed.slice(0, 6).filter((g) => !goods.some((x) => x.slug === g.slug)).map((g) => `<button class="cat-chip" data-action="add-msp-good" data-slug="${g.slug}"><span class="e">${g.emoji}</span>${esc(g.name)}</button>`).join('');
+    return `${head}${tabs}${mspStepsHtml(status)}
     <div class="section-head" style="margin-top:20px"><h2>Каталог товаров<span class="sub"> · ${goods.length}</span></h2></div>
-    <div class="list-card">${goods.length ? goods.map((g) => `<div class="row-item"><span class="ri-emoji ${tileBg('sand')}">${g.emoji}</span><div class="ri-mid"><div class="nm">${esc(g.name)}</div><div class="sb">${priceFmt(g.price)} / ${esc(g.unit)} · остаток ${g.stock}</div></div></div>`).join('') : '<div class="empty-cat"><div class="big-emoji">🛍️</div><div class="t">Каталог пуст</div><p class="d">Добавьте первые товары по инструкции.</p></div>'}</div>
-    <div class="section-head" style="margin-top:20px"><h2>Быстро добавить в демо</h2></div><div class="cats no-scrollbar" style="padding:10px 16px 4px">${chips}</div>`;
+    <div class="list-card">${goods.length ? goods.map((g) => `<div class="row-item"><span class="ri-emoji ${tileBg('sand')}">${g.emoji}</span><div class="ri-mid"><div class="nm">${esc(g.name)}</div><div class="sb">${priceFmt(g.price)} / ${esc(g.unit)} · остаток ${g.stock}</div></div><span class="st-chip st-active">на витрине</span></div>`).join('') : '<div class="empty-cat"><div class="big-emoji">🛍️</div><div class="t">Добавьте первый товар</div><p class="d">После добавления он появится на витрине этой точки.</p></div>'}</div>
+    ${chips ? `<div class="section-head" style="margin-top:20px"><h2>Быстро добавить в демо</h2></div><div class="cats no-scrollbar" style="padding:10px 16px 4px">${chips}</div>` : dashNote('Все демо-товары уже опубликованы на витрине точки.', 'tiffany')}`;
   }
 
   if (tab === 'pay') {
     const canPay = p && p.status === 'catalog';
-    return `${head}${tabs}
+    return `${head}${tabs}${mspStepsHtml(status)}
     <div class="pay-card">
       <div class="kicker">Проверочный платёж и автоматический возврат</div>
-      <h2>${canPay ? 'Подтвердите реквизиты точки' : status === 'ready' ? 'Платёж проверен' : 'Доступно после апрува представителя'}</h2>
+      <h2>${canPay ? 'Пора подтвердить реквизиты' : status === 'ready' ? 'Платёж и возврат успешны' : 'Этот шаг откроется после апрува представителя'}</h2>
       <div class="pay-row"><span>Сумма</span><b>1 ₽</b></div>
       <div class="pay-row"><span>Назначение</span><b>${esc(payCode)}</b></div>
-      <p>После получения платежа LOVII автоматически формирует возврат. Если оплата, возврат и сверка успешны — точка получает апрув для приёма оплаты через LOVII.</p>
+      <p>Назначение содержит спецкод заявки. После получения платежа LOVII автоматически формирует возврат. Если цепочка прошла успешно, точка получает доступ к приёму оплаты.</p>
       ${canPay ? `<button class="cta-btn brand-gradient big" data-action="demo-pay">Смоделировать оплату и возврат</button>` : ''}
     </div>
-    ${status === 'payment' ? dashNote('Платёж получен. В демо возврат и финальный апрув произойдут автоматически через несколько секунд.', 'gold') : ''}
-    ${status === 'ready' ? dashNote(`Готово: инструкция отправлена в ${lead.channel}. Теперь владелец авторизуется и заполняет каталог товаров.`, 'tiffany') : ''}`;
-  }
-
-  if (tab === 'help') {
-    return `${head}${tabs}
-    <div class="mentor-card ink-gradient"><div class="kicker">Ссылка-инструкция</div><div class="big">Отправлена в ${esc(lead.channel)}</div><p>Владелец проходит авторизацию, добавляет товары, цены и остатки. Каждый товар станет доступен на витрине LOVII именно в этой точке.</p></div>
-    <div class="timeline-card">
-      <div class="tl-item ${status === 'ready' ? 'done' : 'active'}"><b>Авторизация владельца</b><span>${esc(lead.channel)} · ссылка одноразовая</span></div>
-      <div class="tl-item"><b>Заполнение каталога</b><span>товары, цены, остатки, фото</span></div>
-      <div class="tl-item"><b>Публикация на витрине</b><span>товар виден в карточке точки и общем поиске</span></div>
+    <div class="checklist-card">
+      <div class="cl-row done"><b>Карточка точки</b><span>${p ? esc(p.name) : 'ещё не создана'}</span></div>
+      <div class="cl-row ${['catalog','payment','ready'].includes(status) ? 'done' : ''}"><b>Апрув представителя</b><span>точка видна в каталоге района</span></div>
+      <div class="cl-row ${status === 'ready' ? 'done' : status === 'payment' ? 'active' : ''}"><b>Платёж и возврат</b><span>проверка реквизитов и автосплитов</span></div>
+      <div class="cl-row ${status === 'ready' ? 'done' : ''}"><b>Инструкция</b><span>${status === 'ready' ? 'отправлена в ' + esc(lead.channel || 'выбранный канал') : 'придёт после проверки'}</span></div>
     </div>`;
   }
 
-  return `${head}${tabs}
+  if (tab === 'help') {
+    return `${head}${tabs}${mspStepsHtml(status)}
+    <div class="mentor-card ink-gradient"><div class="kicker">Ссылка-инструкция</div><div class="big">${status === 'ready' ? 'Отправлена в ' + esc(lead.channel || 'канал связи') : 'Откроется после платежа'}</div><p>Владелец проходит авторизацию, добавляет товары, цены и остатки. Каждый товар станет доступен на витрине LOVII именно в этой точке.</p></div>
+    <div class="script-card">
+      <div class="kicker">Что дальше</div>
+      <ol>
+        <li><b>Авторизация.</b> Откройте ссылку в ${esc(lead.channel || 'выбранном канале')}.</li>
+        <li><b>Каталог.</b> Добавьте товары, цены, остатки и фото.</li>
+        <li><b>Публикация.</b> Каждый товар будет виден на странице точки и в общем поиске LOVII.</li>
+      </ol>
+    </div>`;
+  }
+
+  return `${head}${tabs}${mspStepsHtml(status)}
   <div class="status-flow-card">
     <div class="kicker">Текущий этап</div>
     <h2>${esc(mspStatusText(status))}</h2>
-    <div class="flow-steps">
-      ${['draft','pending_rep','catalog','ready'].map((x, i) => `<span class="${(['draft','pending_rep','catalog','payment','ready'].indexOf(status) >= ['draft','pending_rep','catalog','ready'].indexOf(x)) ? 'done' : ''}">${i + 1}</span>`).join('')}
-    </div>
+    <p>${status === 'draft' ? 'Заполните только то, что нужно для появления в каталоге: юрлицо, канал связи, название, адрес, описание и фото.' : 'Система показывает, что уже сделано и какой один следующий шаг нужен сейчас.'}</p>
   </div>
   ${p ? `
     <div class="list-card">
@@ -1391,31 +1436,34 @@ function renderMspCabinet(tab = 'index') {
   ` : ''}
   ${(!p || p.status === 'draft') ? `
     <form id="msp-point-form">
+      <label class="f-field"><span class="lb">Название юрлица</span><input name="legalName" placeholder="ООО «Ржаной дом»" value="${esc(lead.legalName || '')}" required></label>
+      <label class="f-field"><span class="lb">Канал для инструкции</span><select name="channel"><option ${lead.channel === 'Telegram' ? 'selected' : ''}>Telegram</option><option ${lead.channel === 'ВКонтакте' ? 'selected' : ''}>ВКонтакте</option><option ${lead.channel === 'MAX' ? 'selected' : ''}>MAX</option></select></label>
       <label class="f-field"><span class="lb">Название точки</span><input name="name" placeholder="Пекарня «Ржаной дом»" required></label>
       <label class="f-field"><span class="lb">Адрес</span><input name="address" placeholder="ул. Рубинштейна, 12" required></label>
       <label class="f-field"><span class="lb">Описание</span><textarea name="about" placeholder="Что продаёте, почему вас любят соседи…" required></textarea></label>
       <label class="f-field"><span class="lb">Фото точки</span><input name="photo" type="file" accept="image/*"></label>
-      <div class="dash-note tone-tiffany" style="margin-top:14px">В демо фото заменяется красивой карточкой с эмодзи. Товаров на этом этапе нет — точка просто появляется в каталоге после апрува представителя.</div>
+      <div class="dash-note tone-tiffany" style="margin-top:14px">Товаров на этом этапе нет. После апрува представитель публикует только карточку точки: фото, адрес, описание и расстояние до клиента.</div>
       <div style="padding:16px 16px 0"><button class="cta-btn brand-gradient big" type="submit">Добавить в каталог</button></div>
     </form>` : ''}
-  ${status === 'pending_rep' ? dashNote('Заявка ушла представителю. Попросите его открыть вкладку «Подключение» и нажать «Апрув».', 'gold') : ''}
-  ${status === 'catalog' ? `<div class="btn-row"><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="pay">Что нужно для продаж</button><button class="ghost-btn" data-go="store:${p.slug}">Посмотреть в каталоге</button></div>` : ''}
-  ${status === 'ready' ? `<div class="btn-row"><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="catalog">Заполнить каталог</button><button class="ghost-btn" data-go="store:${p.slug}">Витрина точки</button></div>` : ''}`;
+  ${status === 'pending_rep' ? dashNote('Заявка ушла представителю. В демо откройте кабинет представителя → «Подключение» → «Апрув».', 'gold') : ''}
+  ${status === 'catalog' ? `<div class="btn-row"><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="pay">Перейти к проверочному платежу</button><button class="ghost-btn" data-go="store:${p.slug}">Посмотреть в каталоге</button></div>` : ''}
+  ${status === 'ready' ? `<div class="btn-row"><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="catalog">Заполнить каталог товаров</button><button class="ghost-btn" data-go="store:${p.slug}">Витрина точки</button></div>` : ''}`;
 }
 
 function handleMspSignup(form) {
   const val = (name) => (form.querySelector(`[name="${name}"]`) || {}).value || '';
+  const inn = val('inn').replace(/\D/g, '');
   state.mspLead = {
     repCode: form.dataset.code || repInviteCode(),
-    inn: val('inn').trim(),
-    legalName: val('legalName').trim() || 'Моя компания',
-    channel: val('channel') || 'Telegram',
+    inn,
+    legalName: '',
+    channel: 'Telegram',
     createdAt: Date.now(),
     point: null,
     goods: [],
   };
   persist();
-  toast('ИНН принят', 'Открываем мобильный экран МСП');
+  toast('ИНН принят', 'Открываем экран МСП с заявкой');
   go('msp', 'index');
 }
 
@@ -1423,6 +1471,8 @@ function handleMspPoint(form) {
   const lead = ensureMspLead();
   if (!lead) return;
   const val = (name) => (form.querySelector(`[name="${name}"]`) || {}).value || '';
+  lead.legalName = val('legalName').trim() || lead.legalName || 'Моя компания';
+  lead.channel = val('channel') || lead.channel || 'Telegram';
   lead.point = {
     slug: 'msp-' + lead.inn.slice(-4),
     name: val('name').trim() || 'Новая точка',
@@ -1438,6 +1488,22 @@ function handleMspPoint(form) {
   persist();
   toast('Заявка отправлена представителю', 'После апрува точка появится в каталоге');
   renderView();
+}
+
+function resetMspDemo() {
+  state.mspLead = null;
+  persist();
+  toast('Сценарий сброшен', 'Можно заново пройти QR-подключение');
+  renderView();
+}
+
+function returnMspPoint() {
+  const lead = ensureMspLead();
+  if (!lead || !lead.point || lead.point.status !== 'pending_rep') return;
+  lead.point.status = 'draft';
+  persist();
+  toast('Заявка возвращена', 'Владелец может поправить карточку точки');
+  renderViewPreserveScroll();
 }
 
 function approveMspPoint() {
