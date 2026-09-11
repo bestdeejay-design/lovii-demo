@@ -806,3 +806,23 @@ main#view { flex: 1; }
   .step { flex: 0 0 106px; }
   .qr-link-row { align-items: stretch; flex-direction: column; }
 }
+
+/* ---------- Следующий шаг (контекстуальная карточка) ---------- */
+.next-step-card { display: flex; align-items: center; gap: 12px; margin: 12px 16px 0; padding: 14px; background: var(--lv-card); border: 1px solid var(--lv-line); border-left: 3px solid var(--lv-tiffany); border-radius: 16px; box-shadow: 0 1px 3px rgba(26, 26, 26, .06); cursor: pointer; transition: transform .15s, box-shadow .15s; }
+.next-step-card:active { transform: scale(.98); box-shadow: 0 1px 6px rgba(10, 186, 181, .18); }
+.ns-icon { flex-shrink: 0; width: 38px; height: 38px; border-radius: 12px; background: var(--lv-soft-tiffany); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.ns-body { flex: 1; min-width: 0; }
+.ns-title { font-size: 13.5px; font-weight: 800; color: var(--lv-ink); line-height: 1.35; }
+.ns-desc { margin-top: 3px; font-size: 11.5px; color: var(--lv-dim); line-height: 1.4; }
+.ns-arrow { flex-shrink: 0; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; color: var(--lv-dim); }
+.ns-arrow svg { width: 16px; height: 16px; }
+
+/* ---------- Быстрые действия (2×2 сетка) ---------- */
+.quick-actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 14px 16px 20px; }
+.quick-action-card { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 14px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: 0 1px 3px rgba(26, 26, 26, .06); text-align: left; cursor: pointer; transition: transform .15s, box-shadow .15s, border-color .2s; }
+.quick-action-card:active { transform: scale(.97); box-shadow: 0 1px 6px rgba(26, 26, 26, .1); border-color: var(--lv-pink); }
+.qa-icon { width: 34px; height: 34px; border-radius: 10px; background: var(--lv-surface); display: flex; align-items: center; justify-content: center; color: var(--lv-pink); }
+.qa-icon svg { width: 17px; height: 17px; }
+.qa-title { font-size: 13px; font-weight: 800; color: var(--lv-ink); display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+.qa-badge { min-width: 17px; height: 17px; padding: 0 5px; border-radius: 999px; background-image: linear-gradient(135deg, #f64a8a, #c92a6a); color: #fff; font-size: 10px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
+.qa-desc { font-size: 11.5px; color: var(--lv-dim); line-height: 1.35; }

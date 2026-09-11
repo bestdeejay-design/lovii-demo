@@ -679,6 +679,8 @@ function renderRepDash(tab) {
     </div>`;
   }
 
+  const pendingCount = totals.pts.filter((x) => x.status !== 'active').length;
+  const toMayor = Math.max(0, 30 - totals.activePts.length);
   return `
   ${head}${tabs}
   ${rankCardHtml(rank, 'tiffany')}
@@ -688,14 +690,38 @@ function renderRepDash(tab) {
     ${kpiCard('Конверсия заказов', totals.conv.toFixed(1) + '%', { delta: 0.8, tone: 'gold' })}
     ${kpiCard('GMV сети · месяц', moneyFmt(totals.monthRevenue), { delta: 9, tone: 'pink' })}
   </div>
+  <div class="next-step-card" data-action="dash-tab" data-val="connect" role="button" tabindex="0">
+    <span class="ns-icon">${pendingCount > 0 ? '🔔' : '🚀'}</span>
+    <div class="ns-body">
+      <div class="ns-title">${pendingCount > 0 ? `${pendingCount} ${pendingCount === 1 ? 'заявка' : 'заявки'} в очереди — апрувь их сейчас` : `Покажи QR ещё ${toMayor} ${toMayor === 1 ? 'точке' : 'точкам'} до статуса «Мэр»`}</div>
+      <div class="ns-desc">${pendingCount > 0 ? 'Подтверждение заявок ускорит рост сети' : 'Каждая подключённая точка приближает к новому статусу'}</div>
+    </div>
+    <span class="ns-arrow">${icon('chev-right')}</span>
+  </div>
   ${chartCard('Выручка точек по дням', 'неделя, ₽', barsChart({ data: seededSeries('rep-week', 7, 18000, 96000), labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'], tone: 'tiffany', height: 130 }))}
   <div class="section-head" style="margin-top:20px"><h2>Топ точек по GMV</h2></div>
   <div class="chart-card" style="margin-top:10px">${hbarsHtml(top, { emojiKey: true })}</div>
-  <div class="btn-row">
-    <button class="ghost-btn" data-action="dash-tab" data-val="connect">${icon('smartphone')}QR-подключение</button>
-    <button class="ghost-btn" data-action="dash-tab" data-val="points">${icon('store')}Точки</button>
-    <button class="ghost-btn" data-action="dash-tab" data-val="income">${icon('wallet')}Доход</button>
-    <button class="ghost-btn" data-action="dash-tab" data-val="chats">${icon('message')}Чаты ${unreadTotal('rep') ? `<span class="tab-unread">${unreadTotal('rep')}</span>` : ''}</button>
+  <div class="quick-actions-grid">
+    <button class="quick-action-card" data-action="dash-tab" data-val="connect">
+      <span class="qa-icon">${icon('smartphone')}</span>
+      <span class="qa-title">QR-подключение</span>
+      <span class="qa-desc">Подключить новую точку</span>
+    </button>
+    <button class="quick-action-card" data-action="dash-tab" data-val="points">
+      <span class="qa-icon">${icon('store')}</span>
+      <span class="qa-title">Точки</span>
+      <span class="qa-desc">Управлять ${totals.pts.length} ${totals.pts.length === 1 ? 'точкой' : 'точками'}</span>
+    </button>
+    <button class="quick-action-card" data-action="dash-tab" data-val="income">
+      <span class="qa-icon">${icon('wallet')}</span>
+      <span class="qa-title">Доход</span>
+      <span class="qa-desc">${moneyFmt(totals.roleIncome)} в этом месяце</span>
+    </button>
+    <button class="quick-action-card" data-action="dash-tab" data-val="chats">
+      <span class="qa-icon">${icon('message')}</span>
+      <span class="qa-title">Чаты${unreadTotal('rep') ? ` <span class="qa-badge">${unreadTotal('rep')}</span>` : ''}</span>
+      <span class="qa-desc">${unreadTotal('rep') ? `${unreadTotal('rep')} непрочитанных` : 'Все прочитаны'}</span>
+    </button>
   </div>`;
 }
 
