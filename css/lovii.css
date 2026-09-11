@@ -989,3 +989,35 @@ main#view { flex: 1; }
 /* Полировка: светлая окантовка карты (сепарация на тёмном фоне) + ритм секций */
 .pay-face { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .09); }
 .pay-screen .section-head { margin-top: 22px; }
+
+/* ---------- 8. Адаптив: планшет/десктоп (≥640px) ----------
+   Двухколоночная композиция «как в веб-банке»:
+   слева карта + счёт (липкая колонка), справа история + статус.
+   На мобильном (<640px) колонки стекаются в прежнем порядке:
+   карта → счёт → история → статус. Привилегии — сеткой. */
+.pay-cols { display: block; }
+@media (min-width: 640px) {
+  .pay-cols { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: start; gap: 0 22px; padding: 0 16px; }
+  .pay-col-a, .pay-col-b { min-width: 0; }
+  /* липкая левая колонка: карта остаётся на экране при скролле истории
+     (только на достаточно высоких окнах — иначе липкая ловушка) */
+  @media (min-height: 660px) {
+    .pay-col-a { position: sticky; top: 68px; }
+  }
+  /* сбоку колонок 16px уже не нужны — паддинг несёт сетка */
+  .pay-cols .pay-stage { margin: 14px 0 0; }
+  .pay-cols .section-head { padding: 0; }
+  .pay-cols .acct-card, .pay-cols .tier-card { margin-left: 0; margin-right: 0; }
+  .pay-cols .tx-tabs { padding: 0; }
+  .pay-cols .tx-list { padding: 2px 0; }
+  .pay-cols .tx-tabs .tab-btn { flex: 1; }
+  /* подсказки в узкой колонке: компактнее, чтобы не переносились */
+  .pay-cols .pay-hint { font-size: 10.5px; gap: 4px; }
+  .pay-cols .pay-hint svg { width: 12px; height: 12px; }
+  /* привилегии: сетка вместо горизонтальной ленты */
+  .pay-screen .priv-scroll { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+  .pay-screen .priv-card { width: auto; }
+}
+@media (min-width: 1024px) {
+  .pay-cols { gap: 0 28px; }
+}

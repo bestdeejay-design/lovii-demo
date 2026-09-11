@@ -243,6 +243,11 @@ function renderPayProfile() {
       <span class="pay-badge">${icon('crown', '', 2)} ${esc(tier.name)}</span>
     </div>
 
+    <!-- 2..5. Двухколоночная композиция (на ≥640px): слева карта+счёт,
+         справа история+статус. На мобильном порядок тот же — колонки стек. -->
+    <div class="pay-cols">
+    <div class="pay-col-a">
+
     <!-- 2. Карта LOVII PAY: flip по тапу, tilt по курсору -->
     <div class="pay-stage">
       <div class="pay-tilt" id="pay-tilt">
@@ -296,6 +301,9 @@ function renderPayProfile() {
       </div>
     </div>
 
+    </div><!-- /pay-col-a -->
+    <div class="pay-col-b">
+
     <!-- 4. История операций -->
     <div class="section-head"><h2>История операций</h2><span class="sub">${state.pay.tx.length} операций</span></div>
     <div class="tx-tabs no-scrollbar">${txTabs}</div>
@@ -313,6 +321,9 @@ function renderPayProfile() {
       <div class="tier-next">${nextLine}</div>
       <div class="tier-perks">${tier.perks.map((p) => `<span class="tp">${icon('check')} ${esc(p)}</span>`).join('')}</div>
     </div>
+
+    </div><!-- /pay-col-b -->
+    </div><!-- /pay-cols -->
 
     <!-- 6. Витрина привилегий -->
     <div class="section-head"><h2>Привилегии статуса</h2><a href="#" onclick="return false" style="font-size:12px;color:var(--lv-pink);font-weight:700;text-decoration:none">всё для VIP</a></div>
