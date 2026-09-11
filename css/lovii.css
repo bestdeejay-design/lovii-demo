@@ -1010,15 +1010,21 @@ main#view { flex: 1; }
   @media (min-height: 660px) {
     .pay-col-a { position: sticky; top: 68px; }
   }
-  /* сбоку колонок 16px уже не нужны — паддинг несёт сетка */
+  /* сбоку колонок 16px уже не нужны — паддинг несёт сетка;
+     карточки колонок выравниваем по кромкам колонки (без мобильных margin) */
   .pay-cols .pay-stage { margin: 14px 0 0; }
   .pay-cols .section-head { padding: 0; }
-  .pay-cols .acct-card, .pay-cols .tier-card { margin-left: 0; margin-right: 0; }
-  .pay-cols .tx-tabs { padding: 0; }
+  .pay-cols .acct-card, .pay-cols .tier-card, .pay-cols .tx-list { margin-left: 0; margin-right: 0; }
+  /* первый заголовок правой колонки — по верхней кромке карты левой */
+  .pay-cols .pay-col-b > .section-head:first-child { margin-top: 14px; }
+  .pay-cols .tx-tabs { padding: 0; gap: 4px; }
   .pay-cols .tx-list { padding: 2px 0; }
-  .pay-cols .tx-tabs .tab-btn { flex: 1; }
-  /* подсказки в узкой колонке: компактнее, чтобы не переносились */
-  .pay-cols .pay-hint { font-size: 10.5px; gap: 4px; }
+  /* табы в узкой колонке: равные, но в одну строку — без обрезки «Списания» */
+  .pay-cols .tx-tabs .tab-btn { flex: 1; white-space: nowrap; padding: 7px 8px; font-size: 11.5px; }
+  /* подсказки в узкой колонке: компактнее; каждая — одной строкой,
+     переносятся целиком (без лесенки внутри подписи) */
+  .pay-cols .pay-hints { flex-wrap: wrap; row-gap: 4px; }
+  .pay-cols .pay-hint { font-size: 10.5px; gap: 4px; white-space: nowrap; }
   .pay-cols .pay-hint svg { width: 12px; height: 12px; }
   /* привилегии: сетка вместо горизонтальной ленты */
   .pay-screen .priv-scroll { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
