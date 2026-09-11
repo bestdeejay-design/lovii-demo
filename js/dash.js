@@ -908,26 +908,68 @@ function renderAmbDash(tab) {
 
   if (tab === 'training') {
     const lessons = [
-      ['1', 'Как объяснить ценность LOVII точке', 'Скрипт первой встречи и возражения', 100],
-      ['2', 'Запуск представителя за 7 дней', 'План: районы, лиды, CRM, первые сделки', 74],
-      ['3', 'Мотивация и контроль качества', 'Еженедельные ритуалы структуры', 48],
-      ['4', 'Финмодель и статусы', 'Сплит 40/40/20, Мэр и Губернатор', 32],
+      { id: 1, emoji: '🎯', title: 'Как объяснить ценность LOVII точке', sub: 'Скрипт первой встречи и возражения', pct: 100, dur: '~15 мин' },
+      { id: 2, emoji: '🚀', title: 'Запуск представителя за 7 дней', sub: 'План: районы, лиды, CRM, первые сделки', pct: 74, dur: '~25 мин' },
+      { id: 3, emoji: '💡', title: 'Мотивация и контроль качества', sub: 'Еженедельные ритуалы структуры', pct: 48, dur: '~20 мин' },
+      { id: 4, emoji: '📊', title: 'Финмодель и статусы', sub: 'Сплит 40/40/20, Мэр и Губернатор', pct: 32, dur: '~18 мин' },
     ];
+    const doneCount = lessons.filter(l => l.pct === 100).length;
+    const totalLessons = lessons.length;
+    const overallPct = Math.round(lessons.reduce((s, l) => s + l.pct, 0) / totalLessons);
+    const statusLabel = (p) => p === 100 ? 'Пройдено' : p > 0 ? 'В процессе' : 'Начать';
+    const statusCls = (p) => p === 100 ? 'done' : p > 0 ? 'active' : 'pending';
     return `
     ${head}${tabs}
     <div class="mentor-card ink-gradient">
       <div class="kicker">Обучающий трек амбасадора</div>
-      <div class="big">Запускайте представителей быстрее</div>
-      <p>Материалы помогают обучать, мотивировать и контролировать качество подключения точек.</p>
+      <div class="big">Осваивайте инструменты и запускайте точку</div>
+      <p>Проходите уроки, применяйте скрипты и шаблоны — каждый шаг приближает вас к первому подключению.</p>
     </div>
-    <div class="section-head" style="margin-top:20px"><h2>Материалы</h2></div>
+    <div class="progress-summary-card">
+      <div class="ps-ring">
+        <svg viewBox="0 0 56 56" class="progress-ring-svg">
+          <circle cx="28" cy="28" r="24" fill="none" stroke="var(--lv-surface)" stroke-width="5"/>
+          <circle cx="28" cy="28" r="24" fill="none" stroke="url(#pgGrad)" stroke-width="5" stroke-linecap="round" stroke-dasharray="${overallPct * 1.508} 150.8" transform="rotate(-90 28 28)"/>
+          <defs><linearGradient id="pgGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0abab5"/><stop offset="100%" stop-color="#f64a8a"/></linearGradient></defs>
+        </svg>
+        <span class="ps-pct">${overallPct}%</span>
+      </div>
+      <div class="ps-body">
+        <div class="ps-title">Пройдено ${doneCount} из ${totalLessons} уроков</div>
+        <div class="ps-sub">${overallPct}% обученности · ${lessons.filter(l => l.pct > 0 && l.pct < 100).length} в процессе</div>
+        <div class="progress" style="margin-top:10px"><span style="width:${overallPct}%"></span></div>
+      </div>
+    </div>
+    <div class="section-head" style="margin-top:20px"><h2>Уроки</h2></div>
     <div class="list-card">
       ${lessons.map((l) => `
-      <div class="row-item">
-        <span class="ri-emoji ${tileBg('gold')}">📚</span>
-        <div class="ri-mid"><div class="nm">${esc(l[1])}</div><div class="sb">Урок ${l[0]} · ${esc(l[2])}</div><div class="mini-progress"><span style="width:${l[3]}%"></span></div></div>
-        <span class="cta-btn plain">${l[3] === 100 ? 'Пройдено' : l[3] + '%'}</span>
+      <div class="row-item lesson-row">
+        <span class="ri-emoji ${tileBg('gold')}">${l.emoji}</span>
+        <div class="ri-mid">
+          <div class="nm">${esc(l.title)}</div>
+          <div class="sb">Урок ${l.id} · ${esc(l.sub)}</div>
+          <div class="lesson-meta"><span class="lesson-dur">${l.dur}</span><div class="mini-progress"><span style="width:${l.pct}%"></span></div><span class="lesson-pct">${l.pct}%</span></div>
+        </div>
+        <span class="lesson-status ${statusCls(l.pct)}">${statusLabel(l.pct)}</span>
       </div>`).join('')}
+    </div>
+    <div class="section-head" style="margin-top:20px"><h2>Инструменты</h2></div>
+    <div class="quick-actions-grid" style="padding-top:0">
+      <div class="tool-card">
+        <span class="tc-icon ${tileBg('pink')}">📝</span>
+        <div class="tc-title">Скрипт продаж</div>
+        <div class="tc-desc">Готовый сценарий разговора с точкой, возражения и ответы</div>
+      </div>
+      <div class="tool-card">
+        <span class="tc-icon ${tileBg('tiffany')}">📋</span>
+        <div class="tc-title">Шаблоны документов</div>
+        <div class="tc-desc">Договор, акт, прайс — все бланки в одном месте</div>
+      </div>
+      <div class="tool-card">
+        <span class="tc-icon ${tileBg('gold')}">🧮</span>
+        <div class="tc-title">Калькулятор дохода</div>
+        <div class="tc-desc">Рассчитайте заработок представителя и амбасадора</div>
+      </div>
     </div>
     <div class="section-head" style="margin-top:20px"><h2>План недели</h2></div>
     <div class="timeline-card">

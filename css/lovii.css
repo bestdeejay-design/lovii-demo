@@ -829,3 +829,31 @@ main#view { flex: 1; }
 .qa-title { font-size: 13px; font-weight: 800; color: var(--lv-ink); display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
 .qa-badge { min-width: 17px; height: 17px; padding: 0 5px; border-radius: 999px; background-image: linear-gradient(135deg, #f64a8a, #c92a6a); color: #fff; font-size: 10px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
 .qa-desc { font-size: 11.5px; color: var(--lv-dim); line-height: 1.35; }
+
+/* ---------- Training tab: progress summary ---------- */
+.progress-summary-card { display: flex; align-items: center; gap: 16px; margin: 14px 16px 0; padding: 18px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 18px; box-shadow: 0 1px 3px rgba(26,26,26,.06); }
+.ps-ring { position: relative; flex-shrink: 0; width: 56px; height: 56px; }
+.progress-ring-svg { width: 56px; height: 56px; }
+.ps-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900; color: var(--lv-ink); }
+.ps-body { flex: 1; min-width: 0; }
+.ps-title { font-size: 14px; font-weight: 800; color: var(--lv-ink); }
+.ps-sub { margin-top: 2px; font-size: 11.5px; color: var(--lv-dim); line-height: 1.35; }
+
+/* ---------- Training tab: lesson meta row ---------- */
+.lesson-meta { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.lesson-meta .mini-progress { flex: 1; margin-top: 0; height: 5px; }
+.lesson-dur { flex-shrink: 0; font-size: 10.5px; font-weight: 700; color: var(--lv-dim); white-space: nowrap; }
+.lesson-pct { flex-shrink: 0; font-size: 10.5px; font-weight: 800; color: var(--lv-ink); min-width: 28px; text-align: right; }
+
+/* ---------- Training tab: status badges ---------- */
+.lesson-status { flex-shrink: 0; padding: 5px 10px; border-radius: 999px; font-size: 10.5px; font-weight: 800; white-space: nowrap; line-height: 1; }
+.lesson-status.done { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
+.lesson-status.active { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
+.lesson-status.pending { background: var(--lv-surface); color: var(--lv-dim); }
+
+/* ---------- Training tab: tool cards ---------- */
+.tool-card { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 14px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: 0 1px 3px rgba(26,26,26,.06); text-align: left; cursor: pointer; transition: transform .15s, box-shadow .15s, border-color .2s; }
+.tool-card:active { transform: scale(.97); box-shadow: 0 1px 6px rgba(26,26,26,.1); border-color: var(--lv-pink); }
+.tc-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+.tc-title { font-size: 13px; font-weight: 800; color: var(--lv-ink); }
+.tc-desc { font-size: 11.5px; color: var(--lv-dim); line-height: 1.35; }
