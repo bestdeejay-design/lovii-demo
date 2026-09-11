@@ -890,6 +890,12 @@ main#view { flex: 1; }
 .pay-chip { position: relative; width: 40px; height: 30px; border-radius: 7px; background: linear-gradient(135deg, #f3d9a4, var(--lv-gold) 60%, #b98d3e); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .35); }
 .pay-chip::before { content: ''; position: absolute; inset: 6px 8px; border: 1px solid rgba(26, 26, 26, .35); border-radius: 4px; }
 .pay-num { position: relative; margin-top: auto; margin-bottom: 14px; font-size: clamp(17px, 5.6vw, 21px); font-weight: 700; letter-spacing: .12em; font-variant-numeric: tabular-nums; color: #ffffff; text-shadow: 0 1px 2px rgba(0, 0, 0, .35); white-space: nowrap; }
+/* номер масштабируется от ШИРИНЫ КАРТЫ, а не вьюпорта: в узкой колонке
+   ≥640px (карта ~250–330px) vw-кламп обрезал номер — cqw чинит (fallback выше) */
+@supports (font-size: 1cqw) {
+  .pay-stage { container-type: inline-size; }
+  .pay-num { font-size: clamp(12px, 5.8cqw, 21px); }
+}
 .pay-bot { position: relative; display: flex; align-items: flex-end; gap: 14px; }
 .pay-bot .lbl { display: block; font-size: 8.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255, 255, 255, .55); }
 .pay-bot .val { display: block; margin-top: 2px; font-size: 12.5px; font-weight: 700; letter-spacing: .04em; color: #ffffff; }
