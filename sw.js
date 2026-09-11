@@ -8,7 +8,7 @@
      добавляются в кэш при первом запросе
    ============================================================ */
 
-const CACHE = 'lovii-v31';
+const CACHE = 'lovii-v32';
 
 const CORE = [
   './',
@@ -51,12 +51,15 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return; // шрифты Google и прочее — мимо
 
-  // Переходы по сайту: сначала сеть, при офлайне — кэш
+  // Переходы по сайту: сначала сеть, при офлайне — кэш.
+  // cache:'no-cache' — revalidate на сервере: HTML всегда свежий,
+  // даже в окне HTTP-кэша Pages (max-age=600) — иначе после деплоя
+  // до 10 минут раздаётся старая разметка и владелец «не видит разницу»
   if (req.mode === 'navigate' || (req.headers.get('accept') || '').includes('text/html')) {
     event.respondWith(
       (async () => {
         try {
-          const fresh = await fetch(req);
+          const fresh = await fetch(req, { cache: 'no-cache' });
           const cache = await caches.open(CACHE);
           cache.put('./index.html', fresh.clone());
           return fresh;
