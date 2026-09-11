@@ -9,6 +9,11 @@
 
 const ROLE_LIST = ['store', 'rep', 'amb'];
 
+/* ================= Фильтры «Мои точки» (представитель) ================= */
+let _repPtsFilter = 'all';   // 'all' | 'waiting' | 'active' | 'rejected'
+let _repPtsSearch = '';
+let _repPtsSort = 'name';    // 'name' | 'revenue' | 'status'
+
 function roleMeta(role) {
   return LOVII_DASH.roleMeta[role] || { title: role, desc: '', emoji: '✨', color: 'pink' };
 }
@@ -604,6 +609,68 @@ function codeCardHtml(title, code, desc, tone = 'pink') {
   </div>`;
 }
 
+function _repPtsFiltered(pts) {
+  let f = pts;
+  if (_repPtsFilter !== 'all') f = f.filter((x) => x.status === _repPtsFilter);
+  if (_repPtsSearch) {
+    const q = _repPtsSearch.toLowerCase();
+    f = f.filter((x) => x.name.toLowerCase().includes(q) || x.category.toLowerCase().includes(q));
+  }
+  const cmp = _repPtsSort === 'revenue'
+    ? (a, b) => b.revenueWeek - a.revenueWeek
+    : _repPtsSort === 'status'
+      ? (a, b) => a.status.localeCompare(b.status)
+      : (a, b) => a.name.localeCompare(b.name);
+  return [...f].sort(cmp);
+}
+
+function _repPtsListHtml(pts) {
+  const filtered = _repPtsFiltered(pts);
+  if (!filtered.length) return `<div class="list-card"><div style="text-align:center;padding:32px 16px;color:var(--lv-dim)"><div style="font-size:32px;margin-bottom:8px">🔍</div><div style="font-size:14px;font-weight:600">Нет точек по фильтру</div></div></div>`;
+  return `<div class="list-card">${filtered.map((x) => `
+      <div class="row-item">
+        <span class="ri-emoji ${tileBg(x.active ? 'tiffany' : 'sand')}">${x.emoji}</span>
+        <div class="ri-mid">
+          <div class="nm">${esc(x.name)}${statusChip(x.status)}</div>
+          <div class="sb">${esc(x.category)} · ${esc(x.tariff.label)}${x.walk != null ? ' · ' + icon('footprints') + ' ' + x.walk + ' мин' : ''}${x.rating ? ' · ★ ' + x.rating : ''}</div>
+        </div>
+        <div class="ri-right"><div class="v">${x.active ? moneyFmt(x.revenueWeek) : '—'}</div><span class="sb">GMV/нед.</span></div>
+        ${x.status !== 'waiting' ? `<button class="chev-btn" data-go="store:${x.slug}" aria-label="Открыть точку">${icon('chev-right')}</button>` : ''}
+      </div>`).join('')}</div>`;
+}
+
+function _repPtsChipsHtml(pts) {
+  const cnt = (s) => pts.filter((x) => x.status === s).length;
+  return [
+    ['all', 'Все', pts.length],
+    ['waiting', 'Ожидание', cnt('waiting')],
+    ['active', 'Активные', cnt('active')],
+    ['rejected', 'Отклонено', cnt('rejected')],
+  ].map(([key, label, n]) =>
+    `<button class="tab-btn ${_repPtsFilter === key ? 'active' : ''}" onclick="_repPtsFilter='${key}';_repPtsRefresh()">${label} <span class="tab-unread">${n}</span></button>`
+  ).join('');
+}
+
+function _repPtsSortHtml() {
+  return [
+    ['name', 'По названию'],
+    ['revenue', 'По доходу'],
+    ['status', 'По статусу'],
+  ].map(([key, label]) =>
+    `<button class="sort-btn ${_repPtsSort === key ? 'active' : ''}" onclick="_repPtsSort='${key}';_repPtsRefresh()">${label}</button>`
+  ).join(' ');
+}
+
+function _repPtsRefresh() {
+  const totals = repTotals();
+  const list = document.getElementById('rep-points-list');
+  const chips = document.getElementById('rep-points-chips');
+  const sort = document.getElementById('rep-points-sort');
+  if (list) list.innerHTML = _repPtsListHtml(totals.pts);
+  if (chips) chips.innerHTML = _repPtsChipsHtml(totals.pts);
+  if (sort) sort.innerHTML = _repPtsSortHtml();
+}
+
 function renderRepDash(tab) {
   const profile = state.roles.rep || {};
   const city = profile.city || state.district;
@@ -621,18 +688,12 @@ function renderRepDash(tab) {
     return `
     ${head}${tabs}
     <div class="section-head" style="margin-top:20px"><h2>Мои точки<span class="sub"> · ${totals.pts.length}</span></h2><button class="link-btn" data-go="search">${icon('search')}Найти</button></div>
-    <div class="list-card">
-      ${totals.pts.map((x) => `
-      <div class="row-item">
-        <span class="ri-emoji ${tileBg(x.active ? 'tiffany' : 'sand')}">${x.emoji}</span>
-        <div class="ri-mid">
-          <div class="nm">${esc(x.name)}${statusChip(x.status)}</div>
-          <div class="sb">${esc(x.category)} · ${esc(x.tariff.label)}${x.walk != null ? ' · ' + icon('footprints') + ' ' + x.walk + ' мин' : ''}${x.rating ? ' · ★ ' + x.rating : ''}</div>
-        </div>
-        <div class="ri-right"><div class="v">${x.active ? moneyFmt(x.revenueWeek) : '—'}</div><span class="sb">GMV/нед.</span></div>
-        ${x.status !== 'waiting' ? `<button class="chev-btn" data-go="store:${x.slug}" aria-label="Открыть точку">${icon('chev-right')}</button>` : ''}
-      </div>`).join('')}
+    <div id="rep-points-chips" class="chips-row">${_repPtsChipsHtml(totals.pts)}</div>
+    <div style="padding:8px 16px 4px">
+      <div class="search-bar">${icon('search')}<input id="rep-points-search" type="text" placeholder="Поиск по названию или категории…" value="${esc(_repPtsSearch)}" oninput="_repPtsSearch=this.value;_repPtsRefresh()"></div>
     </div>
+    <div id="rep-points-sort" style="display:flex;gap:8px;padding:8px 16px 2px;overflow-x:auto">${_repPtsSortHtml()}</div>
+    <div id="rep-points-list" style="margin-top:8px">${_repPtsListHtml(totals.pts)}</div>
     <div class="section-head" style="margin-top:20px"><h2>Воронка подключения</h2></div>
     <div class="timeline-card">
       <div class="tl-item done"><b>Лид найден</b><span>7 точек в районе подходят по категории</span></div>
