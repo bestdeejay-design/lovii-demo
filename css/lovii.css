@@ -1018,7 +1018,9 @@ main#view { flex: 1; }
   /* первый заголовок правой колонки — по верхней кромке карты левой */
   .pay-cols .pay-col-b > .section-head:first-child { margin-top: 14px; }
   .pay-cols .tx-tabs { padding: 0; gap: 4px; }
-  .pay-cols .tx-list { padding: 2px 0; }
+  /* карточка выровнена по кромкам колонки, НО внутренний отстрочник контента
+     сохраняем (как на мобильном 14px) — иначе иконки операций липнут к рамке */
+  .pay-cols .tx-list { padding: 2px 14px; }
   /* табы в узкой колонке: равные, но в одну строку — без обрезки «Списания» */
   .pay-cols .tx-tabs .tab-btn { flex: 1; white-space: nowrap; padding: 7px 8px; font-size: 11.5px; }
   /* подсказки в узкой колонке: компактнее; каждая — одной строкой,
