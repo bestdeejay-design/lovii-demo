@@ -402,7 +402,7 @@ function renderPayProfile() {
          PASS розовый · VIP чёрное золото · BUSINESS тиффани --- */
   const minis = PAY_SLIDES.map((id) => {
     const sk = seed.cardSkins.find((s) => s.id === id) || seed.cardSkins[0];
-    const short = id === 'biz' ? 'БИЗНЕС' : id.toUpperCase();
+    const short = id === 'biz' ? 'БИЗ' : id.toUpperCase(); // БИЗ: тег влезает в узкие колонки (641–800, mini ~59px) без обрезки
     return `<button type="button" class="mini-card skin-${id}${_paySlide === id ? ' active' : ''}" data-action="pay-slide" data-slide="${id}" role="tab" aria-selected="${_paySlide === id}" aria-label="Карта ${esc(sk.tag)}"><span class="mc-chip"></span><span class="mc-tag">${short}</span></button>`;
   }).join('');
 
