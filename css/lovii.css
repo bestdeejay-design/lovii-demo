@@ -885,6 +885,37 @@ main#view { flex: 1; }
 .pay-face { position: absolute; inset: 0; display: flex; flex-direction: column; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: var(--lv-r-xl); background-image: var(--lv-gradient-ink); overflow: hidden; color: #ffffff; padding: 18px 20px; }
 /* золотой блик на лицевой стороне */
 .pay-sheen { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 90% at 88% -8%, rgba(212, 168, 84, .38) 0%, rgba(212, 168, 84, .1) 34%, transparent 62%), radial-gradient(90% 70% at -6% 108%, rgba(246, 74, 138, .28) 0%, transparent 55%); }
+/* премиальные блики: пятно света следит за курсором (только pointer:fine),
+   координаты --gx/--gy в % ставит initPayCardFx (js/club.js) */
+.pay-glare { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(300px 300px at var(--gx, 70%) var(--gy, 15%), rgba(255, 255, 255, .28) 0%, rgba(255, 255, 255, .07) 40%, transparent 65%); opacity: 0; transition: opacity .25s ease; }
+.pay-tilt:hover .pay-glare { opacity: 1; }
+@media (hover: hover) {
+  .pay-tilt:hover .paycard { box-shadow: 0 24px 52px -18px rgba(26, 26, 26, .58); }
+}
+
+/* ---- Скины карт (канон владельца 2026-09-12): счёт и номер одни —
+   меняется только оформление. Класс ставится на .paycard, действует
+   на обе стороны. Подача — rgba-оверлеи поверх var(--lv-gradient-ink)
+   (прецедент §10 ДС) + токены. skin-pass наследует базовую ink-подачу. ---- */
+/* LOVII PAY — база: матовый графит, серебро (выдаётся всем при регистрации) */
+.paycard.skin-pay .pay-face { background-image: linear-gradient(135deg, rgba(255, 255, 255, .1) 0%, rgba(255, 255, 255, .04) 52%, rgba(255, 255, 255, .02) 100%), var(--lv-gradient-ink); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .14); }
+.paycard.skin-pay .pay-brand { background: linear-gradient(90deg, rgba(255, 255, 255, .95) 0%, rgba(255, 255, 255, .55) 55%, rgba(255, 255, 255, .3) 100%); -webkit-background-clip: text; background-clip: text; }
+.paycard.skin-pay .pay-chip { background: linear-gradient(135deg, rgba(255, 255, 255, .88), rgba(255, 255, 255, .5) 60%, rgba(255, 255, 255, .28)); }
+.paycard.skin-pay .pay-sheen { background: radial-gradient(120% 90% at 88% -8%, rgba(255, 255, 255, .16) 0%, rgba(255, 255, 255, .05) 34%, transparent 62%); }
+/* LOVII PASS — премиум: ink + розовое свечение бренда (по подписке Лови;
+   даёт статус представителя LOVII + вывод на карту 0% от 3 000 ₽) */
+.paycard.skin-pass .pay-face { box-shadow: inset 0 0 0 1px rgba(246, 74, 138, .28), inset 0 0 44px rgba(246, 74, 138, .1); }
+.paycard.skin-pass .pay-brand { background: linear-gradient(90deg, rgba(255, 215, 230, .95) 0%, var(--lv-pink) 55%, var(--lv-gold) 100%); -webkit-background-clip: text; background-clip: text; }
+/* LOVII VIP — чёрное золото: кромка и номер золотые (оборот от 300 000 ₽/мес) */
+.paycard.skin-vip .pay-face { background-image: linear-gradient(135deg, rgba(212, 168, 84, .32) 0%, rgba(212, 168, 84, .12) 45%, rgba(0, 0, 0, .42) 100%), var(--lv-gradient-ink); box-shadow: inset 0 0 0 1px rgba(212, 168, 84, .5), inset 0 0 44px rgba(212, 168, 84, .12); }
+.paycard.skin-vip .pay-num { color: rgba(243, 217, 164, 1); text-shadow: 0 1px 2px rgba(0, 0, 0, .55); }
+.paycard.skin-vip .pay-sheen { background: radial-gradient(120% 90% at 88% -8%, rgba(243, 217, 164, .5) 0%, rgba(212, 168, 84, .16) 34%, transparent 62%); }
+.paycard.skin-vip .pay-glare { background: radial-gradient(300px 300px at var(--gx, 70%) var(--gy, 15%), rgba(255, 232, 180, .34) 0%, rgba(255, 232, 180, .08) 40%, transparent 65%); }
+/* LOVII BUSINESS — бизнес-карта МСП: графит + тиффани (выдаётся всем МСП) */
+.paycard.skin-biz .pay-face { background-image: linear-gradient(135deg, rgba(10, 186, 181, .26) 0%, rgba(10, 186, 181, .1) 48%, rgba(0, 0, 0, .32) 100%), var(--lv-gradient-ink); box-shadow: inset 0 0 0 1px rgba(10, 186, 181, .35); }
+.paycard.skin-biz .pay-brand { background: linear-gradient(90deg, rgba(214, 255, 249, .95) 0%, var(--lv-tiffany) 55%, var(--lv-tiffany) 100%); -webkit-background-clip: text; background-clip: text; font-size: 14px; }
+.paycard.skin-biz .pay-chip { background: linear-gradient(135deg, rgba(214, 255, 249, .9), var(--lv-tiffany) 60%, rgba(7, 125, 120, 1)); }
+.paycard.skin-biz .pay-sheen { background: radial-gradient(120% 90% at 88% -8%, rgba(10, 186, 181, .3) 0%, rgba(10, 186, 181, .08) 34%, transparent 62%), radial-gradient(90% 70% at -6% 108%, rgba(255, 255, 255, .12) 0%, transparent 55%); }
 .pay-top { position: relative; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
 .pay-brand { font-size: 17px; font-weight: 800; letter-spacing: .14em; background: linear-gradient(90deg, #f3d9a4 0%, var(--lv-gold) 55%, #b98d3e 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .pay-chip { position: relative; width: 40px; height: 30px; border-radius: 7px; background: linear-gradient(135deg, #f3d9a4, var(--lv-gold) 60%, #b98d3e); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .35); }
@@ -965,6 +996,13 @@ main#view { flex: 1; }
 .tier-name svg { width: 15px; height: 15px; color: var(--lv-gold); }
 .tier-cond { padding: 3px 10px; border-radius: 999px; background: var(--lv-soft-gold); color: var(--lv-gold-text); font-size: 11px; font-weight: 800; }
 .tier-levels { display: flex; gap: 6px; }
+/* уровни — кнопки превью скина (канон «счёт один»: клик по уровню
+   показывает оформление карты, повторный возвращает свой) */
+.tier-levels .tl { border: 0; font-family: inherit; cursor: pointer; }
+.tier-levels .tl:focus-visible { outline: 2px solid var(--lv-pink); outline-offset: 2px; }
+.tl.pv { box-shadow: 0 0 0 2px var(--lv-pink); }
+.pay-skin-note { margin-top: 8px; font-size: 11px; line-height: 1.45; color: var(--lv-dim); }
+.pay-skin-note b { color: var(--lv-ink); }
 .tl { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 0; height: 30px; padding: 0 6px; border-radius: 999px; background: var(--lv-surface); font-size: 10px; font-weight: 800; letter-spacing: .02em; color: var(--lv-dim); white-space: nowrap; overflow: hidden; }
 .tl svg { width: 11px; height: 11px; flex-shrink: 0; }
 .tl.done { color: var(--lv-ink); }
