@@ -1269,3 +1269,24 @@ main#view { flex: 1; }
 .lock-confirm h2 { margin: 0; font-size: 18px; font-weight: 800; color: var(--lv-ink); }
 .lock-confirm p { margin: 0; font-size: 12.5px; line-height: 1.5; color: var(--lv-dim); text-align: center; }
 .lock-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin-top: 6px; }
+/* компакт-режим lock-screen: складные/квадратные экраны — обложки флипов (360×374, 384×388),
+   flex-половина книжки (841×390), ландшафт телефонов. Канон ДС 1.15.1 (docs/04 «Брейкпоинты»,
+   docs/12 §4): перехватчик обязан влезать целиком, без скролла; сход обычного режима — 660px,
+   как у sticky-колонок профиля (@media min-height: 660px выше). Только токены var(--lv-*). */
+@media (max-height: 659px) {
+  .lock-screen { padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); }
+  .lock-in { gap: 8px; }
+  .lock-logo img { height: 24px; }
+  .lock-name { font-size: 12px; }
+  .lock-title { font-size: 16px; }
+  .lock-sub { display: none; }
+  .pin-dots { gap: 10px; margin: 0; }
+  .pin-dot { width: 10px; height: 10px; }
+  .pin-pad { grid-template-columns: repeat(3, 60px); gap: 8px; margin-top: 0; }
+  .pin-key { height: 46px; font-size: 18px; }
+  .pin-key.aux svg { width: 20px; height: 20px; }
+  .pin-cancel { margin-top: 0; padding: 6px 16px; }
+  .lock-confirm { padding: 16px; gap: 8px; }
+  .lock-confirm h2 { font-size: 16px; }
+  .lock-confirm p { font-size: 12px; }
+}
