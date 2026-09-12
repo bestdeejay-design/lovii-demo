@@ -174,6 +174,9 @@ function payQrSvg() {
  * Карта программы: flip по тапу, tilt и блики по курсору — общие
  * обработчики. Скин задаётся классом на .paycard (skin-pay/skin-pass/
  * skin-vip/skin-biz); счёт и номер НЕ зависят от скина.
+ * Блики: .pay-glare — пятно за курсором; .pay-sweep — живой свип-луч
+ * (канон владельца 2026-09-12, прототип lv-card-shine): при hover/tap
+ * через карту за ~1.15s пробегает диагональный луч, тонирован под скин.
  */
 function payCardHtml(cfg) {
   return `
@@ -183,6 +186,7 @@ function payCardHtml(cfg) {
           <span class="pay-face pay-front">
             <span class="pay-sheen" aria-hidden="true"></span>
             <span class="pay-glare" aria-hidden="true"></span>
+            <span class="pay-sweep" aria-hidden="true"></span>
             <span class="pay-top">
               <span class="pay-brand">${esc(cfg.tag)}</span>
               <span class="pay-chip" aria-hidden="true"></span>
@@ -203,6 +207,7 @@ function payCardHtml(cfg) {
               </span>
             </span>
             <span class="pay-back-bot">${esc(cfg.backBot)}</span>
+            <span class="pay-sweep" aria-hidden="true"></span>
           </span>
         </button>
       </div>
