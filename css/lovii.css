@@ -1154,3 +1154,118 @@ main#view { flex: 1; }
 @media (min-width: 1024px) {
   .pay-cols { gap: 0 28px; }
 }
+
+/* ============================================================
+   9. Профиль SCR-PROFILE-v1 (сборка 38): карусель кошелька,
+   мини-превью карт, настройки (switch-row/seg), pin-pad/lock-screen.
+   Компоненты описаны в каноне lovii-design v1.15 (docs/12).
+   ============================================================ */
+
+/* ---------- Карусель кошелька: 4 слайда + цветные мини-превью ---------- */
+.pay-carousel {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 4px 2px 2px;
+  scrollbar-width: none;
+}
+.pay-carousel::-webkit-scrollbar { display: none; }
+.pay-slide { flex: 0 0 100%; min-width: 0; scroll-snap-align: center; }
+.pay-slide .pay-stage { margin: 0; }
+
+/* мини-превью карт (mini-card): цвет — тон скина, активная — кольцо бренда */
+.pay-minis { display: flex; gap: 10px; margin-top: 12px; }
+.mini-card {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  border: 0;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 6px;
+  transition: transform .15s, box-shadow .15s;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12);
+}
+.mini-card:active { transform: scale(.95); }
+.mini-card .mc-chip { width: 12px; height: 9px; border-radius: 3px; background: rgba(255, 255, 255, .55); box-shadow: inset 0 0 0 1px rgba(26, 26, 26, .25); flex-shrink: 0; }
+.mini-card .mc-tag { font-size: 9px; font-weight: 800; letter-spacing: .08em; white-space: nowrap; overflow: hidden; }
+/* тона скинов (упрощённые градиенты карт — канон 2026-09-12) */
+.mini-card.skin-pay { background-image: linear-gradient(150deg, #ffffff 0%, #f5f5f7 52%, #e7e7ed 100%); box-shadow: inset 0 0 0 1px rgba(26, 26, 26, .16); color: #43434b; }
+.mini-card.skin-pay .mc-chip { background: linear-gradient(135deg, #eef0f4, #c8ccd6 55%, #9aa0ac); }
+.mini-card.skin-pass { background-image: var(--lv-gradient-brand); color: #ffffff; }
+.mini-card.skin-vip { background-image: var(--lv-gradient-ink); box-shadow: inset 0 0 0 1px rgba(212, 168, 84, .6); color: #f3d9a4; }
+.mini-card.skin-vip .mc-chip { background: linear-gradient(135deg, #f3d9a4, #b98d3e); }
+.mini-card.skin-biz { background-image: var(--lv-gradient-ink); box-shadow: inset 0 0 0 1px rgba(10, 186, 181, .42); color: #9fe8e4; }
+.mini-card.skin-biz .mc-chip { background: linear-gradient(135deg, rgba(214, 255, 249, .9), rgba(7, 125, 120, 1)); }
+.mini-card.active { box-shadow: 0 0 0 2px var(--lv-card), 0 0 0 4px var(--lv-pink); }
+.mini-card:focus-visible { outline: 2px solid var(--lv-pink); outline-offset: 3px; }
+/* карусель в левой колонке ≥640px: без боковых margin */
+@media (min-width: 640px) {
+  .pay-cols .pay-carousel { margin: 0; }
+}
+
+/* ---------- Настройки: группы, switch-row, seg ---------- */
+.set-sub { margin: 14px 16px 6px; font-size: 10.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--lv-dim); }
+.pay-cols .set-sub { margin: 14px 0 6px; }
+.pay-cols .set-group-gap { height: 0; }
+.switch-row { width: 100%; border: 0; background: none; font-family: inherit; text-align: left; cursor: pointer; }
+.switch-row:disabled { cursor: default; opacity: .55; }
+.switch-row .chev { flex-shrink: 0; width: 18px; height: 18px; color: var(--lv-dim); }
+.switch-row .chev svg { width: 18px; height: 18px; }
+.sr-ico { flex-shrink: 0; width: 36px; height: 36px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+.sr-ico svg { width: 17px; height: 17px; }
+.sr-ico.t-pink { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
+.sr-ico.t-tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
+.sr-ico.t-gold { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
+/* свитч (component: switch-row) */
+.lv-switch { position: relative; flex-shrink: 0; width: 44px; height: 26px; border-radius: 999px; background: var(--lv-surface); box-shadow: inset 0 0 0 1px var(--lv-line); transition: background .2s, box-shadow .2s; }
+.lv-switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 999px; background: #ffffff; box-shadow: 0 1px 3px rgba(26, 26, 26, .3); transition: transform .2s; }
+.lv-switch.on { background-image: var(--lv-gradient-brand); box-shadow: none; }
+.lv-switch.on::after { transform: translateX(18px); }
+.lv-switch.disabled { opacity: .4; pointer-events: none; }
+/* сегмент темы (component: seg) */
+.seg-row { padding: 0 14px 12px; }
+.pay-cols .seg-row { padding: 0 14px 12px; }
+.seg { display: flex; gap: 2px; padding: 3px; border-radius: 999px; background: var(--lv-surface); }
+.seg button { flex: 1; border: 0; font-family: inherit; border-radius: 999px; padding: 7px 4px; font-size: 11px; font-weight: 700; color: var(--lv-dim); background: transparent; cursor: pointer; white-space: nowrap; transition: background .15s, color .15s; }
+.seg button.active { background: var(--lv-card); color: var(--lv-pink-dark); box-shadow: 0 1px 4px rgba(26, 26, 26, .14); }
+
+/* ---------- PIN-пэд и экран блокировки (component: pin-pad / lock-screen) ---------- */
+.lock-screen { position: fixed; inset: 0; z-index: 90; background: var(--lv-bg); display: flex; align-items: center; justify-content: center; padding: 24px 16px calc(24px + env(safe-area-inset-bottom)); overflow-y: auto; }
+.lock-screen[hidden] { display: none; }
+.lock-in { display: flex; flex-direction: column; align-items: center; gap: 14px; width: 100%; max-width: 320px; }
+.lock-logo img { display: none; height: 30px; width: auto; }
+[data-theme="dark"] .lock-logo img.i-dark { display: block; }
+[data-theme="light"] .lock-logo img.i-light { display: block; }
+.lock-name { font-size: 13px; font-weight: 700; color: var(--lv-dim); }
+.lock-title { margin: 0; font-size: 19px; font-weight: 800; color: var(--lv-ink); }
+.lock-sub { font-size: 11px; line-height: 1.45; color: var(--lv-dim); text-align: center; }
+.pin-dots { display: flex; gap: 14px; margin: 4px 0; }
+.pin-dot { width: 12px; height: 12px; border-radius: 999px; border: 1.5px solid var(--lv-dim); transition: background .15s, border-color .15s; }
+.pin-dot.on { background: var(--lv-pink); border-color: var(--lv-pink); }
+.pin-dots.err { animation: lv-pin-shake .45s ease; }
+@keyframes lv-pin-shake {
+  10%, 90% { transform: translateX(-2px); }
+  20%, 80% { transform: translateX(4px); }
+  30%, 50%, 70% { transform: translateX(-6px); }
+  40%, 60% { transform: translateX(6px); }
+}
+.pin-pad { display: grid; grid-template-columns: repeat(3, 72px); gap: 12px; justify-content: center; margin-top: 8px; }
+.pin-key { height: 56px; border: 0; border-radius: 999px; background: var(--lv-card); box-shadow: inset 0 0 0 1px var(--lv-line); font-family: inherit; font-size: 21px; font-weight: 700; color: var(--lv-ink); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform .12s, background .15s; }
+.pin-key:active { transform: scale(.93); background: var(--lv-surface); }
+.pin-key.aux { background: none; box-shadow: none; color: var(--lv-dim); }
+.pin-key.aux svg { width: 22px; height: 22px; }
+.pin-key.aux[hidden] { display: none; }
+.pin-cancel { margin-top: 6px; border: 0; background: none; font-family: inherit; font-size: 13px; font-weight: 700; color: var(--lv-pink); cursor: pointer; padding: 10px 16px; }
+/* подтверждение выхода (logout) */
+.lock-confirm { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; max-width: 320px; padding: 24px; border-radius: 24px; background: var(--lv-card); box-shadow: 0 18px 60px rgba(26, 26, 26, .25); }
+.lock-confirm h2 { margin: 0; font-size: 18px; font-weight: 800; color: var(--lv-ink); }
+.lock-confirm p { margin: 0; font-size: 12.5px; line-height: 1.5; color: var(--lv-dim); text-align: center; }
+.lock-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin-top: 6px; }

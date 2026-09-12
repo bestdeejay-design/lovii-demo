@@ -52,6 +52,19 @@ let _payTxFilter = 'all';
  */
 let _paySkinPreview = null;
 
+/**
+ * Карусель кошелька (SCR-PROFILE-v1, решение №1 от 2026-09-13):
+ * 4 слайда — PAY / PASS / VIP / BUSINESS; под каруселью цветные
+ * мини-превью (mini-card) вместо точек-навигации. По канону владельца
+ * PAY/PASS/VIP — один счёт и один номер, меняется только оформление;
+ * BUSINESS — отдельный счёт точки со своей историей. Выбор карты
+ * переключает контекстные блоки «Счёт» и «История» (карта = контекст).
+ */
+const PAY_SLIDES = ['pay', 'pass', 'vip', 'biz'];
+let _paySlide = LOVII_PAY_SEED.currentTier || 'pay';
+let _payCtx = _paySlide === 'biz' ? 'biz' : 'personal';
+let _bizTxFilter = 'all';
+
 /* ================= Скины карт (канон 2026-09-12) ================= */
 
 /** Скин личной карты: превью демо или скин текущего уровня. */
@@ -231,10 +244,14 @@ const BIZ_KIND = {
 };
 
 /** Список операций по счёту МСП (группировка по дням — как в личной истории). */
-function bizListHtml() {
+function bizListHtml(filter) {
   const rows = LOVII_PAY_SEED.biz.opsSeed
     .map((o, i) => ({ id: 'bo' + i, at: Date.now() - o.d * 864e5, ...o }))
+    .filter((o) => !filter || filter === 'all' || o.kind === filter)
     .sort((a, b) => b.at - a.at);
+  if (!rows.length) {
+    return `<div class="dash-note tone-dim">По этой категории пока нет операций</div>`;
+  }
   let html = '';
   let lastDay = '';
   rows.forEach((o) => {
@@ -260,6 +277,68 @@ function bizListHtml() {
 
 /* ================= Экран: Профиль (LOVII PAY) ================= */
 
+/** Табы истории под активный контекст (личный счёт / счёт точки). */
+function ctxTabsHtml() {
+  if (_payCtx === 'biz') {
+    return [['all', 'Все'], ['in', 'Поступления'], ['client', 'Баллы клиентов'], ['out', 'Выплаты']]
+      .map(([v, l]) => `<button class="tab-btn ${_bizTxFilter === v ? 'active' : ''}" data-action="pay-biz-tab" data-val="${v}">${l}</button>`).join('');
+  }
+  return [['all', 'Все'], ['in', 'Начисления'], ['buy', 'Покупки'], ['out', 'Списания']]
+    .map(([v, l]) => `<button class="tab-btn ${_payTxFilter === v ? 'active' : ''}" data-action="pay-tx-tab" data-val="${v}">${l}</button>`).join('');
+}
+
+/** Контекстные блоки «Счёт + История» — переключаются выбором карты в карусели. */
+function ctxBlocksHtml(seed, acc) {
+  /* баланс без знака ₽: priceFmt уже содержит ₽ — unit добавляем токеном
+     (до сборки 38 карточка счёта показывала «₽₽» — наследованный дефект) */
+  const numOnly = (n) => n.toLocaleString('ru-RU');
+  if (_payCtx === 'biz') {
+    const ops = seed.biz.opsSeed;
+    const sumKind = (k) => ops.filter((o) => o.kind === k).reduce((s, o) => s + Math.abs(o.sum), 0);
+    return `
+    <div class="section-head"><h2>Счёт LOVII BUSINESS</h2><span class="sub">${esc(seed.biz.point)}</span></div>
+    <div class="acct-card">
+      <div class="acct-main">
+        <div class="acct-balance">${numOnly(seed.biz.monthTurnover)}<span class="unit">₽</span></div>
+        <div class="acct-lbl">Оборот точки за месяц</div>
+      </div>
+      <div class="acct-stats">
+        <div class="as-b"><span class="v">${priceFmt(sumKind('in'))}</span><span class="l">Поступления</span></div>
+        <div class="as-b"><span class="v">${priceFmt(sumKind('client'))}</span><span class="l">Баллы клиентов</span></div>
+        <div class="as-b"><span class="v">${priceFmt(sumKind('out'))}</span><span class="l">Выплаты и комиссии</span></div>
+      </div>
+      <div class="acct-actions">
+        <button class="acct-btn brand" data-action="pay-biz-payout">${icon('send')} Выплата на счёт</button>
+        <button class="acct-btn ghost" data-action="pay-tx-jump">${icon('clock')} История</button>
+      </div>
+    </div>
+    <div class="section-head"><h2>История операций</h2><span class="sub">${esc(seed.biz.name)}</span></div>
+    <div class="tx-tabs no-scrollbar">${ctxTabsHtml()}</div>
+    <div class="list-card tx-list biz-list" id="tx-list">${bizListHtml(_bizTxFilter)}</div>`;
+  }
+  const tier = payTier(seed.currentTier);
+  return `
+    <div class="section-head"><h2>Счёт LOVII PAY</h2><span class="sub">${esc(tier.name)}</span></div>
+    <div class="acct-card">
+      <div class="acct-main">
+        <div class="acct-balance">${numOnly(acc.balance)}<span class="unit">₽</span></div>
+        <div class="acct-lbl">Баланс LOVII PAY · 1 балл = 1 ₽</div>
+      </div>
+      <div class="acct-stats">
+        <div class="as-b"><span class="v">${priceFmt(acc.monthEarned)}</span><span class="l">Кэшбек за месяц</span></div>
+        <div class="as-b"><span class="v">${acc.monthPurchases}</span><span class="l">Покупки за месяц</span></div>
+        <div class="as-b"><span class="v">${priceFmt(acc.withdrawnTotal)}</span><span class="l">Выведено через СБП</span></div>
+      </div>
+      <div class="acct-actions">
+        <button class="acct-btn brand" data-action="pay-withdraw">${icon('send')} ${seed.currentTier === 'pay' ? 'Вывести через СБП' : 'Вывести на карту'}</button>
+        <button class="acct-btn ghost" data-action="pay-tx-jump">${icon('clock')} История</button>
+      </div>
+    </div>
+    <div class="section-head"><h2>История операций</h2><span class="sub">${state.pay.tx.length} операций</span></div>
+    <div class="tx-tabs no-scrollbar">${ctxTabsHtml()}</div>
+    <div class="list-card tx-list" id="tx-list">${txListHtml()}</div>`;
+}
+
 function renderPayProfile() {
   ensurePay();
   const u = LOVII_DASH.user;
@@ -267,12 +346,10 @@ function renderPayProfile() {
   const acc = seed.account;
   const tier = payTier(seed.currentTier);
   const next = payNextTier(seed.currentTier);
-  const tierIdx = seed.tiers.findIndex((t) => t.id === seed.currentTier);
-  const skin = paySkin(); // скин личной карты: превью демо или по статусу
 
   /* Прогресс до следующего уровня: подписка — бинарное условие,
-     VIP — оборот по карте (порог 300 000 ₽; период — решение
-     владельца, беклог lovii_docs/canon/BACKLOG.md §6). */
+     VIP — оборот по карте (порог 300 000 ₽; период зафиксирован
+     владельцем — месяц; беклог lovii_docs/canon/BACKLOG.md §6). */
   let progress = 100;
   let nextLine = 'Максимальный уровень программы — держи его';
   if (next) {
@@ -287,16 +364,47 @@ function renderPayProfile() {
     }
   }
 
-  /* Полоска уровней: PAY → PASS → VIP — каждая кнопка показывает скин карты
-     (канон: счёт один, меняется только оформление). Текущий подсвечен. */
-  const levelsRow = seed.tiers.map((t, i) => {
-    const st = i === tierIdx ? 'cur' : i < tierIdx ? 'done' : 'lock';
-    const pv = _paySkinPreview === t.id ? ' pv' : '';
-    return `<button type="button" class="tl ${st}${pv}" data-action="pay-skin" data-skin="${t.id}" aria-label="Показать скин ${esc(t.name)}">${i <= tierIdx ? icon('check', '', 2.5) : ''}${esc(t.name)}</button>`;
+  /* --- Карусель: 4 слайда. Личные скины показывают ОДИН счёт и номер
+         (канон 2026-09-12), BUSINESS — счёт точки. --- */
+  const numPersonal = payCardNumber();
+  const slideCfg = {
+    pay: {
+      skinCls: 'skin-pay', tag: 'LOVII PAY', num: numPersonal, holder: seed.card.holder,
+      lbl: 'Счёт', val: priceFmt(acc.balance),
+      backNote: 'Оплата QR у партнёров Лови',
+      backBot: '1 балл = 1 ₽ · баллы не сгорают · счёт один — скины меняются',
+      aria: 'Карта LOVII PAY — нажмите, чтобы перевернуть',
+    },
+    pass: {
+      skinCls: 'skin-pass', tag: 'LOVII PASS', num: numPersonal, holder: seed.card.holder,
+      lbl: 'Счёт', val: priceFmt(acc.balance),
+      backNote: 'Оплата QR у партнёров Лови',
+      backBot: 'По подписке Лови · вывод на карту 0% от 3 000 ₽',
+      aria: 'Карта LOVII PASS — нажмите, чтобы перевернуть',
+    },
+    vip: {
+      skinCls: 'skin-vip', tag: 'LOVII VIP', num: numPersonal, holder: seed.card.holder,
+      lbl: 'Счёт', val: priceFmt(acc.balance),
+      backNote: 'Оплата QR у партнёров Лови',
+      backBot: 'Оборот от 300 000 ₽ в месяц · лимитированный мерч',
+      aria: 'Карта LOVII VIP — нажмите, чтобы перевернуть',
+    },
+    biz: {
+      skinCls: 'skin-biz', tag: 'LOVII BUSINESS', num: seed.biz.card.bin + ' ' + seed.biz.card.tail, holder: seed.biz.card.holder,
+      lbl: 'Оборот/мес', val: priceFmt(seed.biz.monthTurnover),
+      backNote: 'QR точки — приём оплат и баллов',
+      backBot: 'LOVII BUSINESS · выдаётся по умолчанию всем МСП',
+      aria: 'Бизнес-карта LOVII BUSINESS — нажмите, чтобы перевернуть',
+    },
+  };
+
+  /* --- Мини-превью (цветные, вместо точек-навигации): PAY серебро ·
+         PASS розовый · VIP чёрное золото · BUSINESS тиффани --- */
+  const minis = PAY_SLIDES.map((id) => {
+    const sk = seed.cardSkins.find((s) => s.id === id) || seed.cardSkins[0];
+    const short = id === 'biz' ? 'БИЗНЕС' : id.toUpperCase();
+    return `<button type="button" class="mini-card skin-${id}${_paySlide === id ? ' active' : ''}" data-action="pay-slide" data-slide="${id}" role="tab" aria-selected="${_paySlide === id}" aria-label="Карта ${esc(sk.tag)}"><span class="mc-chip"></span><span class="mc-tag">${short}</span></button>`;
   }).join('');
-  const skinNote = _paySkinPreview
-    ? `Превью скина <b>${esc(skin.tag)}</b> — счёт тот же · повторный клик по уровню вернёт твой скин`
-    : 'Счёт один — скин карты меняется со статусом · клик по уровню покажет оформление';
 
   const favRows = state.pay.mspFav.map(mspRowHtml).join('');
   const privTiles = seed.privileges.map((p) => `
@@ -341,13 +449,6 @@ function renderPayProfile() {
     })
     .join('');
 
-  const txTabs = [
-    ['all', 'Все'],
-    ['in', 'Начисления'],
-    ['buy', 'Покупки'],
-    ['out', 'Списания'],
-  ].map(([v, l]) => `<button class="tab-btn ${_payTxFilter === v ? 'active' : ''}" data-action="pay-tx-tab" data-val="${v}">${l}</button>`).join('');
-
   return `
   <div class="lv-enter lv-narrow pay-screen" style="padding-bottom:16px">
 
@@ -361,60 +462,35 @@ function renderPayProfile() {
       <span class="pay-badge">${icon('crown', '', 2)} ${esc(tier.name)}</span>
     </div>
 
-    <!-- 2..5. Двухколоночная композиция (на ≥640px): слева карта+счёт,
-         справа история+статус. На мобильном порядок тот же — колонки стек. -->
+    <!-- 2..5. Двухколоночная композиция (на ≥640px): слева кошелёк+счёт,
+         справа статус+привилегии. На мобильном порядок тот же — стек. -->
     <div class="pay-cols">
     <div class="pay-col-a">
 
-    <!-- 2. Карта LOVII PAY: скин по статусу (превью — клик по уровню
-         в статус-карте); flip по тапу, tilt и блики по курсору -->
-    ${payCardHtml({
-      skinCls: skin.cls,
-      tag: skin.tag,
-      num: payCardNumber(),
-      holder: seed.card.holder,
-      lbl: 'Счёт',
-      val: priceFmt(acc.balance),
-      backNote: 'Оплата QR у партнёров Лови',
-      backBot: '1 балл = 1 ₽ · баллы не сгорают · счёт один — скины меняются',
-      aria: 'Карта ' + skin.tag + ' — нажмите, чтобы перевернуть',
-    })}
-    <div class="pay-hints">
-      <span class="pay-hint">${icon('rotate')} Нажми — карта перевернётся</span>
-      <button class="pay-hint as-btn" data-action="pay-copy-num">${icon('copy')} Скопировать номер</button>
+    <!-- 2. Кошелёк: карусель 4 карт (канон: у клиента один счёт —
+         PAY/PASS/VIP показывают один и тот же счёт, меняется только
+         оформление; BUSINESS — счёт точки) -->
+    <div class="pay-carousel no-scrollbar" id="pay-carousel">
+      ${PAY_SLIDES.map((id) => `
+      <div class="pay-slide" data-slide="${id}">
+        ${payCardHtml(slideCfg[id])}
+        <div class="pay-hints">
+          <span class="pay-hint">${icon('rotate')} Нажми — карта перевернётся</span>
+          <button class="pay-hint as-btn" data-action="pay-copy-num" data-scope="${id === 'biz' ? 'biz' : 'personal'}">${icon('copy')} Скопировать номер</button>
+        </div>
+      </div>`).join('')}
     </div>
+    <div class="pay-minis" role="tablist" aria-label="Карты кошелька">${minis}</div>
 
-    <!-- 3. Счёт LOVII PAY -->
-    <div class="section-head"><h2>Счёт LOVII PAY</h2><span class="sub">${tier.name}</span></div>
-    <div class="acct-card">
-      <div class="acct-main">
-        <div class="acct-balance">${priceFmt(acc.balance)}<span class="unit">₽</span></div>
-        <div class="acct-lbl">Баланс LOVII PAY · 1 балл = 1 ₽</div>
-      </div>
-      <div class="acct-stats">
-        <div class="as-b"><span class="v">${priceFmt(acc.monthEarned)}</span><span class="l">Кэшбек за месяц</span></div>
-        <div class="as-b"><span class="v">${acc.monthPurchases}</span><span class="l">Покупки за месяц</span></div>
-        <div class="as-b"><span class="v">${priceFmt(acc.withdrawnTotal)}</span><span class="l">Выведено через СБП</span></div>
-      </div>
-      <div class="acct-actions">
-        <button class="acct-btn brand" data-action="pay-withdraw">${icon('send')} ${tier.id === 'pay' ? 'Вывести через СБП' : 'Вывести на карту'}</button>
-        <button class="acct-btn ghost" data-action="pay-tx-jump">${icon('clock')} История</button>
-      </div>
-    </div>
+    <!-- 3+4. Счёт и история активной карты (карта = контекст) -->
+    <div id="ctx-blocks">${ctxBlocksHtml(seed, acc)}</div>
 
     </div><!-- /pay-col-a -->
     <div class="pay-col-b">
 
-    <!-- 4. История операций -->
-    <div class="section-head"><h2>История операций</h2><span class="sub">${state.pay.tx.length} операций</span></div>
-    <div class="tx-tabs no-scrollbar">${txTabs}</div>
-    <div class="list-card tx-list" id="tx-list">${txListHtml()}</div>
-
-    <!-- 5. Статус LOVII PAY: уровни PAY → PASS → VIP -->
-    <div class="section-head"><h2>Статус LOVII PAY</h2><span class="sub">${tier.name}</span></div>
+    <!-- 5. Статус LOVII PAY + витрина привилегий -->
+    <div class="section-head"><h2>Статус LOVII PAY</h2><span class="sub">${esc(tier.name)}</span></div>
     <div class="tier-card">
-      <div class="tier-levels">${levelsRow}</div>
-      <div class="pay-skin-note">${skinNote}</div>
       <div class="tier-row">
         <span class="tier-name">${icon('crown')} ${esc(tier.name)}</span>
         <span class="tier-cond">${esc(tier.cond)}</span>
@@ -424,35 +500,13 @@ function renderPayProfile() {
       <div class="tier-perks">${tier.perks.map((p) => `<span class="tp">${icon('check')} ${esc(p)}</span>`).join('')}</div>
     </div>
 
-    <!-- 5.5 LOVII BUSINESS: карта точки МСП (канон владельца 2026-09-12:
-         выдаётся по умолчанию всем МСП, видна в профиле; у точки свой
-         счёт — все операции по нему в списке ниже) -->
-    <div class="section-head"><h2>LOVII BUSINESS</h2><span class="sub">твоя точка</span></div>
-    ${payCardHtml({
-      skinCls: 'skin-biz',
-      tag: 'LOVII BUSINESS',
-      num: seed.biz.card.bin + ' ' + seed.biz.card.tail,
-      holder: seed.biz.card.holder,
-      lbl: 'Оборот/мес',
-      val: priceFmt(seed.biz.monthTurnover),
-      backNote: 'QR точки — приём оплат и баллов',
-      backBot: 'LOVII BUSINESS · выдаётся по умолчанию всем МСП',
-      aria: 'Бизнес-карта LOVII BUSINESS — нажмите, чтобы перевернуть',
-    })}
-    <div class="pay-hints">
-      <span class="pay-hint">${icon('store')} ${esc(seed.biz.point)}</span>
-      <span class="pay-hint">${icon('rotate')} Нажми — карта перевернётся</span>
-    </div>
-    <div class="list-card tx-list biz-list">${bizListHtml()}</div>
+    <div class="section-head"><h2>Привилегии статуса</h2><a href="#" onclick="return false" style="font-size:12px;color:var(--lv-pink);font-weight:700;text-decoration:none">всё для VIP</a></div>
+    <div class="hscroll no-scrollbar priv-scroll">${privTiles}</div>
 
     </div><!-- /pay-col-b -->
     </div><!-- /pay-cols -->
 
-    <!-- 6. Витрина привилегий -->
-    <div class="section-head"><h2>Привилегии статуса</h2><a href="#" onclick="return false" style="font-size:12px;color:var(--lv-pink);font-weight:700;text-decoration:none">всё для VIP</a></div>
-    <div class="hscroll no-scrollbar priv-scroll">${privTiles}</div>
-
-    <!-- 7. Избранные МСП -->
+    <!-- 6. Избранные МСП -->
     <div class="section-head"><h2>Избранные МСП</h2><a data-go="home" style="font-size:12px;color:var(--lv-pink);font-weight:700;text-decoration:none;cursor:pointer">добавить с витрины</a></div>
     ${
       favRows
@@ -460,24 +514,16 @@ function renderPayProfile() {
         : `<div class="dash-note tone-tiffany" style="margin-top:10px">Жми ♥ на партнёре — он появится здесь</div>`
     }
 
+    <!-- 7. Настройки (SCR-PROFILE-v1): приложение · уведомления · безопасность;
+         асинхронно заполняет js/settings.js -->
+    <div id="settings-slot"></div>
+
     <!-- 8. Роли / кабинеты -->
     <div class="section-head" style="margin-top:20px"><h2>Роли</h2></div>
     <div class="list-card">${roleRows}</div>
 
     <div class="section-head" style="margin-top:20px"><h2>Демо-доступ</h2></div>
     <div class="list-card">${demoRows}</div>
-
-    <div class="section-head" style="margin-top:20px"><h2>Приложение</h2></div>
-    <div class="list-card">
-      <button class="row-item install-card-btn" data-action="install-app" aria-label="Установить приложение">
-        <span class="ri-emoji ${tileBg('sand')}">📲</span>
-        <div class="ri-mid">
-          <div class="nm">Установить приложение</div>
-          <div class="sb">Иконка Лови на главном экране телефона или рабочем столе компьютера</div>
-        </div>
-        <span class="cta-btn brand-gradient">Установить</span>
-      </button>
-    </div>
 
     <p class="dash-note tone-dim" style="margin-top:14px">Демо-режим: без авторизации. Карта и счёт сохраняются в этом браузере.${window.LOVII_BUILD ? ` · <span style="opacity:.55">${window.LOVII_BUILD}</span>` : ''}</p>
 
@@ -503,17 +549,33 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  if (a === 'pay-skin') {
-    // Превью скина личной карты (демо): клик по уровню показывает оформление;
-    // повторный клик возвращает скин текущего статуса. Счёт не меняется.
-    const s = el.dataset.skin;
-    _paySkinPreview = _paySkinPreview === s ? null : s;
-    renderViewPreserveScroll();
+  if (a === 'pay-slide') {
+    // Клик по цветному мини-превью — переход на слайд карусели кошелька
+    payGoSlide(el.dataset.slide);
+    return;
+  }
+
+  if (a === 'pay-biz-tab') {
+    // Фильтр истории счёта точки (контекст BUSINESS)
+    _bizTxFilter = el.dataset.val;
+    const list = document.getElementById('tx-list');
+    if (list) list.innerHTML = bizListHtml(_bizTxFilter);
+    document.querySelectorAll('.tx-tabs .tab-btn').forEach((b) => {
+      b.classList.toggle('active', b.dataset.val === _bizTxFilter);
+    });
+    return;
+  }
+
+  if (a === 'pay-biz-payout') {
+    toast('Демо: выплата на расчётный счёт', 'Регистрация · завтра в 10:00');
     return;
   }
 
   if (a === 'pay-copy-num') {
-    const num = payCardNumber();
+    // Скоуп важен: у личной карты и бизнес-карты разные номера
+    const num = el.dataset.scope === 'biz'
+      ? LOVII_PAY_SEED.biz.card.bin + ' ' + LOVII_PAY_SEED.biz.card.tail
+      : payCardNumber();
     if (navigator.clipboard) navigator.clipboard.writeText(num).catch(() => {});
     toast('Номер карты скопирован', num);
     return;
@@ -559,6 +621,7 @@ document.addEventListener('click', (e) => {
 /* ============ Tilt-эффект и блики карт (3D по курсору) ============ */
 
 function initPayCardFx() {
+  bindPayCarousel(); // карусель кошелька: позиция + синхронизация контекста
   const fine = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
   const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!fine || reduced) return;
@@ -588,3 +651,72 @@ function initPayCardFx() {
 // Хук после каждого рендера: существующий рендер вызывает renderView/updateChrome;
 // подписываемся на мутации вью, чтобы поднять tilt-эффект без правки app.js
 new MutationObserver(() => initPayCardFx()).observe(document.getElementById('view'), { childList: true });
+
+/* ====== Карусель кошелька: свайп, мини-превью, переключение контекста ====== */
+
+let _carouselTimer = null;
+
+/** Геометрия слайда: ширина + gap (для пересчёта индекса по scrollLeft). */
+function paySlideStep(carousel) {
+  const first = carousel.querySelector('.pay-slide');
+  const w = first ? first.getBoundingClientRect().width : carousel.clientWidth || 1;
+  const gap = parseFloat(getComputedStyle(carousel).columnGap || getComputedStyle(carousel).gap || 0) || 0;
+  return (w || 1) + gap;
+}
+
+/** Активный слайд по прокрутке (rounded scrollLeft / шаг). */
+function payCarouselIdx(carousel) {
+  const idx = Math.round(carousel.scrollLeft / paySlideStep(carousel));
+  return Math.max(0, Math.min(PAY_SLIDES.length - 1, idx));
+}
+
+function scrollToSlide(carousel, idx, smooth) {
+  const left = idx * paySlideStep(carousel);
+  if (smooth && typeof carousel.scrollTo === 'function') {
+    carousel.scrollTo({ left, behavior: 'smooth' });
+  } else {
+    carousel.scrollLeft = left;
+  }
+}
+
+function bindPayCarousel() {
+  const c = document.getElementById('pay-carousel');
+  if (!c || c.dataset.carouselBound === '1') return;
+  c.dataset.carouselBound = '1';
+  c.addEventListener('scroll', () => {
+    if (_carouselTimer) clearTimeout(_carouselTimer);
+    _carouselTimer = setTimeout(() => {
+      const id = PAY_SLIDES[payCarouselIdx(c)];
+      if (id && id !== _paySlide) {
+        _paySlide = id;
+        payApplyContext();
+      }
+    }, 90);
+  }, { passive: true });
+  // стартовая позиция — активный слайд (после раскладки)
+  requestAnimationFrame(() => {
+    const idx = PAY_SLIDES.indexOf(_paySlide);
+    if (idx > 0) scrollToSlide(c, idx, false);
+  });
+}
+
+/** Переключение контекста под активную карту + перелистывание карусели. */
+function payGoSlide(id) {
+  if (!PAY_SLIDES.includes(id) || id === _paySlide) return;
+  _paySlide = id;
+  payApplyContext();
+  const c = document.getElementById('pay-carousel');
+  if (c) scrollToSlide(c, PAY_SLIDES.indexOf(id), true);
+}
+
+/** Синхронизация мини-превью и контекстных блоков «Счёт + История». */
+function payApplyContext() {
+  _payCtx = _paySlide === 'biz' ? 'biz' : 'personal';
+  document.querySelectorAll('.pay-minis .mini-card').forEach((m) => {
+    const on = m.dataset.slide === _paySlide;
+    m.classList.toggle('active', on);
+    m.setAttribute('aria-selected', String(on));
+  });
+  const blocks = document.getElementById('ctx-blocks');
+  if (blocks) blocks.innerHTML = ctxBlocksHtml(LOVII_PAY_SEED, LOVII_PAY_SEED.account);
+}
