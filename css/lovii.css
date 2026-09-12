@@ -1166,13 +1166,15 @@ main#view { flex: 1; }
    (visible во второй оси → auto), а перспектива при флипе выносит углы карты до ~18px за плоский
    бокс; мобильная карта — самая большая (390 → 386×243, замер на 90°+tilt-max: до 41px).
    padding-block: 46px расширяет clip-box (он = padding-box), margin-block: -42px возвращает
-   прежний ритм (заголовок и мини-превью не сдвигаются). */
+   прежний ритм (заголовок и мини-превью не сдвигаются).
+   Горизонталь (фикс «карта липнет к краям», сборка 41): padding-inline 16px — карта живёт
+   в общем контент-блоке экрана (как хедер и секции, 358px на 390), НЕ full-bleed. */
 .pay-carousel {
   display: flex;
   gap: 16px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding: 46px 2px;
+  padding: 46px 16px;
   margin: -42px 0;
   scrollbar-width: none;
 }
@@ -1181,7 +1183,7 @@ main#view { flex: 1; }
 .pay-slide .pay-stage { margin: 0; }
 
 /* мини-превью карт (mini-card): цвет — тон скина, активная — кольцо бренда */
-.pay-minis { display: flex; gap: 10px; margin-top: 12px; }
+.pay-minis { display: flex; gap: 10px; margin: 12px 16px 0; }
 .mini-card {
   position: relative;
   flex: 1;
@@ -1212,9 +1214,11 @@ main#view { flex: 1; }
 .mini-card.skin-biz .mc-chip { background: linear-gradient(135deg, rgba(214, 255, 249, .9), rgba(7, 125, 120, 1)); }
 .mini-card.active { box-shadow: 0 0 0 2px var(--lv-card), 0 0 0 4px var(--lv-pink); }
 .mini-card:focus-visible { outline: 2px solid var(--lv-pink); outline-offset: 3px; }
-/* карусель в левой колонке ≥640px: тот же вертикальный запас (docs/10 §2.3) */
+/* карусель в левой колонке ≥640px: колонка уже даёт 16px по бокам (padding: 0 16px) —
+   горизонтальный запас карусели гасим, вертикальный остаётся (docs/10 §2.3) */
 @media (min-width: 640px) {
-  .pay-cols .pay-carousel { margin: -42px 0; }
+  .pay-cols .pay-carousel { margin: -42px 0; padding-inline: 0; }
+  .pay-cols .pay-minis { margin-inline: 0; }
 }
 
 /* ---------- Настройки: группы, switch-row, seg ---------- */
