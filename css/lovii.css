@@ -900,37 +900,107 @@ main#view { flex: 1; }
   .pay-tilt:hover .paycard { box-shadow: 0 24px 52px -18px rgba(26, 26, 26, .58); }
 }
 
-/* ---- Скины карт (канон владельца 2026-09-12): счёт и номер одни —
-   меняется только оформление. Класс ставится на .paycard, действует
-   на обе стороны. Подача — rgba-оверлеи поверх var(--lv-gradient-ink)
-   (прецедент §10 ДС) + токены. skin-pass наследует базовую ink-подачу. ---- */
-/* LOVII PAY — база: матовый графит, серебро (выдаётся всем при регистрации) */
-.paycard.skin-pay .pay-face { background-image: linear-gradient(135deg, rgba(255, 255, 255, .1) 0%, rgba(255, 255, 255, .04) 52%, rgba(255, 255, 255, .02) 100%), var(--lv-gradient-ink); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .14); }
-.paycard.skin-pay .pay-brand { background: linear-gradient(90deg, rgba(255, 255, 255, .95) 0%, rgba(255, 255, 255, .55) 55%, rgba(255, 255, 255, .3) 100%); -webkit-background-clip: text; background-clip: text; }
-.paycard.skin-pay .pay-chip { background: linear-gradient(135deg, rgba(255, 255, 255, .88), rgba(255, 255, 255, .5) 60%, rgba(255, 255, 255, .28)); }
-.paycard.skin-pay .pay-sheen { background: radial-gradient(120% 90% at 88% -8%, rgba(255, 255, 255, .16) 0%, rgba(255, 255, 255, .05) 34%, transparent 62%); }
-.paycard.skin-pay .pay-sweep { background: linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, .22) 48%, rgba(255, 255, 255, .07) 52%, transparent 60%); }
-/* LOVII PASS — премиум: ink + розовое свечение бренда (по подписке Лови;
-   даёт статус представителя LOVII + вывод на карту 0% от 3 000 ₽) */
-.paycard.skin-pass .pay-face { box-shadow: inset 0 0 0 1px rgba(246, 74, 138, .28), inset 0 0 44px rgba(246, 74, 138, .1); }
-.paycard.skin-pass .pay-brand { background: linear-gradient(90deg, rgba(255, 215, 230, .95) 0%, var(--lv-pink) 55%, var(--lv-gold) 100%); -webkit-background-clip: text; background-clip: text; }
-.paycard.skin-pass .pay-sweep { background: linear-gradient(115deg, transparent 42%, rgba(255, 214, 230, .26) 48%, rgba(246, 74, 138, .1) 52%, transparent 60%); }
-/* LOVII VIP — чёрное золото: кромка и номер золотые (оборот от 300 000 ₽/мес) */
-.paycard.skin-vip .pay-face { background-image: linear-gradient(135deg, rgba(212, 168, 84, .32) 0%, rgba(212, 168, 84, .12) 45%, rgba(0, 0, 0, .42) 100%), var(--lv-gradient-ink); box-shadow: inset 0 0 0 1px rgba(212, 168, 84, .5), inset 0 0 44px rgba(212, 168, 84, .12); }
+/* ---- Скины карт v2 (продуктовая доработка 2026-09-12): счёт и номер одни —
+   меняется только оформление. Каждый статус читается в ленте с одного взгляда:
+   PAY — светлое серебро (единственная светлая, база) · PASS — брендовый розовый
+   (представитель, шёлк) · VIP — чёрное золото (гильошировка + рамка) ·
+   BUSINESS — тиффани-графит (техническая сетка точки). Узор — слои
+   background-image на .pay-face, свет — .pay-sheen/.pay-glare/.pay-sweep,
+   статус-марки — .pay-mark. Канон владельца 2026-09-12 в силе. ---- */
+
+/* LOVII PAY — «серебро»: всем при регистрации. Единственная светлая карта
+   программы — физическая белая металлическая с брашированной текстурой */
+.paycard.skin-pay .pay-face {
+  color: #1a1a1a;
+  background-image:
+    repeating-linear-gradient(115deg, rgba(26, 26, 26, .026) 0 1px, transparent 1px 7px),
+    linear-gradient(160deg, rgba(26, 26, 26, .08) 0%, transparent 30%, rgba(26, 26, 26, .16) 100%),
+    linear-gradient(150deg, #ffffff 0%, #f5f5f7 52%, #e7e7ed 100%);
+  box-shadow: inset 0 0 0 1px rgba(26, 26, 26, .1), inset 0 -26px 48px -34px rgba(26, 26, 26, .3);
+}
+.paycard.skin-pay .pay-brand { background: linear-gradient(90deg, #43434b 0%, #87878f 55%, #5a5a64 100%); -webkit-background-clip: text; background-clip: text; }
+.paycard.skin-pay .pay-chip { background: linear-gradient(135deg, #eef0f4, #c8ccd6 55%, #9aa0ac); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .7); }
+.paycard.skin-pay .pay-chip::before { border-color: rgba(26, 26, 26, .28); }
+.paycard.skin-pay .pay-num { color: #212126; text-shadow: 0 1px 0 rgba(255, 255, 255, .85); }
+.paycard.skin-pay .pay-bot .lbl { color: rgba(26, 26, 26, .52); }
+.paycard.skin-pay .pay-bot .val { color: #1f1f24; }
+.paycard.skin-pay .pay-bal .val { color: #8a6a25; }
+.paycard.skin-pay .pay-sheen { background: radial-gradient(120% 90% at 88% -8%, rgba(212, 168, 84, .14) 0%, rgba(212, 168, 84, .04) 34%, transparent 60%), radial-gradient(90% 70% at -6% 108%, rgba(26, 26, 26, .07) 0%, transparent 55%); }
+.paycard.skin-pay .pay-glare { background: radial-gradient(300px 300px at var(--gx, 70%) var(--gy, 15%), rgba(212, 168, 84, .22) 0%, rgba(212, 168, 84, .05) 40%, transparent 65%); }
+.paycard.skin-pay .pay-sweep { background: linear-gradient(115deg, transparent 40%, rgba(26, 26, 26, .07) 45%, rgba(255, 255, 255, .92) 49%, rgba(255, 255, 255, .92) 51%, rgba(26, 26, 26, .07) 55%, transparent 60%); }
+/* оборот светлой карты — графитовые подписи */
+.paycard.skin-pay .pay-cvv .lbl { color: rgba(26, 26, 26, .5); }
+.paycard.skin-pay .pay-note { color: rgba(26, 26, 26, .72); }
+.paycard.skin-pay .pay-back-bot { color: rgba(26, 26, 26, .52); }
+.paycard.skin-pay .pay-qr { box-shadow: inset 0 0 0 1px rgba(26, 26, 26, .1); }
+/* LOVII PASS — «бренд»: по подписке Лови; статус представителя LOVII +
+   вывод 0% от 3 000 ₽. Полноценный розовый градиент бренда + шёлк —
+   карта, которую хочется показать в сторис */
+.paycard.skin-pass .pay-face {
+  background-image:
+    radial-gradient(130% 110% at 86% -12%, rgba(255, 255, 255, .24) 0%, rgba(255, 255, 255, 0) 46%),
+    repeating-linear-gradient(115deg, rgba(255, 255, 255, .05) 0 2px, transparent 2px 9px),
+    linear-gradient(160deg, rgba(74, 7, 40, 0) 42%, rgba(74, 7, 40, .45) 100%),
+    var(--lv-gradient-brand);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .26), inset 0 0 44px rgba(74, 7, 40, .3);
+}
+.paycard.skin-pass .pay-brand { background: linear-gradient(90deg, rgba(255, 255, 255, .98) 0%, rgba(255, 255, 255, .72) 60%, rgba(255, 215, 230, .85) 100%); -webkit-background-clip: text; background-clip: text; }
+.paycard.skin-pass .pay-chip { background: linear-gradient(135deg, #ffe9f3, #f9c2da 55%, #f09fc4); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .55); }
+.paycard.skin-pass .pay-chip::before { border-color: rgba(157, 32, 86, .4); }
+.paycard.skin-pass .pay-num { text-shadow: 0 1px 3px rgba(90, 10, 50, .5); }
+.paycard.skin-pass .pay-bot .lbl { color: rgba(255, 255, 255, .78); }
+.paycard.skin-pass .pay-bal .val { color: #f3d9a4; }
+.paycard.skin-pass .pay-sheen { background: radial-gradient(120% 90% at 88% -8%, rgba(255, 255, 255, .2) 0%, rgba(255, 255, 255, .06) 34%, transparent 60%), radial-gradient(90% 70% at -6% 108%, rgba(123, 17, 66, .42) 0%, transparent 58%); }
+.paycard.skin-pass .pay-glare { background: radial-gradient(300px 300px at var(--gx, 70%) var(--gy, 15%), rgba(255, 255, 255, .34) 0%, rgba(255, 255, 255, .08) 40%, transparent 65%); }
+.paycard.skin-pass .pay-sweep { background: linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, .42) 48%, rgba(255, 214, 230, .14) 52%, transparent 60%); }
+.paycard.skin-pass .pay-mark { color: rgba(255, 255, 255, .95); }
+/* LOVII VIP — «чёрное золото»: оборот от 300 000 ₽/мес. Глубже ink,
+   золотая гильошировка кольцами с двух углов, рамка-паспарту, кромка/номер/чип золотые */
+.paycard.skin-vip .pay-face {
+  background-image:
+    radial-gradient(120% 90% at 88% -8%, rgba(212, 168, 84, .32) 0%, rgba(212, 168, 84, .1) 34%, transparent 62%),
+    repeating-radial-gradient(circle at 112% -18%, transparent 0 10px, rgba(212, 168, 84, .06) 10px 11px),
+    repeating-radial-gradient(circle at -12% 118%, transparent 0 14px, rgba(212, 168, 84, .05) 14px 15px),
+    linear-gradient(135deg, rgba(212, 168, 84, .3) 0%, rgba(212, 168, 84, .1) 45%, rgba(0, 0, 0, .55) 100%),
+    var(--lv-gradient-ink);
+  box-shadow: inset 0 0 0 1px rgba(212, 168, 84, .6), inset 0 0 44px rgba(212, 168, 84, .14);
+}
+.paycard.skin-vip .pay-face::after { content: ''; position: absolute; inset: 9px; border: 1px solid rgba(212, 168, 84, .38); border-radius: 15px; pointer-events: none; }
 .paycard.skin-vip .pay-num { color: rgba(243, 217, 164, 1); text-shadow: 0 1px 2px rgba(0, 0, 0, .55); }
+.paycard.skin-vip .pay-bot .lbl { color: rgba(243, 217, 164, .62); }
+.paycard.skin-vip .pay-bot .val { color: #ffffff; }
+.paycard.skin-vip .pay-bal .val { color: #f3d9a4; }
 .paycard.skin-vip .pay-sheen { background: radial-gradient(120% 90% at 88% -8%, rgba(243, 217, 164, .5) 0%, rgba(212, 168, 84, .16) 34%, transparent 62%); }
 .paycard.skin-vip .pay-glare { background: radial-gradient(300px 300px at var(--gx, 70%) var(--gy, 15%), rgba(255, 232, 180, .34) 0%, rgba(255, 232, 180, .08) 40%, transparent 65%); }
-.paycard.skin-vip .pay-sweep { background: linear-gradient(115deg, transparent 42%, rgba(255, 232, 180, .3) 48%, rgba(212, 168, 84, .12) 52%, transparent 60%); }
-/* LOVII BUSINESS — бизнес-карта МСП: графит + тиффани (выдаётся всем МСП) */
-.paycard.skin-biz .pay-face { background-image: linear-gradient(135deg, rgba(10, 186, 181, .26) 0%, rgba(10, 186, 181, .1) 48%, rgba(0, 0, 0, .32) 100%), var(--lv-gradient-ink); box-shadow: inset 0 0 0 1px rgba(10, 186, 181, .35); }
+.paycard.skin-vip .pay-sweep { background: linear-gradient(115deg, transparent 42%, rgba(255, 232, 180, .38) 48%, rgba(212, 168, 84, .14) 52%, transparent 60%); }
+.paycard.skin-vip .pay-mark { color: #f3d9a4; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .5)); }
+/* LOVII BUSINESS — «точка»: по умолчанию всем МСП. Тиффани-графит +
+   техническая сетка (рабочая карта счёта точки), оборот/мес на карточке */
+.paycard.skin-biz .pay-face {
+  background-image:
+    radial-gradient(120% 90% at 88% -8%, rgba(10, 186, 181, .26) 0%, rgba(10, 186, 181, .08) 40%, transparent 62%),
+    repeating-linear-gradient(0deg, rgba(10, 186, 181, .05) 0 1px, transparent 1px 13px),
+    repeating-linear-gradient(90deg, rgba(10, 186, 181, .05) 0 1px, transparent 1px 13px),
+    linear-gradient(135deg, rgba(10, 186, 181, .24) 0%, rgba(10, 186, 181, .09) 48%, rgba(0, 0, 0, .44) 100%),
+    var(--lv-gradient-ink);
+  box-shadow: inset 0 0 0 1px rgba(10, 186, 181, .42), inset 0 0 44px rgba(10, 186, 181, .1);
+}
 .paycard.skin-biz .pay-brand { background: linear-gradient(90deg, rgba(214, 255, 249, .95) 0%, var(--lv-tiffany) 55%, var(--lv-tiffany) 100%); -webkit-background-clip: text; background-clip: text; font-size: 14px; }
 .paycard.skin-biz .pay-chip { background: linear-gradient(135deg, rgba(214, 255, 249, .9), var(--lv-tiffany) 60%, rgba(7, 125, 120, 1)); }
+.paycard.skin-biz .pay-num { color: #ecfffd; }
+.paycard.skin-biz .pay-bot .lbl { color: rgba(230, 255, 252, .62); }
+.paycard.skin-biz .pay-bal .val { color: #9fe8e4; }
 .paycard.skin-biz .pay-sheen { background: radial-gradient(120% 90% at 88% -8%, rgba(10, 186, 181, .3) 0%, rgba(10, 186, 181, .08) 34%, transparent 62%), radial-gradient(90% 70% at -6% 108%, rgba(255, 255, 255, .12) 0%, transparent 55%); }
-.paycard.skin-biz .pay-sweep { background: linear-gradient(115deg, transparent 42%, rgba(214, 255, 249, .26) 48%, rgba(10, 186, 181, .12) 52%, transparent 60%); }
+.paycard.skin-biz .pay-glare { background: radial-gradient(300px 300px at var(--gx, 70%) var(--gy, 15%), rgba(214, 255, 249, .32) 0%, rgba(214, 255, 249, .07) 40%, transparent 65%); }
+.paycard.skin-biz .pay-sweep { background: linear-gradient(115deg, transparent 42%, rgba(230, 255, 252, .34) 48%, rgba(10, 186, 181, .14) 52%, transparent 60%); }
+.paycard.skin-biz .pay-mark { color: #9fe8e4; }
 .pay-top { position: relative; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
 .pay-brand { font-size: 17px; font-weight: 800; letter-spacing: .14em; background: linear-gradient(90deg, #f3d9a4 0%, var(--lv-gold) 55%, #b98d3e 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .pay-chip { position: relative; width: 40px; height: 30px; border-radius: 7px; background: linear-gradient(135deg, #f3d9a4, var(--lv-gold) 60%, #b98d3e); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .35); }
 .pay-chip::before { content: ''; position: absolute; inset: 6px 8px; border: 1px solid rgba(26, 26, 26, .35); border-radius: 4px; }
+/* статус-марка на карте (сердце PASS / корона VIP / домик BUSINESS; PAY — без марки) */
+.pay-mark { position: relative; margin-left: auto; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 999px; }
+.pay-mark svg { width: 17px; height: 17px; }
 .pay-num { position: relative; margin-top: auto; margin-bottom: 14px; font-size: clamp(17px, 5.6vw, 21px); font-weight: 700; letter-spacing: .12em; font-variant-numeric: tabular-nums; color: #ffffff; text-shadow: 0 1px 2px rgba(0, 0, 0, .35); white-space: nowrap; }
 /* номер масштабируется от ШИРИНЫ КАРТЫ, а не вьюпорта: в узкой колонке
    ≥640px (карта ~250–330px) vw-кламп обрезал номер — cqw чинит (fallback выше) */

@@ -177,7 +177,13 @@ function payQrSvg() {
  * Блики: .pay-glare — пятно за курсором; .pay-sweep — живой свип-луч
  * (канон владельца 2026-09-12, прототип lv-card-shine): при hover/tap
  * через карту за ~1.15s пробегает диагональный луч, тонирован под скин.
+ * Статус-марка .pay-mark — иконка статуса у чипа (сторис-фактор):
+ * PAY — без марки (чистая база) · PASS — сердце · VIP — корона · BUSINESS — домик.
  */
+
+/* Иконка статуса на карте по скину (render через icon()); PAY — без марки */
+const PAY_MARKS = { 'skin-pass': 'heart', 'skin-vip': 'crown', 'skin-biz': 'building' };
+
 function payCardHtml(cfg) {
   return `
     <div class="pay-stage">
@@ -189,6 +195,7 @@ function payCardHtml(cfg) {
             <span class="pay-sweep" aria-hidden="true"></span>
             <span class="pay-top">
               <span class="pay-brand">${esc(cfg.tag)}</span>
+              ${PAY_MARKS[cfg.skinCls] ? `<span class="pay-mark">${icon(PAY_MARKS[cfg.skinCls], '', 2, true)}</span>` : ''}
               <span class="pay-chip" aria-hidden="true"></span>
             </span>
             <span class="pay-num">${esc(cfg.num)}</span>
