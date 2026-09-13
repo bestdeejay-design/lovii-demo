@@ -1734,8 +1734,10 @@ function handleMspSetupSave(form) {
   pt.about = s.about;
   pt.hours = mspScheduleSummary(s);
   syncMspStore(); persist();
-  toast('Настройки сохранены', 'Карточка точки обновлена');
-  renderViewPreserveScroll();
+  // После сохранения ведём дальше: нет товаров → «Товары», есть → «Заказы».
+  const hasGoods = (pt.goods || []).length > 0;
+  toast('Настройки сохранены', hasGoods ? 'Дальше — заказы' : 'Добавьте товары в каталог');
+  go('msp', hasGoods ? 'orders' : 'goods');
 }
 
 function handleMspGoodAdd(form) {
