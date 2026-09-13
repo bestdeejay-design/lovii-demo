@@ -1359,6 +1359,18 @@ function repMspApplicationHtml() {
    Система: PartnerApplicationStatus (draft → submitted → awaiting_rep_approval →
    invoice_issued → awaiting_payment → verifying → verified | failed | expired).
    Каждый шаг: свой статус, подсказка «что дальше» и состояние витрины. */
+const MSP_APP_ALL = [
+  { id: 'draft', label: 'ИНН и карточка', hint: 'Заполните ИНН и карточку точки — это форма заявки', storefront: 'hidden' },
+  { id: 'submitted', label: 'Заявка отправлена', hint: 'Заявка отправлена, ждём апрув представителя', storefront: 'hidden' },
+  { id: 'awaiting_rep_approval', label: 'Проверяет представитель', hint: 'Представитель проверяет карточку точки', storefront: 'hidden' },
+  { id: 'invoice_issued', label: 'Счёт выставлен', hint: 'Счёт 1 ₽, код VER-* — оплатите с расчётного счёта компании', storefront: 'teaser' },
+  { id: 'awaiting_payment', label: 'Ожидаем платёж', hint: 'Платёж 1 ₽ по коду VER-* ещё не поступил', storefront: 'teaser' },
+  { id: 'verifying', label: 'Проверяем платёж', hint: 'Платёж получен, проверяем реквизиты компании', storefront: 'teaser' },
+  { id: 'verified', label: 'Продажи включены', hint: 'Всё готово — каталог открыт, заказы идут', storefront: 'active' },
+  { id: 'failed', label: 'Заявка не прошла', hint: 'Проверка не пройдена — исправьте карточку точки и отправьте снова', storefront: 'hidden' },
+  { id: 'expired', label: 'Срок истёк', hint: 'Срок заявки истёк — создайте новую, прогресс сохранится', storefront: 'hidden' },
+];
+
 const MSP_APP_STEPS = [
   { id: 'draft', label: 'ИНН и карточка', hint: 'Заполните ИНН и карточку точки', storefront: 'hidden' },
   { id: 'submitted', label: 'Заявка отправлена', hint: 'Отправлено, ждём апрув представителя', storefront: 'hidden' },
@@ -1379,7 +1391,7 @@ function mspStepsHtml(status, compact = false) {
   if (status === 'failed' || status === 'expired') {
     return `<div class="stepper ${compact ? 'compact' : ''} error"><div class="step current"><span>!</span><b>${status === 'expired' ? 'Срок заявки истёк' : 'Заявка не прошла проверку'}</b></div></div>`;
   }
-  const idx = Math.max(0, MSP_APP_STEPS.findIndex((x) => x.id === (MSP_STATUS_STEP[status] || 'draft')));
+  const idx = Math.max(0, MSP_APP_STEPS.findIndex((x) => x.id === mspAppStatus(status)));
   return `<div class="stepper ${compact ? 'compact' : ''}">${MSP_APP_STEPS.map((x, i) => `<div class="step ${i <= idx ? 'done' : ''} ${i === idx ? 'current' : ''}"><span>${i + 1}</span><b>${esc(x.label)}</b></div>`).join('')}</div>`;
 }
 
@@ -1471,6 +1483,12 @@ function renderMspSignup(code) {
   </div>`;
 }
 
+function mspAppStatus(status) {
+  const lead = state.mspLead;
+  if (lead && lead.appStatus) return lead.appStatus;
+  return MSP_STATUS_STEP[status] || 'draft';
+}
+
 function mspStatusText(status) {
   // Подсказка «что дальше» и состояние витрины — по канонной таблице шагов заявки
   if (status === 'failed' || status === 'expired') {
@@ -1478,13 +1496,13 @@ function mspStatusText(status) {
       ? 'Срок заявки истёк — создайте новую заявку, прогресс сохранится'
       : 'Проверка не пройдена — исправьте карточку точки и отправьте снова';
   }
-  const step = MSP_APP_STEPS.find((x) => x.id === (MSP_STATUS_STEP[status] || 'draft')) || MSP_APP_STEPS[0];
+  const step = MSP_APP_ALL.find((x) => x.id === mspAppStatus(status)) || MSP_APP_ALL[0];
   return step.hint;
 }
 
 function mspStorefrontText(status) {
   if (status === 'failed' || status === 'expired') return { label: 'витрина: hidden', hint: 'точка не видна покупателям' };
-  const step = MSP_APP_STEPS.find((x) => x.id === (MSP_STATUS_STEP[status] || 'draft')) || MSP_APP_STEPS[0];
+  const step = MSP_APP_ALL.find((x) => x.id === mspAppStatus(status)) || MSP_APP_ALL[0];
   const map = { hidden: 'точка не видна покупателям', teaser: 'карточка видна, заказы закрыты', active: 'заказы открыты' };
   return { label: 'витрина: ' + step.storefront, hint: map[step.storefront] };
 }
@@ -1634,10 +1652,14 @@ function renderMspCabinet(tab = 'index') {
     <div class="kicker">Текущий этап</div>
     <h2>${esc(mspStatusText(status))}</h2>
     <p class="sf-store">${esc(mspStorefrontText(status).label)} — ${esc(mspStorefrontText(status).hint)}</p>
-    ${!['ready', 'active', 'offline', 'failed', 'expired'].includes(status) ? `<div class="btn-row">
+    <div class="btn-row">
       <button class="cta-btn brand-gradient" data-action="msp-app-next">${icon('check')}Следующий шаг</button>
       <button class="ghost-btn" data-action="msp-app-fail">${icon('x')}Отклонить заявку</button>
-    </div>` : ''}
+    </div>
+    <div class="section-head" style="margin-top:20px"><h2>Статусы заявки<span class="sub"> · ${MSP_APP_ALL.length}</span></h2></div>
+    <div class="chips">
+      ${MSP_APP_ALL.map((x) => `<button class="filter-chip ${mspAppStatus(status) === x.id ? 'on' : ''}" data-action="msp-app-set" data-val="${x.id}">${esc(x.label)}</button>`).join('')}
+    </div>
     <p>${status === 'draft' ? 'Заполните только то, что нужно для появления в каталоге: юрлицо, канал связи, название, адрес, описание и фото.' : 'Система показывает, что уже сделано и какой один следующий шаг нужен сейчас.'}</p>
   </div>
   ${p ? `

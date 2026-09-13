@@ -554,6 +554,14 @@ document.addEventListener('click', (e) => {
       break;
     }
 
+    case 'msp-app-set': {
+      const lead = ensureMspLead();
+      const v = actEl.dataset.val;
+      if (lead && v) { lead.appStatus = v; persist(); toast('Статус заявки: ' + mspStatusText(v), mspStorefrontText(v).label); }
+      renderView(true);
+      break;
+    }
+
     case 'msp-app-next': {
       const lead = ensureMspLead();
       const chain = ['draft', 'pending_rep', 'catalog', 'payment', 'ready'];
