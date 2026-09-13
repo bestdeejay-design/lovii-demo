@@ -1648,12 +1648,13 @@ function renderMspCabinet(tab = 'index') {
     </div>`;
   }
 
-  // ЭКРАН ОЧИЩЕН ПОД ЧИСТУЮ СБОРКУ (запрос владельца): шапка + вкладки, без содержимого.
+  // Блок 1 — форма заявки: поле ИНН + кнопка «Отправить» (запрос владельца 2026-09-14).
   return `${head}${tabs}
-  <div class="empty-state" data-empty-screen>
-    <h4>Экран пуст</h4>
-    <p>Собираем заново с начала.</p>
-  </div>`;
+  <form id="msp-inn-form" class="msp-apply-form">
+    <label class="f-field"><span class="lb">ИНН юрлица или ИП</span><input name="inn" inputmode="numeric" pattern="[0-9]{10,12}" placeholder="Например, 7801234567" value="${esc(lead.inn || '')}" required></label>
+    <div class="field-help">ИНН нужен, чтобы привязать заявку к юрлицу и подготовить счёт на верификацию.</div>
+    <div style="padding:16px 16px 0"><button class="cta-btn brand-gradient big" type="submit">${icon('send')}Отправить</button></div>
+  </form>`;
 }
 
 function handleMspSignup(form) {
