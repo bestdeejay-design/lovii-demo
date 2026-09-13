@@ -250,7 +250,6 @@ function renderApply(role) {
     </div>
     <form id="apply-form" data-role="${role}">
       ${fields}
-      <div class="dash-note tone-gold" style="margin:14px 16px 0">${role === 'store' ? 'Точка появится на витрине района сразу после авто-модерации (≈8 секунд в демо)' : 'Заявка одобряется автоматически — это демо'}</div>
       <div style="padding:16px 16px 0"><button class="cta-btn brand-gradient big" type="submit">Отправить заявку</button></div>
       <div style="padding:10px 16px 0"><button class="cta-btn plain big" type="button" data-action="back">Назад</button></div>
     </form>
@@ -1407,8 +1406,7 @@ function renderRepConnectDash(head, tabs) {
   ${trustCuesHtml()}
   ${renderConnectScriptHtml()}
   <div class="section-head" style="margin-top:20px"><h2>Очередь представителя</h2></div>
-  ${repMspApplicationHtml()}
-  <div class="dash-note tone-tiffany">Лучший порядок для демо: представитель показывает QR → владелец вводит ИНН → добавляет карточку → представитель апрувит → точка видна в каталоге → проверочный платёж и авто-возврат → каталог товаров.</div>`;
+  ${repMspApplicationHtml()}`;
 }
 
 function renderMspSignup(code) {
