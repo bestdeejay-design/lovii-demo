@@ -271,7 +271,8 @@ main#view { flex: 1; }
 .avail-right { flex-shrink: 0; text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
 .avail-price { font-size: 14px; font-weight: 800; }
 .out-note { font-size: 11px; color: #999; }
-.cta-btn { height: 36px; padding: 0 16px; border-radius: 999px; color: var(--lv-on-brand); font-size: 12px; font-weight: 700; transition: all .2s; display: inline-flex; align-items: center; justify-content: center; }
+.cta-btn { height: 36px; padding: 0 16px; border-radius: 999px; color: var(--lv-on-brand); font-size: 12px; font-weight: 700; transition: all .2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.cta-btn .ico, .cta-btn svg { width: 16px; height: 16px; }
 .cta-btn:hover { box-shadow: 0 12px 32px -12px rgba(201, 42, 106, .22); }
 .cta-btn:active { transform: scale(.95); }
 .cta-btn.big { height: 48px; width: 100%; font-size: 14px; }
@@ -451,8 +452,8 @@ main#view { flex: 1; }
    ============================================================ */
 
 /* ---------- Кнопки-призраки, служебные ---------- */
-.ghost-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 40px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--lv-line); background: var(--lv-card); font-size: 13px; font-weight: 700; color: var(--lv-ink); transition: all .2s; flex-shrink: 0; }
-.ghost-btn svg { width:16px; height: 15px; }
+.ghost-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 36px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--lv-line); background: var(--lv-card); font-size: 12px; font-weight: 700; color: var(--lv-ink); transition: all .2s; flex-shrink: 0; }
+.ghost-btn svg { width: 16px; height: 16px; }
 .ghost-btn.sm { height: 32px; padding: 0 12px; font-size: 12px; }
 .btn-row { display: flex; gap: 10px; padding: 16px 16px 0; flex-wrap: wrap; }
 .cta-btn.plain { background: var(--lv-surface); color: var(--lv-ink); }
