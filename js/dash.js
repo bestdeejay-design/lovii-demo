@@ -329,7 +329,7 @@ function renderStoreDash(tab) {
         : `<span class="sb">Точка видна на витрине района</span>`
     }
   </div>
-  ${p.status === 'moderation' ? dashNote('Авто-модерация в демо пройдёт через ~8 секунд — потом точка появится в витрине', 'gold') : ''}`;
+  `;
 
   if (tab === 'goods') {
     const goods = r.goods || [];
@@ -395,7 +395,7 @@ function renderStoreDash(tab) {
     ${kpiCard('Средний чек', priceFmt(st.avg), { delta: seededSeries('avg-dlt', 2, -6, 12)[1], tone: 'gold' })}
     ${kpiCard('Кэшбэк баллами', '+' + numFmt(cashback), { tone: 'gold' })}
   </div>
-  ${dashNote('Касса 54-ФЗ: подключаем к запуску — в демо выручка, заказы и чеки эмулируются', 'gold')}
+  ${dashNote('Касса 54-ФЗ подключается к запуску — чеки формируются автоматически', 'gold')}
   ${chartCard('Выручка', period === 'day' ? 'по часам, ₽' : period === 'week' ? 'по дням недели, ₽' : 'за 30 дней, ₽', barsChart({ data: st.series, labels: st.labels, tone: 'pink', height: 150 }))}
   <div class="section-head" style="margin-top:20px"><h2>Топ-5 товаров</h2></div>
   ${
@@ -511,7 +511,7 @@ function payoutRowsHtml(seed, total, roleLabel) {
 
 function revenueModelNote(role) {
   const share = role === 'rep' ? 'доля представителя по партнёрской модели' : 'доля амбасадора за обучение и мотивацию сети';
-  return dashNote(`Модель демо: тарифы МСП — «Старт» 0 ₽ и 0% до 30 000 ₽, «Базовый» 10%, «Про» 2 990 ₽/мес и 4–7%. Платёж прозрачно расщепляется: 90% точке, комиссия агенту. В кабинете показана ${share}.`, 'gold');
+  return dashNote(`Тарифы: «Старт» 0 ₽ и 0% до 30 000 ₽, «Базовый» 10%, «Про» 2 990 ₽/мес и 4–7%. Платёж расщепляется автоматически: 90% — точке. В кабинете показана ${share}.`, 'gold');
 }
 
 function codeCardHtml(title, code, desc, tone = 'pink') {
@@ -1008,7 +1008,7 @@ function renderOwnerDash(tab) {
     </div>
     <div class="fin-total"><span>Прибыль за месяц</span><span>${moneyFmt(profit)}</span></div>
     ${chartCard('Прибыль платформы по месяцам', '12 месяцев, тыс ₽', barsChart({ data: platformRevenueSeries(), labels: inv.monthLabels, tone: 'gold', height: 140 }))}
-    ${dashNote('Демо-финансы: комиссия 10% с GMV + подписка точек, выплаты представителям 4% от GMV', 'gold')}`;
+    ${dashNote('Комиссия 10% с оборота + подписка точек, выплаты представителям 4% от оборота', 'gold')}`;
   }
 
   if (tab === 'structure') {
@@ -1155,7 +1155,7 @@ function renderInvestorDash(tab) {
     <div class="chips-row no-scrollbar" style="padding-top:12px">
       ${inv.forecastGmv.map((v, i) => `<span class="tab-btn active">${['+3 мес', '+6 мес', '+9 мес'][i] || 'прогноз ' + (i + 1)}: ${numFmt(v * 1000)} ₽</span>`).join('')}
     </div>
-    ${dashNote('Демо-прогноз: экстраполяция текущего роста GMV ~11% в месяц', 'tiffany')}`;
+    ${dashNote('Прогноз: экстраполяция текущего роста оборота ~11% в месяц', 'tiffany')}`;
   }
 
   // --- Рост ---
@@ -1466,7 +1466,7 @@ function renderMspCabinet(tab = 'index') {
     return `${head}${tabs}${mspStepsHtml(status)}
     <div class="section-head" style="margin-top:20px"><h2>Каталог товаров<span class="sub"> · ${goods.length}</span></h2></div>
     <div class="list-card">${goods.length ? goods.map((g) => `<div class="row-item"><span class="ri-emoji ${tileBg('sand')}">${g.emoji}</span><div class="ri-mid"><div class="nm">${esc(g.name)}</div><div class="sb">${priceFmt(g.price)} / ${esc(g.unit)} · остаток ${g.stock}</div></div><span class="st-chip st-active">на витрине</span></div>`).join('') : '<div class="empty-cat"><div class="big-emoji">🛍️</div><div class="t">Добавьте первый товар</div><p class="d">После добавления он появится на витрине этой точки.</p></div>'}</div>
-    ${chips ? `<div class="section-head" style="margin-top:20px"><h2>Быстро добавить в демо</h2></div><div class="cats no-scrollbar" style="padding:10px 16px 4px">${chips}</div>` : dashNote('Все демо-товары уже опубликованы на витрине точки.', 'tiffany')}`;
+    ${chips ? `<div class="section-head" style="margin-top:20px"><h2>Добавить товары</h2></div><div class="cats no-scrollbar" style="padding:10px 16px 4px">${chips}</div>` : dashNote('Все товары уже опубликованы на витрине точки.', 'tiffany')}`;
   }
 
   if (tab === 'pay') {
@@ -1523,7 +1523,7 @@ function renderMspCabinet(tab = 'index') {
       <div class="dash-note tone-tiffany" style="margin-top:14px">Товаров на этом этапе нет. После апрува представитель публикует только карточку точки: фото, адрес, описание и расстояние до клиента.</div>
       <div style="padding:16px 16px 0"><button class="cta-btn brand-gradient big" type="submit">Добавить в каталог</button></div>
     </form>` : ''}
-  ${status === 'pending_rep' ? dashNote('Заявка ушла представителю. В демо откройте кабинет представителя → «Подключение» → «Апрув».', 'gold') : ''}
+  ${status === 'pending_rep' ? dashNote('Заявка отправлена представителю — он проверит карточку и подтвердит подключение', 'gold') : ''}
   ${status === 'catalog' ? `<div class="btn-row"><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="pay">Перейти к проверочному платежу</button><button class="ghost-btn" data-go="store:${p.slug}">Посмотреть в каталоге</button></div>` : ''}
   ${status === 'ready' ? `<div class="btn-row"><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="catalog">Заполнить каталог товаров</button><button class="ghost-btn" data-go="store:${p.slug}">Витрина точки</button></div>` : ''}`;
 }

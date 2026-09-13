@@ -263,7 +263,6 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
     <header class="app-header">
       <div class="app-header-in">
         <button class="logo" aria-label="LOVII — на главную">
-          <img class="logo-mark" src="favicon.svg" alt="" width="30" height="30">
           <img class="logo-img logo-light-img" src="lovii-logo-light.svg" alt="LOVII" width="143" height="30">
           <img class="logo-img logo-dark-img" src="logo-dark.svg" alt="LOVII" width="143" height="30">
         </button>
@@ -424,7 +423,6 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
     <header class="app-header">
       <div class="app-header-in">
         <button class="logo" aria-label="LOVII — на главную">
-          <img class="logo-mark" src="favicon.svg" alt="" width="30" height="30">
           <img class="logo-img logo-light-img" src="lovii-logo-light.svg" alt="LOVII" width="143" height="30">
           <img class="logo-img logo-dark-img" src="logo-dark.svg" alt="LOVII" width="143" height="30">
         </button>
@@ -501,7 +499,6 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
     <header class="app-header">
       <div class="app-header-in">
         <button class="logo" aria-label="LOVII — на главную">
-          <img class="logo-mark" src="favicon.svg" alt="" width="30" height="30">
           <img class="logo-img logo-light-img" src="lovii-logo-light.svg" alt="LOVII" width="143" height="30">
           <img class="logo-img logo-dark-img" src="logo-dark.svg" alt="LOVII" width="143" height="30">
         </button>
@@ -637,18 +634,6 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
   </section>
 </div>
 
-<section class="digest">
-  <h2>Что уже есть в коде и API (чтобы не искать по документам)</h2>
-  <table>
-    <tr><th>Экран</th><th>В приложении</th><th>API ядра</th></tr>
-    <tr><td>Представитель: обзор, точки, заявки, доход, профиль</td><td class="ok">есть</td><td>get /representative/profile · /points · /approvals · post verify/reject</td></tr>
-    <tr><td>Амбассадор: обзор, структура, обучение, доход</td><td class="ok">есть</td><td>get /ambassador/dashboard · /reps · /income · /training</td></tr>
-    <tr><td>МСП: обзор, заказы + деталь, товары, настройки, платёж</td><td class="ok">есть</td><td>get /msp/overview · /orders · patch status · /products · /branch/settings · /payment</td></tr>
-    <tr><td>Контекст «юрлицо → точка» (N юрлиц, N филиалов)</td><td class="no">нет — фаза Ф2</td><td>частично: b2b.partners · partner_memberships · merchants · merchant_branches</td></tr>
-    <tr><td>Данные на стейдже</td><td colspan="2">10 юрлиц (напр. «НАПОЛИ ПИЦЦА» — 8 филиалов, «ЦИФРОВЫЕ ТЕХНОЛОГИИ» — 2 точки/4 филиала), 272 memberships</td></tr>
-  </table>
-  <p class="foot-note" style="text-align:left;margin-top:10px">Источник порядка работ: <code>msp-ds-multibranch</code> — Ф0 доки → Ф1 core → Ф2 app (свитчер + приведение к ДС) → Ф3 b2b → Ф4 финансы.</p>
-</section>
 
 <p class="foot-note">Прототип для просмотра до работы с реальным кодом. Токены — из дизайн-системы LOVII (<code>assets/lovii-tokens.css</code>).</p>
 
