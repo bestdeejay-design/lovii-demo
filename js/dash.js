@@ -1465,54 +1465,6 @@ function mspAppStatus(status) {
   return MSP_STATUS_STEP[status] || 'draft';
 }
 
-/* ---- МСП: заказы (статусы и переходы — из ядра OrderStatus) ---- */
-function mspOrderLabel(status) {
-  const m = { created:'Создан', submitted:'Отправлен', accepted:'Принят', preparing:'Готовится', ready:'Готов',
-              handed_to_delivery:'Передан курьеру', on_the_way:'В пути', completed:'Доставлен', cancelled:'Отменён', failed:'Ошибка' };
-  return m[status] || status;
-}
-// Переходы — ровно по MspOrderActions (ядро): фильтр по типу исполнения.
-//  самовывоз: … → ready → completed («Выдан клиенту»), курьерских шагов нет
-//  доставка:  … → ready → handed_to_delivery → on_the_way → completed, минуя нельзя
-//  failed — технический статус системы, точке не предлагается
-function mspOrderOptions(order) {
-  const pickup = order.channel !== 'Доставка';
-  const base = {
-    created: ['submitted', 'cancelled'],
-    submitted: ['accepted', 'cancelled'],
-    accepted: ['preparing', 'cancelled'],
-    preparing: ['ready', 'cancelled'],
-    ready: ['handed_to_delivery', 'completed', 'cancelled'],
-    handed_to_delivery: ['on_the_way', 'completed'],
-    on_the_way: ['completed'],
-  }[order.status] || [];
-  const labels = { submitted:'Отправить', accepted:'Принять', preparing:'Готовить', ready:'Готов к выдаче',
-                   handed_to_delivery:'Передать курьеру', on_the_way:'В пути',
-                   completed: pickup ? 'Выдать клиенту' : 'Доставлен', cancelled:'Отменить' };
-  let next = base.filter((st) => st !== 'failed' && st !== 'cancelled'); // отмена — отдельной кнопкой
-  if (pickup) next = next.filter((st) => !['handed_to_delivery', 'on_the_way'].includes(st));
-  else if (order.status !== 'on_the_way') next = next.filter((st) => st !== 'completed');
-  return next.map((st) => [st, labels[st]]);
-}
-
-// Подпись статуса с учётом типа заказа (OrderBadges::statusBadge)
-function mspOrderLabelFor(order, status) {
-  if (status === 'completed' && order.channel !== 'Доставка') return 'Выдан клиенту';
-  return mspOrderLabel(status);
-}
-function orderChip(status, order) {
-  // цвета — по BadgeColor из ядра: submitted/blue · accepted/brand · preparing/orange · ready|lime
-  const cls = { created:'st-wait', submitted:'st-blue', accepted:'st-active', preparing:'st-mod', ready:'st-lime',
-                handed_to_delivery:'st-blue', on_the_way:'st-accent', completed:'st-lime', cancelled:'st-off', failed:'st-off' };
-  const label = order ? mspOrderLabelFor(order, status) : mspOrderLabel(status);
-  return `<span class="st-chip ${cls[status] || 'st-wait'}">${label}</span>`;
-}
-
-function ensureMspOrders() {
-  if (!state.mspOrders) state.mspOrders = (LOVII_DASH.mspOrders || []).map((o) => JSON.parse(JSON.stringify(o)));
-  return state.mspOrders;
-}
-
 // ---- МСП: сценарий заявки на #/msp/index (форма → проверка → каталог → счёт) ----
 function mspApplyStage(lead) {
   if (lead.approving) return 'approving';
@@ -1702,13 +1654,13 @@ function handleMspGoodAdd(form) {
 }
 
 function renderMspCabinet(tab = 'index') {
-  if (!['index', 'catalog', 'orders', 'order'].includes(tab)) tab = 'index';
+  if (!['index', 'catalog'].includes(tab)) tab = 'index';
   const lead = ensureMspLead();
   if (!lead) return renderMspSignup(repInviteCode());
   const p = lead.point;
   const status = p ? p.status : 'draft';
   const tabs = `<div class="seg dash-tabs msp-tabs" style="margin:14px 16px 0">
-    ${[['index','Заявка'], ['catalog','Магазин'], ['orders','Заказы']].map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="msp-tab" data-val="${id}">${label}</button>`).join('')}
+    ${[['index','Заявка'], ['catalog','Магазин']].map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="msp-tab" data-val="${id}">${label}</button>`).join('')}
   </div>`;
   const head = `
   <div class="dash-head">
@@ -1716,38 +1668,6 @@ function renderMspCabinet(tab = 'index') {
     <div class="dash-title"><h1>Экран МСП</h1><div class="d">ИНН ${esc(lead.inn)} · ${esc(lead.repCode)}</div></div>
     <button class="ghost-btn sm" data-go="dash:connect">${icon('chev-left')}Представитель</button>
   </div>`;
-
-  if (tab === 'orders') {
-    const orders = ensureMspOrders();
-    const rows = orders.map((o) => `<button class="row-item as-btn" data-action="msp-order-open" data-id="${o.id}">
-      <span class="ri-emoji ${tileBg('sand')}">${icon('bag')}</span>
-      <div class="ri-mid"><div class="nm">Заказ №${o.no}${orderChip(o.status, o)}</div><div class="sb">${esc(o.at)} · ${esc(o.channel)} · ${o.items.length} поз.</div></div>
-      <div class="ri-right"><div class="v">${moneyFmt(o.total)}</div></div></button>`).join('');
-    return `${head}${tabs}
-      <div class="section-head" style="margin-top:20px"><h2>Заказы<span class="sub"> · ${orders.length}</span></h2></div>
-      <div class="list-card">${rows || '<div class="empty-cat"><div class="t">Заказов пока нет</div><p class="d">Они появятся здесь, когда покупатели оформят заказ.</p></div>'}</div>`;
-  }
-
-  if (tab === 'order') {
-    const orders = ensureMspOrders();
-    const o = orders.find((x) => String(x.id) === String(state.mspOrderId)) || orders[0];
-    if (!o) { return `${head}${tabs}${dashNote('Заказ не найден', 'dim')}`; }
-    const opts = mspOrderOptions(o);
-    const items = o.items.map((i) => `<div class="row-item"><span class="ri-emoji ${tileBg('sand')}">${icon('package')}</span>
-      <div class="ri-mid"><div class="nm">${esc(i.name)}</div><div class="sb">${i.qty} × ${moneyFmt(i.price)}</div></div>
-      <div class="ri-right"><div class="v">${moneyFmt(i.qty * i.price)}</div></div></div>`).join('');
-    const fin = ['completed', 'cancelled', 'failed'].includes(o.status);
-    const canCancel = ['created', 'submitted', 'accepted', 'preparing', 'ready'].includes(o.status);
-    return `${head}${tabs}
-      <div class="section-head" style="margin-top:20px"><h2>Заказ №${o.no}${orderChip(o.status, o)}</h2></div>
-      <div class="list-card">${items}</div>
-      <div class="dash-note tone-dim">Итого ${moneyFmt(o.total)} · ${esc(o.channel)} · ${esc(o.at)}</div>
-      <div class="btn-row">
-        ${opts.map(([to, label], i) => `<button class="${i === 0 ? 'cta-btn brand-gradient' : 'ghost-btn'}" data-action="msp-order-set" data-id="${o.id}" data-to="${to}">${icon(i === 0 ? 'check' : 'chev-right')}${label}</button>`).join('')}
-        ${canCancel ? `<button class="ghost-btn" data-action="msp-order-cancel" data-id="${o.id}">${icon('x')}Отменить</button>` : ''}
-        <button class="ghost-btn" data-action="msp-tab" data-val="orders">${icon('chev-left')}К списку</button>
-      </div>`;
-  }
 
   if (tab === 'catalog') {
     if (status !== 'ready') {

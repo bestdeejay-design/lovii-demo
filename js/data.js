@@ -118,22 +118,6 @@ const LOVII_DASH = {
     investor: { title: 'Инвестор',       short: 'инвестора',      desc: 'Рост и доходность',              icon: 'pie',    color: 'tiffany' },
   },
 
-  // ---- МСП: заказы точки (вкладка «Заказы»). Суммы в копейках, как в API ----
-  mspOrders: [
-    { id: 155, no: '155', at: '13.09 · 10:59', status: 'completed', channel: 'Самовывоз', total: 100000,
-      items: [{ name: 'Пышка с корицей', qty: 10, price: 10000 }] },
-    { id: 154, no: '154', at: '13.09 · 06:47', status: 'completed', channel: 'Доставка', total: 2670000,
-      items: [{ name: 'Семейный набор', qty: 30, price: 89000 }] },
-    { id: 153, no: '153', at: '13.09 · 06:45', status: 'submitted', channel: 'Самовывоз', total: 830000,
-      items: [{ name: 'Лилия Азиатская оранжевая', qty: 2, price: 45000 }, { name: 'Букет Тюльпаны 15 шт', qty: 2, price: 370000 }] },
-    { id: 152, no: '152', at: '12.09 · 16:59', status: 'preparing', channel: 'Доставка', total: 386100,
-      items: [{ name: 'Грудка куриная филе Петелинка', qty: 10, price: 38610 }] },
-    { id: 151, no: '151', at: '12.09 · 16:35', status: 'ready', channel: 'Самовывоз', total: 38610,
-      items: [{ name: 'Грудка куриная филе Петелинка', qty: 1, price: 38610 }] },
-    { id: 150, no: '150', at: '12.09 · 16:19', status: 'cancelled', channel: 'Самовывоз', total: 24000,
-      items: [{ name: 'Пончик с шоколадной глазурью', qty: 1, price: 13000 }, { name: 'Пончик с сахарной пудрой', qty: 1, price: 11000 }] },
-  ],
-
   // ---- Представитель: подключённые точки (статусы: active / waiting / offline) ----
   repPoints: [
     { slug: 'daily',   status: 'active',  revenueWeek: 242800, orders: 341, views: 2540 },
