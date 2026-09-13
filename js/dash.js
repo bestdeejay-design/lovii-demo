@@ -1486,7 +1486,7 @@ function renderMspCabinet(tab = 'index') {
     const orders = ensureMspOrders();
     const rows = orders.map((o) => `<button class="row-item as-btn" data-action="msp-order-open" data-id="${o.id}">
       <span class="ri-emoji ${tileBg('sand')}">${icon('bag')}</span>
-      <div class="ri-mid"><div class="nm">Заказ №${o.no}${statusChip(o.status)}</div><div class="sb">${esc(o.at)} · ${esc(o.channel)} · ${o.items.length} поз.</div></div>
+      <div class="ri-mid"><div class="nm">Заказ №${o.no}${orderChip(o.status)}</div><div class="sb">${esc(o.at)} · ${esc(o.channel)} · ${o.items.length} поз.</div></div>
       <div class="ri-right"><div class="v">${moneyFmt(o.total)}</div></div></button>`).join('');
     return `${head}${tabs}
       <div class="section-head" style="margin-top:20px"><h2>Заказы<span class="sub"> · ${orders.length}</span></h2></div>
