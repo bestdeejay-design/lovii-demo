@@ -447,6 +447,13 @@ main#view { flex: 1; }
 .empty-ico { width: 46px; height: 46px; margin: 0 auto; border-radius: 14px; background: var(--lv-surface); display: flex; align-items: center; justify-content: center; color: var(--lv-dim); }
 .empty-ico svg { width: 26px; height: 26px; }
 
+/* ---------- МСП: переключатель точек и список точек ---------- */
+.msp-point-pill { max-width: 156px; }
+.msp-point-pill .lbl { max-width: 92px; }
+.ri-check, .ri-chev { flex: none; width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; color: var(--lv-dim); }
+.ri-check { color: var(--lv-tiffany); }
+.ri-check svg, .ri-chev svg { width: 16px; height: 16px; }
+
 /* ---------- МСП: шаг «представитель проверяет точку» + форма ---------- */
 .msp-approving { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 56px 24px 24px; }
 .lv-spinner { width: 46px; height: 46px; border-radius: 999px; border: 3px solid var(--lv-line); border-top-color: var(--lv-tiffany); animation: lv-spin .9s linear infinite; }

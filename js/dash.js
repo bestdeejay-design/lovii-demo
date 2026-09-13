@@ -1247,21 +1247,53 @@ function repInviteCode() {
 }
 
 function ensureMspLead() {
-  if (state.mspLead) return state.mspLead;
-  // Демо-сид (как ensurePay/ensureChats): точка уже зарегистрирована, чтобы кабинет МСП
-  // и экран «Заказы» открывались по прямой ссылке. Живой сценарий по QR остаётся: #/msp-signup/<код>.
+  if (state.mspLead) { normalizeMspPoints(); return state.mspLead; }
+  // Демо-сид: у юрлица две торговые точки (одна новая, одна рабочая) — чтобы показать переключение.
   state.mspLead = {
     repCode: 'PP7K2A',
     inn: '7705123456',
     legalName: 'ООО «НОВЫЙ ВКУС»',
     channel: 'Telegram',
     createdAt: Date.now(),
-    point: { slug: 'demo-point', name: 'Пекарня на Садовой', status: 'pending_rep', address: 'Садовая 12',
-      category: 'bakery', color: 'pink', about: 'Свежая выпечка и кофе у метро', hours: '08:00–21:00' },
-    goods: [],
+    point: null, setup: null, goods: [],
+    points: [
+      { id: 'pt-1', slug: 'msp-3456', name: 'Пекарня на Садовой', address: 'Садовая 12',
+        about: 'Свежая выпечка и кофе у метро', status: 'draft', category: 'bakery', color: 'tiffany', hours: '08:00–21:00', setup: null, goods: [] },
+      { id: 'pt-2', slug: 'msp-lenina', name: 'Пекарня на Ленина', address: 'Ленина 5',
+        about: 'Вторая точка сети — у парка', status: 'ready', category: 'bakery', color: 'pink', hours: '09:00–20:00', setup: null, goods: [] },
+    ],
   };
+  normalizeMspPoints();
   persist();
   return state.mspLead;
+}
+
+// Приводит список точек и активную точку (lead.point — ссылка на активную запись)
+function normalizeMspPoints() {
+  const lead = state.mspLead;
+  if (!lead) return;
+  if (!lead.points) {
+    lead.points = lead.point ? [Object.assign({ id: 'pt-1', setup: lead.setup || null, goods: lead.goods || [] }, lead.point)] : [];
+  }
+  if (!state.mspPointId || !lead.points.some((x) => x.id === state.mspPointId)) {
+    state.mspPointId = lead.points[0] ? lead.points[0].id : null;
+  }
+  lead.point = lead.points.find((x) => x.id === state.mspPointId) || lead.points[0] || null;
+}
+
+function ensureMspPoints() { const lead = ensureMspLead(); return lead ? lead.points : []; }
+function activeMspPoint() { return state.mspLead ? state.mspLead.point : null; }
+
+function switchMspPoint(id) {
+  const lead = ensureMspLead();
+  if (!lead || !lead.points.some((x) => x.id === id)) return;
+  state.mspPointId = id;
+  normalizeMspPoints();
+  persist();
+  if (typeof closeSheet === 'function') closeSheet();
+  renderView();
+  const pt = activeMspPoint();
+  toast('Точка: ' + ((pt && pt.name) || id), (pt && pt.address) || '');
 }
 
 function mspPointVisible(status) {
@@ -1270,31 +1302,31 @@ function mspPointVisible(status) {
 
 function syncMspStore() {
   const lead = state.mspLead;
-  if (!lead || !lead.point || !mspPointVisible(lead.point.status)) return;
-  const p = lead.point;
+  if (!lead || !lead.points) return;
   const d = selectors.districtObj();
-  const existing = LOVII_DATA.stores.find((s) => s.slug === p.slug);
-  const payload = {
-    slug: p.slug,
-    name: p.name,
-    category: p.category || 'grocery',
-    emoji: p.emoji || '🏪',
-    color: p.color || 'tiffany',
-    rating: p.status === 'ready' ? 4.9 : 5.0,
-    reviews: p.status === 'ready' ? 12 : 0,
-    address: p.address,
-    lat: d.lat + 0.0016,
-    lng: d.lng - 0.0011,
-    hours: p.hours || '09:00-21:00',
-    about: p.about || 'Новая точка района в каталоге LOVII.',
-    tags: p.status === 'ready' ? ['pickup', 'delivery', 'new'] : ['new'],
-    isService: false,
-  };
-  if (existing) Object.assign(existing, payload);
-  else LOVII_DATA.stores.push(payload);
-
-  if (p.status === 'ready') {
-    (lead.goods || []).forEach((g) => {
+  lead.points.forEach((p) => {
+    if (!p.slug || !mspPointVisible(p.status)) return;
+    const existing = LOVII_DATA.stores.find((s) => s.slug === p.slug);
+    const payload = {
+      slug: p.slug,
+      name: p.name,
+      category: p.category || 'grocery',
+      emoji: p.emoji || '🏪',
+      color: p.color || 'tiffany',
+      rating: p.status === 'ready' ? 4.9 : 5.0,
+      reviews: p.status === 'ready' ? 12 : 0,
+      address: p.address,
+      lat: d.lat + 0.0016,
+      lng: d.lng - 0.0011,
+      hours: p.hours || '09:00-21:00',
+      about: p.about || 'Новая точка района в каталоге LOVII.',
+      tags: p.status === 'ready' ? ['pickup', 'delivery', 'new'] : ['new'],
+      isService: false,
+    };
+    if (existing) Object.assign(existing, payload);
+    else LOVII_DATA.stores.push(payload);
+    if (p.status === 'ready' && (p.goods || []).length === 0) return;
+    (p.goods || []).forEach((g) => {
       const slug = 'msp-' + g.slug;
       const found = LOVII_DATA.products.find((x) => x.slug === slug);
       const prod = {
@@ -1311,7 +1343,7 @@ function syncMspStore() {
       if (found) Object.assign(found, prod);
       else LOVII_DATA.products.push(prod);
     });
-  }
+  });
 }
 
 function qrGridHtml() {
@@ -1517,7 +1549,8 @@ function ensureMspOrders() {
 function mspApplyStage(lead) {
   if (lead.approving) return 'approving';
   const st = lead.point && lead.point.status;
-  if (st === 'catalog' || st === 'payment' || st === 'ready') return 'invoice';
+  if (st === 'ready') return 'done';
+  if (st === 'catalog' || st === 'payment') return 'invoice';
   return 'form';
 }
 
@@ -1579,18 +1612,17 @@ function mspInvoiceSend() {
 const MSP_WEEK = [['mon', 'Пн'], ['tue', 'Вт'], ['wed', 'Ср'], ['thu', 'Чт'], ['fri', 'Пт'], ['sat', 'Сб'], ['sun', 'Вс']];
 
 function ensureMspSetup() {
-  const lead = ensureMspLead();
-  if (!lead) return null;
-  if (!lead.setup) {
-    const p = lead.point || {};
-    lead.setup = {
-      name: p.name || '', address: p.address || '', about: p.about || '', phone: lead.phone || '',
+  const pt = activeMspPoint();
+  if (!pt) return null;
+  if (!pt.setup) {
+    pt.setup = {
+      name: pt.name || '', address: pt.address || '', about: pt.about || '', phone: '',
       minOrder: 500, pickup: true, delivery: false, allDay: false,
       days: { mon: ['08:00', '21:00'], tue: ['08:00', '21:00'], wed: ['08:00', '21:00'], thu: ['08:00', '21:00'], fri: ['08:00', '21:00'], sat: ['10:00', '18:00'], sun: null },
     };
     persist();
   }
-  return lead.setup;
+  return pt.setup;
 }
 
 function mspScheduleSummary(s) {
@@ -1604,8 +1636,8 @@ function mspScheduleSummary(s) {
 }
 
 function renderMspGoodsTab(head, tabs) {
-  const lead = ensureMspLead();
-  const goods = lead.goods || [];
+  const pt = activeMspPoint();
+  const goods = (pt && pt.goods) || [];
   const rows = goods.length
     ? goods.map((g, i) => `<div class="row-item"><span class="ri-emoji ${tileBg('sand')}">${icon('package')}</span>
         <div class="ri-mid"><div class="nm">${esc(g.name)}</div><div class="sb">${priceFmt(g.price)} / ${esc(g.unit)} · остаток ${g.stock}</div></div>
@@ -1626,7 +1658,8 @@ function renderMspGoodsTab(head, tabs) {
 }
 
 function renderMspSettingsTab(head, tabs) {
-  const lead = ensureMspLead();
+  const pt = activeMspPoint();
+  const pts = ensureMspPoints();
   const s = ensureMspSetup();
   const dayRows = MSP_WEEK.map(([id, l]) => {
     const v = s.days[id];
@@ -1638,10 +1671,13 @@ function renderMspSettingsTab(head, tabs) {
       <input type="time" name="d_${id}_to" value="${off ? '' : v[1]}" ${off || s.allDay ? 'disabled' : ''}>
     </div>`;
   }).join('');
-  const hasPoint = !!lead.point;
-  const pointRow = hasPoint
-    ? `<div class="row-item"><span class="ri-emoji ${tileBg('tiffany')}">${icon('store')}</span>
-        <div class="ri-mid"><div class="nm">${esc(lead.point.name || 'Точка')}<span class="st-chip st-active">активна</span></div><div class="sb">${esc(lead.point.address || '')}</div></div></div>`
+  const pointsRows = pts.length
+    ? pts.map((x) => `<button class="row-item as-btn" data-action="msp-point-pick" data-id="${esc(x.id)}">
+        <span class="ri-emoji ${tileBg(x.id === state.mspPointId ? 'tiffany' : 'sand')}">${icon('store')}</span>
+        <div class="ri-mid"><div class="nm">${esc(x.name || 'Новая точка')}${x.id === state.mspPointId ? '<span class="st-chip st-active">выбрана</span>' : ''}</div>
+        <div class="sb">${esc(x.address || 'адрес не указан')} · ${x.status === 'ready' ? 'активна' : x.status === 'draft' ? 'черновик' : 'на проверке'}</div></div>
+        ${x.id === state.mspPointId ? `<span class="ri-check">${icon('check')}</span>` : `<span class="ri-chev">${icon('chev-right')}</span>`}
+      </button>`).join('')
     : `<div class="empty-cat"><div class="empty-ico">${icon('store')}</div><div class="t">Точек пока нет</div></div>`;
   return `${head}${tabs}
   <div class="section-head" style="margin-top:20px"><h2>Анкета точки</h2></div>
@@ -1663,53 +1699,52 @@ function renderMspSettingsTab(head, tabs) {
     </div>
     <div style="padding:16px 16px 0"><button class="cta-btn brand-gradient big" type="submit">${icon('check')}Сохранить</button></div>
   </form>
-  <div class="section-head" style="margin-top:24px"><h2>Точки<span class="sub"> · ${hasPoint ? 1 : 0}</span></h2></div>
-  <div class="list-card">${pointRow}</div>
+  <div class="section-head" style="margin-top:24px"><h2>Точки<span class="sub"> · ${pts.length}</span></h2></div>
+  <div class="list-card">${pointsRows}</div>
   <div style="padding:16px 16px 0"><button class="cta-btn brand-gradient big" data-action="msp-add-point">${icon('plus')}Добавить новую торговую точку</button></div>`;
 }
 
 function startNewMspPoint() {
   const lead = ensureMspLead();
   if (!lead) return;
-  lead.point = null;
-  lead.setup = null;
-  lead.goods = [];
+  const id = 'pt-' + Date.now();
+  lead.points.push({ id, slug: 'msp-new', name: '', address: '', about: '', status: 'draft', category: 'bakery', color: 'tiffany', hours: '', setup: null, goods: [] });
+  state.mspPointId = id;
   lead.approving = false;
   lead.appStatus = null;
+  normalizeMspPoints();
   persist();
   go('msp', 'index');
   toast('Новая торговая точка', 'Заполните карточку и отправьте заявку');
 }
 
 function handleMspSetupSave(form) {
-  const lead = ensureMspLead();
+  const pt = activeMspPoint();
   const s = ensureMspSetup();
-  if (!lead || !s) return;
+  if (!pt || !s) return;
   const v = (n) => { const el = form.querySelector(`[name="${n}"]`); return el ? (el.value || '').trim() : ''; };
   s.name = v('name'); s.address = v('address'); s.about = v('about'); s.phone = v('phone');
   s.minOrder = Number(v('minOrder')) || 0;
   MSP_WEEK.forEach(([id]) => {
     if (s.days[id]) { const f = v('d_' + id + '_from'), t = v('d_' + id + '_to'); if (f && t) s.days[id] = [f, t]; }
   });
-  lead.phone = s.phone;
-  lead.point = lead.point || {};
-  lead.point.name = s.name || lead.point.name;
-  lead.point.address = s.address || lead.point.address;
-  lead.point.about = s.about;
-  lead.point.hours = mspScheduleSummary(s);
+  pt.name = s.name || pt.name;
+  pt.address = s.address || pt.address;
+  pt.about = s.about;
+  pt.hours = mspScheduleSummary(s);
   syncMspStore(); persist();
   toast('Настройки сохранены', 'Карточка точки обновлена');
   renderViewPreserveScroll();
 }
 
 function handleMspGoodAdd(form) {
-  const lead = ensureMspLead();
-  if (!lead) return;
+  const pt = activeMspPoint();
+  if (!pt) return;
   const v = (n) => { const el = form.querySelector(`[name="${n}"]`); return el ? (el.value || '').trim() : ''; };
   const name = v('name'); const price = Number(v('price'));
   if (!name || !price) return;
-  lead.goods = lead.goods || [];
-  lead.goods.push({ slug: 'g' + Date.now(), name, price, unit: v('unit') || 'шт', stock: Number(v('stock')) || 0 });
+  pt.goods = pt.goods || [];
+  pt.goods.push({ slug: 'g' + Date.now(), name, price, unit: v('unit') || 'шт', stock: Number(v('stock')) || 0 });
   syncMspStore(); persist();
   toast('Товар добавлен', 'Он появился на витрине точки');
   renderViewPreserveScroll();
@@ -1724,11 +1759,12 @@ function renderMspCabinet(tab = 'index') {
   const tabs = `<div class="seg dash-tabs msp-tabs" style="margin:14px 16px 0">
     ${[['index','Заявка'], ['goods','Товары'], ['orders','Заказы'], ['settings','Настройки']].map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="msp-tab" data-val="${id}">${label}</button>`).join('')}
   </div>`;
+  const points = ensureMspPoints();
   const head = `
   <div class="dash-head">
     <span class="dash-ava ${tileBg('tiffany')}">${icon('store')}</span>
     <div class="dash-title"><h1>Экран МСП</h1><div class="d">ИНН ${esc(lead.inn)} · ${esc(lead.repCode)}</div></div>
-    <button class="ghost-btn" data-go="dash:connect">${icon('chev-left')}Представитель</button>
+    <button class="pill-btn msp-point-pill" data-action="msp-points" aria-label="Сменить торговую точку">${icon('store')}<span class="lbl">${esc(p ? (p.name || 'Точка') : 'Точка')}</span><span class="chev">${icon('chev-down')}</span></button>
   </div>`;
 
   if (tab === 'orders') {
@@ -1822,6 +1858,21 @@ function renderMspCabinet(tab = 'index') {
     </div>`;
   }
 
+  // 4) Точка активна — заявка пройдена
+  if (stage === 'done') {
+    return `${head}${tabs}
+    <div class="section-head" style="margin-top:20px"><h2>Точка активна</h2></div>
+    <div class="approval-card"><div class="approval-head">
+      <span class="ri-emoji ${tileBg('tiffany')}">${icon('store')}</span>
+      <div class="ri-mid"><div class="nm">${esc(p.name || 'Точка')}<span class="st-chip st-active">активна</span></div>
+      <div class="sb">${esc(p.address || '')}</div><div class="sb">${esc(p.about || '')}</div></div>
+    </div></div>
+    <div class="btn-row">
+      <button class="cta-btn brand-gradient" data-action="msp-tab" data-val="goods">${icon('bag')}Каталог товаров</button>
+      <button class="ghost-btn" data-action="msp-tab" data-val="settings">${icon('settings')}Настройки точки</button>
+    </div>`;
+  }
+
   // 1) Форма заявки: ИНН + название точки + адрес + фото
   return `${head}${tabs}
   <form id="msp-point-form" class="msp-apply-form">
@@ -1853,7 +1904,8 @@ function handleMspSignup(form) {
 
 function handleMspPoint(form) {
   const lead = ensureMspLead();
-  if (!lead) return;
+  const pt = activeMspPoint();
+  if (!lead || !pt) return;
   const val = (name) => { const el = form.querySelector(`[name="${name}"]`); return el ? (el.value || '').trim() : ''; };
   const inn = val('inn').replace(/\D/g, '');
   if (inn) lead.inn = inn;
@@ -1861,13 +1913,14 @@ function handleMspPoint(form) {
   const photo = photoEl && photoEl.files && photoEl.files[0] ? photoEl.files[0].name : '';
   const name = val('name') || 'Новая точка';
   const address = val('address') || 'Адрес района';
-  lead.point = {
-    slug: 'msp-' + String(lead.inn || 'point').slice(-4),
-    name, address,
-    about: 'Точка «' + name + '» — новая точка района в LOVII.',
-    photo, hours: '09:00-21:00', color: 'tiffany', category: 'bakery',
-    status: 'pending_rep', submittedAt: Date.now(),
-  };
+  pt.slug = 'msp-' + String(lead.inn || 'point').slice(-4);
+  pt.name = name;
+  pt.address = address;
+  pt.about = 'Точка «' + name + '» — новая точка района в LOVII.';
+  pt.photo = photo;
+  pt.status = 'pending_rep';
+  pt.submittedAt = Date.now();
+  pt.setup = null;
   lead.approving = true;
   lead.appStatus = null;
   persist();

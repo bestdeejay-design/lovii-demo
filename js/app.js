@@ -57,7 +57,8 @@ const state = {
   activeRole: persisted.activeRole || null,
   pay: persisted.pay || null, // LOVII PAY (сид — ensurePay() в club.js)
   chats: persisted.chats || null, // сид создаёт dash.js (ensureChats)
-  mspLead: persisted.mspLead || null, // QR-сценарий регистрации торговой точки через представителя
+  mspLead: persisted.mspLead || null, // кабинет МСП: юрлицо + торговые точки
+  mspPointId: persisted.mspPointId || null, // активная торговая точка
   // сессионное (не сохраняется)
   category: 'all',
   kindTab: 'goods',
@@ -84,6 +85,7 @@ function persist() {
         pay: state.pay,
         chats: state.chats,
         mspLead: state.mspLead,
+        mspPointId: state.mspPointId,
       })
     );
   } catch {
@@ -355,13 +357,14 @@ function checkout() {
 
 /* ================= Шит района ================= */
 
-function openSheet() {
+function openSheet(kind = 'district') {
   state.sheetOpen = true;
+  state.sheetKind = kind;
   const overlay = document.getElementById('sheet-overlay');
   const sheet = document.getElementById('district-sheet');
   overlay.classList.add('open');
   sheet.classList.add('open');
-  renderSheetRows();
+  renderSheetRows(kind);
 }
 
 function closeSheet() {
@@ -370,8 +373,28 @@ function closeSheet() {
   document.getElementById('district-sheet').classList.remove('open');
 }
 
-function renderSheetRows() {
-  const body = document.querySelector('#district-sheet .sheet-body');
+function renderSheetRows(kind = state.sheetKind || 'district') {
+  const sheet = document.getElementById('district-sheet');
+  const title = sheet.querySelector('.sheet-head h2');
+  const subEl = sheet.querySelector('.sheet-head p');
+  const body = sheet.querySelector('.sheet-body');
+
+  if (kind === 'msp-points') {
+    title.textContent = 'Мои торговые точки';
+    subEl.textContent = 'Выберите точку — её настройки откроются отдельно';
+    const pts = ensureMspPoints();
+    body.innerHTML = pts.length
+      ? pts.map((x) => `
+      <button class="district-row ${x.id === state.mspPointId ? 'active' : ''}" data-action="msp-point-pick" data-id="${esc(x.id)}">
+        <span class="l"><span class="ic">${icon('store')}</span><span><span class="nm">${esc(x.name || 'Новая точка')}</span><span class="mt">${esc(x.address || 'адрес не указан')}</span></span></span>
+        ${x.id === state.mspPointId ? '<span class="lv-dot" style="background:var(--lv-pink)"></span>' : ''}
+      </button>`).join('')
+      : '<div class="empty-cat"><div class="t">Точек пока нет</div></div>';
+    return;
+  }
+
+  title.textContent = 'Где вы сейчас?';
+  subEl.textContent = 'Покажем точки и товары в шаговой доступности';
   body.innerHTML = LOVII_DATA.districts
     .map(
       (x) => `
@@ -404,6 +427,14 @@ document.addEventListener('click', (e) => {
   switch (a) {
     case 'open-sheet':
       openSheet();
+      break;
+
+    case 'msp-points':
+      openSheet('msp-points');
+      break;
+
+    case 'msp-point-pick':
+      switchMspPoint(actEl.dataset.id);
       break;
 
     case 'back':
@@ -640,9 +671,9 @@ document.addEventListener('click', (e) => {
     }
 
     case 'msp-good-del': {
-      const l = ensureMspLead();
+      const pt = activeMspPoint();
       const i = Number(actEl.dataset.i);
-      if (l && l.goods && i >= 0) { l.goods.splice(i, 1); syncMspStore(); persist(); renderViewPreserveScroll(); toast('Товар удалён'); }
+      if (pt && pt.goods && i >= 0) { pt.goods.splice(i, 1); syncMspStore(); persist(); renderViewPreserveScroll(); toast('Товар удалён'); }
       break;
     }
 
