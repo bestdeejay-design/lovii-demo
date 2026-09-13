@@ -59,6 +59,7 @@ const state = {
   chats: persisted.chats || null, // сид создаёт dash.js (ensureChats)
   mspLead: persisted.mspLead || null, // QR-сценарий регистрации торговой точки через представителя
   mspCtx: persisted.mspCtx || null, // контекст МСП: юрлицо + филиал (кабинет ЛОВИ Бизнес)
+  settings: persisted.settings || null, // тема/уведомления/безопасность (см. settings.js)
   // сессионное (не сохраняется)
   category: 'all',
   kindTab: 'goods',
@@ -86,6 +87,7 @@ function persist() {
         chats: state.chats,
         mspLead: state.mspLead,
         mspCtx: state.mspCtx,
+        settings: state.settings,
       })
     );
   } catch {
