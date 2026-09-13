@@ -1040,3 +1040,8 @@ main#view { flex: 1; }
 .ri-emoji svg, .dash-ava svg { width: 26px; height: 26px; }
 .ri-emoji, .dash-ava { color: var(--lv-on-tile, currentColor); }
 .ri-emoji [class*="tile-"], .dash-ava [class*="tile-"] { }
+
+/* Тап-цели ≥36px — канон checklist.md:61 (UI-check: 5 элементов были 14–16px) */
+.sec-link { display:inline-flex; align-items:center; min-height:36px; font-size:12px; font-weight:700; color:var(--lv-pink); text-decoration:none; }
+.pay-hint.as-btn { min-height:36px; padding:8px 12px; display:inline-flex; align-items:center; gap:6px; }
+.prof-legal nav a { display:inline-flex; align-items:center; min-height:36px; }

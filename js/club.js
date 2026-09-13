@@ -326,7 +326,7 @@ function renderPayProfile() {
     </div><!-- /pay-cols -->
 
     <!-- 6. Витрина привилегий -->
-    <div class="section-head"><h2>Привилегии статуса</h2><a href="#" onclick="return false" style="font-size:12px;color:var(--lv-pink);font-weight:700;text-decoration:none">всё для VIP</a></div>
+    <div class="section-head"><h2>Привилегии статуса</h2><a class="sec-link" href="#" onclick="return false">всё для VIP</a></div>
     <div class="hscroll no-scrollbar priv-scroll">${privTiles}</div>
 
     <!-- 7. Избранные МСП -->
