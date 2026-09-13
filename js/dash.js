@@ -1248,8 +1248,19 @@ function repInviteCode() {
 
 function ensureMspLead() {
   if (state.mspLead) return state.mspLead;
-  state.mspLead = null;
-  return null;
+  // Демо-сид (как ensurePay/ensureChats): точка уже зарегистрирована, чтобы кабинет МСП
+  // и экран «Заказы» открывались по прямой ссылке. Живой сценарий по QR остаётся: #/msp-signup/<код>.
+  state.mspLead = {
+    repCode: 'PP7K2A',
+    inn: '7705123456',
+    legalName: 'ООО «НОВЫЙ ВКУС»',
+    channel: 'Telegram',
+    createdAt: Date.now(),
+    point: { slug: 'demo-point', name: 'Пекарня на Садовой', status: 'ready', address: 'Садовая 12', category: 'bakery', color: 'pink' },
+    goods: [],
+  };
+  persist();
+  return state.mspLead;
 }
 
 function mspPointVisible(status) {
