@@ -554,6 +554,27 @@ document.addEventListener('click', (e) => {
       break;
     }
 
+    case 'msp-app-next': {
+      const lead = ensureMspLead();
+      const chain = ['draft', 'pending_rep', 'catalog', 'payment', 'ready'];
+      const cur = lead && lead.point ? lead.point.status : 'draft';
+      const i = Math.max(0, chain.indexOf(cur));
+      if (lead && lead.point && i < chain.length - 1) {
+        lead.point.status = chain[i + 1];
+        persist();
+        toast('Шаг заявки: ' + mspStatusText(lead.point.status), mspStorefrontText(lead.point.status).label);
+      }
+      renderView(true);
+      break;
+    }
+
+    case 'msp-app-fail': {
+      const lead = ensureMspLead();
+      if (lead && lead.point) { lead.point.status = 'failed'; persist(); toast('Заявка отклонена', 'Исправьте карточку точки и отправьте снова'); }
+      renderView(true);
+      break;
+    }
+
     case 'msp-tab':
       go('msp', actEl.dataset.val || 'index');
       break;
