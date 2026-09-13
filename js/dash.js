@@ -1606,88 +1606,13 @@ function renderMspCabinet(tab = 'index') {
 
   if (tab === 'catalog') {
     if (status !== 'ready') {
-      return `${head}${tabs}${mspStepsHtml(status)}<div class="empty-state-card"><div class="big-emoji">🧺</div><h3>Каталог товаров пока закрыт</h3><p>Сейчас точка может быть видна в каталоге только как карточка района. Товары откроются после апрува, проверочного платежа и автоматического возврата.</p><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="pay">Посмотреть следующий шаг</button></div>`;
-    }
-    const goods = lead.goods || [];
-    const chips = LOVII_DASH.storeGoodsSeed.slice(0, 6).filter((g) => !goods.some((x) => x.slug === g.slug)).map((g) => `<button class="cat-chip" data-action="add-msp-good" data-slug="${g.slug}"><span class="e">${icon('bag')}</span>${esc(g.name)}</button>`).join('');
-    return `${head}${tabs}${mspStepsHtml(status)}
-    <div class="section-head" style="margin-top:20px"><h2>Каталог товаров<span class="sub"> · ${goods.length}</span></h2></div>
-    <div class="list-card">${goods.length ? goods.map((g) => `<div class="row-item"><span class="ri-emoji ${tileBg('sand')}">${icon('bag')}</span><div class="ri-mid"><div class="nm">${esc(g.name)}</div><div class="sb">${priceFmt(g.price)} / ${esc(g.unit)} · остаток ${g.stock}</div></div><span class="st-chip st-active">на витрине</span></div>`).join('') : '<div class="empty-cat"><div class="big-emoji">🛍️</div><div class="t">Добавьте первый товар</div><p class="d">После добавления он появится на витрине этой точки.</p></div>'}</div>
-    ${chips ? `<div class="section-head" style="margin-top:20px"><h2>Добавить товары</h2></div><div class="cats no-scrollbar" style="padding:10px 16px 4px">${chips}</div>` : dashNote('Все товары уже опубликованы на витрине точки.', 'tiffany')}`;
-  }
-
-  if (tab === 'pay') {
-    const canPay = p && p.status === 'catalog';
-    return `${head}${tabs}${mspStepsHtml(status)}
-    <div class="pay-card">
-      <div class="kicker">Проверочный платёж и автоматический возврат</div>
-      <h2>${canPay ? 'Пора подтвердить реквизиты' : status === 'ready' ? 'Платёж и возврат успешны' : 'Этот шаг откроется после апрува представителя'}</h2>
-      <div class="pay-row"><span>Сумма</span><b>1 ₽</b></div>
-      <div class="pay-row"><span>Назначение</span><b>${esc(payCode)}</b></div>
-      <p>Назначение содержит спецкод заявки. После получения платежа LOVII автоматически формирует возврат. Если цепочка прошла успешно, точка получает доступ к приёму оплаты.</p>
-      ${canPay ? `<button class="cta-btn brand-gradient big" data-action="demo-pay">Смоделировать оплату и возврат</button>` : ''}
-    </div>
-    <div class="checklist-card">
-      <div class="cl-row done"><b>Карточка точки</b><span>${p ? esc(p.name) : 'ещё не создана'}</span></div>
-      <div class="cl-row ${['catalog','payment','ready'].includes(status) ? 'done' : ''}"><b>Апрув представителя</b><span>точка видна в каталоге района</span></div>
-      <div class="cl-row ${status === 'ready' ? 'done' : status === 'payment' ? 'active' : ''}"><b>Платёж и возврат</b><span>проверка реквизитов и автосплитов</span></div>
-      <div class="cl-row ${status === 'ready' ? 'done' : ''}"><b>Инструкция</b><span>${status === 'ready' ? 'отправлена в ' + esc(lead.channel || 'выбранный канал') : 'придёт после проверки'}</span></div>
-    </div>`;
-  }
-
-  if (tab === 'help') {
-    return `${head}${tabs}${mspStepsHtml(status)}
-    <div class="mentor-card ink-gradient"><div class="kicker">Ссылка-инструкция</div><div class="big">${status === 'ready' ? 'Отправлена в ' + esc(lead.channel || 'канал связи') : 'Откроется после платежа'}</div><p>Владелец проходит авторизацию, добавляет товары, цены и остатки. Каждый товар станет доступен на витрине LOVII именно в этой точке.</p></div>
-    <div class="script-card">
-      <div class="kicker">Что дальше</div>
-      <ol>
-        <li><b>Авторизация.</b> Откройте ссылку в ${esc(lead.channel || 'выбранном канале')}.</li>
-        <li><b>Каталог.</b> Добавьте товары, цены, остатки и фото.</li>
-        <li><b>Публикация.</b> Каждый товар будет виден на странице точки и в общем поиске LOVII.</li>
-      </ol>
-    </div>`;
-  }
-
-  return `${head}${tabs}${mspStepsHtml(status)}
-  <div class="status-flow-card">
-    <div class="kicker">Текущий этап</div>
-    <h2>${esc(mspStatusText(status))}</h2>
-    <p class="sf-store">${esc(mspStorefrontText(status).label)} — ${esc(mspStorefrontText(status).hint)}</p>
-    <div class="btn-row">
-      <button class="cta-btn brand-gradient" data-action="msp-app-next">${icon('check')}Следующий шаг</button>
-      <button class="ghost-btn" data-action="msp-app-fail">${icon('x')}Отклонить заявку</button>
-    </div>
-    ${mspAppStatus(status) === 'draft' ? `
-      <form id="msp-inn-form">
-        <label class="f-field"><span class="lb">ИНН юрлица или ИП</span><input name="inn" inputmode="numeric" pattern="[0-9]{10,12}" placeholder="Например, 7801234567" value="${esc(lead.inn || '')}" required></label>
-        <div class="field-help">ИНН привяжет заявку к юрлицу и подготовит проверочный платёж со спецкодом.</div>
-        <div style="padding:16px 16px 0"><button class="cta-btn brand-gradient big" type="submit">${icon('check')}Отправить заявку</button></div>
-      </form>` : ''}
-    <div class="section-head" style="margin-top:20px"><h2>Статусы заявки<span class="sub"> · ${MSP_APP_ALL.length}</span></h2></div>
-    <div class="chips">
-      ${MSP_APP_ALL.map((x) => `<button class="filter-chip ${mspAppStatus(status) === x.id ? 'on' : ''}" data-action="msp-app-set" data-val="${x.id}">${esc(x.label)}</button>`).join('')}
-    </div>
-    <p>${status === 'draft' ? 'Заполните только то, что нужно для появления в каталоге: юрлицо, канал связи, название, адрес, описание и фото.' : 'Система показывает, что уже сделано и какой один следующий шаг нужен сейчас.'}</p>
-  </div>
-  ${p ? `
-    <div class="list-card">
-      <div class="row-item"><span class="ri-emoji ${tileBg('tiffany')}">${icon('store')}</span><div class="ri-mid"><div class="nm">${esc(p.name)}${statusChip(p.status)}</div><div class="sb">${esc(p.address || "")}${p.about ? " · " + esc(p.about) : ""}</div></div>${mspPointVisible(p.status) ? `<button class="chev-btn" data-go="store:${p.slug}">${icon('chev-right')}</button>` : ''}</div>
-    </div>
-  ` : ''}
-  ${(!p || p.status === 'draft') ? `
-    <form id="msp-point-form">
-      <label class="f-field"><span class="lb">Название юрлица</span><input name="legalName" placeholder="ООО «Ржаной дом»" value="${esc(lead.legalName || '')}" required></label>
-      <label class="f-field"><span class="lb">Канал для инструкции</span><select name="channel"><option ${lead.channel === 'Telegram' ? 'selected' : ''}>Telegram</option><option ${lead.channel === 'ВКонтакте' ? 'selected' : ''}>ВКонтакте</option><option ${lead.channel === 'MAX' ? 'selected' : ''}>MAX</option></select></label>
-      <label class="f-field"><span class="lb">Название точки</span><input name="name" placeholder="Пекарня «Ржаной дом»" required></label>
-      <label class="f-field"><span class="lb">Адрес</span><input name="address" placeholder="ул. Рубинштейна, 12" required></label>
-      <label class="f-field"><span class="lb">Описание</span><textarea name="about" placeholder="Что продаёте, почему вас любят соседи…" required></textarea></label>
-      <label class="f-field"><span class="lb">Фото точки</span><input name="photo" type="file" accept="image/*"></label>
-      <div class="dash-note tone-tiffany" style="margin-top:14px">Товаров на этом этапе нет. После апрува представитель публикует только карточку точки: фото, адрес, описание и расстояние до клиента.</div>
-      <div style="padding:16px 16px 0"><button class="cta-btn brand-gradient big" type="submit">Добавить в каталог</button></div>
-    </form>` : ''}
-  ${status === 'pending_rep' ? dashNote('Заявка отправлена представителю — он проверит карточку и подтвердит подключение', 'gold') : ''}
-  ${status === 'catalog' ? `<div class="btn-row"><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="pay">Перейти к проверочному платежу</button><button class="ghost-btn" data-go="store:${p.slug}">Посмотреть в каталоге</button></div>` : ''}
-  ${status === 'ready' ? `<div class="btn-row"><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="catalog">Заполнить каталог товаров</button><button class="ghost-btn" data-go="store:${p.slug}">Витрина точки</button></div>` : ''}`;
+      // ЭКРАН ОЧИЩЕН ПОД ЧИСТУЮ СБОРКУ (запрос владельца).
+  // Ниже — только каркас: шапка + вкладки. Содержимое собираем заново, по одному блоку.
+  return `${head}${tabs}
+  <div class="empty-state" data-empty-screen>
+    <h4>Экран пуст</h4>
+    <p>Собираем заново с начала. Скажите, какой блок поставить первым.</p>
+  </div>`;
 }
 
 function handleMspSignup(form) {
