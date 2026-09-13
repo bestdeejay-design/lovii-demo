@@ -330,7 +330,7 @@ function renderPayProfile() {
     <div class="hscroll no-scrollbar priv-scroll">${privTiles}</div>
 
     <!-- 7. Избранные МСП -->
-    <div class="section-head"><h2>Избранные МСП</h2><a data-go="home" style="font-size:12px;color:var(--lv-pink);font-weight:700;text-decoration:none;cursor:pointer">добавить с витрины</a></div>
+    <div class="section-head"><h2>Избранные МСП</h2><a class="sec-link" data-go="home">добавить с витрины</a></div>
     ${
       favRows
         ? `<div class="list-card">${favRows}</div>`
