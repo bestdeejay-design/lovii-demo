@@ -1256,7 +1256,8 @@ function ensureMspLead() {
     legalName: 'ООО «НОВЫЙ ВКУС»',
     channel: 'Telegram',
     createdAt: Date.now(),
-    point: { slug: 'demo-point', name: 'Пекарня на Садовой', status: 'pending_rep', address: 'Садовая 12', category: 'bakery', color: 'pink' },
+    point: { slug: 'demo-point', name: 'Пекарня на Садовой', status: 'pending_rep', address: 'Садовая 12',
+      category: 'bakery', color: 'pink', about: 'Свежая выпечка и кофе у метро', hours: '08:00–21:00' },
     goods: [],
   };
   persist();
@@ -1641,7 +1642,7 @@ function renderMspCabinet(tab = 'index') {
   </div>
   ${p ? `
     <div class="list-card">
-      <div class="row-item"><span class="ri-emoji ${tileBg('tiffany')}">${icon('store')}</span><div class="ri-mid"><div class="nm">${esc(p.name)}${statusChip(p.status)}</div><div class="sb">${esc(p.address)} · ${esc(p.about)}</div></div>${mspPointVisible(p.status) ? `<button class="chev-btn" data-go="store:${p.slug}">${icon('chev-right')}</button>` : ''}</div>
+      <div class="row-item"><span class="ri-emoji ${tileBg('tiffany')}">${icon('store')}</span><div class="ri-mid"><div class="nm">${esc(p.name)}${statusChip(p.status)}</div><div class="sb">${esc(p.address || "")}${p.about ? " · " + esc(p.about) : ""}</div></div>${mspPointVisible(p.status) ? `<button class="chev-btn" data-go="store:${p.slug}">${icon('chev-right')}</button>` : ''}</div>
     </div>
   ` : ''}
   ${(!p || p.status === 'draft') ? `
