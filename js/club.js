@@ -466,6 +466,14 @@ function renderPayProfile() {
       <span class="pay-badge">${icon('crown', '', 2)} ${esc(tier.name)}</span>
     </div>
 
+    <!-- 1а. Роли и демо-доступ — НАВЕРХУ (владелец заходит в кабинеты сразу,
+         без скролла через кошелёк и настройки; фидбек 2026-09-14 «как я узнаю куда идти») -->
+    <div class="section-head" style="margin-top:14px"><h2>Роли</h2><span class="sub">кабинеты — новый редизайн</span></div>
+    <div class="list-card">${roleRows}</div>
+
+    <div class="section-head" style="margin-top:12px"><h2>Демо-доступ</h2></div>
+    <div class="list-card">${demoRows}</div>
+
     <!-- 2..5. Двухколоночная композиция (на ≥640px): слева кошелёк+счёт,
          справа статус+привилегии. На мобильном порядок тот же — стек. -->
     <div class="pay-cols">
@@ -522,12 +530,7 @@ function renderPayProfile() {
          асинхронно заполняет js/settings.js -->
     <div id="settings-slot"></div>
 
-    <!-- 8. Роли / кабинеты -->
-    <div class="section-head" style="margin-top:20px"><h2>Роли</h2></div>
-    <div class="list-card">${roleRows}</div>
-
-    <div class="section-head" style="margin-top:20px"><h2>Демо-доступ</h2></div>
-    <div class="list-card">${demoRows}</div>
+    <!-- 8. Роли / кабинеты — перенесены наверх (см. 1а) -->
 
     <p class="dash-note tone-dim" style="margin-top:14px">Демо-режим: без авторизации. Карта и счёт сохраняются в этом браузере.${window.LOVII_BUILD ? ` · <span style="opacity:.55">${window.LOVII_BUILD}</span>` : ''}</p>
 

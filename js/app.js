@@ -207,7 +207,20 @@ function back() {
 
 function parseHash() {
   const h = location.hash.replace(/^#\/?/, '');
-  const [name, param] = h.split('/');
+  let [name, param] = h.split('/');
+  // Прямые ссылки на демо-кабинеты: #/cab/rep · #/cab/amb · #/cab/msp (и нативный #/msp).
+  // cab/rep и cab/amb сидируют роль и открывают кабинет — работает и на холодном старте,
+  // и на живой странице (hashchange → renderView → parseHash).
+  if (name === 'cab') {
+    if (param === 'msp') { history.replaceState(null, '', '#/msp'); return { name: 'msp', param: null }; }
+    if (param === 'rep' || param === 'amb') {
+      if (!state.roles[param]) state.roles[param] = { since: 'демо-ссылка' };
+      state.activeRole = param;
+      history.replaceState(null, '', '#/dash');
+      return { name: 'dash', param: null };
+    }
+    return { name: 'home', param: null };
+  }
   const known = ['home', 'store', 'product', 'search', 'cart', 'orders', 'profile', 'apply', 'dash', 'chat', 'msp-signup', 'msp'];
   return { name: known.includes(name) ? name : 'home', param: param || null };
 }
@@ -843,5 +856,5 @@ syncUserStore();
 syncMspStore();
 moderationCheck(true);
 
-// Первый рендер
+// Первый рендер (прямые ссылки #/cab/… разбираются в parseHash)
 renderView();
