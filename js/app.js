@@ -588,9 +588,8 @@ document.addEventListener('click', (e) => {
       mspInvoiceSend();
       break;
 
-    case 'msp-setup-pill':
-      state.mspSetupPill = actEl.dataset.val || 'anketa';
-      renderViewPreserveScroll();
+    case 'msp-add-point':
+      startNewMspPoint();
       break;
 
     // Точечные переключатели анкеты: правим DOM на месте, чтобы не терять несохранённые поля.
