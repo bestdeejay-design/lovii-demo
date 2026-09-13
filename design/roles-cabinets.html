@@ -198,8 +198,17 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       </div>
       <div class="dash-note tone-pink">3 заявки в очереди — апрувните их сейчас, чтобы точки увидели витрину.</div>
       <div class="list-card">
-        <div class="row"><div class="row-icon">🥖</div><div class="tx"><div class="row-title">Пекарня на Садовой</div><div class="row-sub">активна · Лови Базовый</div></div><div class="row-sum">41 200 ₽</div></div>
-        <div class="row"><div class="row-icon">☕</div><div class="tx"><div class="row-title">Кофейня «Утро»</div><div class="row-sub">активна · Лови Старт</div></div><div class="row-sum">28 100 ₽</div></div>
+        <div class="row"><div class="row-icon">🥖</div><div class="row-main"><div class="row-title">Пекарня на Садовой</div><div class="row-sub">активна · Лови Базовый</div></div><div class="row-sum">41 200 ₽</div></div>
+        <div class="row"><div class="row-icon">☕</div><div class="row-main"><div class="row-title">Кофейня «Утро»</div><div class="row-sub">активна · Лови Старт</div></div><div class="row-sum">28 100 ₽</div></div>
+      </div>
+      <div class="section">
+        <div class="cap">Топ точек по GMV</div>
+        <div class="bar" style="margin-top:10px"><span style="width:72%"></span></div>
+        <p>Пекарня на Садовой — 41 200 ₽</p>
+        <div class="bar"><span style="width:49%"></span></div>
+        <p>Кофейня «Утро» — 28 100 ₽</p>
+        <div class="bar"><span style="width:18%"></span></div>
+        <p>Химчистка «Чисто» — 10 400 ₽</p>
       </div>
     </div>
 
@@ -208,12 +217,15 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
         <div class="chips">
           <span class="filter-chip">Все</span><span class="filter-chip">Активные</span><span class="filter-chip">Ожидают</span><span class="filter-chip">Отклонены</span>
         </div>
+        <div class="seg" style="margin-top:10px" role="group" aria-label="Сортировка точек">
+          <button class="active">По названию</button><button>По выручке</button><button>По статусу</button>
+        </div>
       </div>
       <div class="list-card">
-        <div class="row"><div class="row-icon">🥖</div><div class="tx"><div class="row-title">Пекарня на Садовой</div><div class="row-sub">Лови Базовый · 12 заказов</div></div><div class="row-sum"><span class="status-pill ok">Активна</span></div></div>
-        <div class="row"><div class="row-icon">☕</div><div class="tx"><div class="row-title">Кофейня «Утро»</div><div class="row-sub">Лови Старт · 4 заказа</div></div><div class="row-sum"><span class="status-pill ok">Активна</span></div></div>
-        <div class="row"><div class="row-icon">🧺</div><div class="tx"><div class="row-title">Химчистка «Чисто»</div><div class="row-sub">заявка отправлена</div></div><div class="row-sum"><span class="status-pill wait">Ожидает</span></div></div>
-        <div class="row"><div class="row-icon">🧁</div><div class="tx"><div class="row-title">Кондитерская «Марта»</div><div class="row-sub">карточка не заполнена</div></div><div class="row-sum"><span class="status-pill off">Отклонена</span></div></div>
+        <div class="row"><div class="row-icon">🥖</div><div class="row-main"><div class="row-title">Пекарня на Садовой</div><div class="row-sub">Лови Базовый · 12 заказов</div></div><div class="row-sum"><span class="status-pill ok">Активна</span></div></div>
+        <div class="row"><div class="row-icon">☕</div><div class="row-main"><div class="row-title">Кофейня «Утро»</div><div class="row-sub">Лови Старт · 4 заказа</div></div><div class="row-sum"><span class="status-pill ok">Активна</span></div></div>
+        <div class="row"><div class="row-icon">🧺</div><div class="row-main"><div class="row-title">Химчистка «Чисто»</div><div class="row-sub">заявка отправлена</div></div><div class="row-sum"><span class="status-pill wait">Ожидает</span></div></div>
+        <div class="row"><div class="row-icon">🧁</div><div class="row-main"><div class="row-title">Кондитерская «Марта»</div><div class="row-sub">карточка не заполнена</div></div><div class="row-sum"><span class="status-pill off">Отклонена</span></div></div>
       </div>
       <div class="dash-note tone-dim">Поиск и сортировка — как в спеке (по названию, выручке, статусу).</div>
     </div>
@@ -236,8 +248,8 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
         <p>Заявка приходит по вашему промокоду. Проверьте ИНН и адрес — после апрува точка получит счёт на верификацию.</p>
       </div>
       <div class="list-card">
-        <div class="row"><div class="row-icon">🧺</div><div class="tx"><div class="row-title">Химчистка «Чисто»</div><div class="row-sub">ИНН 7801234567 · СПб, Садовая 12</div></div></div>
-        <div class="row"><div class="row-icon">🍣</div><div class="tx"><div class="row-title">Суши «Тай»</div><div class="row-sub">ИНН 7807654321 · СПб, Невский 40</div></div></div>
+        <div class="row"><div class="row-icon">🧺</div><div class="row-main"><div class="row-title">Химчистка «Чисто»</div><div class="row-sub">ИНН 7801234567 · СПб, Садовая 12</div></div></div>
+        <div class="row"><div class="row-icon">🍣</div><div class="row-main"><div class="row-title">Суши «Тай»</div><div class="row-sub">ИНН 7807654321 · СПб, Невский 40</div></div></div>
       </div>
       <div class="section">
         <div class="cap">Маршрут подключения</div>
@@ -309,22 +321,36 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
         <div class="kpi"><div class="l">Точек в сети</div><div class="v">12</div><div class="d">подключены</div></div>
         <div class="kpi"><div class="l">GMV ветки</div><div class="v">212 400 ₽</div><div class="d">за месяц</div></div>
       </div>
+      <div class="section">
+        <div class="cap">Уровень</div>
+        <h2>Цифровой Амбассадор</h2>
+        <p>До «Губернатора» — 3 города и 90 точек в ветке. Уровень повышает долю с сети.</p>
+        <div class="bar" role="progressbar" aria-valuenow="22" aria-valuemin="0" aria-valuemax="100"><span style="width:22%"></span></div>
+      </div>
+      <div class="section">
+        <div class="cap">Задания недели</div>
+        <ul class="steps" style="margin-top:8px">
+          <li class="done"><div class="st">Обучить представителя</div><div class="sd">выполнено — бонус к уровню</div></li>
+          <li><div class="st">Подключить 2 новых точки</div><div class="sd">осталось 2 из 2</div></li>
+          <li><div class="st">Провести встречу сети</div><div class="sd">до конца недели</div></li>
+        </ul>
+      </div>
       <div class="dash-note tone-gold">Ваша доля — 20% от пула платформы со всей ветки представителей.</div>
     </div>
 
     <div class="screen" data-screen="amb-reps">
       <div class="list-card">
-        <div class="row"><div class="row-icon">🤝</div><div class="tx"><div class="row-title">Анна Ветрова</div><div class="row-sub">PP7K2A · 4 точки</div></div><div class="row-sum">0 ₽</div></div>
-        <div class="row"><div class="row-icon">🤝</div><div class="tx"><div class="row-title">Игорь Смирнов</div><div class="row-sub">PP3M9Q · 3 точки</div></div><div class="row-sum">0 ₽</div></div>
-        <div class="row"><div class="row-icon">🤝</div><div class="tx"><div class="row-title">Мария Ким</div><div class="row-sub">PP8D1L · 5 точек</div></div><div class="row-sum">0 ₽</div></div>
+        <div class="row"><div class="row-icon">🤝</div><div class="row-main"><div class="row-title">Анна Ветрова</div><div class="row-sub">PP7K2A · 4 точки</div></div><div class="row-sum">0 ₽</div></div>
+        <div class="row"><div class="row-icon">🤝</div><div class="row-main"><div class="row-title">Игорь Смирнов</div><div class="row-sub">PP3M9Q · 3 точки</div></div><div class="row-sum">0 ₽</div></div>
+        <div class="row"><div class="row-icon">🤝</div><div class="row-main"><div class="row-title">Мария Ким</div><div class="row-sub">PP8D1L · 5 точек</div></div><div class="row-sum">0 ₽</div></div>
       </div>
     </div>
 
     <div class="screen" data-screen="amb-training">
       <div class="list-card" style="padding:0;margin-top:14px">
-        <div class="row"><div class="row-icon">📘</div><div class="tx"><div class="row-title">Как подключить точку</div><div class="row-sub">8 минут · 100%</div></div><div class="row-sum"><span class="status-pill ok">Пройден</span></div></div>
-        <div class="row"><div class="row-icon">📗</div><div class="tx"><div class="row-title">Работа с возражениями</div><div class="row-sub">12 минут · 40%</div></div><div class="row-sum"><span class="status-pill wait">В процессе</span></div></div>
-        <div class="row"><div class="row-icon">📙</div><div class="tx"><div class="row-title">Обучение представителей</div><div class="row-sub">15 минут</div></div><div class="row-sum"><span class="status-pill off">Не начат</span></div></div>
+        <div class="row"><div class="row-icon">📘</div><div class="row-main"><div class="row-title">Как подключить точку</div><div class="row-sub">8 минут · 100%</div></div><div class="row-sum"><span class="status-pill ok">Пройден</span></div></div>
+        <div class="row"><div class="row-icon">📗</div><div class="row-main"><div class="row-title">Работа с возражениями</div><div class="row-sub">12 минут · 40%</div></div><div class="row-sum"><span class="status-pill wait">В процессе</span></div></div>
+        <div class="row"><div class="row-icon">📙</div><div class="row-main"><div class="row-title">Обучение представителей</div><div class="row-sub">15 минут</div></div><div class="row-sum"><span class="status-pill off">Не начат</span></div></div>
       </div>
     </div>
 
@@ -351,6 +377,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
     <div class="dash-tabs" role="tablist">
       <button role="tab" aria-selected="true" data-tab="msp-overview">Обзор</button>
       <button role="tab" aria-selected="false" data-tab="msp-orders">Заказы</button>
+      <button role="tab" aria-selected="false" data-tab="msp-order">Заказ</button>
       <button role="tab" aria-selected="false" data-tab="msp-products">Товары</button>
       <button role="tab" aria-selected="false" data-tab="msp-settings">Настройки</button>
       <button role="tab" aria-selected="false" data-tab="msp-pay">Платёж</button>
@@ -366,26 +393,60 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
         <div class="kpi"><div class="l">Заказы сегодня</div><div class="v">3</div></div>
         <div class="kpi"><div class="l">Выручка · неделя</div><div class="v">41 200 ₽</div></div>
       </div>
+      <div class="section">
+        <div class="cap">Маршрут точки</div>
+        <ol class="steps">
+          <li class="done"><div class="st">Карточка точки</div><div class="sd">ИНН, адрес, канал связи</div></li>
+          <li class="done"><div class="st">Апрув представителя</div><div class="sd">карточку проверил представитель</div></li>
+          <li class="done"><div class="st">Счёт на верификацию</div><div class="sd">1 ₽, возвратный, с р/с компании</div></li>
+          <li class="done"><div class="st">Верификация платежом</div><div class="sd">витрина стала teaser</div></li>
+          <li class="done"><div class="st">Продажи включены</div><div class="sd">витрина active — заказы идут</div></li>
+        </ol>
+      </div>
       <div class="list-card">
-        <div class="row"><div class="row-icon">🧾</div><div class="tx"><div class="row-title">Заказ №151 · 1 240 ₽</div><div class="row-sub">новый · забрать в 18:30</div></div><div class="row-sum"><span class="status-pill brand">Новый</span></div></div>
-        <div class="row"><div class="row-icon">🧾</div><div class="tx"><div class="row-title">Заказ №150 · 860 ₽</div><div class="row-sub">готов к выдаче</div></div><div class="row-sum"><span class="status-pill ok">Готов</span></div></div>
+        <div class="row"><div class="row-icon">🧾</div><div class="row-main"><div class="row-title">Заказ №151 · 1 240 ₽</div><div class="row-sub">новый · забрать в 18:30</div></div><div class="row-sum"><span class="status-pill brand">Новый</span></div></div>
+        <div class="row"><div class="row-icon">🧾</div><div class="row-main"><div class="row-title">Заказ №150 · 860 ₽</div><div class="row-sub">готов к выдаче</div></div><div class="row-sum"><span class="status-pill ok">Готов</span></div></div>
       </div>
     </div>
 
     <div class="screen" data-screen="msp-orders">
       <div class="section" style="padding:12px 14px"><div class="chips"><span class="filter-chip">Новые</span><span class="filter-chip">В работе</span><span class="filter-chip">Готовы</span><span class="filter-chip">Завершены</span></div></div>
       <div class="list-card" style="padding:0;margin-top:14px">
-        <div class="row"><div class="row-icon">🧾</div><div class="tx"><div class="row-title">№151 · 1 240 ₽</div><div class="row-sub">2 позиции · самовывоз · Садовая 12</div></div><div class="row-sum"><span class="status-pill brand">Новый</span></div></div>
-        <div class="row"><div class="row-icon">🧾</div><div class="tx"><div class="row-title">№150 · 860 ₽</div><div class="row-sub">1 позиция · доставка · Невский 40</div></div><div class="row-sum"><span class="status-pill wait">Готовим</span></div></div>
-        <div class="row"><div class="row-icon">🧾</div><div class="tx"><div class="row-title">№149 · 540 ₽</div><div class="row-sub">завершён</div></div><div class="row-sum"><span class="status-pill ok">Завершён</span></div></div>
+        <div class="row"><div class="row-icon">🧾</div><div class="row-main"><div class="row-title">№151 · 1 240 ₽</div><div class="row-sub">2 позиции · самовывоз · Садовая 12</div></div><div class="row-sum"><span class="status-pill brand">Новый</span></div></div>
+        <div class="row"><div class="row-icon">🧾</div><div class="row-main"><div class="row-title">№150 · 860 ₽</div><div class="row-sub">1 позиция · доставка · Невский 40</div></div><div class="row-sum"><span class="status-pill wait">Готовим</span></div></div>
+        <div class="row"><div class="row-icon">🧾</div><div class="row-main"><div class="row-title">№149 · 540 ₽</div><div class="row-sub">завершён</div></div><div class="row-sum"><span class="status-pill ok">Завершён</span></div></div>
       </div>
       <div class="btn-row" style="padding:0 16px"><button class="cta-btn" data-action="status">Сменить статус</button><button class="ghost-btn" disabled>Отменить</button></div>
     </div>
 
+
+
+        <div class="screen" data-screen="msp-order">
+      <div class="section">
+        <div class="cap">Заказ №151 · новый</div>
+        <h2>1 240 ₽ · самовывоз, 18:30</h2>
+        <p>Покупатель: Анна В. · оплата картой · чек сформирован (признак агента)</p>
+        <div class="btn-row"><button class="cta-btn" data-action="status">Принять заказ</button><button class="ghost-btn" data-action="reject-order">Отклонить</button></div>
+      </div>
+      <div class="list-card">
+        <div class="row"><div class="row-icon">🥐</div><div class="row-main"><div class="row-title">Круассан классический</div><div class="row-sub">2 шт · 120 ₽</div></div><div class="row-sum">240 ₽</div></div>
+        <div class="row"><div class="row-icon">🍞</div><div class="row-main"><div class="row-title">Хлеб бородинский</div><div class="row-sub">1 шт · 85 ₽</div></div><div class="row-sum">85 ₽</div></div>
+        <div class="row"><div class="row-icon">🎁</div><div class="row-main"><div class="row-title">Набор «К чаю»</div><div class="row-sub">1 шт · 915 ₽</div></div><div class="row-sum">915 ₽</div></div>
+      </div>
+      <div class="section">
+        <div class="cap">История статусов</div>
+        <div class="timeline" style="margin-top:10px">
+          <div><div class="row-title">Оплачен</div><div class="row-sub">18:04 · деньги на номинальном счёте, 90% — точке</div></div>
+          <div><div class="row-title">Принят точкой</div><div class="row-sub">18:06 · готовим</div></div>
+          <div style="opacity:.55"><div class="row-title">Готов к выдаче</div><div class="row-sub">ожидается</div></div>
+        </div>
+      </div>
+    </div>
+
     <div class="screen" data-screen="msp-products">
       <div class="list-card">
-        <div class="row"><div class="row-icon">🥐</div><div class="tx"><div class="row-title">Круассан классический</div><div class="row-sub">120 ₽ · остаток 14 · во всех филиалах</div></div><div class="row-sum"><span class="status-pill ok">Виден</span></div></div>
-        <div class="row"><div class="row-icon">🍞</div><div class="tx"><div class="row-title">Хлеб бородинский</div><div class="row-sub">85 ₽ · остаток 6 · Садовая 12</div></div><div class="row-sum"><span class="status-pill off">Скрыт</span></div></div>
+        <div class="row"><div class="row-icon">🥐</div><div class="row-main"><div class="row-title">Круассан классический</div><div class="row-sub">120 ₽ · остаток 14 · во всех филиалах</div></div><div class="row-sum"><span class="status-pill ok">Виден</span></div></div>
+        <div class="row"><div class="row-icon">🍞</div><div class="row-main"><div class="row-title">Хлеб бородинский</div><div class="row-sub">85 ₽ · остаток 6 · Садовая 12</div></div><div class="row-sum"><span class="status-pill off">Скрыт</span></div></div>
       </div>
       <div class="btn-row" style="padding:0 16px"><button class="cta-btn" data-action="product">Добавить товар</button></div>
       <div class="dash-note tone-dim">Загрузка фото — <code>POST /msp/uploads</code>; расширенная настройка каталога остаётся в кабинете b2b.</div>
