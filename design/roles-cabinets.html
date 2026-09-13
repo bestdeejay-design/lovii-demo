@@ -217,6 +217,30 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
   html { scroll-behavior:auto; }
 }
 .empty-state .ico { width:44px; height:44px; color:var(--lv-dim); margin:0 auto; }
+
+/* Хедер приложения: канон docs/07 §3 (sticky glass 56px) + реализация демо */
+.app-header { position:sticky; top:0; z-index:40; background:var(--lv-glass,rgba(247,246,241,.82)); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1px solid var(--lv-hairline,var(--lv-line)); }
+.app-header-in { display:flex; align-items:center; justify-content:space-between; height:var(--lv-header-h,56px); padding:0 var(--lv-pad-x,16px); }
+.logo { display:inline-flex; align-items:center; gap:6px; border:0; background:none; padding:0; cursor:pointer; }
+.logo .logo-img { height:30px; width:auto; display:block; }
+.logo .logo-mark { height:30px; width:30px; display:block; border-radius:9px; }
+.logo .logo-dark-img { display:none; }
+[data-theme="dark"] .logo .logo-dark-img { display:block; }
+[data-theme="dark"] .logo .logo-light-img { display:none; }
+.head-actions { display:flex; align-items:center; gap:8px; }
+.icon-btn { width:36px; height:36px; border:0; border-radius:999px; background:var(--lv-surface); color:var(--lv-ink); display:inline-flex; align-items:center; justify-content:center; cursor:pointer; transition:background var(--mv-hover) ease, transform .15s ease; }
+.icon-btn:hover { background:var(--lv-grey-soft); }
+.icon-btn:active { transform:scale(.94); }
+.icon-btn .ico { width:18px; height:18px; }
+
+/* Графики и дельты — канон демо (.chart-card/.spark/.delta-*) */
+.chart-card { margin:14px 16px 0; background:var(--lv-card); border:1px solid var(--lv-line); border-radius:16px; box-shadow:var(--lv-shadow-soft,0 1px 3px rgba(26,26,26,.06)); padding:14px; }
+.chart-card .cc-head { display:flex; align-items:baseline; justify-content:space-between; gap:8px; }
+.chart-card .cc-head b { font-size:13.5px; font-weight:800; }
+.chart-card .cc-head .sub { font-size:11px; color:var(--lv-dim); font-weight:600; }
+.chart-card svg.chart { width:100%; height:auto; display:block; margin-top:10px; }
+.delta-up { color:var(--lv-tiffany-text); font-weight:700; }
+.delta-down { color:var(--lv-pink-dark); font-weight:700; }
 </style>
 </head>
 <body>
@@ -232,10 +256,24 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
   <button role="tab" aria-selected="false" data-role="msp">МСП</button>
 </div>
 
-<div class="state-bar" role="group" aria-label="Состояние экрана"><button data-state="normal" aria-pressed="true">Норма</button><button data-state="loading" aria-pressed="false">Загрузка</button><button data-state="empty" aria-pressed="false">Пусто</button><button data-state="error" aria-pressed="false">Ошибка</button><button data-guides aria-pressed="false">Сетка</button><button data-theme-toggle aria-pressed="false">Тема</button></div>
+<div class="state-bar" role="group" aria-label="Состояние экрана"><button data-state="normal" aria-pressed="true">Норма</button><button data-state="loading" aria-pressed="false">Загрузка</button><button data-state="empty" aria-pressed="false">Пусто</button><button data-state="error" aria-pressed="false">Ошибка</button><button data-guides aria-pressed="false">Сетка</button></div>
 
 <div class="boards">
   <section class="phone" data-board="rep" data-accent="tiffany" aria-label="Кабинет представителя">
+    <header class="app-header">
+      <div class="app-header-in">
+        <button class="logo" aria-label="LOVII — на главную">
+          <img class="logo-mark" src="favicon.svg" alt="" width="30" height="30">
+          <img class="logo-img logo-light-img" src="lovii-logo-light.svg" alt="LOVII" width="143" height="30">
+          <img class="logo-img logo-dark-img" src="logo-dark.svg" alt="LOVII" width="143" height="30">
+        </button>
+        <div class="head-actions">
+          <button class="icon-btn" data-theme-toggle aria-label="Сменить тему" title="Светлая / тёмная тема"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-moon"/></svg></button>
+          <button class="icon-btn" data-action="bell" aria-label="Уведомления"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-bell"/></svg></button>
+        </div>
+      </div>
+    </header>
+
     <div class="cab-head">
       <div class="cab-title">Представитель</div>
       <div class="cab-sub">PP7K2A · Анна Ветрова · +7 911 000-00-00</div>
@@ -253,7 +291,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       <div class="kpi-grid">
         <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">выплаты — после запуска платформы</div></div>
         <div class="kpi"><div class="l">Активные точки</div><div class="v">4 / 7</div><div class="d">3 заявки в работе</div></div>
-        <div class="kpi"><div class="l">Оборот сети · месяц</div><div class="v">84 700 ₽</div><div class="d">по активным точкам</div></div>
+        <div class="kpi"><div class="l">Оборот сети · месяц</div><div class="v">84 700 ₽</div><div class="d"><span class="delta-up">▲ 12,4%</span> по активным точкам</div></div>
         <div class="kpi"><div class="l">Статус</div><div class="v">Представитель</div><div class="d">до «Мэра» — 26 точек</div></div>
       </div>
       <div class="section">
@@ -266,6 +304,10 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       <div class="list-card">
         <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-choco"/></svg></div><div class="row-main"><div class="row-title">НАПОЛИ ПИЦЦА · «На Белы Куна»</div><div class="row-sub">активна · Лови Базовый</div></div><div class="row-sum">26 700 ₽</div></div>
         <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-coffee"/></svg></div><div class="row-main"><div class="row-title">Перекресток, Карбышева 9</div><div class="row-sub">активна · Лови Базовый</div></div><div class="row-sum">4 247 ₽</div></div>
+      </div>
+            <div class="chart-card">
+        <div class="cc-head"><b>Оборот сети</b><span class="sub">за 14 дней</span></div>
+        <div data-chart="rep-turnover"></div>
       </div>
       <div class="section">
         <div class="cap">Топ точек по обороту</div>
@@ -379,6 +421,20 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
   </section>
 
   <section class="phone" data-board="amb" data-accent="gold" hidden aria-label="Кабинет амбассадора">
+    <header class="app-header">
+      <div class="app-header-in">
+        <button class="logo" aria-label="LOVII — на главную">
+          <img class="logo-mark" src="favicon.svg" alt="" width="30" height="30">
+          <img class="logo-img logo-light-img" src="lovii-logo-light.svg" alt="LOVII" width="143" height="30">
+          <img class="logo-img logo-dark-img" src="logo-dark.svg" alt="LOVII" width="143" height="30">
+        </button>
+        <div class="head-actions">
+          <button class="icon-btn" data-theme-toggle aria-label="Сменить тему" title="Светлая / тёмная тема"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-moon"/></svg></button>
+          <button class="icon-btn" data-action="bell" aria-label="Уведомления"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-bell"/></svg></button>
+        </div>
+      </div>
+    </header>
+
     <div class="cab-head">
       <div class="cab-title">Амбассадор</div>
       <div class="cab-sub">AMB4K · Алина · сеть из 5 представителей</div>
@@ -396,7 +452,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
         <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">после запуска выплат</div></div>
         <div class="kpi"><div class="l">Представителей</div><div class="v">5</div><div class="d">в вашей ветке</div></div>
         <div class="kpi"><div class="l">Точек в сети</div><div class="v">12</div><div class="d">подключены</div></div>
-        <div class="kpi"><div class="l">Оборот ветки</div><div class="v">212 400 ₽</div><div class="d">за месяц</div></div>
+        <div class="kpi"><div class="l">Оборот ветки</div><div class="v">212 400 ₽</div><div class="d"><span class="delta-up">▲ 8,1%</span> за месяц</div></div>
       </div>
       <div class="section">
         <div class="cap">Уровень</div>
@@ -442,6 +498,20 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
   </section>
 
   <section class="phone" data-board="msp" data-accent="tiffany" hidden aria-label="Кабинет МСП">
+    <header class="app-header">
+      <div class="app-header-in">
+        <button class="logo" aria-label="LOVII — на главную">
+          <img class="logo-mark" src="favicon.svg" alt="" width="30" height="30">
+          <img class="logo-img logo-light-img" src="lovii-logo-light.svg" alt="LOVII" width="143" height="30">
+          <img class="logo-img logo-dark-img" src="logo-dark.svg" alt="LOVII" width="143" height="30">
+        </button>
+        <div class="head-actions">
+          <button class="icon-btn" data-theme-toggle aria-label="Сменить тему" title="Светлая / тёмная тема"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-moon"/></svg></button>
+          <button class="icon-btn" data-action="bell" aria-label="Уведомления"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-bell"/></svg></button>
+        </div>
+      </div>
+    </header>
+
     <div class="cab-head">
       <div class="cab-title">Моя точка</div>
       <div class="cab-sub" data-ctx-sub>ООО «НАПОЛИ ПИЦЦА» · точка «На Белы Куна» · ИНН ••4821</div>
@@ -470,7 +540,11 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       </div>
       <div class="kpi-grid">
         <div class="kpi"><div class="l">Заказы сегодня</div><div class="v">3</div></div>
-        <div class="kpi"><div class="l">Выручка · неделя</div><div class="v">1 356 ₽</div></div>
+        <div class="kpi"><div class="l">Выручка · неделя</div><div class="v">1 356 ₽</div><div class="d"><span class="delta-up">▲ 5,2%</span> к прошлой</div></div>
+      </div>
+            <div class="chart-card">
+        <div class="cc-head"><b>Заказы</b><span class="sub">за 7 дней</span></div>
+        <div data-chart="msp-orders"></div>
       </div>
       <div class="section">
         <div class="cap">Маршрут точки</div>
@@ -735,6 +809,55 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
     document.querySelectorAll('[data-sheet-overlay]').forEach(function (o) { o.classList.remove('is-open'); });
   });
 
+
+  // Канонные графики (аналог charts.js демо): area и bars, только SVG, цвет — токены.
+  function seededSeries(n, seed, base) {
+    var out = [], v = base, x = seed;
+    for (var i = 0; i < n; i++) {
+      x = (x * 1103515245 + 12345) % 2147483648;
+      v = Math.max(base * 0.35, v + ((x % 100) / 100 - 0.42) * base * 0.22);
+      out.push(Math.round(v));
+    }
+    return out;
+  }
+
+  function areaChart(values, w, h) {
+    var max = Math.max.apply(null, values), min = Math.min.apply(null, values);
+    var span = Math.max(1, max - min);
+    var step = w / (values.length - 1);
+    var pts = values.map(function (v, i) {
+      return [i * step, h - ((v - min) / span) * (h - 8) - 4];
+    });
+    var line = pts.map(function (p, i) { return (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' ');
+    var area = line + ' L' + w + ' ' + h + ' L0 ' + h + ' Z';
+    return '<svg class="chart" viewBox="0 0 ' + w + ' ' + h + '" role="img" aria-label="Динамика">'
+      + '<path d="' + area + '" fill="var(--lv-pink)" opacity=".12"/>'
+      + '<path d="' + line + '" fill="none" stroke="var(--lv-pink)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>'
+      + '</svg>';
+  }
+
+  function barsChart(values, w, h) {
+    var max = Math.max.apply(null, values);
+    var gap = 6, bw = (w - gap * (values.length - 1)) / values.length;
+    var bars = values.map(function (v, i) {
+      var bh = Math.max(6, (v / max) * (h - 6));
+      return '<rect x="' + (i * (bw + gap)).toFixed(1) + '" y="' + (h - bh).toFixed(1) + '" width="' + bw.toFixed(1)
+        + '" height="' + bh.toFixed(1) + '" rx="' + Math.min(6, bw / 2).toFixed(1) + '" fill="var(--lv-pink)" opacity="' + (i === values.length - 1 ? 1 : '.45') + '"/>';
+    }).join('');
+    return '<svg class="chart" viewBox="0 0 ' + w + ' ' + h + '" role="img" aria-label="Динамика">' + bars + '</svg>';
+  }
+
+  var CHARTS = [
+    { sel: '[data-chart="rep-turnover"]', kind: 'area', n: 14, seed: 7, base: 2600, label: 'за 14 дней' },
+    { sel: '[data-chart="msp-orders"]', kind: 'bars', n: 7, seed: 3, base: 4, label: 'за 7 дней' },
+  ];
+  CHARTS.forEach(function (c) {
+    document.querySelectorAll(c.sel).forEach(function (host) {
+      var vals = seededSeries(c.n, c.seed, c.base);
+      host.innerHTML = (c.kind === 'area' ? areaChart(vals, 300, 84) : barsChart(vals, 300, 84));
+    });
+  });
+
   var toastEl = document.getElementById('toast-wrap');
   var toastTimer = null;
 
@@ -841,6 +964,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       if (overlay) { overlay.classList.toggle('is-open', open); }
       return;
     }
+    if (action === 'bell') { toast('Уведомлений пока нет', 'Здесь появятся заказы и статусы точки'); return; }
     if (action === 'retry') { toast('Обновляем данные', 'Это займёт пару секунд'); return; }
     if (action === 'product') { toast('Форма товара — в следующей итерации', 'Пока добавляйте товары в кабинете b2b'); return; }
     if (action === 'save') { toast('Настройки сохранены', 'Применим к филиалу «На Белы Куна»'); return; }
