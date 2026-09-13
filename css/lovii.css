@@ -974,7 +974,7 @@ main#view { flex: 1; }
 .tier-next { margin-top: 10px; font-size: 12px; line-height: 1.5; color: var(--lv-dim); }
 .tier-next b { color: var(--lv-ink); }
 .tier-perks { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-.tp { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; border-radius: 999px; background: var(--lv-surface); font-size: 11px; font-weight: 600; color: var(--lv-ink); }
+.tp { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; border-radius: 999px; background: var(--lv-soft-tiffany); font-size: 11px; font-weight: 700; color: var(--lv-tiffany-text); }
 .tp svg { width:12px; height: 12px; color: var(--lv-tiffany-text); }
 
 /* ---------- 6. Витрина привилегий ---------- */
