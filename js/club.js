@@ -195,7 +195,7 @@ function renderPayProfile() {
     const active = state.activeRole === role;
     return `
     <div class="row-item">
-      <span class="ri-emoji ${tileBg(m.color)}">${m.emoji}</span>
+      <span class="ri-emoji ${tileBg(m.color)}">${icon(m.icon || 'user')}</span>
       <div class="ri-mid">
         <div class="nm">${esc(m.title)}${has ? '<span class="role-badge">моя роль</span>' : ''}</div>
         <div class="sb">${esc(m.desc)}</div>
@@ -213,7 +213,7 @@ function renderPayProfile() {
       const m = roleMeta(role);
       return `
       <div class="row-item">
-        <span class="ri-emoji ${tileBg(m.color)}">${m.emoji}</span>
+        <span class="ri-emoji ${tileBg(m.color)}">${icon(m.icon || 'user')}</span>
         <div class="ri-mid">
           <div class="nm">${esc(m.title)}<span class="demo-tag">демо</span></div>
           <div class="sb">${esc(m.desc)}</div>

@@ -111,11 +111,11 @@ const LOVII_DASH = {
 
   // Карточки ролей: заголовок, описание, эмодзи, цвет плитки
   roleMeta: {
-    store:    { title: 'Торговая точка', short: 'точку',          desc: 'Своя витрина в приложении',      emoji: '🏪', color: 'pink' },
-    rep:      { title: 'Представитель',  short: 'представителя',  desc: 'Точки района на связи',          emoji: '🤝', color: 'tiffany' },
-    amb:      { title: 'Амбасадор',      short: 'амбасадора',     desc: 'Структура представителей',       emoji: '🚀', color: 'gold' },
-    owner:    { title: 'Владелец',       short: 'владельца',      desc: 'Платформа целиком',              emoji: '👑', color: 'sand' },
-    investor: { title: 'Инвестор',       short: 'инвестора',      desc: 'Рост и доходность',              emoji: '📈', color: 'tiffany' },
+    store:    { title: 'Торговая точка', short: 'точку',          desc: 'Своя витрина в приложении',      icon: 'store',  color: 'pink' },
+    rep:      { title: 'Представитель',  short: 'представителя',  desc: 'Точки района на связи',          icon: 'users',  color: 'tiffany' },
+    amb:      { title: 'Амбассадор',     short: 'амбассадора',    desc: 'Структура представителей',       icon: 'network',color: 'gold' },
+    owner:    { title: 'Владелец',       short: 'владельца',      desc: 'Платформа целиком',              icon: 'crown',  color: 'sand' },
+    investor: { title: 'Инвестор',       short: 'инвестора',      desc: 'Рост и доходность',              icon: 'pie',    color: 'tiffany' },
   },
 
   // ---- Представитель: подключённые точки (статусы: active / waiting / offline) ----

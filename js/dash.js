@@ -78,7 +78,7 @@ function dashHeadHtml(role, sub) {
   const m = roleMeta(role);
   return `
   <div class="dash-head">
-    <span class="dash-ava ${tileBg(m.color)}">${m.emoji}</span>
+    <span class="dash-ava ${tileBg(m.color)}">${icon(m.icon || 'user')}</span>
     <div class="dash-title">
       <h1>${esc(m.title)}</h1>
       <div class="d">${esc(sub || m.desc)}</div>
@@ -408,7 +408,7 @@ function renderStoreDash(tab) {
   </div>`;
 }
 
-/* ================= Дашборды: Представитель и Амбасадор ================= */
+/* ================= Дашборды: Представитель и Амбассадор ================= */
 
 const LOVII_MODEL = {
   repShare: 0.4,
@@ -708,7 +708,7 @@ function renderRepDash(tab) {
   </div>`;
 }
 
-/* ================= Дашборд: Амбасадор ================= */
+/* ================= Дашборд: Амбассадор ================= */
 
 function ambRepRows() {
   return LOVII_DASH.ambReps.map((r) => {
@@ -1017,7 +1017,7 @@ function renderOwnerDash(tab) {
     return `
     ${head}${tabs}
     <div class="kpi-grid">
-      ${kpiCard('Амбасадоры', String(LOVII_DASH.ambassadors.length), { accent: true })}
+      ${kpiCard('Амбассадоры', String(LOVII_DASH.ambassadors.length), { accent: true })}
       ${kpiCard('Представители', String(totalReps), { tone: 'tiffany' })}
       ${kpiCard('Точки в структуре', String(totalPoints), { tone: 'gold' })}
       ${kpiCard('Выручка структуры · неделя', moneyFmt(totalRev), {})}
@@ -1062,7 +1062,7 @@ function renderOwnerDash(tab) {
     ${kpiCard('Выручка платформы · месяц', moneyFmt(totalMonth), { delta: 11, accent: true })}
     ${kpiCard('Точки на витрине', String(inv.points[inv.points.length - 1]), { spark: sparkSvg(inv.points, 'tiffany') })}
     ${kpiCard('Пользователи', numFmt(inv.users[inv.users.length - 1]), { delta: 17, tone: 'tiffany' })}
-    ${kpiCard('Амбасадоры', String(LOVII_DASH.ambassadors.length), { tone: 'gold' })}
+    ${kpiCard('Амбассадоры', String(LOVII_DASH.ambassadors.length), { tone: 'gold' })}
   </div>
   ${chartCard('Выручка платформы по месяцам', 'комиссия + подписки, тыс ₽', areaChart({ data: monthRev, labels: inv.monthLabels, tone: 'pink', height: 150 }))}
   <div class="chips-row no-scrollbar">${regions
