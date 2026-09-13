@@ -47,13 +47,13 @@ main#view { flex: 1; }
 .app-header { position: sticky; top: 0; z-index: 40; background: var(--lv-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--lv-line); }
 .app-header-in { display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 16px; }
 .logo { display: inline-flex; align-items: center; gap: 6px; font-weight: 800; letter-spacing: -.02em; font-size: 20px; color: var(--lv-ink); }
-.logo svg { width: 24px; height: 24px; color: var(--lv-pink); }
+.logo svg { width:26px; height: 24px; color: var(--lv-pink); }
 .logo .lv { color: var(--lv-pink); }
 .logo .logo-img { height: 32px; width: auto; display: block; }
 @media (max-width: 360px) { .logo .logo-img { height: 28px; } }
 .pill-btn { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 10px; border-radius: 999px; background: var(--lv-surface); font-size: 14px; font-weight: 500; transition: background .2s; }
 .pill-btn:hover { background: var(--lv-soft-pink); }
-.pill-btn svg { width: 16px; height: 16px; color: var(--lv-pink); flex-shrink: 0; }
+.pill-btn svg { width:16px; height: 16px; color: var(--lv-pink); flex-shrink: 0; }
 .pill-btn .chev { width: 14px; height: 14px; color: var(--lv-dim); }
 .pill-btn .lbl { max-width: 76px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 /* Шапка с 3-й кнопкой (тема): на узких экранах сжимаем район-пилл */
@@ -64,7 +64,7 @@ main#view { flex: 1; }
 }
 .icon-btn { position: relative; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 999px; background: var(--lv-surface); transition: background .2s; }
 .icon-btn:hover { background: var(--lv-soft-pink); }
-.icon-btn svg { width: 18px; height: 18px; }
+.icon-btn svg { width:16px; height: 18px; }
 .count-badge { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 999px; color: var(--lv-on-brand); font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
 
 /* ---------- Подшапка (назад) ---------- */
@@ -73,17 +73,17 @@ main#view { flex: 1; }
 .subheader h1 { margin: 0; font-size: 16px; font-weight: 700; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .back-btn { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 999px; transition: background .2s; flex-shrink: 0; }
 .back-btn:hover { background: var(--lv-surface); }
-.back-btn svg { width: 20px; height: 20px; }
+.back-btn svg { width:22px; height: 20px; }
 
 /* ---------- Герой (сворачивается ярлычком) ---------- */
 /* Вертикальный ритм приложения: блок↔блок 24px (section padding-top 20 + хвост контента 4), заголовок↔контент 12px */
 .hero { padding: 12px 16px 4px; background: linear-gradient(180deg, var(--lv-hero-top) 0%, var(--lv-card) 100%); transition: padding .3s ease; }
 .hero-tab { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; padding: 9px 12px; border-radius: 14px; background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: 0 1px 3px rgba(26, 26, 26, .05); font-size: 13px; font-weight: 600; color: var(--lv-ink); cursor: pointer; }
 .ht-ico { display: flex; flex-shrink: 0; width: 16px; height: 16px; color: var(--lv-pink); }
-.ht-ico svg { width: 16px; height: 16px; }
+.ht-ico svg { width:16px; height: 16px; }
 .ht-lbl { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ht-chev { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 24px; height: 24px; border-radius: 999px; background: var(--lv-soft-pink); color: var(--lv-pink); transition: transform .3s ease; }
-.ht-chev svg { width: 14px; height: 14px; }
+.ht-chev svg { width:12px; height: 14px; }
 .hero:not(.collapsed) .ht-chev { transform: rotate(180deg); }
 .hero-body { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .32s ease; }
 .hero-body-in { min-height: 0; overflow: hidden; }
@@ -91,21 +91,21 @@ main#view { flex: 1; }
 .hero.collapsed { padding-bottom: 4px; }
 .hero.collapsed .hero-body { grid-template-rows: 0fr; }
 .crumb { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--lv-dim); }
-.crumb svg { width: 14px; height: 14px; color: var(--lv-pink); }
+.crumb svg { width:12px; height: 14px; color: var(--lv-pink); }
 .hero h1 { margin: 6px 0 0; font-size: 26px; line-height: 1.22; font-weight: 800; letter-spacing: -.01em; }
 .hero h1 .accent { color: var(--lv-pink); }
 .hero .lead { margin: 6px 0 0; font-size: 14px; line-height: 1.6; color: var(--lv-dim); }
 .hero .lead b { color: var(--lv-ink); font-weight: 600; }
 .stat-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
 .stat-pill { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 12px; border-radius: 999px; font-size: 12px; font-weight: 600; }
-.stat-pill svg { width: 14px; height: 14px; }
+.stat-pill svg { width:12px; height: 14px; }
 .stat-pill.pink { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
 .stat-pill.tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .stat-pill.gold { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
 .stat-pill.grey { background: var(--lv-grey-soft); color: #999; }
 .search-trigger { display: flex; align-items: center; gap: 10px; width: 100%; height: 44px; padding: 0 16px; margin-top: 16px; border-radius: 999px; background: var(--lv-surface); color: var(--lv-dim); font-size: 14px; text-align: left; transition: background .2s; }
 .search-trigger:hover { background: var(--lv-soft-pink); }
-.search-trigger svg { width: 16px; height: 16px; }
+.search-trigger svg { width:16px; height: 16px; }
 
 /* ---------- Категории ---------- */
 .cats { display: flex; gap: 8px; overflow-x: auto; padding: 8px 16px 4px;
@@ -135,7 +135,7 @@ main#view { flex: 1; }
 .section-head .sub { color: var(--lv-dim); font-weight: 600; font-size: 14px; }
 .link-btn { display: flex; align-items: center; gap: 2px; font-size: 13px; font-weight: 600; color: var(--lv-pink-dark); transition: gap .2s; }
 .link-btn:hover { gap: 6px; }
-.link-btn svg { width: 16px; height: 16px; }
+.link-btn svg { width:16px; height: 16px; }
 .hscroll { display: flex; gap: 12px; overflow-x: auto; padding: 0 16px 4px;
   /* карточки мягко растворяются у краёв ленты */
   -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
@@ -167,10 +167,10 @@ main#view { flex: 1; }
 .store-name { font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .store-sub { font-size: 12px; color: var(--lv-dim); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .rating { display: flex; align-items: center; gap: 2px; font-size: 12px; font-weight: 700; flex-shrink: 0; }
-.rating svg { width: 14px; height: 14px; color: var(--lv-gold); fill: var(--lv-gold); }
+.rating svg { width:12px; height: 14px; color: var(--lv-gold); fill: var(--lv-gold); }
 .store-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
 .walk-pill { display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 8px; border-radius: 999px; background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); font-size: 11px; font-weight: 600; }
-.walk-pill svg { width: 14px; height: 14px; }
+.walk-pill svg { width:12px; height: 14px; }
 .chev { width: 16px; height: 16px; color: var(--lv-dim); transition: transform .2s, color .2s; }
 .btn-card:hover .chev { transform: translateX(2px); color: var(--lv-pink); }
 
@@ -185,7 +185,7 @@ main#view { flex: 1; }
 .promo-title { margin-top: 8px; font-size: 16px; font-weight: 800; line-height: 1.3; }
 .promo-desc { font-size: 12px; color: var(--lv-dim); margin-top: 2px; }
 .promo-timer { display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; color: var(--lv-pink-dark); margin-top: 10px; }
-.promo-timer svg { width: 14px; height: 14px; }
+.promo-timer svg { width:12px; height: 14px; }
 
 /* ---------- Карточка товара ---------- */
 .prod-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 16px 4px; }
@@ -202,7 +202,7 @@ main#view { flex: 1; }
 .badge-sale { background: #f7edda; color: var(--lv-gold-text); }
 .badge-eco { background: var(--lv-green-soft); color: var(--lv-green-text); }
 .walk-mini { position: absolute; bottom: 8px; left: 8px; height: 20px; padding: 0 8px; border-radius: 999px; background: rgba(255, 255, 255, .9); backdrop-filter: blur(4px); font-size: 10px; font-weight: 600; color: var(--lv-tiffany-text); display: flex; align-items: center; gap: 4px; }
-.walk-mini svg { width: 12px; height: 12px; }
+.walk-mini svg { width:12px; height: 12px; }
 .prod-body { padding: 12px; }
 .prod-name { font-size: 14px; font-weight: 700; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 38px; }
 .prod-meta { font-size: 11px; color: var(--lv-dim); margin-top: 4px; }
@@ -230,7 +230,7 @@ main#view { flex: 1; }
 .loyalty p { margin: 6px 0 0; font-size: 13px; color: rgba(255, 255, 255, .7); line-height: 1.6; }
 .loyalty .chips { display: flex; gap: 8px; margin-top: 12px; }
 .glass-chip { display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 12px; border-radius: 999px; background: rgba(255, 255, 255, .1); font-size: 12px; font-weight: 600; }
-.glass-chip svg { width: 14px; height: 14px; }
+.glass-chip svg { width:12px; height: 14px; }
 .glass-chip .g { color: var(--lv-gold); fill: var(--lv-gold); }
 .glass-chip .t { color: var(--lv-tiffany); }
 
@@ -246,7 +246,7 @@ main#view { flex: 1; }
 .pd-desc { padding: 0 16px; margin: 6px 0 0; font-size: 14px; color: var(--lv-dim); line-height: 1.6; }
 .status-row { display: flex; gap: 8px; flex-wrap: wrap; padding: 0 16px; margin-top: 12px; }
 .stat-pill.md { height: 32px; font-size: 12px; font-weight: 700; }
-.stat-pill.md svg { width: 16px; height: 16px; }
+.stat-pill.md svg { width:16px; height: 16px; }
 .where-h { padding: 20px 16px 0; }
 .where-h h2 { margin: 0; font-size: 16px; font-weight: 800; }
 .where-h .cnt { color: var(--lv-dim); font-size: 14px; font-weight: 600; margin-left: 6px; }
@@ -263,7 +263,7 @@ main#view { flex: 1; }
 .avail-addr { font-size: 11px; color: var(--lv-dim); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .avail-tags { display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap; align-items: center; }
 .walk-text { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; color: var(--lv-tiffany-text); }
-.walk-text svg { width: 12px; height: 12px; }
+.walk-text svg { width:12px; height: 12px; }
 .stock-pill { height: 18px; padding: 0 6px; border-radius: 999px; font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; }
 .stock-ok { background: #e0f7f6; color: var(--lv-tiffany-text); }
 .stock-low { background: #f7edda; color: var(--lv-gold-text); }
@@ -276,7 +276,7 @@ main#view { flex: 1; }
 .cta-btn:active { transform: scale(.95); }
 .cta-btn.big { height: 48px; width: 100%; font-size: 14px; }
 .added-pill { display: inline-flex; align-items: center; justify-content: center; gap: 4px; height: 36px; padding: 0 12px; border-radius: 999px; background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); font-size: 12px; font-weight: 700; }
-.added-pill svg { width: 14px; height: 14px; }
+.added-pill svg { width:12px; height: 14px; }
 .qty { display: inline-flex; align-items: center; height: 36px; border-radius: 999px; background: var(--lv-soft-pink); }
 .qty button { width: 36px; height: 36px; border-radius: 999px; color: var(--lv-pink-dark); font-size: 18px; font-weight: 700; transition: background .2s; }
 .qty button:hover { background: rgba(255, 255, 255, .6); }
@@ -291,11 +291,11 @@ main#view { flex: 1; }
 .st-head h1 { margin: 0; font-size: 18px; font-weight: 800; }
 .st-head .sub { font-size: 12px; color: var(--lv-dim); margin-top: 2px; }
 .rating-pill { display: flex; align-items: center; gap: 4px; height: 28px; padding: 0 10px; border-radius: 999px; background: var(--lv-soft-gold); font-size: 12px; font-weight: 700; color: var(--lv-gold-text); flex-shrink: 0; }
-.rating-pill svg { width: 14px; height: 14px; color: var(--lv-gold); fill: var(--lv-gold); }
+.rating-pill svg { width:12px; height: 14px; color: var(--lv-gold); fill: var(--lv-gold); }
 .rating-pill .rev { color: #b09662; font-weight: 500; }
 .st-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .info-pill { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; font-size: 12px; font-weight: 700; }
-.info-pill svg { width: 16px; height: 16px; }
+.info-pill svg { width:16px; height: 16px; }
 .info-pill.tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .info-pill.plain { background: var(--lv-surface); color: var(--lv-ink); font-weight: 600; }
 .info-pill.plain svg { color: var(--lv-dim); }
@@ -305,18 +305,18 @@ main#view { flex: 1; }
 .tag-pill { height: 24px; padding: 0 10px; border-radius: 999px; background: var(--lv-soft-pink); color: var(--lv-pink-dark); font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; }
 .st-goods { padding: 20px 0 4px; }
 .st-goods .section-head h2 { display: flex; align-items: center; gap: 8px; }
-.st-goods .section-head h2 svg { width: 18px; height: 18px; color: var(--lv-pink); }
+.st-goods .section-head h2 svg { width:16px; height: 18px; color: var(--lv-pink); }
 
 /* ---------- Поиск ---------- */
 .search-bar-wrap { position: sticky; top: 56px; z-index: 30; background: var(--lv-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding: 12px 16px 10px; border-bottom: 1px solid var(--lv-line); }
 .search-bar { display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 999px; background: var(--lv-surface); transition: all .2s; }
 .search-bar:focus-within { background: var(--lv-card); box-shadow: 0 0 0 2px rgba(246, 74, 138, .4); }
-.search-bar > svg { width: 16px; height: 16px; color: var(--lv-dim); flex-shrink: 0; }
+.search-bar > svg { width:16px; height: 16px; color: var(--lv-dim); flex-shrink: 0; }
 .search-bar input { flex: 1; border: 0; outline: none; background: none; font-size: 14px; color: var(--lv-ink); min-width: 0; }
 .search-bar input::placeholder { color: var(--lv-dim); }
 .search-bar .clear { display: flex; color: var(--lv-dim); }
 .search-bar .clear:hover { color: var(--lv-ink); }
-.search-bar .clear svg { width: 16px; height: 16px; }
+.search-bar .clear svg { width:16px; height: 16px; }
 .search-tabs { display: flex; gap: 8px; margin-top: 10px; }
 .tab-btn { height: 32px; padding: 0 14px; border-radius: 999px; font-size: 13px; font-weight: 700; background: var(--lv-surface); color: var(--lv-dim); transition: all .2s; }
 .tab-btn:hover { color: var(--lv-ink); }
@@ -333,9 +333,9 @@ main#view { flex: 1; }
 .compact-row .right { flex-shrink: 0; text-align: right; }
 .compact-row .pr { display: block; font-size: 14px; font-weight: 800; }
 .compact-row .wk { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; color: var(--lv-tiffany-text); font-weight: 600; }
-.compact-row .wk svg { width: 12px; height: 12px; }
+.compact-row .wk svg { width:12px; height: 12px; }
 .services-hint { display: flex; align-items: center; gap: 8px; margin: 20px 0 8px; font-size: 12px; color: var(--lv-dim); }
-.services-hint svg { width: 14px; height: 14px; }
+.services-hint svg { width:12px; height: 14px; }
 
 /* ---------- Корзина ---------- */
 .page-h { padding: 16px 16px 0; }
@@ -347,7 +347,7 @@ main#view { flex: 1; }
 .cart-store-head .walk-pill { height: 28px; font-size: 11px; font-weight: 700; }
 .cart-store-head .trash { margin-left: auto; color: var(--lv-dim); display: flex; transition: color .2s; }
 .cart-store-head .trash:hover { color: var(--lv-pink-dark); }
-.cart-store-head .trash svg { width: 16px; height: 16px; }
+.cart-store-head .trash svg { width:16px; height: 16px; }
 .cart-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; }
 .cart-item + .cart-item { border-top: 1px solid var(--lv-line-2); }
 .cart-item .em-tile { flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
@@ -369,7 +369,7 @@ main#view { flex: 1; }
 .sum-total .l { font-size: 14px; font-weight: 700; }
 .sum-total .v { font-size: 18px; font-weight: 800; }
 .pickup-hint { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 10px; font-size: 11px; color: var(--lv-dim); flex-wrap: wrap; }
-.pickup-hint svg { width: 14px; height: 14px; }
+.pickup-hint svg { width:12px; height: 14px; }
 .pickup-hint .pin { color: var(--lv-pink); }
 .pickup-hint .clk { color: var(--lv-tiffany); }
 
@@ -383,13 +383,13 @@ main#view { flex: 1; }
 .status-tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .status-dim { background: var(--lv-grey-soft); color: #888; }
 .order-meta { display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 12px; color: var(--lv-dim); flex-wrap: wrap; }
-.order-meta svg { width: 14px; height: 14px; color: var(--lv-pink); }
+.order-meta svg { width:12px; height: 14px; color: var(--lv-pink); }
 .item-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
 .item-chip { display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 10px; border-radius: 999px; background: var(--lv-surface); font-size: 12px; font-weight: 500; }
 .item-chip .q { color: var(--lv-dim); }
 .order-foot { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--lv-line); display: flex; align-items: center; justify-content: space-between; }
 .order-foot .l { font-size: 12px; font-weight: 600; color: var(--lv-dim); display: flex; align-items: center; gap: 6px; }
-.order-foot .l svg { width: 14px; height: 14px; }
+.order-foot .l svg { width:12px; height: 14px; }
 .order-foot .v { font-weight: 800; }
 
 /* ---------- Нижняя навигация ---------- */
@@ -401,7 +401,7 @@ main#view { flex: 1; }
 .nav-btn .top-ind { position: absolute; top: 0; width: 32px; height: 2px; border-radius: 999px; background: var(--lv-pink); display: none; }
 .nav-btn.active .top-ind { display: block; }
 .nav-ico { position: relative; display: flex; }
-.nav-ico svg { width: 22px; height: 22px; }
+.nav-ico svg { width:22px; height: 22px; }
 .nav-count { position: absolute; top: -6px; right: -8px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px; color: var(--lv-on-brand); font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
 
 /* ---------- Шит выбора района ---------- */
@@ -418,7 +418,7 @@ main#view { flex: 1; }
 .district-row.active { border-color: var(--lv-pink); background: var(--lv-soft-pink); }
 .district-row .l { display: flex; align-items: center; gap: 12px; }
 .district-row .ic { width: 36px; height: 36px; border-radius: 12px; background: var(--lv-soft-pink); display: flex; align-items: center; justify-content: center; }
-.district-row .ic svg { width: 16px; height: 16px; color: var(--lv-pink); }
+.district-row .ic svg { width:16px; height: 16px; color: var(--lv-pink); }
 .district-row .nm { display: block; font-size: 14px; font-weight: 600; }
 .district-row .mt { display: block; font-size: 12px; color: var(--lv-dim); }
 
@@ -452,7 +452,7 @@ main#view { flex: 1; }
 
 /* ---------- Кнопки-призраки, служебные ---------- */
 .ghost-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 40px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--lv-line); background: var(--lv-card); font-size: 13px; font-weight: 700; color: var(--lv-ink); transition: all .2s; flex-shrink: 0; }
-.ghost-btn svg { width: 15px; height: 15px; }
+.ghost-btn svg { width:16px; height: 15px; }
 .ghost-btn.sm { height: 32px; padding: 0 12px; font-size: 12px; }
 .btn-row { display: flex; gap: 10px; padding: 16px 16px 0; flex-wrap: wrap; }
 .cta-btn.plain { background: var(--lv-surface); color: var(--lv-ink); }
@@ -468,14 +468,14 @@ main#view { flex: 1; }
 .ri-mid { flex: 1; min-width: 0; }
 .ri-mid .nm { font-size: 13.5px; font-weight: 700; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .ri-mid .sb { margin-top: 2px; font-size: 11.5px; color: var(--lv-dim); display: flex; align-items: center; gap: 3px; flex-wrap: wrap; }
-.ri-mid .sb svg { width: 12px; height: 12px; }
+.ri-mid .sb svg { width:12px; height: 12px; }
 .ri-right { text-align: right; flex-shrink: 0; }
 .ri-right .v { font-size: 13px; font-weight: 800; }
 .ri-right .st-chip { margin-top: 4px; }
 .chev-btn { flex-shrink: 0; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 999px; color: var(--lv-dim); }
-.chev-btn svg, .row-item .chev { width: 16px; height: 16px; color: var(--lv-dim); flex-shrink: 0; }
+.chev-btn svg, .row-item .chev { width:16px; height: 16px; color: var(--lv-dim); flex-shrink: 0; }
 .trash-btn { flex-shrink: 0; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 10px; color: #c25555; background: #fdf1f1; }
-.trash-btn svg { width: 15px; height: 15px; }
+.trash-btn svg { width:16px; height: 15px; }
 
 /* ---------- Статусы точек ---------- */
 .st-chip { display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 9px; border-radius: 999px; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
@@ -536,7 +536,7 @@ main#view { flex: 1; }
 .kpi.accent { background-image: linear-gradient(150deg, var(--lv-kpi-soft), var(--lv-card)); border-color: rgba(246, 74, 138, .25); }
 .kpi.accent .v { color: var(--lv-pink-dark); }
 .delta { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 700; }
-.delta svg { width: 13px; height: 13px; }
+.delta svg { width:12px; height: 13px; }
 .delta-up { color: var(--lv-tiffany-text); }
 .delta-down { color: var(--lv-pink-dark); }
 .spark { width: 76px; height: 24px; }
@@ -569,7 +569,7 @@ main#view { flex: 1; }
 .prof-phone { margin-top: 2px; font-size: 12.5px; color: rgba(255, 255, 255, .65); font-weight: 600; }
 .prof-chips { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
 .prof-chips .glass-chip { height: 24px; font-size: 11px; }
-.prof-chips .glass-chip svg { width: 12px; height: 12px; }
+.prof-chips .glass-chip svg { width:12px; height: 12px; }
 .prof-chips .glass-chip .g { color: var(--lv-gold); }
 .quick-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 14px 16px 0; }
 .quick { background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; padding: 12px 8px; text-align: center; box-shadow: 0 1px 3px rgba(26, 26, 26, .06); transition: transform .15s; }
@@ -632,13 +632,13 @@ main#view { flex: 1; }
 .chat-input-bar input { flex: 1; min-width: 0; height: 44px; border: 1.5px solid var(--lv-line); border-radius: 999px; padding: 0 16px; font: inherit; font-size: 14px; outline: none; background: var(--lv-surface); }
 .chat-input-bar input:focus { border-color: var(--lv-pink); background: var(--lv-card); }
 .send-btn { flex-shrink: 0; width: 44px; height: 44px; border-radius: 999px; display: flex; align-items: center; justify-content: center; color: var(--lv-on-brand); }
-.send-btn svg { width: 18px; height: 18px; }
+.send-btn svg { width:16px; height: 18px; }
 
 /* ---------- Избранное на карточке товара ---------- */
 .pd-cover { position: relative; }
 .fav-btn { position: absolute; top: 10px; right: 10px; width: 36px; height: 36px; border-radius: 999px; background: rgba(255, 255, 255, .88); display: flex; align-items: center; justify-content: center; color: var(--lv-pink); box-shadow: 0 2px 8px rgba(26, 26, 26, .1); transition: transform .15s; }
 .fav-btn:active { transform: scale(.9); }
-.fav-btn svg { width: 17px; height: 17px; }
+.fav-btn svg { width:17px; height: 17px; }
 
 /* ============================================================
    Адаптив: планшет и десктоп (база — мобильный макет выше)
@@ -771,7 +771,7 @@ main#view { flex: 1; }
 .qr-link-row code { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 9px 11px; border-radius: 12px; background: var(--lv-surface); color: var(--lv-dim); font-size: 11px; }
 .trust-cues { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 16px 0; }
 .trust-cues span { display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 8px 10px; border-radius: 12px; background: var(--lv-surface); color: var(--lv-ink); font-size: 11.5px; font-weight: 700; }
-.trust-cues svg { width: 14px; height: 14px; color: var(--lv-tiffany); flex-shrink: 0; }
+.trust-cues svg { width:12px; height: 14px; color: var(--lv-tiffany); flex-shrink: 0; }
 .stepper { margin: 14px 16px 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
 .step { position: relative; min-width: 0; padding: 9px 6px; border-radius: 14px; background: var(--lv-surface); border: 1px solid var(--lv-line); text-align: center; color: var(--lv-dim); }
 .step span { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 999px; background: var(--lv-card); border: 1px solid var(--lv-line); font-size: 11px; font-weight: 900; }
@@ -815,7 +815,7 @@ main#view { flex: 1; }
 .ns-title { font-size: 13.5px; font-weight: 800; color: var(--lv-ink); line-height: 1.35; }
 .ns-desc { margin-top: 3px; font-size: 11.5px; color: var(--lv-dim); line-height: 1.4; }
 .ns-arrow { flex-shrink: 0; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; color: var(--lv-dim); }
-.ns-arrow svg { width: 16px; height: 16px; }
+.ns-arrow svg { width:16px; height: 16px; }
 .next-step-card.gold { border-left-color: var(--lv-gold); }
 .next-step-card.gold .ns-icon { background: var(--lv-soft-gold); }
 .next-step-card.gold:active { box-shadow: 0 1px 6px rgba(212, 168, 84, .18); }
@@ -825,7 +825,7 @@ main#view { flex: 1; }
 .quick-action-card { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 14px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: 0 1px 3px rgba(26, 26, 26, .06); text-align: left; cursor: pointer; transition: transform .15s, box-shadow .15s, border-color .2s; }
 .quick-action-card:active { transform: scale(.97); box-shadow: 0 1px 6px rgba(26, 26, 26, .1); border-color: var(--lv-pink); }
 .qa-icon { width: 34px; height: 34px; border-radius: 10px; background: var(--lv-surface); display: flex; align-items: center; justify-content: center; color: var(--lv-pink); }
-.qa-icon svg { width: 17px; height: 17px; }
+.qa-icon svg { width:17px; height: 17px; }
 .qa-title { font-size: 13px; font-weight: 800; color: var(--lv-ink); display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
 .qa-badge { min-width: 17px; height: 17px; padding: 0 5px; border-radius: 999px; background-image: linear-gradient(135deg, #f64a8a, #c92a6a); color: #fff; font-size: 10px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
 .qa-desc { font-size: 11.5px; color: var(--lv-dim); line-height: 1.35; }
@@ -833,7 +833,7 @@ main#view { flex: 1; }
 /* ---------- Training tab: progress summary ---------- */
 .progress-summary-card { display: flex; align-items: center; gap: 16px; margin: 14px 16px 0; padding: 18px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 18px; box-shadow: 0 1px 3px rgba(26,26,26,.06); }
 .ps-ring { position: relative; flex-shrink: 0; width: 56px; height: 56px; }
-.progress-ring-svg { width: 56px; height: 56px; }
+.progress-ring-svg { width:56px; height: 56px; }
 .ps-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900; color: var(--lv-ink); }
 .ps-body { flex: 1; min-width: 0; }
 .ps-title { font-size: 14px; font-weight: 800; color: var(--lv-ink); }
@@ -873,7 +873,7 @@ main#view { flex: 1; }
 .pay-head { display: flex; align-items: center; gap: 14px; margin: 16px 16px 0; }
 .pay-head .prof-name { font-size: 17px; }
 .pay-badge { margin-left: auto; flex-shrink: 0; display: inline-flex; align-items: center; gap: 5px; height: 28px; padding: 0 12px; border-radius: 999px; background: var(--lv-soft-gold); color: var(--lv-gold-text); font-size: 11px; font-weight: 800; letter-spacing: .04em; white-space: nowrap; }
-.pay-badge svg { width: 13px; height: 13px; }
+.pay-badge svg { width:12px; height: 13px; }
 
 /* ---------- 2. Карта LOVII PAY ---------- */
 .pay-stage { margin: 14px 16px 0; }
@@ -917,7 +917,7 @@ main#view { flex: 1; }
 /* подсказки под картой */
 .pay-hints { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; }
 .pay-hint { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: var(--lv-dim); }
-.pay-hint svg { width: 13px; height: 13px; }
+.pay-hint svg { width:12px; height: 13px; }
 .pay-hint.as-btn { color: var(--lv-pink); }
 .pay-hint.as-btn:active { opacity: .7; }
 
@@ -933,7 +933,7 @@ main#view { flex: 1; }
 .acct-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
 .acct-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 10px 14px; border-radius: 999px; font-size: 12.5px; font-weight: 700; transition: transform .15s; }
 .acct-btn:active { transform: scale(.97); }
-.acct-btn svg { width: 15px; height: 15px; }
+.acct-btn svg { width:16px; height:16px; }
 .acct-btn.brand { background-image: var(--lv-gradient-brand); color: var(--lv-on-brand); }
 .acct-btn.ghost { border: 1px solid var(--lv-line); color: var(--lv-ink); background: var(--lv-card); }
 
@@ -948,7 +948,7 @@ main#view { flex: 1; }
 .tx-row + .tx-row { border-top: 1px solid var(--lv-line-2); }
 .tx-row:has(+ .tx-day) { border-top: 0; }
 .tx-ico { flex-shrink: 0; width: 36px; height: 36px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
-.tx-ico svg { width: 17px; height: 17px; }
+.tx-ico svg { width:17px; height: 17px; }
 .tx-ico.in { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .tx-ico.buy { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
 .tx-ico.out { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
@@ -962,11 +962,11 @@ main#view { flex: 1; }
 .tier-card { margin: 10px 16px 0; padding: 16px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: 0 1px 3px rgba(26, 26, 26, .06); }
 .tier-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .tier-name { display: inline-flex; align-items: center; gap: 6px; font-size: 14.5px; font-weight: 800; color: var(--lv-ink); }
-.tier-name svg { width: 15px; height: 15px; color: var(--lv-gold); }
+.tier-name svg { width:16px; height: 15px; color: var(--lv-gold); }
 .tier-cond { padding: 3px 10px; border-radius: 999px; background: var(--lv-soft-gold); color: var(--lv-gold-text); font-size: 11px; font-weight: 800; }
 .tier-levels { display: flex; gap: 6px; }
 .tl { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 0; height: 30px; padding: 0 6px; border-radius: 999px; background: var(--lv-surface); font-size: 10px; font-weight: 800; letter-spacing: .02em; color: var(--lv-dim); white-space: nowrap; overflow: hidden; }
-.tl svg { width: 11px; height: 11px; flex-shrink: 0; }
+.tl svg { width:12px; height: 11px; flex-shrink: 0; }
 .tl.done { color: var(--lv-ink); }
 .tl.cur { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
 .tier-bar { height: 6px; margin-top: 12px; border-radius: 999px; background: var(--lv-surface); overflow: hidden; }
@@ -975,13 +975,13 @@ main#view { flex: 1; }
 .tier-next b { color: var(--lv-ink); }
 .tier-perks { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
 .tp { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; border-radius: 999px; background: var(--lv-surface); font-size: 11px; font-weight: 600; color: var(--lv-ink); }
-.tp svg { width: 12px; height: 12px; color: var(--lv-tiffany-text); }
+.tp svg { width:12px; height: 12px; color: var(--lv-tiffany-text); }
 
 /* ---------- 6. Витрина привилегий ---------- */
 .priv-scroll { padding: 4px 16px 6px; }
 .priv-card { flex-shrink: 0; width: 168px; padding: 14px; border-radius: 16px; border: 1px solid var(--lv-line); background: var(--lv-card); box-shadow: 0 1px 3px rgba(26, 26, 26, .06); display: flex; flex-direction: column; gap: 6px; }
 .priv-card .pc-ico { width: 34px; height: 34px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
-.priv-card .pc-ico svg { width: 17px; height: 17px; }
+.priv-card .pc-ico svg { width:17px; height: 17px; }
 .priv-card.t-gold .pc-ico { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
 .priv-card.t-pink .pc-ico { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
 .priv-card.t-tiffany .pc-ico { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
@@ -991,7 +991,7 @@ main#view { flex: 1; }
 /* ---------- 7. Избранные МСП ---------- */
 .msp-fav { flex-shrink: 0; width: 40px; height: 40px; border-radius: 999px; display: flex; align-items: center; justify-content: center; background: var(--lv-soft-pink); color: var(--lv-pink); transition: transform .15s; }
 .msp-fav:active { transform: scale(.9); }
-.msp-fav svg { width: 17px; height: 17px; }
+.msp-fav svg { width:17px; height: 17px; }
 /* Полировка: светлая окантовка карты (сепарация на тёмном фоне) + ритм секций */
 .pay-face { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .09); }
 .pay-screen .section-head { margin-top: 22px; }
@@ -1027,7 +1027,7 @@ main#view { flex: 1; }
      переносятся целиком (без лесенки внутри подписи) */
   .pay-cols .pay-hints { flex-wrap: wrap; row-gap: 4px; }
   .pay-cols .pay-hint { font-size: 10.5px; gap: 4px; white-space: nowrap; }
-  .pay-cols .pay-hint svg { width: 12px; height: 12px; }
+  .pay-cols .pay-hint svg { width:12px; height: 12px; }
   /* привилегии: сетка вместо горизонтальной ленты */
   .pay-screen .priv-scroll { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
   .pay-screen .priv-card { width: auto; }
@@ -1037,7 +1037,7 @@ main#view { flex: 1; }
 }
 
 /* Иконки ролей: спрайт вместо эмодзи — размер и цвет по канону (docs/09 §1) */
-.ri-emoji svg, .dash-ava svg { width: 26px; height: 26px; }
+.ri-emoji svg, .dash-ava svg { width:26px; height: 26px; }
 .ri-emoji, .dash-ava { color: var(--lv-on-tile, currentColor); }
 .ri-emoji [class*="tile-"], .dash-ava [class*="tile-"] { }
 
