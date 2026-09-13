@@ -1471,7 +1471,7 @@ function renderMspSignup(code) {
   return `
   <div class="lv-enter lv-narrow" style="padding-bottom:16px">
     <div class="msp-mobile-head ink-gradient">
-      <span class="mh-emoji">📲</span>
+      <span class="mh-emoji">${icon("store")}</span>
       <div><div class="kicker">QR от представителя · ${esc(invite)}</div><h1>Подключение точки к LOVII</h1><p>Начинаем с одного поля — ИНН. Остальное приложение попросит по шагам.</p></div>
     </div>
     <form id="msp-signup-form" data-code="${esc(invite)}">
@@ -1657,6 +1657,12 @@ function renderMspCabinet(tab = 'index') {
       <button class="cta-btn brand-gradient" data-action="msp-app-next">${icon('check')}Следующий шаг</button>
       <button class="ghost-btn" data-action="msp-app-fail">${icon('x')}Отклонить заявку</button>
     </div>
+    ${mspAppStatus(status) === 'draft' ? `
+      <form id="msp-inn-form">
+        <label class="f-field"><span class="lb">ИНН юрлица или ИП</span><input name="inn" inputmode="numeric" pattern="[0-9]{10,12}" placeholder="Например, 7801234567" value="${esc(lead.inn || '')}" required></label>
+        <div class="field-help">ИНН привяжет заявку к юрлицу и подготовит проверочный платёж со спецкодом.</div>
+        <div style="padding:16px 16px 0"><button class="cta-btn brand-gradient big" type="submit">${icon('check')}Отправить заявку</button></div>
+      </form>` : ''}
     <div class="section-head" style="margin-top:20px"><h2>Статусы заявки<span class="sub"> · ${MSP_APP_ALL.length}</span></h2></div>
     <div class="chips">
       ${MSP_APP_ALL.map((x) => `<button class="filter-chip ${mspAppStatus(status) === x.id ? 'on' : ''}" data-action="msp-app-set" data-val="${x.id}">${esc(x.label)}</button>`).join('')}

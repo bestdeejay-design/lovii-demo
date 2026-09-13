@@ -674,6 +674,17 @@ document.addEventListener('submit', (e) => {
   } else if (f.id === 'msp-signup-form') {
     e.preventDefault();
     handleMspSignup(f);
+  } else if (f.id === 'msp-inn-form') {
+    e.preventDefault();
+    const lead = ensureMspLead();
+    const inn = (f.querySelector('[name="inn"]') || {}).value || '';
+    if (lead && inn) {
+      lead.inn = inn.replace(/\D/g, '');
+      lead.appStatus = 'submitted';
+      persist();
+      toast('Заявка отправлена', mspStatusText('submitted'));
+      renderView(true);
+    }
   } else if (f.id === 'msp-point-form') {
     e.preventDefault();
     handleMspPoint(f);
