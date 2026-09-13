@@ -1079,3 +1079,7 @@ main#view { flex: 1; }
 
 /* Обложки товара: иконка 46px, stroke 1.8 (канон: cover) */
 .avail-emoji svg, .compact-row .em-tile svg, .cart-item .em-tile svg { width: 46px; height: 46px; stroke-width: 1.8; }
+/* Цвета бейджей заказа — по BadgeColor ядра (toBadge) */
+.st-chip.st-blue { background: rgba(58,120,220,.12); color:#2f5fae; }
+.st-chip.st-lime { background: rgba(120,190,60,.14); color:#4b7d16; }
+.st-chip.st-accent { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }

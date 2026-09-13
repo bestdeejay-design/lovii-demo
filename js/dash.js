@@ -1460,25 +1460,41 @@ function mspOrderLabel(status) {
               handed_to_delivery:'Передан курьеру', on_the_way:'В пути', completed:'Доставлен', cancelled:'Отменён', failed:'Ошибка' };
   return m[status] || status;
 }
+// Переходы — ровно по MspOrderActions (ядро): фильтр по типу исполнения.
+//  самовывоз: … → ready → completed («Выдан клиенту»), курьерских шагов нет
+//  доставка:  … → ready → handed_to_delivery → on_the_way → completed, минуя нельзя
+//  failed — технический статус системы, точке не предлагается
 function mspOrderOptions(order) {
-  const delivery = order.channel === 'Доставка';
-  const t = {
-    created:  [['submitted','Отправить']],
-    submitted:[['accepted','Принять']],
-    accepted: [['preparing','Готовить']],
-    preparing:[['ready','Готов к выдаче']],
-    // из «Готов» ядро допускает три выхода: курьеру, выдать самому, либо отмена
-    ready: delivery ? [['handed_to_delivery','Передать курьеру'], ['completed','Выдать самому']]
-                    : [['completed','Выдать']],
-    handed_to_delivery: [['on_the_way','В пути'], ['completed','Доставлен']],
-    on_the_way: [['completed','Доставлен']],
-  };
-  return t[order.status] || [];
+  const pickup = order.channel !== 'Доставка';
+  const base = {
+    created: ['submitted', 'cancelled'],
+    submitted: ['accepted', 'cancelled'],
+    accepted: ['preparing', 'cancelled'],
+    preparing: ['ready', 'cancelled'],
+    ready: ['handed_to_delivery', 'completed', 'cancelled'],
+    handed_to_delivery: ['on_the_way', 'completed'],
+    on_the_way: ['completed'],
+  }[order.status] || [];
+  const labels = { submitted:'Отправить', accepted:'Принять', preparing:'Готовить', ready:'Готов к выдаче',
+                   handed_to_delivery:'Передать курьеру', on_the_way:'В пути',
+                   completed: pickup ? 'Выдать клиенту' : 'Доставлен', cancelled:'Отменить' };
+  let next = base.filter((st) => st !== 'failed' && st !== 'cancelled'); // отмена — отдельной кнопкой
+  if (pickup) next = next.filter((st) => !['handed_to_delivery', 'on_the_way'].includes(st));
+  else if (order.status !== 'on_the_way') next = next.filter((st) => st !== 'completed');
+  return next.map((st) => [st, labels[st]]);
 }
-function orderChip(status) {
-  const cls = { created:'st-wait', submitted:'st-wait', accepted:'st-active', preparing:'st-mod', ready:'st-active',
-                handed_to_delivery:'st-mod', on_the_way:'st-mod', completed:'st-active', cancelled:'st-off', failed:'st-off' };
-  return `<span class="st-chip ${cls[status] || 'st-wait'}">${mspOrderLabel(status)}</span>`;
+
+// Подпись статуса с учётом типа заказа (OrderBadges::statusBadge)
+function mspOrderLabelFor(order, status) {
+  if (status === 'completed' && order.channel !== 'Доставка') return 'Выдан клиенту';
+  return mspOrderLabel(status);
+}
+function orderChip(status, order) {
+  // цвета — по BadgeColor из ядра: submitted/blue · accepted/brand · preparing/orange · ready|lime
+  const cls = { created:'st-wait', submitted:'st-blue', accepted:'st-active', preparing:'st-mod', ready:'st-lime',
+                handed_to_delivery:'st-blue', on_the_way:'st-accent', completed:'st-lime', cancelled:'st-off', failed:'st-off' };
+  const label = order ? mspOrderLabelFor(order, status) : mspOrderLabel(status);
+  return `<span class="st-chip ${cls[status] || 'st-wait'}">${label}</span>`;
 }
 
 function ensureMspOrders() {
@@ -1506,7 +1522,7 @@ function renderMspCabinet(tab = 'index') {
     const orders = ensureMspOrders();
     const rows = orders.map((o) => `<button class="row-item as-btn" data-action="msp-order-open" data-id="${o.id}">
       <span class="ri-emoji ${tileBg('sand')}">${icon('bag')}</span>
-      <div class="ri-mid"><div class="nm">Заказ №${o.no}${orderChip(o.status)}</div><div class="sb">${esc(o.at)} · ${esc(o.channel)} · ${o.items.length} поз.</div></div>
+      <div class="ri-mid"><div class="nm">Заказ №${o.no}${orderChip(o.status, o)}</div><div class="sb">${esc(o.at)} · ${esc(o.channel)} · ${o.items.length} поз.</div></div>
       <div class="ri-right"><div class="v">${moneyFmt(o.total)}</div></div></button>`).join('');
     return `${head}${tabs}
       <div class="section-head" style="margin-top:20px"><h2>Заказы<span class="sub"> · ${orders.length}</span></h2></div>
@@ -1524,7 +1540,7 @@ function renderMspCabinet(tab = 'index') {
     const fin = ['completed', 'cancelled', 'failed'].includes(o.status);
     const canCancel = ['created', 'submitted', 'accepted', 'preparing', 'ready'].includes(o.status);
     return `${head}${tabs}
-      <div class="section-head" style="margin-top:20px"><h2>Заказ №${o.no}${orderChip(o.status)}</h2></div>
+      <div class="section-head" style="margin-top:20px"><h2>Заказ №${o.no}${orderChip(o.status, o)}</h2></div>
       <div class="list-card">${items}</div>
       <div class="dash-note tone-dim">Итого ${moneyFmt(o.total)} · ${esc(o.channel)} · ${esc(o.at)}</div>
       <div class="btn-row">
