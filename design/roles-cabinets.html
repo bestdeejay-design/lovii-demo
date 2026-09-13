@@ -26,19 +26,19 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
 .role-switch button:focus-visible { outline:2px solid var(--lv-pink); outline-offset:2px; }
 
 .boards { display:flex; gap:18px; flex-wrap:wrap; justify-content:center; align-items:flex-start; }
-.phone { width:380px; max-width:100%; padding-bottom:calc(20px + env(safe-area-inset-bottom,0px)); background:var(--lv-bg); border-radius:26px; padding:14px 0 20px; box-shadow:var(--lv-shadow-float,0 6px 24px rgba(0,0,0,.08)); position:relative; }
+.phone { width:380px; max-width:100%; background:var(--lv-bg); border-radius:26px; padding:14px 0 calc(20px + env(safe-area-inset-bottom,0px)); box-shadow:var(--lv-shadow-float,0 6px 24px rgba(0,0,0,.08)); position:relative; }
 .phone::before { content:''; position:absolute; top:7px; left:50%; transform:translateX(-50%); width:76px; height:4px; background:rgba(0,0,0,.1); border-radius:999px; }
-.cab-head { padding:14px 16px 0; }
+.cab-head { padding:14px var(--lv-pad-x,16px) 0; }
 .cab-title { font-size:19px; font-weight:800; letter-spacing:-.01em; }
 .cab-sub { font-size:12px; color:var(--lv-dim); margin-top:3px; }
-.dash-tabs { display:flex; gap:6px; padding:12px 16px 0; overflow-x:auto; }
+.dash-tabs { display:flex; gap:6px; padding:12px var(--lv-pad-x,16px) 0; overflow-x:auto; }
 .dash-tabs button { height:32px; padding:0 12px; border:1px solid var(--lv-line); border-radius:999px; background:var(--lv-card); color:var(--lv-ink); font:inherit; font-size:12.5px; font-weight:600; white-space:nowrap; cursor:pointer; }
 .dash-tabs button[aria-selected="true"] { background:var(--lv-surface); border-color:var(--lv-pink); color:var(--lv-pink-dark); }
 .dash-tabs button:focus-visible { outline:2px solid var(--lv-pink); outline-offset:2px; }
-.screen { display:none; }
+.screen { display:none; padding:0 var(--lv-pad-x,16px); }
 .screen.is-on { display:block; }
 
-.kpi-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:14px 16px 0; }
+.kpi-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0; }
 .kpi { background:var(--lv-card); border:1px solid var(--lv-line); border-radius:16px; padding:12px 14px; box-shadow:0 1px 3px rgba(26,26,26,.06); min-width:0; }
 .kpi .l { font-size:10.5px; font-weight:700; color:var(--lv-dim); text-transform:uppercase; letter-spacing:.04em; }
 .kpi .v { margin-top:5px; font-size:19px; font-weight:800; letter-spacing:-.02em; }
@@ -46,11 +46,11 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
 .kpi.accent { background-image:linear-gradient(150deg,var(--lv-kpi-soft),var(--lv-card)); border-color:rgba(246,74,138,.25); }
 .kpi.accent .v { color:var(--lv-pink-dark); }
 
-.section { /* слой C: отступы макета; канон задаёт margin-top:28px */ margin:14px 16px 0; padding:16px; border-radius:18px; background:var(--lv-card); border:1px solid var(--lv-line); box-shadow:0 1px 3px rgba(26,26,26,.06); }
+.section { margin:0; padding:16px;
 .section .cap { font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--lv-dim); }
 .card h2 { margin:5px 0 0; font-size:17px; line-height:1.2; letter-spacing:-.01em; }
 .card p { margin:7px 0 0; font-size:12.5px; line-height:1.55; color:var(--lv-dim); }
-.dash-note { margin:10px 16px 0; padding:11px 14px; border-radius:12px; font-size:12px; line-height:1.5; font-weight:500; }
+.dash-note { margin:0; padding:11px 16px; border-radius:12px; font-size:12px; line-height:1.5; font-weight:500; }
 .dash-note.tone-pink { background:var(--lv-soft-pink); color:var(--lv-pink-dark); }
 .dash-note.tone-tiffany { background:var(--lv-soft-tiffany); color:var(--lv-tiffany-text); }
 .dash-note.tone-gold { background:var(--lv-soft-gold); color:var(--lv-gold-text); }
@@ -107,7 +107,7 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
 .state-bar { position:fixed; left:50%; top:0; transform:translateX(-50%); display:flex; gap:6px; padding:8px 10px; background:var(--lv-card); border:1px solid var(--lv-line); border-radius:0 0 14px 14px; box-shadow:var(--lv-shadow-soft,0 2px 8px rgba(0,0,0,.06)); z-index:40; }
 .state-bar button { height:36px; padding:0 10px; border:1px solid var(--lv-line); border-radius:999px; background:var(--lv-card); font:inherit; font-size:11.5px; font-weight:600; cursor:pointer; }
 .state-bar button[aria-pressed="true"] { background:var(--lv-surface); border-color:var(--lv-pink); color:var(--lv-pink-dark); }
-.state-block { margin:14px 16px 0; padding:16px; border-radius:16px; background:var(--lv-card); border:1px solid var(--lv-line); }
+.state-block { margin:0; padding:16px; border-radius:16px; background:var(--lv-card); border:1px solid var(--lv-line); }
 .state-block .st { font-size:12.5px; font-weight:700; }
 .state-block .sd { font-size:12px; color:var(--lv-dim); margin-top:4px; line-height:1.5; }
 .sk { height:12px; border-radius:999px; background:linear-gradient(90deg,rgba(0,0,0,.06),rgba(0,0,0,.12),rgba(0,0,0,.06)); background-size:200% 100%; animation:sk 1.2s linear infinite; margin-top:10px; }
@@ -134,7 +134,7 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
 .digest .no { color:var(--lv-gold-text); font-weight:700; }
 @media (max-width:420px) { .phone { width:100%; border-radius:20px; } }
 .row-sum { font-size:13px; font-weight:800; margin-left:auto; white-space:nowrap; font-variant-numeric:tabular-nums; }
-.list-card { margin:14px 16px 0; }
+.list-card { margin:0; }
 
 /* Слой C: единый горизонтальный ритм и защита от распирания блоков */
 .phone { overflow:hidden; }
@@ -172,7 +172,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
 .toast .d { font-size:11.5px; color:var(--lv-toast-d,rgba(255,255,255,.72)); font-weight:500; margin-top:3px; }
 .toast.hide { opacity:0; transform:translateY(8px); transition:all .25s; }
 @keyframes toast-in { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
-.status-banner { display:flex; align-items:center; gap:10px; margin:14px 16px 0; padding:10px 14px; background:var(--lv-card); border:1px solid var(--lv-line); border-radius:14px; }
+.status-banner { display:flex; align-items:center; gap:10px; margin:0; padding:10px 16px; background:var(--lv-card); border:1px solid var(--lv-line); border-radius:14px; }
 .status-banner .sb-tx { font-size:12.5px; font-weight:600; }
 .status-banner .sb { font-size:11.5px; color:var(--lv-dim); margin-left:auto; }
 .status-banner .ico { width:17px; height:17px; color:var(--lv-pink); flex:none; }
@@ -234,13 +234,28 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
 .icon-btn .ico { width:16px; height:16px; }  /* канон: кнопка/хедер 16px */
 
 /* Графики и дельты — канон демо (.chart-card/.spark/.delta-*) */
-.chart-card { margin:14px 16px 0; background:var(--lv-card); border:1px solid var(--lv-line); border-radius:16px; box-shadow:var(--lv-shadow-soft,0 1px 3px rgba(26,26,26,.06)); padding:14px; }
+.chart-card { margin:0; background:var(--lv-card); border:1px solid var(--lv-line); border-radius:16px; box-shadow:var(--lv-shadow-soft,0 1px 3px rgba(26,26,26,.06)); padding:14px; }
 .chart-card .cc-head { display:flex; align-items:baseline; justify-content:space-between; gap:8px; }
 .chart-card .cc-head b { font-size:13.5px; font-weight:800; }
 .chart-card .cc-head .sub { font-size:11px; color:var(--lv-dim); font-weight:600; }
 .chart-card svg.chart { width:100%; height:auto; display:block; margin-top:10px; }
 .delta-up { color:var(--lv-tiffany-text); font-weight:700; }
 .delta-down { color:var(--lv-pink-dark); font-weight:700; }
+
+/* Канонный ритм (docs/04): контейнер даёт боковой отступ 16px;
+   первый блок 20px, блок↔блок 24px; шаг гэпов из шкалы 4·6·8·10·12·14·16. */
+.screen > * { margin-top:var(--lv-block-gap,24px); }
+.screen > *:first-child { margin-top:var(--lv-section-top,20px); }
+.screen > .mock-overlay, .screen > .mock-sheet { margin-top:0; }
+
+/* Канонная шкала иконок: 12 / 16 / 17 / 22 / 26 / 46 */
+.ico-12 { width:12px !important; height:12px !important; }
+.ico-16 { width:16px !important; height:16px !important; }
+.ico-17 { width:17px !important; height:17px !important; }
+.ico-22 { width:22px !important; height:22px !important; }
+.ico-26 { width:26px !important; height:26px !important; }
+.ico-46 { width:46px !important; height:46px !important; }
+.app-header .icon-btn .ico { width:16px; height:16px; }  /* канон: кнопка/хедер 16px */
 </style>
 </head>
 <body>
