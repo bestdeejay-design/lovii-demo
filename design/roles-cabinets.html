@@ -162,7 +162,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
 /* Слой C: сетка быстрых действий 2×2 (канон .tiles-row фиксирован на 5 колонок) */
 .quick-grid { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px; margin-top:10px; }
 .quick-grid .tile { color:var(--lv-on-tile); font-size:12px; font-weight:700; gap:8px; }
-.quick-grid .ico { width:20px; height:20px; }
+.quick-grid .ico { width:26px; height:26px; }  /* канон: плитка 26px */
 .quick-grid .ico-wrap { display:block; }
 .tile:focus-visible { outline:2px solid var(--lv-pink); outline-offset:2px; }
 
@@ -221,7 +221,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
 /* Хедер приложения: канон docs/07 §3 (sticky glass 56px) + реализация демо */
 .app-header { position:sticky; top:0; z-index:40; background:var(--lv-glass,rgba(247,246,241,.82)); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1px solid var(--lv-hairline,var(--lv-line)); }
 .app-header-in { display:flex; align-items:center; justify-content:space-between; height:var(--lv-header-h,56px); padding:0 var(--lv-pad-x,16px); }
-.logo { display:inline-flex; align-items:center; gap:6px; border:0; background:none; padding:0; cursor:pointer; }
+.logo { display:inline-flex; align-items:center; gap:6px; min-height:36px; border:0; background:none; padding:0; cursor:pointer; }  /* тап-цель ≥36px */
 .logo .logo-img { height:30px; width:auto; display:block; }
 .logo .logo-mark { height:30px; width:30px; display:block; border-radius:9px; }
 .logo .logo-dark-img { display:none; }
@@ -231,7 +231,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
 .icon-btn { width:36px; height:36px; border:0; border-radius:999px; background:var(--lv-surface); color:var(--lv-ink); display:inline-flex; align-items:center; justify-content:center; cursor:pointer; transition:background var(--mv-hover) ease, transform .15s ease; }
 .icon-btn:hover { background:var(--lv-grey-soft); }
 .icon-btn:active { transform:scale(.94); }
-.icon-btn .ico { width:18px; height:18px; }
+.icon-btn .ico { width:16px; height:16px; }  /* канон: кнопка/хедер 16px */
 
 /* Графики и дельты — канон демо (.chart-card/.spark/.delta-*) */
 .chart-card { margin:14px 16px 0; background:var(--lv-card); border:1px solid var(--lv-line); border-radius:16px; box-shadow:var(--lv-shadow-soft,0 1px 3px rgba(26,26,26,.06)); padding:14px; }
