@@ -1388,10 +1388,11 @@ const MSP_STATUS_STEP = {
 };
 
 function mspStepsHtml(status, compact = false) {
-  if (status === 'failed' || status === 'expired') {
-    return `<div class="stepper ${compact ? 'compact' : ''} error"><div class="step current"><span>!</span><b>${status === 'expired' ? 'Срок заявки истёк' : 'Заявка не прошла проверку'}</b></div></div>`;
+  const app = mspAppStatus(status);
+  if (app === 'failed' || app === 'expired') {
+    return `<div class="stepper ${compact ? 'compact' : ''} error"><div class="step current"><span>!</span><b>${app === 'expired' ? 'Срок заявки истёк' : 'Заявка не прошла проверку'}</b></div></div>`;
   }
-  const idx = Math.max(0, MSP_APP_STEPS.findIndex((x) => x.id === mspAppStatus(status)));
+  const idx = Math.max(0, MSP_APP_STEPS.findIndex((x) => x.id === app));
   return `<div class="stepper ${compact ? 'compact' : ''}">${MSP_APP_STEPS.map((x, i) => `<div class="step ${i <= idx ? 'done' : ''} ${i === idx ? 'current' : ''}"><span>${i + 1}</span><b>${esc(x.label)}</b></div>`).join('')}</div>`;
 }
 
