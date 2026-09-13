@@ -539,10 +539,10 @@ document.addEventListener('click', (e) => {
       go('msp', 'order');
       break;
 
-    case 'msp-order-next': {
+    case 'msp-order-set': {
       const o = ensureMspOrders().find((x) => String(x.id) === String(actEl.dataset.id));
-      const nx = o ? mspOrderNext(o.status) : null;
-      if (o && nx) { o.status = nx[0]; toast('Статус заказа обновлён', mspOrderLabel(nx[0])); }
+      const to = actEl.dataset.to;
+      if (o && to) { o.status = to; toast('Статус заказа: ' + mspOrderLabel(to), o.channel + ' · заказ №' + o.no); }
       renderView(true);
       break;
     }

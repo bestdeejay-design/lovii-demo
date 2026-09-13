@@ -1460,11 +1460,20 @@ function mspOrderLabel(status) {
               handed_to_delivery:'Передан курьеру', on_the_way:'В пути', completed:'Доставлен', cancelled:'Отменён', failed:'Ошибка' };
   return m[status] || status;
 }
-function mspOrderNext(status) {
-  const t = { created:['submitted','Отправить'], submitted:['accepted','Принять'], accepted:['preparing','Готовить'],
-              preparing:['ready','Готов к выдаче'], ready:['completed','Выдать'], handed_to_delivery:['on_the_way','В пути'],
-              on_the_way:['completed','Доставлен'] };
-  return t[status] || null;
+function mspOrderOptions(order) {
+  const delivery = order.channel === 'Доставка';
+  const t = {
+    created:  [['submitted','Отправить']],
+    submitted:[['accepted','Принять']],
+    accepted: [['preparing','Готовить']],
+    preparing:[['ready','Готов к выдаче']],
+    // из «Готов» ядро допускает три выхода: курьеру, выдать самому, либо отмена
+    ready: delivery ? [['handed_to_delivery','Передать курьеру'], ['completed','Выдать самому']]
+                    : [['completed','Выдать']],
+    handed_to_delivery: [['on_the_way','В пути'], ['completed','Доставлен']],
+    on_the_way: [['completed','Доставлен']],
+  };
+  return t[order.status] || [];
 }
 function orderChip(status) {
   const cls = { created:'st-wait', submitted:'st-wait', accepted:'st-active', preparing:'st-mod', ready:'st-active',
@@ -1508,18 +1517,19 @@ function renderMspCabinet(tab = 'index') {
     const orders = ensureMspOrders();
     const o = orders.find((x) => String(x.id) === String(state.mspOrderId)) || orders[0];
     if (!o) { return `${head}${tabs}${dashNote('Заказ не найден', 'dim')}`; }
-    const nx = mspOrderNext(o.status);
+    const opts = mspOrderOptions(o);
     const items = o.items.map((i) => `<div class="row-item"><span class="ri-emoji ${tileBg('sand')}">${icon('package')}</span>
       <div class="ri-mid"><div class="nm">${esc(i.name)}</div><div class="sb">${i.qty} × ${moneyFmt(i.price)}</div></div>
       <div class="ri-right"><div class="v">${moneyFmt(i.qty * i.price)}</div></div></div>`).join('');
     const fin = ['completed', 'cancelled', 'failed'].includes(o.status);
+    const canCancel = ['created', 'submitted', 'accepted', 'preparing', 'ready'].includes(o.status);
     return `${head}${tabs}
       <div class="section-head" style="margin-top:20px"><h2>Заказ №${o.no}${orderChip(o.status)}</h2></div>
       <div class="list-card">${items}</div>
       <div class="dash-note tone-dim">Итого ${moneyFmt(o.total)} · ${esc(o.channel)} · ${esc(o.at)}</div>
       <div class="btn-row">
-        ${nx ? `<button class="cta-btn brand-gradient" data-action="msp-order-next" data-id="${o.id}">${icon('check')}${nx[1]}</button>` : ''}
-        ${fin ? '' : `<button class="ghost-btn" data-action="msp-order-cancel" data-id="${o.id}">${icon('x')}Отменить</button>`}
+        ${opts.map(([to, label], i) => `<button class="${i === 0 ? 'cta-btn brand-gradient' : 'ghost-btn'}" data-action="msp-order-set" data-id="${o.id}" data-to="${to}">${icon(i === 0 ? 'check' : 'chev-right')}${label}</button>`).join('')}
+        ${canCancel ? `<button class="ghost-btn" data-action="msp-order-cancel" data-id="${o.id}">${icon('x')}Отменить</button>` : ''}
         <button class="ghost-btn" data-action="msp-tab" data-val="orders">${icon('chev-left')}К списку</button>
       </div>`;
   }
