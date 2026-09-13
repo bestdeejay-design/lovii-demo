@@ -534,6 +534,26 @@ document.addEventListener('click', (e) => {
       go('dash', actEl.dataset.val);
       break;
 
+    case 'msp-order-open':
+      state.mspOrderId = actEl.dataset.id;
+      go('msp', 'order');
+      break;
+
+    case 'msp-order-set': {
+      const o = ensureMspOrders().find((x) => String(x.id) === String(actEl.dataset.id));
+      const to = actEl.dataset.to;
+      if (o && to) { o.status = to; toast('Статус заказа: ' + mspOrderLabel(to), o.channel + ' · заказ №' + o.no); }
+      renderView(true);
+      break;
+    }
+
+    case 'msp-order-cancel': {
+      const o = ensureMspOrders().find((x) => String(x.id) === String(actEl.dataset.id));
+      if (o) { o.status = 'cancelled'; toast('Заказ отменён', 'Покупателю уйдёт уведомление'); }
+      renderView(true);
+      break;
+    }
+
     case 'msp-tab':
       go('msp', actEl.dataset.val || 'index');
       break;
