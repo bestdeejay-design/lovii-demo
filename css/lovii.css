@@ -444,6 +444,15 @@ main#view { flex: 1; }
 /* ---------- Мелочи ---------- */
 .empty-cat { padding: 44px 16px; text-align: center; }
 .empty-cat .big-emoji { font-size: 36px; }
+
+/* ---------- МСП: шаг «представитель проверяет точку» + форма ---------- */
+.msp-approving { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 56px 24px 24px; }
+.lv-spinner { width: 46px; height: 46px; border-radius: 999px; border: 3px solid var(--lv-line); border-top-color: var(--lv-tiffany); animation: lv-spin .9s linear infinite; }
+@keyframes lv-spin { to { transform: rotate(360deg); } }
+.msp-approving h2 { margin: 18px 0 0; font-size: 18px; font-weight: 800; }
+.msp-approving p { margin: 8px 0 0; max-width: 300px; font-size: 12.5px; color: var(--lv-dim); line-height: 1.55; }
+.f-field input[type="file"] { padding: 10px 14px; font-size: 13px; cursor: pointer; }
+@media (prefers-reduced-motion: reduce) { .lv-spinner { animation-duration: 2.6s; } }
 .empty-cat .t { margin-top: 8px; font-weight: 700; }
 .empty-cat .d { margin-top: 4px; font-size: 14px; color: var(--lv-dim); }
 

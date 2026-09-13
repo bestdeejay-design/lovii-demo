@@ -1556,6 +1556,58 @@ function ensureMspOrders() {
   return state.mspOrders;
 }
 
+// ---- МСП: сценарий заявки на #/msp/index (форма → проверка → каталог → счёт) ----
+function mspApplyStage(lead) {
+  if (lead.approving) return 'approving';
+  const st = lead.point && lead.point.status;
+  if (st === 'catalog' || st === 'payment' || st === 'ready') return 'invoice';
+  return 'form';
+}
+
+// Код платежа — канон §Экран: Платёж: VER-<partner_id>-<суффикс 8 криптослучайных>
+const MSP_VER_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+function mspPayCode(lead) {
+  if (!lead.verificationSuffix) {
+    lead.verificationSuffix = Array.from({ length: 8 }, () => MSP_VER_ALPHABET[Math.floor(Math.random() * MSP_VER_ALPHABET.length)]).join('');
+    persist();
+  }
+  const pid = lead.partnerId || String(lead.inn || '0000').slice(-4);
+  return 'VER-' + pid + '-' + lead.verificationSuffix;
+}
+
+function mspInvoiceText(lead) {
+  const p = lead.point || {};
+  return [
+    'LOVII · счёт на верификационный платёж',
+    'Сумма: 1 ₽',
+    'Код платежа: ' + mspPayCode(lead),
+    'Плательщик: ' + (lead.legalName || 'юрлицо из заявки'),
+    'Назначение: верификация торговой точки «' + (p.name || '') + '»',
+    'Оплата строго с расчётного счёта компании. Возврат 1 ₽ — после проверки.',
+  ].join('\n');
+}
+
+function downloadInvoice() {
+  const lead = ensureMspLead();
+  if (!lead) return;
+  const blob = new Blob([mspInvoiceText(lead)], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'LOVII-schet-1rub.txt';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+  toast('Счёт скачан', 'Сумма 1 ₽ · оплатите с расчётного счёта');
+}
+
+function mspInvoiceSend() {
+  const lead = ensureMspLead();
+  if (!lead) return;
+  lead.appStatus = 'verifying';
+  persist();
+  toast('Отправлено на проверку', 'Платёж 1 ₽ обрабатывается');
+  renderViewPreserveScroll();
+}
+
 function renderMspCabinet(tab = 'index') {
   const lead = ensureMspLead();
   if (!lead) return renderMspSignup(repInviteCode());
@@ -1648,11 +1700,59 @@ function renderMspCabinet(tab = 'index') {
     </div>`;
   }
 
-  // Блок 1 — форма заявки: поле ИНН + кнопка «Отправить» (запрос владельца 2026-09-14).
+  // ===== Экран «Заявка» (#/msp/index) — пошаговый сценарий точки =====
+  const stage = mspApplyStage(lead);
+
+  // 1) Представитель проверяет точку (спиннер ~5 сек)
+  if (stage === 'approving') {
+    return `${head}${tabs}
+    <div class="msp-approving">
+      <div class="lv-spinner" role="status" aria-label="Представитель проверяет точку"></div>
+      <h2>Представитель проверяет точку</h2>
+      <p>Обычно это занимает несколько секунд. Как только точка будет одобрена, она появится в каталоге района.</p>
+    </div>`;
+  }
+
+  // 3) Точка одобрена → инструкция по счёту + «Отправить»
+  if (stage === 'invoice') {
+    const code = mspPayCode(lead);
+    return `${head}${tabs}
+    <div class="section-head" style="margin-top:20px"><h2>Точка одобрена<span class="sub"> · уже в каталоге</span></h2></div>
+    <div class="approval-card">
+      <div class="approval-head">
+        <span class="ri-emoji ${tileBg('tiffany')}">${icon('store')}</span>
+        <div class="ri-mid">
+          <div class="nm">${esc(p ? p.name : 'Точка')}<span class="st-chip st-active">в каталоге</span></div>
+          <div class="sb">${esc(p ? p.address : '')}</div>
+          <div class="sb">${esc(p ? p.about : '')}</div>
+        </div>
+      </div>
+    </div>
+    <div class="section-head" style="margin-top:20px"><h2>Оплатите верификационный платёж</h2></div>
+    <div class="pay-card">
+      <div class="kicker">Верификация точки</div>
+      <h2>Счёт на 1 ₽</h2>
+      <div class="pay-row"><span>Сумма</span><b>1 ₽</b></div>
+      <div class="pay-row"><span>Код платежа</span><b>${esc(code)}</b></div>
+      <div class="pay-row"><span>Плательщик</span><b>${esc(lead.legalName || 'юрлицо из заявки')}</b></div>
+      <p>Оплатите строго с расчётного счёта компании из заявки. После проверки вернём 1 ₽ на реквизиты компании.</p>
+      <div class="btn-row" style="padding:14px 0 0">
+        <button class="ghost-btn" data-action="invoice-download">${icon('download')}Скачать счёт</button>
+        <button class="ghost-btn" data-action="invoice-copy" data-code="${esc(mspInvoiceText(lead))}">${icon('copy')}Скопировать данные</button>
+      </div>
+      <button class="cta-btn brand-gradient big" style="margin-top:14px" data-action="msp-invoice-send">${icon('send')}Отправить</button>
+      <button class="ghost-btn" style="margin-top:8px" data-action="reset-msp-demo">${icon('rotate')}Пройти сценарий заново</button>
+    </div>`;
+  }
+
+  // 1) Форма заявки: ИНН + название точки + адрес + фото
   return `${head}${tabs}
-  <form id="msp-inn-form" class="msp-apply-form">
+  <form id="msp-point-form" class="msp-apply-form">
     <label class="f-field"><span class="lb">ИНН юрлица или ИП</span><input name="inn" inputmode="numeric" pattern="[0-9]{10,12}" placeholder="Например, 7801234567" value="${esc(lead.inn || '')}" required></label>
-    <div class="field-help">ИНН нужен, чтобы привязать заявку к юрлицу и подготовить счёт на верификацию.</div>
+    <label class="f-field"><span class="lb">Название торговой точки</span><input name="name" placeholder="Например, Пекарня на Садовой" value="${esc(p && p.name ? p.name : '')}" required></label>
+    <label class="f-field"><span class="lb">Адрес точки</span><input name="address" placeholder="Улица, дом" value="${esc(p && p.address ? p.address : '')}" required></label>
+    <label class="f-field"><span class="lb">Фото точки</span><input type="file" name="photo" accept="image/*"></label>
+    <div class="field-help">Представитель проверит карточку точки. После одобрения точка появится в каталоге района — без товаров, с адресом и описанием.</div>
     <div style="padding:16px 16px 0"><button class="cta-btn brand-gradient big" type="submit">${icon('send')}Отправить</button></div>
   </form>`;
 }
@@ -1677,24 +1777,35 @@ function handleMspSignup(form) {
 function handleMspPoint(form) {
   const lead = ensureMspLead();
   if (!lead) return;
-  const val = (name) => (form.querySelector(`[name="${name}"]`) || {}).value || '';
-  lead.legalName = val('legalName').trim() || lead.legalName || 'Моя компания';
-  lead.channel = val('channel') || lead.channel || 'Telegram';
+  const val = (name) => { const el = form.querySelector(`[name="${name}"]`); return el ? (el.value || '').trim() : ''; };
+  const inn = val('inn').replace(/\D/g, '');
+  if (inn) lead.inn = inn;
+  const photoEl = form.querySelector('[name="photo"]');
+  const photo = photoEl && photoEl.files && photoEl.files[0] ? photoEl.files[0].name : '';
+  const name = val('name') || 'Новая точка';
+  const address = val('address') || 'Адрес района';
   lead.point = {
-    slug: 'msp-' + lead.inn.slice(-4),
-    name: val('name').trim() || 'Новая точка',
-    address: val('address').trim() || 'Адрес района',
-    about: val('about').trim() || 'Новая точка района в LOVII.',
-    hours: '09:00-21:00',
-    emoji: '🥖',
-    color: 'tiffany',
-    category: 'bakery',
-    status: 'pending_rep',
-    submittedAt: Date.now(),
+    slug: 'msp-' + String(lead.inn || 'point').slice(-4),
+    name, address,
+    about: 'Точка «' + name + '» — новая точка района в LOVII.',
+    photo, hours: '09:00-21:00', color: 'tiffany', category: 'bakery',
+    status: 'pending_rep', submittedAt: Date.now(),
   };
+  lead.approving = true;
+  lead.appStatus = null;
   persist();
-  toast('Заявка отправлена представителю', 'После апрува точка появится в каталоге');
-  renderView();
+  renderView(true);
+  // Представитель «проверяет» точку ~5 секунд, затем точка попадает в каталог
+  setTimeout(() => {
+    if (!state.mspLead || !state.mspLead.point) return;
+    state.mspLead.approving = false;
+    state.mspLead.point.status = 'catalog';
+    state.mspLead.point.approvedAt = Date.now();
+    syncMspStore();
+    persist();
+    if (state.view.name === 'msp') renderView(true);
+    toast('Точка одобрена', 'Появилась в каталоге района — пока без товаров');
+  }, 5000);
 }
 
 function resetMspDemo() {

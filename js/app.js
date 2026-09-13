@@ -604,6 +604,19 @@ document.addEventListener('click', (e) => {
       toast('Код скопирован', actEl.dataset.code || '');
       break;
 
+    case 'invoice-download':
+      downloadInvoice();
+      break;
+
+    case 'invoice-copy':
+      if (navigator.clipboard && actEl.dataset.code) navigator.clipboard.writeText(actEl.dataset.code).catch(() => {});
+      toast('Данные счёта скопированы', 'Сумма 1 ₽ · оплатите с расчётного счёта');
+      break;
+
+    case 'msp-invoice-send':
+      mspInvoiceSend();
+      break;
+
     case 'demo-pay':
       demoPayMsp();
       break;
