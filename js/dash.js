@@ -1370,7 +1370,7 @@ const MSP_APP_STEPS = [
 
 // Внутренние статусы демки → канонный шаг заявки
 const MSP_STATUS_STEP = {
-  lead: 'draft', draft: 'submitted', moderation: 'awaiting_rep_approval', pending_rep: 'awaiting_rep_approval',
+  lead: 'draft', draft: 'draft', moderation: 'awaiting_rep_approval', pending_rep: 'awaiting_rep_approval',
   catalog: 'invoice_issued', payment: 'verifying', waiting: 'verifying', ready: 'verified', active: 'verified', offline: 'verified',
 };
 
@@ -1484,7 +1484,7 @@ function mspStatusText(status) {
 function mspStorefrontText(status) {
   if (status === 'failed' || status === 'expired') return { label: 'витрина: hidden', hint: 'точка не видна покупателям' };
   const step = MSP_APP_STEPS.find((x) => x.id === (MSP_STATUS_STEP[status] || 'draft')) || MSP_APP_STEPS[0];
-  const map = { hidden: 'точка не видна покупателям', teaser: 'витрина в режиме teaser — карточка видна, заказы закрыты', active: 'витрина active — заказы открыты' };
+  const map = { hidden: 'точка не видна покупателям', teaser: 'карточка видна, заказы закрыты', active: 'заказы открыты' };
   return { label: 'витрина: ' + step.storefront, hint: map[step.storefront] };
 }
 
