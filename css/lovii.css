@@ -1045,3 +1045,6 @@ main#view { flex: 1; }
 .sec-link { display:inline-flex; align-items:center; min-height:36px; font-size:12px; font-weight:700; color:var(--lv-pink); text-decoration:none; }
 .pay-hint.as-btn { min-height:36px; padding:8px 12px; display:inline-flex; align-items:center; gap:6px; }
 .prof-legal nav a { display:inline-flex; align-items:center; min-height:36px; }
+
+/* Иконки внутри кнопок не должны сжиматься flex'ом (иначе размер уезжает со шкалы) */
+.cta-btn svg, .ghost-btn svg, .link-btn svg, .acct-btn svg, .tab-btn svg, .filter-chip svg, .pill-btn svg, .icon-btn svg { flex: none; }
