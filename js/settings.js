@@ -432,7 +432,7 @@ async function renderSettingsHtml() {
     </button>
     <div class="row-item switch-row">
       <span class="sr-ico t-pink">${icon('info')}</span>
-      <div class="ri-mid"><div class="nm">О приложении</div><div class="sb">Демо-сборка 38 · карточка экрана SCR-PROFILE-v1</div></div>
+      <div class="ri-mid"><div class="nm">О приложении</div><div class="sb">${window.LOVII_BUILD || 'демо-сборка'} · карточка экрана SCR-PROFILE-v1</div></div>
     </div>
   </div>
 
