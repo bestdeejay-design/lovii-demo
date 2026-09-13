@@ -109,6 +109,24 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
 .sk.w60 { width:60%; } .sk.w80 { width:80%; } .sk.w40 { width:40%; }
 @keyframes sk { from { background-position:200% 0; } to { background-position:-200% 0; } }
 .state-block.err .st { color:var(--lv-pink-dark); }
+.ctx-pill { display:inline-flex; align-items:center; gap:6px; height:30px; padding:0 12px; margin-top:8px; border:1px solid var(--lv-line); border-radius:999px; background:var(--lv-card); font:inherit; font-size:11.5px; font-weight:700; cursor:pointer; }
+.ctx-pill:focus-visible { outline:2px solid var(--lv-pink); outline-offset:2px; }
+.sheet { position:absolute; left:0; right:0; bottom:0; background:var(--lv-card); border-radius:20px 20px 26px 26px; box-shadow:0 -8px 30px rgba(0,0,0,.16); padding:10px 0 14px; z-index:20; }
+.sheet[hidden] { display:none; }
+.sheet-head { padding:6px 16px 8px; font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--lv-dim); }
+.district-row { display:flex; align-items:center; gap:10px; padding:11px 16px; cursor:pointer; }
+.district-row:hover { background:var(--lv-surface); }
+.district-row .nm { font-size:13px; font-weight:700; }
+.district-row .sb { font-size:11.5px; color:var(--lv-dim); margin-top:2px; }
+.district-row .cur { margin-left:auto; font-size:11px; font-weight:700; color:var(--lv-pink-dark); }
+.sheet-back { padding:8px 16px 4px; font-size:12px; font-weight:700; color:var(--lv-dim); cursor:pointer; }
+.digest { max-width:960px; margin:22px auto 0; padding:18px; border-radius:18px; background:var(--lv-card); border:1px solid var(--lv-line); }
+.digest h2 { font-family:inherit; font-size:15px; font-weight:800; margin:0 0 10px; }
+.digest table { width:100%; border-collapse:collapse; font-size:12.5px; }
+.digest th { text-align:left; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--lv-dim); padding:6px 8px; border-bottom:1px solid var(--lv-line); }
+.digest td { padding:6px 8px; border-bottom:1px solid var(--lv-hairline); vertical-align:top; }
+.digest .ok { color:var(--lv-green-text); font-weight:700; }
+.digest .no { color:var(--lv-gold-text); font-weight:700; }
 @media (max-width:420px) { .phone { width:100%; border-radius:20px; } }
 </style>
 </head>
@@ -299,7 +317,12 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
   <section class="phone" data-board="msp" data-accent="tiffany" hidden aria-label="Кабинет МСП">
     <div class="cab-head">
       <div class="cab-title">Мой магазин</div>
-      <div class="cab-sub">Пекарня на Садовой · Лови Базовый</div>
+      <div class="cab-sub" data-ctx-sub>ООО «НАПОЛИ ПИЦЦА» · 1 точка · ИНН ••4821</div>
+      <button class="ctx-pill" data-action="ctx" data-testid="msp-ctx">Сменить юрлицо / точку ▾</button>
+    </div>
+    <div class="sheet" data-sheet hidden aria-label="Выбор юрлица и точки">
+      <div class="sheet-head" data-sheet-head>Юрлица</div>
+      <div data-sheet-list></div>
     </div>
     <div class="dash-tabs" role="tablist">
       <button role="tab" aria-selected="true" data-tab="msp-overview">Обзор</button>
@@ -328,8 +351,8 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
     <div class="screen" data-screen="msp-orders">
       <div class="card" style="padding:12px 14px"><div class="chips"><span class="chip">Новые</span><span class="chip">В работе</span><span class="chip">Готовы</span><span class="chip">Завершены</span></div></div>
       <div class="list card" style="padding:0;margin-top:14px">
-        <div class="row"><div class="em">🧾</div><div class="tx"><div class="t1">№151 · 1 240 ₽</div><div class="t2">2 позиции · самовывоз</div></div><div class="r"><span class="pill brand">Новый</span></div></div>
-        <div class="row"><div class="em">🧾</div><div class="tx"><div class="t1">№150 · 860 ₽</div><div class="t2">1 позиция · доставка</div></div><div class="r"><span class="pill wait">Готовим</span></div></div>
+        <div class="row"><div class="em">🧾</div><div class="tx"><div class="t1">№151 · 1 240 ₽</div><div class="t2">2 позиции · самовывоз · Садовая 12</div></div><div class="r"><span class="pill brand">Новый</span></div></div>
+        <div class="row"><div class="em">🧾</div><div class="tx"><div class="t1">№150 · 860 ₽</div><div class="t2">1 позиция · доставка · Невский 40</div></div><div class="r"><span class="pill wait">Готовим</span></div></div>
         <div class="row"><div class="em">🧾</div><div class="tx"><div class="t1">№149 · 540 ₽</div><div class="t2">завершён</div></div><div class="r"><span class="pill ok">Завершён</span></div></div>
       </div>
       <div class="btn-row" style="padding:0 16px"><button class="btn" data-action="status">Сменить статус</button><button class="btn ghost" disabled>Отменить</button></div>
@@ -337,8 +360,8 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
 
     <div class="screen" data-screen="msp-products">
       <div class="card" style="padding:0">
-        <div class="row"><div class="em">🥐</div><div class="tx"><div class="t1">Круассан классический</div><div class="t2">120 ₽ · остаток 14</div></div><div class="r"><span class="pill ok">Виден</span></div></div>
-        <div class="row"><div class="em">🍞</div><div class="tx"><div class="t1">Хлеб бородинский</div><div class="t2">85 ₽ · остаток 6</div></div><div class="r"><span class="pill off">Скрыт</span></div></div>
+        <div class="row"><div class="em">🥐</div><div class="tx"><div class="t1">Круассан классический</div><div class="t2">120 ₽ · остаток 14 · во всех филиалах</div></div><div class="r"><span class="pill ok">Виден</span></div></div>
+        <div class="row"><div class="em">🍞</div><div class="tx"><div class="t1">Хлеб бородинский</div><div class="t2">85 ₽ · остаток 6 · Садовая 12</div></div><div class="r"><span class="pill off">Скрыт</span></div></div>
       </div>
       <div class="btn-row" style="padding:0 16px"><button class="btn" data-action="product">Добавить товар</button></div>
       <div class="dash-note tone-dim">Загрузка фото — <code>POST /msp/uploads</code>; расширенная настройка каталога остаётся в кабинете b2b.</div>
@@ -348,6 +371,7 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
       <div class="card">
         <div class="kicker">Часы работы</div>
         <h2>Пн–Сб · 08:00–20:00</h2>
+        <p>Филиал: Садовая 12. У юрлица 8 филиалов — расписание настраивается по каждому.</p>
         <p>Воскресенье — выходной. Слоты выдачи: 30 минут.</p>
       </div>
       <div class="card">
@@ -374,6 +398,19 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
     </div>
   </section>
 </div>
+
+<section class="digest">
+  <h2>Что уже есть в коде и API (чтобы не искать по документам)</h2>
+  <table>
+    <tr><th>Экран</th><th>В приложении</th><th>API ядра</th></tr>
+    <tr><td>Представитель: обзор, точки, заявки, доход, профиль</td><td class="ok">есть</td><td>get /representative/profile · /points · /approvals · post verify/reject</td></tr>
+    <tr><td>Амбассадор: обзор, структура, обучение, доход</td><td class="ok">есть</td><td>get /ambassador/dashboard · /reps · /income · /training</td></tr>
+    <tr><td>МСП: обзор, заказы + деталь, товары, настройки, платёж</td><td class="ok">есть</td><td>get /msp/overview · /orders · patch status · /products · /branch/settings · /payment</td></tr>
+    <tr><td>Контекст «юрлицо → точка» (N юрлиц, N филиалов)</td><td class="no">нет — фаза Ф2</td><td>частично: b2b.partners · partner_memberships · merchants · merchant_branches</td></tr>
+    <tr><td>Данные на стейдже</td><td colspan="2">10 юрлиц (напр. «НАПОЛИ ПИЦЦА» — 8 филиалов, «ЦИФРОВЫЕ ТЕХНОЛОГИИ» — 2 точки/4 филиала), 272 memberships</td></tr>
+  </table>
+  <p class="foot-note" style="text-align:left;margin-top:10px">Источник порядка работ: <code>msp-ds-multibranch</code> — Ф0 доки → Ф1 core → Ф2 app (свитчер + приведение к ДС) → Ф3 b2b → Ф4 финансы.</p>
+</section>
 
 <p class="foot-note">Прототип для просмотра до работы с реальным кодом. Токены — из дизайн-системы LOVII (<code>assets/lovii-tokens.css</code>).</p>
 
@@ -445,6 +482,60 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
     });
   });
 
+  // Свитчер контекста МСП: юрлица → точки (канон B.5: pill-btn → sheet, .district-row).
+  var CTX = {
+    partners: [
+      { id: 10, name: 'ООО «НАПОЛИ ПИЦЦА»', inn: '••4821', points: ['Пекарня на Садовой'] },
+      { id: 9, name: 'ООО «ЦИФРОВЫЕ ТЕХНОЛОГИИ»', inn: '••7734', points: ['Кофейня «Утро»', 'Магазин «Полка»'] },
+      { id: 8, name: 'P0 Checkpoint', inn: '••0099', points: ['Тестовая точка'] }
+    ]
+  };
+  var ctx = { partner: 0, point: null };
+
+  function renderSheet(level, partnerIndex) {
+    var list = document.querySelector('[data-sheet-list]');
+    var head = document.querySelector('[data-sheet-head]');
+    if (!list) { return; }
+    list.innerHTML = '';
+    if (level === 1) {
+      var p = CTX.partners[partnerIndex];
+      head.textContent = p.name + ' · точки';
+      var back = document.createElement('div');
+      back.className = 'sheet-back';
+      back.textContent = '‹ Все юрлица';
+      back.setAttribute('data-level', '0');
+      list.appendChild(back);
+      p.points.forEach(function (name, i) {
+        var row = document.createElement('div');
+        row.className = 'district-row';
+        row.setAttribute('data-pick-partner', String(partnerIndex));
+        row.setAttribute('data-pick-point', String(i));
+        row.innerHTML = '<div><div class="nm">' + name + '</div><div class="sb">Лови Базовый</div></div>'
+          + (ctx.point === i && ctx.partner === partnerIndex ? '<span class="cur">Выбрано</span>' : '');
+        list.appendChild(row);
+      });
+      return;
+    }
+    head.textContent = 'Юрлица';
+    CTX.partners.forEach(function (p, i) {
+      var row = document.createElement('div');
+      row.className = 'district-row';
+      row.setAttribute('data-pick-partner', String(i));
+      row.innerHTML = '<div><div class="nm">' + p.name + '</div><div class="sb">' + p.points.length
+        + ' точки · ИНН ' + p.inn + '</div></div>'
+        + (ctx.partner === i ? '<span class="cur">Выбрано</span>' : '');
+      list.appendChild(row);
+    });
+  }
+
+  function applyCtx() {
+    var p = CTX.partners[ctx.partner];
+    var sub = document.querySelector('[data-ctx-sub]');
+    if (sub) {
+      sub.textContent = p.name + ' · ' + (ctx.point === null ? p.points.length + ' точки' : p.points[ctx.point]) + ' · ИНН ' + p.inn;
+    }
+  }
+
   var toastEl = document.getElementById('toast');
   var toastTimer = null;
 
@@ -474,6 +565,25 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
   }
 
   document.addEventListener('click', function (event) {
+    var back = event.target.closest('.sheet-back');
+    if (back) { renderSheet(0, 0); return; }
+    var pick = event.target.closest('[data-pick-partner]');
+    if (pick) {
+      var pi = parseInt(pick.dataset.pick_partner, 10);
+      var pt = pick.dataset.pick_point;
+      var partner = CTX.partners[pi];
+      if (pt === undefined) {
+        if (partner.points.length > 1) { renderSheet(1, pi); return; }
+        ctx.partner = pi; ctx.point = 0;
+      } else {
+        ctx.partner = pi; ctx.point = parseInt(pt, 10);
+      }
+      applyCtx();
+      var sheetEl = pick.closest('[data-sheet]');
+      if (sheetEl) { sheetEl.hidden = true; }
+      toast('Контекст: ' + CTX.partners[ctx.partner].name);
+      return;
+    }
     var btn = event.target.closest('[data-action]');
     if (!btn) { return; }
     var action = btn.dataset.action;
@@ -504,6 +614,12 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
       return;
     }
 
+    if (action === 'ctx') {
+      var sheet = btn.closest('.phone').querySelector('[data-sheet]');
+      renderSheet(0, 0);
+      sheet.hidden = !sheet.hidden;
+      return;
+    }
     if (action === 'retry') { toast('Повторная загрузка…'); return; }
     if (action === 'product') { toast('Форма товара — следующая итерация'); return; }
     if (action === 'save') { toast('Настройки сохранены'); return; }
