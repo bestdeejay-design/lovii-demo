@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кабинеты ролей — превью LOVII</title>
+<link rel="icon" type="image/svg+xml" href="../assets/lovii-icon.svg">
+<link rel="stylesheet" href="../assets/lovii-tokens.css">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(--lv-page); color:var(--lv-ink); padding:20px 14px 60px; -webkit-font-smoothing:antialiased; }
+.page-header { max-width:960px; margin:0 auto 18px; }
+.page-header h1 { font-size:20px; font-weight:800; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.page-header .badge { font-size:10px; font-weight:700; background:var(--lv-soft-pink); color:var(--lv-pink-dark); padding:3px 9px; border-radius:999px; }
+.page-header p { font-size:13px; color:var(--lv-dim); margin-top:6px; line-height:1.5; }
+.role-switch { display:flex; gap:8px; flex-wrap:wrap; max-width:960px; margin:0 auto 14px; }
+.role-switch button { height:36px; padding:0 14px; border:1px solid var(--lv-line); border-radius:999px; background:var(--lv-card); color:var(--lv-ink); font:inherit; font-size:13px; font-weight:600; cursor:pointer; }
+.role-switch button[aria-selected="true"] { background:var(--lv-gradient-brand); color:var(--lv-on-brand); border-color:transparent; }
+.role-switch button:focus-visible { outline:2px solid var(--lv-pink); outline-offset:2px; }
+
+.boards { display:flex; gap:18px; flex-wrap:wrap; justify-content:center; align-items:flex-start; }
+.phone { width:380px; max-width:100%; background:var(--lv-bg); border-radius:26px; padding:14px 0 20px; box-shadow:var(--lv-shadow-float,0 6px 24px rgba(0,0,0,.08)); position:relative; }
+.phone::before { content:''; position:absolute; top:7px; left:50%; transform:translateX(-50%); width:76px; height:4px; background:rgba(0,0,0,.1); border-radius:999px; }
+.cab-head { padding:14px 16px 0; }
+.cab-title { font-size:19px; font-weight:800; letter-spacing:-.01em; }
+.cab-sub { font-size:12px; color:var(--lv-dim); margin-top:3px; }
+.dash-tabs { display:flex; gap:6px; padding:12px 16px 0; overflow-x:auto; }
+.dash-tabs button { height:32px; padding:0 12px; border:1px solid var(--lv-line); border-radius:999px; background:var(--lv-card); color:var(--lv-ink); font:inherit; font-size:12.5px; font-weight:600; white-space:nowrap; cursor:pointer; }
+.dash-tabs button[aria-selected="true"] { background:var(--lv-surface); border-color:var(--lv-pink); color:var(--lv-pink-dark); }
+.dash-tabs button:focus-visible { outline:2px solid var(--lv-pink); outline-offset:2px; }
+.screen { display:none; }
+.screen.is-on { display:block; }
+
+.kpi-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:14px 16px 0; }
+.kpi { background:var(--lv-card); border:1px solid var(--lv-line); border-radius:16px; padding:12px 14px; box-shadow:0 1px 3px rgba(26,26,26,.06); min-width:0; }
+.kpi .l { font-size:10.5px; font-weight:700; color:var(--lv-dim); text-transform:uppercase; letter-spacing:.04em; }
+.kpi .v { margin-top:5px; font-size:19px; font-weight:800; letter-spacing:-.02em; }
+.kpi .d { margin-top:5px; font-size:11px; color:var(--lv-dim); }
+.kpi.accent { background-image:linear-gradient(150deg,var(--lv-kpi-soft),var(--lv-card)); border-color:rgba(246,74,138,.25); }
+.kpi.accent .v { color:var(--lv-pink-dark); }
+
+.card { margin:14px 16px 0; padding:16px; border-radius:18px; background:var(--lv-card); border:1px solid var(--lv-line); box-shadow:0 1px 3px rgba(26,26,26,.06); }
+.card .kicker { font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--lv-dim); }
+.card h2 { margin:5px 0 0; font-size:17px; line-height:1.2; letter-spacing:-.01em; }
+.card p { margin:7px 0 0; font-size:12.5px; line-height:1.55; color:var(--lv-dim); }
+.dash-note { margin:10px 16px 0; padding:11px 14px; border-radius:12px; font-size:12px; line-height:1.5; font-weight:500; }
+.dash-note.tone-pink { background:var(--lv-soft-pink); color:var(--lv-pink-dark); }
+.dash-note.tone-tiffany { background:var(--lv-soft-tiffany); color:var(--lv-tiffany-text); }
+.dash-note.tone-gold { background:var(--lv-soft-gold); color:var(--lv-gold-text); }
+.dash-note.tone-dim { background:var(--lv-grey-soft); color:var(--lv-dim); }
+
+.list { margin:0; padding:0; list-style:none; }
+.row { display:flex; align-items:center; gap:12px; padding:12px 16px; border-bottom:1px solid var(--lv-hairline); }
+.row:last-child { border-bottom:0; }
+.row .em { width:36px; height:36px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:18px; background:var(--lv-surface); flex-shrink:0; }
+.row .tx { min-width:0; flex:1; }
+.row .t1 { font-size:13.5px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.row .t2 { font-size:11.5px; color:var(--lv-dim); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.row .r { font-size:13px; font-weight:700; text-align:right; white-space:nowrap; }
+
+.pill { display:inline-flex; align-items:center; gap:4px; font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:999px; white-space:nowrap; }
+.pill.ok { background:var(--lv-green-soft); color:var(--lv-green-text); }
+.pill.wait { background:var(--lv-soft-gold); color:var(--lv-gold-text); }
+.pill.off { background:var(--lv-grey-soft); color:var(--lv-dim); }
+.pill.brand { background:var(--lv-soft-pink); color:var(--lv-pink-dark); }
+
+.chips { display:flex; gap:7px; flex-wrap:wrap; }
+.chip { height:28px; padding:0 12px; display:inline-flex; align-items:center; border-radius:999px; background:var(--lv-surface); font-size:12px; font-weight:600; }
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:6px; height:38px; padding:0 16px; border:0; border-radius:999px; background:var(--lv-gradient-brand); color:var(--lv-on-brand); font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.btn.ghost { background:var(--lv-surface); color:var(--lv-ink); }
+.btn:focus-visible { outline:2px solid var(--lv-pink); outline-offset:2px; }
+.btn[disabled] { opacity:.5; cursor:not-allowed; }
+.btn-row { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+
+.bar { width:100%; height:8px; border-radius:999px; background:rgba(0,0,0,.08); overflow:hidden; margin-top:10px; }
+.bar > span { display:block; height:100%; border-radius:999px; background:var(--lv-gradient-brand); }
+.steps { margin:10px 0 0; padding:0; list-style:none; counter-reset:s; }
+.steps li { position:relative; padding:0 0 12px 30px; counter-increment:s; border-left:2px solid var(--lv-line); margin-left:9px; }
+.steps li:last-child { border-left-color:transparent; padding-bottom:0; }
+.steps li::before { content:counter(s); position:absolute; left:-11px; top:-1px; width:20px; height:20px; display:grid; place-items:center; background:var(--lv-card); border:1px solid var(--lv-line); border-radius:50%; font-size:10.5px; font-weight:800; }
+.steps li.done::before { background:var(--lv-gradient-brand); color:var(--lv-on-brand); border-color:transparent; }
+.steps .st { font-size:12.5px; font-weight:700; }
+.steps .sd { font-size:11.5px; color:var(--lv-dim); margin-top:2px; }
+.empty { padding:18px 16px; font-size:12.5px; color:var(--lv-dim); text-align:center; }
+.mono { font-variant-numeric:tabular-nums; letter-spacing:.06em; font-weight:800; }
+.foot-note { max-width:960px; margin:22px auto 0; font-size:12px; color:var(--lv-dim); text-align:center; }
+@media (max-width:420px) { .phone { width:100%; border-radius:20px; } }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <h1>Кабинеты ролей — превью <span class="badge">до реального кода</span></h1>
+  <p>Представитель · Амбассадор · МСП (мобильный стартер). Собрано по спеке <code>roles-screens-spec.md</code> и ролевым картам RES-004/005/006. Новое в этой итерации — «Профиль» представителя и «Доход» амбассадора. Цифры дохода — честный ноль до запуска выплат.</p>
+</header>
+
+<div class="role-switch" role="tablist" aria-label="Роли">
+  <button role="tab" aria-selected="true" data-role="rep">Представитель</button>
+  <button role="tab" aria-selected="false" data-role="amb">Амбассадор</button>
+  <button role="tab" aria-selected="false" data-role="msp">МСП</button>
+</div>
+
+<div class="boards">
+  <section class="phone" data-board="rep" aria-label="Кабинет представителя">
+    <div class="cab-head">
+      <div class="cab-title">Представитель</div>
+      <div class="cab-sub">PP7K2A · Анна Ветрова · +7 911 000-00-00</div>
+    </div>
+    <div class="dash-tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-tab="rep-overview">Обзор</button>
+      <button role="tab" aria-selected="false" data-tab="rep-points">Точки</button>
+      <button role="tab" aria-selected="false" data-tab="rep-approvals">Заявки</button>
+      <button role="tab" aria-selected="false" data-tab="rep-income">Доход</button>
+      <button role="tab" aria-selected="false" data-tab="rep-profile">Профиль</button>
+    </div>
+
+    <div class="screen is-on" data-screen="rep-overview">
+      <div class="kpi-grid">
+        <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">выплаты — с запуском финконтура</div></div>
+        <div class="kpi"><div class="l">Активные точки</div><div class="v">4 / 7</div><div class="d">3 заявки в работе</div></div>
+        <div class="kpi"><div class="l">GMV сети · месяц</div><div class="v">84 700 ₽</div><div class="d">по активным точкам</div></div>
+        <div class="kpi"><div class="l">Статус</div><div class="v">Представитель</div><div class="d">до «Мэра» — 26 точек</div></div>
+      </div>
+      <div class="card">
+        <div class="kicker">Ранг</div>
+        <h2>Цифровой Представитель</h2>
+        <p>До «Цифрового Мэра» — 30 активных точек. Статус открывает приоритет в очереди подключений и повышенные бонусы структуры.</p>
+        <div class="bar" role="progressbar" aria-valuenow="13" aria-valuemin="0" aria-valuemax="100"><span style="width:13%"></span></div>
+      </div>
+      <div class="dash-note tone-pink">3 заявки в очереди — апрувните их сейчас, чтобы точки увидели витрину.</div>
+      <div class="card" style="padding:0">
+        <div class="row"><div class="em">🥖</div><div class="tx"><div class="t1">Пекарня на Садовой</div><div class="t2">активна · Лови Базовый</div></div><div class="r">41 200 ₽</div></div>
+        <div class="row"><div class="em">☕</div><div class="tx"><div class="t1">Кофейня «Утро»</div><div class="t2">активна · Лови Старт</div></div><div class="r">28 100 ₽</div></div>
+      </div>
+    </div>
+
+    <div class="screen" data-screen="rep-points">
+      <div class="card" style="padding:12px 14px">
+        <div class="chips">
+          <span class="chip">Все</span><span class="chip">Активные</span><span class="chip">Ожидают</span><span class="chip">Отклонены</span>
+        </div>
+      </div>
+      <div class="card" style="padding:0">
+        <div class="row"><div class="em">🥖</div><div class="tx"><div class="t1">Пекарня на Садовой</div><div class="t2">Лови Базовый · 12 заказов</div></div><div class="r"><span class="pill ok">Активна</span></div></div>
+        <div class="row"><div class="em">☕</div><div class="tx"><div class="t1">Кофейня «Утро»</div><div class="t2">Лови Старт · 4 заказа</div></div><div class="r"><span class="pill ok">Активна</span></div></div>
+        <div class="row"><div class="em">🧺</div><div class="tx"><div class="t1">Химчистка «Чисто»</div><div class="t2">заявка отправлена</div></div><div class="r"><span class="pill wait">Ожидает</span></div></div>
+        <div class="row"><div class="em">🧁</div><div class="tx"><div class="t1">Кондитерская «Марта»</div><div class="t2">карточка не заполнена</div></div><div class="r"><span class="pill off">Отклонена</span></div></div>
+      </div>
+      <div class="dash-note tone-dim">Поиск и сортировка — как в спеке (по названию, выручке, статусу).</div>
+    </div>
+
+    <div class="screen" data-screen="rep-approvals">
+      <div class="card">
+        <div class="kicker">Очередь заявок</div>
+        <h2>2 карточки ждут апрува</h2>
+        <p>Заявка приходит по вашему промокоду. Проверьте ИНН и адрес — после апрува точка получит счёт на верификацию.</p>
+      </div>
+      <div class="card" style="padding:0">
+        <div class="row"><div class="em">🧺</div><div class="tx"><div class="t1">Химчистка «Чисто»</div><div class="t2">ИНН 7801234567 · СПб, Садовая 12</div></div></div>
+        <div class="row"><div class="em">🍣</div><div class="tx"><div class="t1">Суши «Тай»</div><div class="t2">ИНН 7807654321 · СПб, Невский 40</div></div></div>
+      </div>
+      <div class="card">
+        <div class="kicker">Маршрут подключения</div>
+        <ol class="steps">
+          <li class="done"><div class="st">ИНН и карточка</div><div class="sd">отправлено владельцем точки</div></li>
+          <li><div class="st">Апрув представителя</div><div class="sd">ваш шаг — 2 заявки</div></li>
+          <li><div class="st">Счёт на верификацию</div><div class="sd">1 ₽, возвратный</div></li>
+          <li><div class="st">Верификация платежом</div><div class="sd">витрина становится teaser</div></li>
+          <li><div class="st">Продажи включены</div><div class="sd">витрина active</div></li>
+        </ol>
+        <div class="btn-row"><button class="btn">Апрувить</button><button class="btn ghost">Отклонить</button></div>
+      </div>
+    </div>
+
+    <div class="screen" data-screen="rep-income">
+      <div class="kpi-grid">
+        <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">до ledger-фазы 3</div></div>
+        <div class="kpi"><div class="l">Подписка</div><div class="v">199 ₽/мес</div><div class="d">по промокоду</div></div>
+      </div>
+      <div class="dash-note tone-tiffany">Ваша доля — 40% от пула платформы с лично подключённых точек. Учёт включится вместе с выплатами.</div>
+      <div class="card" style="padding:0"><div class="empty">Операций пока нет.</div></div>
+    </div>
+
+    <div class="screen" data-screen="rep-profile">
+      <div class="card">
+        <div class="kicker">Промокод для подключения точек</div>
+        <h2 class="mono">PP7K2A</h2>
+        <p>Ссылка: app.lovii.ru/business/apply?promo=PP7K2A</p>
+        <div class="btn-row"><button class="btn">Скопировать ссылку регистрации</button></div>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="l">Активные точки</div><div class="v">4</div></div>
+        <div class="kpi"><div class="l">Заявки в работе</div><div class="v">3</div></div>
+      </div>
+      <div class="card">
+        <div class="kicker">Ранг</div>
+        <h2>Цифровой Представитель</h2>
+        <div class="bar" role="progressbar" aria-valuenow="13" aria-valuemin="0" aria-valuemax="100"><span style="width:13%"></span></div>
+        <p>До «Цифрового Мэра» — 30 активных точек.</p>
+      </div>
+      <div class="card">
+        <div class="kicker">Привилегии</div>
+        <ul class="steps" style="margin-top:8px">
+          <li class="done"><div class="st">40% от пула платформы</div><div class="sd">с лично подключённых точек</div></li>
+          <li class="done"><div class="st">Подписка 599 ₽ / 199 ₽</div><div class="sd">по промокоду</div></li>
+          <li class="done"><div class="st">Неограниченные приглашения</div><div class="sd">по промокоду</div></li>
+          <li class="done"><div class="st">Наставничество</div><div class="sd">обучение амбассадоров</div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="phone" data-board="amb" hidden aria-label="Кабинет амбассадора">
+    <div class="cab-head">
+      <div class="cab-title">Амбассадор</div>
+      <div class="cab-sub">AMB4K · Алина · сеть из 5 представителей</div>
+    </div>
+    <div class="dash-tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-tab="amb-overview">Обзор</button>
+      <button role="tab" aria-selected="false" data-tab="amb-reps">Структура</button>
+      <button role="tab" aria-selected="false" data-tab="amb-training">Обучение</button>
+      <button role="tab" aria-selected="false" data-tab="amb-income">Доход</button>
+    </div>
+
+    <div class="screen is-on" data-screen="amb-overview">
+      <div class="kpi-grid">
+        <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">до ledger-фазы 3</div></div>
+        <div class="kpi"><div class="l">Представителей</div><div class="v">5</div><div class="d">в вашей ветке</div></div>
+        <div class="kpi"><div class="l">Точек в сети</div><div class="v">12</div><div class="d">подключены</div></div>
+        <div class="kpi"><div class="l">GMV ветки</div><div class="v">212 400 ₽</div><div class="d">за месяц</div></div>
+      </div>
+      <div class="dash-note tone-gold">Ваша доля — 20% от пула платформы со всей ветки представителей.</div>
+    </div>
+
+    <div class="screen" data-screen="amb-reps">
+      <div class="card" style="padding:0">
+        <div class="row"><div class="em">🤝</div><div class="tx"><div class="t1">Анна Ветрова</div><div class="t2">PP7K2A · 4 точки</div></div><div class="r">0 ₽</div></div>
+        <div class="row"><div class="em">🤝</div><div class="tx"><div class="t1">Игорь Смирнов</div><div class="t2">PP3M9Q · 3 точки</div></div><div class="r">0 ₽</div></div>
+        <div class="row"><div class="em">🤝</div><div class="tx"><div class="t1">Мария Ким</div><div class="t2">PP8D1L · 5 точек</div></div><div class="r">0 ₽</div></div>
+      </div>
+    </div>
+
+    <div class="screen" data-screen="amb-training">
+      <div class="list card" style="padding:0;margin-top:14px">
+        <div class="row"><div class="em">📘</div><div class="tx"><div class="t1">Как подключить точку</div><div class="t2">8 минут · 100%</div></div><div class="r"><span class="pill ok">Пройден</span></div></div>
+        <div class="row"><div class="em">📗</div><div class="tx"><div class="t1">Работа с возражениями</div><div class="t2">12 минут · 40%</div></div><div class="r"><span class="pill wait">В процессе</span></div></div>
+        <div class="row"><div class="em">📙</div><div class="tx"><div class="t1">Обучение представителей</div><div class="t2">15 минут</div></div><div class="r"><span class="pill off">Не начат</span></div></div>
+      </div>
+    </div>
+
+    <div class="screen" data-screen="amb-income">
+      <div class="kpi-grid">
+        <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">до ledger-фазы 3</div></div>
+        <div class="kpi"><div class="l">Ставка</div><div class="v">20%</div><div class="d">пула ветки</div></div>
+      </div>
+      <div class="card"><div class="kicker">История выплат</div><div class="empty">Операций пока нет.</div></div>
+      <div class="dash-note tone-gold">Ваша доля — 20% от пула платформы со всей ветки. Учёт включится вместе с выплатами платформы.</div>
+    </div>
+  </section>
+
+  <section class="phone" data-board="msp" hidden aria-label="Кабинет МСП">
+    <div class="cab-head">
+      <div class="cab-title">Мой магазин</div>
+      <div class="cab-sub">Пекарня на Садовой · Лови Базовый</div>
+    </div>
+    <div class="dash-tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-tab="msp-overview">Обзор</button>
+      <button role="tab" aria-selected="false" data-tab="msp-orders">Заказы</button>
+      <button role="tab" aria-selected="false" data-tab="msp-products">Товары</button>
+      <button role="tab" aria-selected="false" data-tab="msp-settings">Настройки</button>
+      <button role="tab" aria-selected="false" data-tab="msp-pay">Платёж</button>
+    </div>
+
+    <div class="screen is-on" data-screen="msp-overview">
+      <div class="card">
+        <div class="kicker">Статус точки</div>
+        <h2>Продажи включены</h2>
+        <p>Витрина активна, заказы приходят. Управление каталогом — здесь, расширенные настройки — в кабинете b2b.</p>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="l">Заказы сегодня</div><div class="v">3</div></div>
+        <div class="kpi"><div class="l">Выручка · неделя</div><div class="v">41 200 ₽</div></div>
+      </div>
+      <div class="card" style="padding:0">
+        <div class="row"><div class="em">🧾</div><div class="tx"><div class="t1">Заказ №151 · 1 240 ₽</div><div class="t2">новый · забрать в 18:30</div></div><div class="r"><span class="pill brand">Новый</span></div></div>
+        <div class="row"><div class="em">🧾</div><div class="tx"><div class="t1">Заказ №150 · 860 ₽</div><div class="t2">готов к выдаче</div></div><div class="r"><span class="pill ok">Готов</span></div></div>
+      </div>
+    </div>
+
+    <div class="screen" data-screen="msp-orders">
+      <div class="card" style="padding:12px 14px"><div class="chips"><span class="chip">Новые</span><span class="chip">В работе</span><span class="chip">Готовы</span><span class="chip">Завершены</span></div></div>
+      <div class="list card" style="padding:0;margin-top:14px">
+        <div class="row"><div class="em">🧾</div><div class="tx"><div class="t1">№151 · 1 240 ₽</div><div class="t2">2 позиции · самовывоз</div></div><div class="r"><span class="pill brand">Новый</span></div></div>
+        <div class="row"><div class="em">🧾</div><div class="tx"><div class="t1">№150 · 860 ₽</div><div class="t2">1 позиция · доставка</div></div><div class="r"><span class="pill wait">Готовим</span></div></div>
+        <div class="row"><div class="em">🧾</div><div class="tx"><div class="t1">№149 · 540 ₽</div><div class="t2">завершён</div></div><div class="r"><span class="pill ok">Завершён</span></div></div>
+      </div>
+      <div class="btn-row" style="padding:0 16px"><button class="btn">Сменить статус</button><button class="btn ghost" disabled>Отменить</button></div>
+    </div>
+
+    <div class="screen" data-screen="msp-products">
+      <div class="card" style="padding:0">
+        <div class="row"><div class="em">🥐</div><div class="tx"><div class="t1">Круассан классический</div><div class="t2">120 ₽ · остаток 14</div></div><div class="r"><span class="pill ok">Виден</span></div></div>
+        <div class="row"><div class="em">🍞</div><div class="tx"><div class="t1">Хлеб бородинский</div><div class="t2">85 ₽ · остаток 6</div></div><div class="r"><span class="pill off">Скрыт</span></div></div>
+      </div>
+      <div class="btn-row" style="padding:0 16px"><button class="btn">Добавить товар</button></div>
+      <div class="dash-note tone-dim">Загрузка фото — <code>POST /msp/uploads</code>; расширенная настройка каталога остаётся в кабинете b2b.</div>
+    </div>
+
+    <div class="screen" data-screen="msp-settings">
+      <div class="card">
+        <div class="kicker">Часы работы</div>
+        <h2>Пн–Сб · 08:00–20:00</h2>
+        <p>Воскресенье — выходной. Слоты выдачи: 30 минут.</p>
+      </div>
+      <div class="card">
+        <div class="kicker">Минимальная сумма заказа</div>
+        <h2>300 ₽</h2>
+        <p>Заказы ниже суммы не принимаются.</p>
+      </div>
+      <div class="btn-row" style="padding:0 16px"><button class="btn">Сохранить</button><button class="btn ghost" disabled>Сбросить</button></div>
+    </div>
+
+    <div class="screen" data-screen="msp-pay">
+      <div class="card">
+        <div class="kicker">Счёт на верификацию</div>
+        <h2 class="mono">1 ₽</h2>
+        <p>Код платежа: <span class="mono">VER-1842-7KQ2M4PX</span></p>
+        <p>Платёж строго с расчётного счёта компании из заявки. Возвратный: вернём на реквизиты компании после проверки.</p>
+      </div>
+      <div class="card">
+        <div class="kicker">Реквизиты</div>
+        <h2>ООО «Аксиома»</h2>
+        <p>ИНН 7842223709 · р/с и банк — в счёте, приходит в канал связи точки.</p>
+      </div>
+      <div class="dash-note tone-tiffany">После поступления платежа витрина переходит в teaser, затем — в active.</div>
+    </div>
+  </section>
+</div>
+
+<p class="foot-note">Прототип для просмотра до работы с реальным кодом. Токены — из дизайн-системы LOVII (<code>assets/lovii-tokens.css</code>).</p>
+
+<script>
+(function () {
+  document.querySelectorAll('.role-switch button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var role = btn.dataset.role;
+      document.querySelectorAll('.role-switch button').forEach(function (b) {
+        b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+      });
+      document.querySelectorAll('.phone').forEach(function (board) {
+        board.hidden = board.dataset.board !== role;
+      });
+    });
+  });
+
+  document.querySelectorAll('.dash-tabs button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var board = btn.closest('.phone');
+      var name = btn.dataset.tab;
+      board.querySelectorAll('.dash-tabs button').forEach(function (b) {
+        b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+      });
+      board.querySelectorAll('.screen').forEach(function (screen) {
+        screen.classList.toggle('is-on', screen.dataset.screen === name);
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
