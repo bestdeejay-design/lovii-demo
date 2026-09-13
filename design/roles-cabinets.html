@@ -9,6 +9,8 @@
 <!-- слой A+B канонной ДС (предпросмотровый снапшот; в прод — только через propagate.py) -->
 <link rel="stylesheet" href="lovii-ds.css">
 <style>
+/* Слой C — анатомия страницы превью (каркас телефона, сетка KPI, дайджест, панель состояний).
+   Всё остальное берётся из канонной ДС: design/lovii-ds.css (слои A+B). */
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(--lv-page); color:var(--lv-ink); padding:20px 14px 60px; -webkit-font-smoothing:antialiased; }
 .page-header { max-width:960px; margin:0 auto 18px; }
@@ -41,8 +43,8 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
 .kpi.accent { background-image:linear-gradient(150deg,var(--lv-kpi-soft),var(--lv-card)); border-color:rgba(246,74,138,.25); }
 .kpi.accent .v { color:var(--lv-pink-dark); }
 
-.card { margin:14px 16px 0; padding:16px; border-radius:18px; background:var(--lv-card); border:1px solid var(--lv-line); box-shadow:0 1px 3px rgba(26,26,26,.06); }
-.card .kicker { font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--lv-dim); }
+.section { /* слой C: отступы макета; канон задаёт margin-top:28px */ margin:14px 16px 0; padding:16px; border-radius:18px; background:var(--lv-card); border:1px solid var(--lv-line); box-shadow:0 1px 3px rgba(26,26,26,.06); }
+.section .cap { font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--lv-dim); }
 .card h2 { margin:5px 0 0; font-size:17px; line-height:1.2; letter-spacing:-.01em; }
 .card p { margin:7px 0 0; font-size:12.5px; line-height:1.55; color:var(--lv-dim); }
 .dash-note { margin:10px 16px 0; padding:11px 14px; border-radius:12px; font-size:12px; line-height:1.5; font-weight:500; }
@@ -59,11 +61,11 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
 .row 
 .row 
 .row 
-.pill { display:inline-flex; align-items:center; gap:4px; font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:999px; white-space:nowrap; }
-.pill.ok { background:var(--lv-green-soft); color:var(--lv-green-text); }
-.pill.wait { background:var(--lv-soft-gold); color:var(--lv-gold-text); }
-.pill.off { background:var(--lv-grey-soft); color:var(--lv-dim); }
-.pill.brand { background:var(--lv-soft-pink); color:var(--lv-pink-dark); }
+.status-pill { display:inline-flex; align-items:center; gap:4px; font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:999px; white-space:nowrap; }
+.status-pill.ok { background:var(--lv-green-soft); color:var(--lv-green-text); }
+.status-pill.wait { background:var(--lv-soft-gold); color:var(--lv-gold-text); }
+.status-pill.off { background:var(--lv-grey-soft); color:var(--lv-dim); }
+.status-pill.brand { background:var(--lv-soft-pink); color:var(--lv-pink-dark); }
 
 .chips { display:flex; gap:7px; flex-wrap:wrap; }
 .chip { height:28px; padding:0 12px; display:inline-flex; align-items:center; border-radius:999px; background:var(--lv-surface); font-size:12px; font-weight:600; }
@@ -112,15 +114,15 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
 .state-block.err .st { color:var(--lv-pink-dark); }
 .ctx-pill { display:inline-flex; align-items:center; gap:6px; height:30px; padding:0 12px; margin-top:8px; border:1px solid var(--lv-line); border-radius:999px; background:var(--lv-card); font:inherit; font-size:11.5px; font-weight:700; cursor:pointer; }
 .ctx-pill:focus-visible { outline:2px solid var(--lv-pink); outline-offset:2px; }
-.sheet { position:absolute; left:0; right:0; bottom:0; background:var(--lv-card); border-radius:20px 20px 26px 26px; box-shadow:0 -8px 30px rgba(0,0,0,.16); padding:10px 0 14px; z-index:20; }
-.sheet[hidden] { display:none; }
-.sheet-head { padding:6px 16px 8px; font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--lv-dim); }
+.mock-sheet { position:absolute; left:0; right:0; bottom:0; background:var(--lv-card); border-radius:20px 20px 26px 26px; box-shadow:0 -8px 30px rgba(0,0,0,.16); padding:10px 0 14px; z-index:20; }
+.mock-sheet[hidden] { display:none; }
+.mock-sheet-head { padding:6px 16px 8px; font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--lv-dim); }
 .district-row { display:flex; align-items:center; gap:10px; padding:11px 16px; cursor:pointer; }
 .district-row:hover { background:var(--lv-surface); }
 .district-row .nm { font-size:13px; font-weight:700; }
 .district-row .sb { font-size:11.5px; color:var(--lv-dim); margin-top:2px; }
 .district-row .cur { margin-left:auto; font-size:11px; font-weight:700; color:var(--lv-pink-dark); }
-.sheet-back { padding:8px 16px 4px; font-size:12px; font-weight:700; color:var(--lv-dim); cursor:pointer; }
+.mock-sheet-back { padding:8px 16px 4px; font-size:12px; font-weight:700; color:var(--lv-dim); cursor:pointer; }
 .digest { max-width:960px; margin:22px auto 0; padding:18px; border-radius:18px; background:var(--lv-card); border:1px solid var(--lv-line); }
 .digest h2 { font-family:inherit; font-size:15px; font-weight:800; margin:0 0 10px; }
 .digest table { width:100%; border-collapse:collapse; font-size:12.5px; }
@@ -169,8 +171,8 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
         <div class="kpi"><div class="l">GMV сети · месяц</div><div class="v">84 700 ₽</div><div class="d">по активным точкам</div></div>
         <div class="kpi"><div class="l">Статус</div><div class="v">Представитель</div><div class="d">до «Мэра» — 26 точек</div></div>
       </div>
-      <div class="card">
-        <div class="kicker">Ранг</div>
+      <div class="section">
+        <div class="cap">Ранг</div>
         <h2>Цифровой Представитель</h2>
         <p>До «Цифрового Мэра» — 30 активных точек. Статус открывает приоритет в очереди подключений и повышенные бонусы структуры.</p>
         <div class="bar" role="progressbar" aria-valuenow="13" aria-valuemin="0" aria-valuemax="100"><span style="width:13%"></span></div>
@@ -183,23 +185,23 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
     </div>
 
     <div class="screen" data-screen="rep-points">
-      <div class="card" style="padding:12px 14px">
+      <div class="section" style="padding:12px 14px">
         <div class="chips">
           <span class="filter-chip">Все</span><span class="filter-chip">Активные</span><span class="filter-chip">Ожидают</span><span class="filter-chip">Отклонены</span>
         </div>
       </div>
       <div class="list-card">
-        <div class="row"><div class="row-icon">🥖</div><div class="tx"><div class="row-title">Пекарня на Садовой</div><div class="row-sub">Лови Базовый · 12 заказов</div></div><div class="row-sum"><span class="pill ok">Активна</span></div></div>
-        <div class="row"><div class="row-icon">☕</div><div class="tx"><div class="row-title">Кофейня «Утро»</div><div class="row-sub">Лови Старт · 4 заказа</div></div><div class="row-sum"><span class="pill ok">Активна</span></div></div>
-        <div class="row"><div class="row-icon">🧺</div><div class="tx"><div class="row-title">Химчистка «Чисто»</div><div class="row-sub">заявка отправлена</div></div><div class="row-sum"><span class="pill wait">Ожидает</span></div></div>
-        <div class="row"><div class="row-icon">🧁</div><div class="tx"><div class="row-title">Кондитерская «Марта»</div><div class="row-sub">карточка не заполнена</div></div><div class="row-sum"><span class="pill off">Отклонена</span></div></div>
+        <div class="row"><div class="row-icon">🥖</div><div class="tx"><div class="row-title">Пекарня на Садовой</div><div class="row-sub">Лови Базовый · 12 заказов</div></div><div class="row-sum"><span class="status-pill ok">Активна</span></div></div>
+        <div class="row"><div class="row-icon">☕</div><div class="tx"><div class="row-title">Кофейня «Утро»</div><div class="row-sub">Лови Старт · 4 заказа</div></div><div class="row-sum"><span class="status-pill ok">Активна</span></div></div>
+        <div class="row"><div class="row-icon">🧺</div><div class="tx"><div class="row-title">Химчистка «Чисто»</div><div class="row-sub">заявка отправлена</div></div><div class="row-sum"><span class="status-pill wait">Ожидает</span></div></div>
+        <div class="row"><div class="row-icon">🧁</div><div class="tx"><div class="row-title">Кондитерская «Марта»</div><div class="row-sub">карточка не заполнена</div></div><div class="row-sum"><span class="status-pill off">Отклонена</span></div></div>
       </div>
       <div class="dash-note tone-dim">Поиск и сортировка — как в спеке (по названию, выручке, статусу).</div>
     </div>
 
     <div class="screen" data-screen="rep-approvals">
-      <div class="card">
-        <div class="kicker">QR-подключение МСП</div>
+      <div class="section">
+        <div class="cap">QR-подключение МСП</div>
         <div class="connect-row">
           <div class="qr-card"><div class="qr-grid" data-qr="PP7K2A" aria-hidden="true"></div><span>PP7K2A</span></div>
           <div class="grow">
@@ -209,8 +211,8 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
           </div>
         </div>
       </div>
-      <div class="card">
-        <div class="kicker">Очередь заявок</div>
+      <div class="section">
+        <div class="cap">Очередь заявок</div>
         <h2><span data-queue-count>2</span> карточки ждут апрува</h2>
         <p>Заявка приходит по вашему промокоду. Проверьте ИНН и адрес — после апрува точка получит счёт на верификацию.</p>
       </div>
@@ -218,8 +220,8 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
         <div class="row"><div class="row-icon">🧺</div><div class="tx"><div class="row-title">Химчистка «Чисто»</div><div class="row-sub">ИНН 7801234567 · СПб, Садовая 12</div></div></div>
         <div class="row"><div class="row-icon">🍣</div><div class="tx"><div class="row-title">Суши «Тай»</div><div class="row-sub">ИНН 7807654321 · СПб, Невский 40</div></div></div>
       </div>
-      <div class="card">
-        <div class="kicker">Маршрут подключения</div>
+      <div class="section">
+        <div class="cap">Маршрут подключения</div>
         <ol class="steps">
           <li class="done"><div class="st">ИНН и карточка</div><div class="sd">отправлено владельцем точки</div></li>
           <li><div class="st">Апрув представителя</div><div class="sd">ваш шаг — 2 заявки</div></li>
@@ -241,8 +243,8 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
     </div>
 
     <div class="screen" data-screen="rep-profile">
-      <div class="card">
-        <div class="kicker">Промокод для подключения точек</div>
+      <div class="section">
+        <div class="cap">Промокод для подключения точек</div>
         <h2 class="mono">PP7K2A</h2>
         <p>Ссылка: app.lovii.ru/business/apply?promo=PP7K2A</p>
         <div class="btn-row"><button class="cta-btn" data-action="copy">Скопировать ссылку регистрации</button></div>
@@ -251,14 +253,14 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
         <div class="kpi"><div class="l">Активные точки</div><div class="v">4</div></div>
         <div class="kpi"><div class="l">Заявки в работе</div><div class="v">3</div></div>
       </div>
-      <div class="card">
-        <div class="kicker">Ранг</div>
+      <div class="section">
+        <div class="cap">Ранг</div>
         <h2>Цифровой Представитель</h2>
         <div class="bar" role="progressbar" aria-valuenow="13" aria-valuemin="0" aria-valuemax="100"><span style="width:13%"></span></div>
         <p>До «Цифрового Мэра» — 30 активных точек.</p>
       </div>
-      <div class="card">
-        <div class="kicker">Привилегии</div>
+      <div class="section">
+        <div class="cap">Привилегии</div>
         <ul class="steps" style="margin-top:8px">
           <li class="done"><div class="st">40% от пула платформы</div><div class="sd">с лично подключённых точек</div></li>
           <li class="done"><div class="st">Подписка 599 ₽ / 199 ₽</div><div class="sd">по промокоду</div></li>
@@ -301,9 +303,9 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
 
     <div class="screen" data-screen="amb-training">
       <div class="list-card" style="padding:0;margin-top:14px">
-        <div class="row"><div class="row-icon">📘</div><div class="tx"><div class="row-title">Как подключить точку</div><div class="row-sub">8 минут · 100%</div></div><div class="row-sum"><span class="pill ok">Пройден</span></div></div>
-        <div class="row"><div class="row-icon">📗</div><div class="tx"><div class="row-title">Работа с возражениями</div><div class="row-sub">12 минут · 40%</div></div><div class="row-sum"><span class="pill wait">В процессе</span></div></div>
-        <div class="row"><div class="row-icon">📙</div><div class="tx"><div class="row-title">Обучение представителей</div><div class="row-sub">15 минут</div></div><div class="row-sum"><span class="pill off">Не начат</span></div></div>
+        <div class="row"><div class="row-icon">📘</div><div class="tx"><div class="row-title">Как подключить точку</div><div class="row-sub">8 минут · 100%</div></div><div class="row-sum"><span class="status-pill ok">Пройден</span></div></div>
+        <div class="row"><div class="row-icon">📗</div><div class="tx"><div class="row-title">Работа с возражениями</div><div class="row-sub">12 минут · 40%</div></div><div class="row-sum"><span class="status-pill wait">В процессе</span></div></div>
+        <div class="row"><div class="row-icon">📙</div><div class="tx"><div class="row-title">Обучение представителей</div><div class="row-sub">15 минут</div></div><div class="row-sum"><span class="status-pill off">Не начат</span></div></div>
       </div>
     </div>
 
@@ -312,7 +314,7 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
         <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">до ledger-фазы 3</div></div>
         <div class="kpi"><div class="l">Ставка</div><div class="v">20%</div><div class="d">пула ветки</div></div>
       </div>
-      <div class="card"><div class="kicker">История выплат</div><div class="empty-state"><h4>Операций пока нет</h4><p>Здесь появится история, когда пойдут начисления.</p></div></div>
+      <div class="section"><div class="cap">История выплат</div><div class="empty-state"><h4>Операций пока нет</h4><p>Здесь появится история, когда пойдут начисления.</p></div></div>
       <div class="dash-note tone-gold">Ваша доля — 20% от пула платформы со всей ветки. Учёт включится вместе с выплатами платформы.</div>
     </div>
   </section>
@@ -323,8 +325,8 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
       <div class="cab-sub" data-ctx-sub>ООО «НАПОЛИ ПИЦЦА» · 1 точка · ИНН ••4821</div>
       <button class="ctx-pill" data-action="ctx" data-testid="msp-ctx">Сменить юрлицо / точку ▾</button>
     </div>
-    <div class="sheet" data-sheet hidden aria-label="Выбор юрлица и точки">
-      <div class="sheet-head" data-sheet-head>Юрлица</div>
+    <div class="mock-sheet" data-sheet hidden aria-label="Выбор юрлица и точки">
+      <div class="mock-sheet-head" data-sheet-head>Юрлица</div>
       <div data-sheet-list></div>
     </div>
     <div class="dash-tabs" role="tablist">
@@ -336,8 +338,8 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
     </div>
 
     <div class="screen is-on" data-screen="msp-overview">
-      <div class="card">
-        <div class="kicker">Статус точки</div>
+      <div class="section">
+        <div class="cap">Статус точки</div>
         <h2>Продажи включены</h2>
         <p>Витрина активна, заказы приходят. Управление каталогом — здесь, расширенные настройки — в кабинете b2b.</p>
       </div>
@@ -346,39 +348,39 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
         <div class="kpi"><div class="l">Выручка · неделя</div><div class="v">41 200 ₽</div></div>
       </div>
       <div class="list-card">
-        <div class="row"><div class="row-icon">🧾</div><div class="tx"><div class="row-title">Заказ №151 · 1 240 ₽</div><div class="row-sub">новый · забрать в 18:30</div></div><div class="row-sum"><span class="pill brand">Новый</span></div></div>
-        <div class="row"><div class="row-icon">🧾</div><div class="tx"><div class="row-title">Заказ №150 · 860 ₽</div><div class="row-sub">готов к выдаче</div></div><div class="row-sum"><span class="pill ok">Готов</span></div></div>
+        <div class="row"><div class="row-icon">🧾</div><div class="tx"><div class="row-title">Заказ №151 · 1 240 ₽</div><div class="row-sub">новый · забрать в 18:30</div></div><div class="row-sum"><span class="status-pill brand">Новый</span></div></div>
+        <div class="row"><div class="row-icon">🧾</div><div class="tx"><div class="row-title">Заказ №150 · 860 ₽</div><div class="row-sub">готов к выдаче</div></div><div class="row-sum"><span class="status-pill ok">Готов</span></div></div>
       </div>
     </div>
 
     <div class="screen" data-screen="msp-orders">
-      <div class="card" style="padding:12px 14px"><div class="chips"><span class="filter-chip">Новые</span><span class="filter-chip">В работе</span><span class="filter-chip">Готовы</span><span class="filter-chip">Завершены</span></div></div>
+      <div class="section" style="padding:12px 14px"><div class="chips"><span class="filter-chip">Новые</span><span class="filter-chip">В работе</span><span class="filter-chip">Готовы</span><span class="filter-chip">Завершены</span></div></div>
       <div class="list-card" style="padding:0;margin-top:14px">
-        <div class="row"><div class="row-icon">🧾</div><div class="tx"><div class="row-title">№151 · 1 240 ₽</div><div class="row-sub">2 позиции · самовывоз · Садовая 12</div></div><div class="row-sum"><span class="pill brand">Новый</span></div></div>
-        <div class="row"><div class="row-icon">🧾</div><div class="tx"><div class="row-title">№150 · 860 ₽</div><div class="row-sub">1 позиция · доставка · Невский 40</div></div><div class="row-sum"><span class="pill wait">Готовим</span></div></div>
-        <div class="row"><div class="row-icon">🧾</div><div class="tx"><div class="row-title">№149 · 540 ₽</div><div class="row-sub">завершён</div></div><div class="row-sum"><span class="pill ok">Завершён</span></div></div>
+        <div class="row"><div class="row-icon">🧾</div><div class="tx"><div class="row-title">№151 · 1 240 ₽</div><div class="row-sub">2 позиции · самовывоз · Садовая 12</div></div><div class="row-sum"><span class="status-pill brand">Новый</span></div></div>
+        <div class="row"><div class="row-icon">🧾</div><div class="tx"><div class="row-title">№150 · 860 ₽</div><div class="row-sub">1 позиция · доставка · Невский 40</div></div><div class="row-sum"><span class="status-pill wait">Готовим</span></div></div>
+        <div class="row"><div class="row-icon">🧾</div><div class="tx"><div class="row-title">№149 · 540 ₽</div><div class="row-sub">завершён</div></div><div class="row-sum"><span class="status-pill ok">Завершён</span></div></div>
       </div>
       <div class="btn-row" style="padding:0 16px"><button class="cta-btn" data-action="status">Сменить статус</button><button class="ghost-btn" disabled>Отменить</button></div>
     </div>
 
     <div class="screen" data-screen="msp-products">
       <div class="list-card">
-        <div class="row"><div class="row-icon">🥐</div><div class="tx"><div class="row-title">Круассан классический</div><div class="row-sub">120 ₽ · остаток 14 · во всех филиалах</div></div><div class="row-sum"><span class="pill ok">Виден</span></div></div>
-        <div class="row"><div class="row-icon">🍞</div><div class="tx"><div class="row-title">Хлеб бородинский</div><div class="row-sub">85 ₽ · остаток 6 · Садовая 12</div></div><div class="row-sum"><span class="pill off">Скрыт</span></div></div>
+        <div class="row"><div class="row-icon">🥐</div><div class="tx"><div class="row-title">Круассан классический</div><div class="row-sub">120 ₽ · остаток 14 · во всех филиалах</div></div><div class="row-sum"><span class="status-pill ok">Виден</span></div></div>
+        <div class="row"><div class="row-icon">🍞</div><div class="tx"><div class="row-title">Хлеб бородинский</div><div class="row-sub">85 ₽ · остаток 6 · Садовая 12</div></div><div class="row-sum"><span class="status-pill off">Скрыт</span></div></div>
       </div>
       <div class="btn-row" style="padding:0 16px"><button class="cta-btn" data-action="product">Добавить товар</button></div>
       <div class="dash-note tone-dim">Загрузка фото — <code>POST /msp/uploads</code>; расширенная настройка каталога остаётся в кабинете b2b.</div>
     </div>
 
     <div class="screen" data-screen="msp-settings">
-      <div class="card">
-        <div class="kicker">Часы работы</div>
+      <div class="section">
+        <div class="cap">Часы работы</div>
         <h2>Пн–Сб · 08:00–20:00</h2>
         <p>Филиал: Садовая 12. У юрлица 8 филиалов — расписание настраивается по каждому.</p>
         <p>Воскресенье — выходной. Слоты выдачи: 30 минут.</p>
       </div>
-      <div class="card">
-        <div class="kicker">Минимальная сумма заказа</div>
+      <div class="section">
+        <div class="cap">Минимальная сумма заказа</div>
         <h2>300 ₽</h2>
         <p>Заказы ниже суммы не принимаются.</p>
       </div>
@@ -386,14 +388,14 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
     </div>
 
     <div class="screen" data-screen="msp-pay">
-      <div class="card">
-        <div class="kicker">Счёт на верификацию</div>
+      <div class="section">
+        <div class="cap">Счёт на верификацию</div>
         <h2 class="mono">1 ₽</h2>
         <p>Код платежа: <span class="mono">VER-1842-7KQ2M4PX</span></p>
         <p>Платёж строго с расчётного счёта компании из заявки. Возвратный: вернём на реквизиты компании после проверки.</p>
       </div>
-      <div class="card">
-        <div class="kicker">Реквизиты</div>
+      <div class="section">
+        <div class="cap">Реквизиты</div>
         <h2>ООО «Аксиома»</h2>
         <p>ИНН 7842223709 · р/с и банк — в счёте, приходит в канал связи точки.</p>
       </div>
@@ -568,7 +570,7 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
   }
 
   document.addEventListener('click', function (event) {
-    var back = event.target.closest('.sheet-back');
+    var back = event.target.closest('.mock-sheet-back');
     if (back) { renderSheet(0, 0); return; }
     var pick = event.target.closest('[data-pick-partner]');
     if (pick) {
@@ -611,7 +613,7 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
     }
 
     if (action === 'status') {
-      var badge = document.querySelector('[data-screen="msp-orders"] .pill.brand');
+      var badge = document.querySelector('[data-screen="msp-orders"] .status-pill.brand');
       if (badge) { badge.className = 'pill wait'; badge.textContent = 'Готовим'; }
       toast('Статус заказа: «Готовим»');
       return;
