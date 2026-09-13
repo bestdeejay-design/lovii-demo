@@ -223,6 +223,17 @@ function renderPayProfile() {
     })
     .join('');
 
+  // Прямой вход в кабинет МСП (в демке раньше был только через кабинет представителя)
+  const mspRow = `
+    <div class="row-item">
+      <span class="ri-emoji ${tileBg('tiffany')}">${icon('store')}</span>
+      <div class="ri-mid">
+        <div class="nm">Экран МСП<span class="demo-tag">демо</span></div>
+        <div class="sb">Заявка · Заказы · Каталог · Платёж · Инструкция</div>
+      </div>
+      <button class="cta-btn plain" data-go="msp">Открыть</button>
+    </div>`;
+
   const txTabs = [
     ['all', 'Все'],
     ['in', 'Начисления'],
@@ -342,7 +353,7 @@ function renderPayProfile() {
     <div class="list-card">${roleRows}</div>
 
     <div class="section-head" style="margin-top:20px"><h2>Демо-доступ</h2></div>
-    <div class="list-card">${demoRows}</div>
+    <div class="list-card">${demoRows}${mspRow}</div>
 
     <div class="section-head" style="margin-top:20px"><h2>Приложение</h2></div>
     <div class="list-card">
