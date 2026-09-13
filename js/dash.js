@@ -1707,6 +1707,7 @@ function renderMspSettingsTab(head, tabs) {
 function startNewMspPoint() {
   const lead = ensureMspLead();
   if (!lead) return;
+  if (typeof closeSheet === 'function') closeSheet();
   const id = 'pt-' + Date.now();
   lead.points.push({ id, slug: 'msp-new', name: '', address: '', about: '', status: 'draft', category: 'bakery', color: 'tiffany', hours: '', setup: null, goods: [] });
   state.mspPointId = id;
@@ -1756,8 +1757,12 @@ function renderMspCabinet(tab = 'index') {
   if (!lead) return renderMspSignup(repInviteCode());
   const p = lead.point;
   const status = p ? p.status : 'draft';
+  const stage = mspApplyStage(lead);
+  const showApply = stage !== 'done';            // «Заявка» видна только при добавлении новой точки
+  if (!showApply && tab === 'index') tab = 'goods';
+  const tabDefs = (showApply ? [['index', 'Заявка']] : []).concat([['goods', 'Товары'], ['orders', 'Заказы'], ['settings', 'Настройки']]);
   const tabs = `<div class="seg dash-tabs msp-tabs" style="margin:14px 16px 0">
-    ${[['index','Заявка'], ['goods','Товары'], ['orders','Заказы'], ['settings','Настройки']].map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="msp-tab" data-val="${id}">${label}</button>`).join('')}
+    ${tabDefs.map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="msp-tab" data-val="${id}">${label}</button>`).join('')}
   </div>`;
   const points = ensureMspPoints();
   const head = `
@@ -1814,8 +1819,6 @@ function renderMspCabinet(tab = 'index') {
   }
 
   // ===== Экран «Заявка» (#/msp/index) — пошаговый сценарий точки =====
-  const stage = mspApplyStage(lead);
-
   // 1) Представитель проверяет точку (спиннер ~5 сек)
   if (stage === 'approving') {
     return `${head}${tabs}
@@ -1855,21 +1858,6 @@ function renderMspCabinet(tab = 'index') {
       </div>
       <button class="cta-btn brand-gradient big" style="margin-top:14px" data-action="msp-invoice-send">${icon('send')}Отправить</button>
       <button class="ghost-btn" style="margin-top:8px" data-action="reset-msp-demo">${icon('rotate')}Пройти сценарий заново</button>
-    </div>`;
-  }
-
-  // 4) Точка активна — заявка пройдена
-  if (stage === 'done') {
-    return `${head}${tabs}
-    <div class="section-head" style="margin-top:20px"><h2>Точка активна</h2></div>
-    <div class="approval-card"><div class="approval-head">
-      <span class="ri-emoji ${tileBg('tiffany')}">${icon('store')}</span>
-      <div class="ri-mid"><div class="nm">${esc(p.name || 'Точка')}<span class="st-chip st-active">активна</span></div>
-      <div class="sb">${esc(p.address || '')}</div><div class="sb">${esc(p.about || '')}</div></div>
-    </div></div>
-    <div class="btn-row">
-      <button class="cta-btn brand-gradient" data-action="msp-tab" data-val="goods">${icon('bag')}Каталог товаров</button>
-      <button class="ghost-btn" data-action="msp-tab" data-val="settings">${icon('settings')}Настройки точки</button>
     </div>`;
   }
 

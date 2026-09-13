@@ -453,6 +453,9 @@ main#view { flex: 1; }
 .ri-check, .ri-chev { flex: none; width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; color: var(--lv-dim); }
 .ri-check { color: var(--lv-tiffany); }
 .ri-check svg, .ri-chev svg { width: 16px; height: 16px; }
+.sheet-add { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 0 16px; border-radius: 16px; border: 1px dashed var(--lv-line); background: transparent; color: var(--lv-pink-dark); font-size: 14px; font-weight: 700; transition: background .2s, border-color .2s; }
+.sheet-add:hover { background: var(--lv-soft-pink); border-color: var(--lv-pink); }
+.sheet-add svg { width: 16px; height: 16px; }
 
 /* ---------- МСП: шаг «представитель проверяет точку» + форма ---------- */
 .msp-approving { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 56px 24px 24px; }

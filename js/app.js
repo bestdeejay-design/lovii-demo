@@ -388,8 +388,8 @@ function renderSheetRows(kind = state.sheetKind || 'district') {
       <button class="district-row ${x.id === state.mspPointId ? 'active' : ''}" data-action="msp-point-pick" data-id="${esc(x.id)}">
         <span class="l"><span class="ic">${icon('store')}</span><span><span class="nm">${esc(x.name || 'Новая точка')}</span><span class="mt">${esc(x.address || 'адрес не указан')}</span></span></span>
         ${x.id === state.mspPointId ? '<span class="lv-dot" style="background:var(--lv-pink)"></span>' : ''}
-      </button>`).join('')
-      : '<div class="empty-cat"><div class="t">Точек пока нет</div></div>';
+      </button>`).join('') + `<button class="sheet-add" data-action="msp-add-point">${icon('plus')}Добавить торговую точку</button>`
+      : `<div class="empty-cat"><div class="t">Точек пока нет</div></div><button class="sheet-add" data-action="msp-add-point">${icon('plus')}Добавить торговую точку</button>`;
     return;
   }
 
