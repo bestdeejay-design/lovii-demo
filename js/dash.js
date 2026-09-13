@@ -1256,7 +1256,7 @@ function ensureMspLead() {
     legalName: 'ООО «НОВЫЙ ВКУС»',
     channel: 'Telegram',
     createdAt: Date.now(),
-    point: { slug: 'demo-point', name: 'Пекарня на Садовой', status: 'ready', address: 'Садовая 12', category: 'bakery', color: 'pink' },
+    point: { slug: 'demo-point', name: 'Пекарня на Садовой', status: 'pending_rep', address: 'Садовая 12', category: 'bakery', color: 'pink' },
     goods: [],
   };
   persist();
@@ -1633,6 +1633,10 @@ function renderMspCabinet(tab = 'index') {
     <div class="kicker">Текущий этап</div>
     <h2>${esc(mspStatusText(status))}</h2>
     <p class="sf-store">${esc(mspStorefrontText(status).label)} — ${esc(mspStorefrontText(status).hint)}</p>
+    ${!['ready', 'active', 'offline', 'failed', 'expired'].includes(status) ? `<div class="btn-row">
+      <button class="cta-btn brand-gradient" data-action="msp-app-next">${icon('check')}Следующий шаг</button>
+      <button class="ghost-btn" data-action="msp-app-fail">${icon('x')}Отклонить заявку</button>
+    </div>` : ''}
     <p>${status === 'draft' ? 'Заполните только то, что нужно для появления в каталоге: юрлицо, канал связи, название, адрес, описание и фото.' : 'Система показывает, что уже сделано и какой один следующий шаг нужен сейчас.'}</p>
   </div>
   ${p ? `
