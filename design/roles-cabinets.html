@@ -87,6 +87,28 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
 .toast { position:fixed; left:50%; bottom:22px; transform:translate(-50%,14px); max-width:340px; padding:11px 16px; border-radius:999px; background:var(--lv-ink); color:var(--lv-card); font-size:12.5px; font-weight:600; opacity:0; pointer-events:none; transition:opacity .2s, transform .2s; z-index:50; }
 .toast.is-on { opacity:1; transform:translate(-50%,0); }
 .row.is-gone { opacity:.45; }
+.qr-card { width:132px; padding:10px; border-radius:18px; background:var(--lv-card); border:1px solid var(--lv-line); text-align:center; }
+.qr-grid { display:grid; grid-template-columns:repeat(11,1fr); gap:2px; aspect-ratio:1; padding:5px; border-radius:12px; background:var(--lv-card); }
+.qr-grid span { border-radius:2px; background:transparent; }
+.qr-grid span.on { background:var(--lv-ink); }
+.qr-card > span { display:block; margin-top:7px; font-size:11px; font-weight:900; letter-spacing:.08em; }
+.connect-row { display:flex; gap:14px; align-items:flex-start; }
+.connect-row .grow { flex:1; min-width:0; }
+
+.phone[data-accent="tiffany"] .cab-title { color:var(--lv-tiffany-text); }
+.phone[data-accent="gold"] .cab-title { color:var(--lv-gold-text); }
+.phone[data-accent="pink"] .cab-title { color:var(--lv-pink-dark); }
+
+.state-bar { position:fixed; left:50%; top:0; transform:translateX(-50%); display:flex; gap:6px; padding:8px 10px; background:var(--lv-card); border:1px solid var(--lv-line); border-radius:0 0 14px 14px; box-shadow:var(--lv-shadow-soft,0 2px 8px rgba(0,0,0,.06)); z-index:40; }
+.state-bar button { height:26px; padding:0 10px; border:1px solid var(--lv-line); border-radius:999px; background:var(--lv-card); font:inherit; font-size:11.5px; font-weight:600; cursor:pointer; }
+.state-bar button[aria-pressed="true"] { background:var(--lv-surface); border-color:var(--lv-pink); color:var(--lv-pink-dark); }
+.state-block { margin:14px 16px 0; padding:16px; border-radius:16px; background:var(--lv-card); border:1px solid var(--lv-line); }
+.state-block .st { font-size:12.5px; font-weight:700; }
+.state-block .sd { font-size:12px; color:var(--lv-dim); margin-top:4px; line-height:1.5; }
+.sk { height:12px; border-radius:999px; background:linear-gradient(90deg,rgba(0,0,0,.06),rgba(0,0,0,.12),rgba(0,0,0,.06)); background-size:200% 100%; animation:sk 1.2s linear infinite; margin-top:10px; }
+.sk.w60 { width:60%; } .sk.w80 { width:80%; } .sk.w40 { width:40%; }
+@keyframes sk { from { background-position:200% 0; } to { background-position:-200% 0; } }
+.state-block.err .st { color:var(--lv-pink-dark); }
 @media (max-width:420px) { .phone { width:100%; border-radius:20px; } }
 </style>
 </head>
@@ -103,8 +125,10 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
   <button role="tab" aria-selected="false" data-role="msp">МСП</button>
 </div>
 
+<div class="state-bar" role="group" aria-label="Состояние экрана"><button data-state="normal" aria-pressed="true">Норма</button><button data-state="loading" aria-pressed="false">Загрузка</button><button data-state="empty" aria-pressed="false">Пусто</button><button data-state="error" aria-pressed="false">Ошибка</button></div>
+
 <div class="boards">
-  <section class="phone" data-board="rep" aria-label="Кабинет представителя">
+  <section class="phone" data-board="rep" data-accent="tiffany" aria-label="Кабинет представителя">
     <div class="cab-head">
       <div class="cab-title">Представитель</div>
       <div class="cab-sub">PP7K2A · Анна Ветрова · +7 911 000-00-00</div>
@@ -112,7 +136,7 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
     <div class="dash-tabs" role="tablist">
       <button role="tab" aria-selected="true" data-tab="rep-overview">Обзор</button>
       <button role="tab" aria-selected="false" data-tab="rep-points">Точки</button>
-      <button role="tab" aria-selected="false" data-tab="rep-approvals">Заявки</button>
+      <button role="tab" aria-selected="false" data-tab="rep-approvals">Подключение</button>
       <button role="tab" aria-selected="false" data-tab="rep-income">Доход</button>
       <button role="tab" aria-selected="false" data-tab="rep-profile">Профиль</button>
     </div>
@@ -153,6 +177,17 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
     </div>
 
     <div class="screen" data-screen="rep-approvals">
+      <div class="card">
+        <div class="kicker">QR-подключение МСП</div>
+        <div class="connect-row">
+          <div class="qr-card"><div class="qr-grid" data-qr="PP7K2A" aria-hidden="true"></div><span>PP7K2A</span></div>
+          <div class="grow">
+            <h2>Один понятный маршрут для владельца точки</h2>
+            <p>0 ₽ старт · 3 дня запуск · 90/10 сплит. QR ведёт на app.lovii.ru/business/apply?promo=PP7K2A</p>
+            <div class="btn-row"><button class="btn" data-action="copy">Скопировать ссылку</button></div>
+          </div>
+        </div>
+      </div>
       <div class="card">
         <div class="kicker">Очередь заявок</div>
         <h2><span data-queue-count>2</span> карточки ждут апрува</h2>
@@ -213,7 +248,7 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
     </div>
   </section>
 
-  <section class="phone" data-board="amb" hidden aria-label="Кабинет амбассадора">
+  <section class="phone" data-board="amb" data-accent="gold" hidden aria-label="Кабинет амбассадора">
     <div class="cab-head">
       <div class="cab-title">Амбассадор</div>
       <div class="cab-sub">AMB4K · Алина · сеть из 5 представителей</div>
@@ -261,7 +296,7 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
     </div>
   </section>
 
-  <section class="phone" data-board="msp" hidden aria-label="Кабинет МСП">
+  <section class="phone" data-board="msp" data-accent="tiffany" hidden aria-label="Кабинет МСП">
     <div class="cab-head">
       <div class="cab-title">Мой магазин</div>
       <div class="cab-sub">Пекарня на Садовой · Лови Базовый</div>
@@ -369,6 +404,47 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
     });
   });
 
+  // Детерминированный QR-мокап (без внешних библиотек): уголки + узор из хеша кода.
+  document.querySelectorAll('.qr-grid').forEach(function (grid) {
+    var code = grid.dataset.qr || 'LOVII';
+    var hash = 0;
+    for (var i = 0; i < code.length; i++) { hash = (hash * 31 + code.charCodeAt(i)) >>> 0; }
+    var n = 11;
+    for (var y = 0; y < n; y++) {
+      for (var x = 0; x < n; x++) {
+        var cell = document.createElement('span');
+        var corner = (x < 3 && y < 3) || (x > n - 4 && y < 3) || (x < 3 && y > n - 4);
+        var on = corner ? !((x === 1 || x === n - 2) && (y === 1 || y === n - 2)) : ((hash >> ((x * 7 + y * 3) % 31)) & 1) === 1;
+        if (on) { cell.className = 'on'; }
+        grid.appendChild(cell);
+      }
+    }
+  });
+
+  // Переключатель состояний: наглядно показывает загрузку, пустоту и ошибку.
+  document.querySelectorAll('.state-bar button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var state = btn.dataset.state;
+      document.querySelectorAll('.state-bar button').forEach(function (b) {
+        b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+      });
+      document.querySelectorAll('.state-block').forEach(function (b) { b.remove(); });
+      if (state === 'normal') { return; }
+      var screen = document.querySelector('.phone:not([hidden]) .screen.is-on');
+      if (!screen) { return; }
+      var block = document.createElement('div');
+      block.className = 'state-block' + (state === 'error' ? ' err' : '');
+      if (state === 'loading') {
+        block.innerHTML = '<div class="sk w60"></div><div class="sk w80"></div><div class="sk w40"></div>';
+      } else if (state === 'empty') {
+        block.innerHTML = '<div class="st">Пока ничего нет</div><div class="sd">Здесь появится список, когда данные придут.</div>';
+      } else {
+        block.innerHTML = '<div class="st">Не удалось загрузить данные</div><div class="sd">Проверьте соединение и попробуйте снова. <button class="btn ghost" data-action="retry" style="height:30px;margin-top:8px">Обновить</button></div>';
+      }
+      screen.insertBefore(block, screen.firstChild);
+    });
+  });
+
   var toastEl = document.getElementById('toast');
   var toastTimer = null;
 
@@ -428,6 +504,7 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
       return;
     }
 
+    if (action === 'retry') { toast('Повторная загрузка…'); return; }
     if (action === 'product') { toast('Форма товара — следующая итерация'); return; }
     if (action === 'save') { toast('Настройки сохранены'); return; }
   });
