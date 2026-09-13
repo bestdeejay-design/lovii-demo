@@ -1606,12 +1606,54 @@ function renderMspCabinet(tab = 'index') {
 
   if (tab === 'catalog') {
     if (status !== 'ready') {
-      // ЭКРАН ОЧИЩЕН ПОД ЧИСТУЮ СБОРКУ (запрос владельца).
-  // Ниже — только каркас: шапка + вкладки. Содержимое собираем заново, по одному блоку.
+      return `${head}${tabs}${mspStepsHtml(status)}<div class="empty-state-card"><div class="big-emoji">🧺</div><h3>Каталог товаров пока закрыт</h3><p>Сейчас точка может быть видна в каталоге только как карточка района. Товары откроются после апрува, проверочного платежа и автоматического возврата.</p><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="pay">Посмотреть следующий шаг</button></div>`;
+    }
+    const goods = lead.goods || [];
+    const chips = LOVII_DASH.storeGoodsSeed.slice(0, 6).filter((g) => !goods.some((x) => x.slug === g.slug)).map((g) => `<button class="cat-chip" data-action="add-msp-good" data-slug="${g.slug}"><span class="e">${icon('bag')}</span>${esc(g.name)}</button>`).join('');
+    return `${head}${tabs}${mspStepsHtml(status)}
+    <div class="section-head" style="margin-top:20px"><h2>Каталог товаров<span class="sub"> · ${goods.length}</span></h2></div>
+    <div class="list-card">${goods.length ? goods.map((g) => `<div class="row-item"><span class="ri-emoji ${tileBg('sand')}">${icon('bag')}</span><div class="ri-mid"><div class="nm">${esc(g.name)}</div><div class="sb">${priceFmt(g.price)} / ${esc(g.unit)} · остаток ${g.stock}</div></div><span class="st-chip st-active">на витрине</span></div>`).join('') : '<div class="empty-cat"><div class="big-emoji">🛍️</div><div class="t">Добавьте первый товар</div><p class="d">После добавления он появится на витрине этой точки.</p></div>'}</div>
+    ${chips ? `<div class="section-head" style="margin-top:20px"><h2>Добавить товары</h2></div><div class="cats no-scrollbar" style="padding:10px 16px 4px">${chips}</div>` : dashNote('Все товары уже опубликованы на витрине точки.', 'tiffany')}`;
+  }
+
+  if (tab === 'pay') {
+    const canPay = p && p.status === 'catalog';
+    return `${head}${tabs}${mspStepsHtml(status)}
+    <div class="pay-card">
+      <div class="kicker">Проверочный платёж и автоматический возврат</div>
+      <h2>${canPay ? 'Пора подтвердить реквизиты' : status === 'ready' ? 'Платёж и возврат успешны' : 'Этот шаг откроется после апрува представителя'}</h2>
+      <div class="pay-row"><span>Сумма</span><b>1 ₽</b></div>
+      <div class="pay-row"><span>Назначение</span><b>${esc(payCode)}</b></div>
+      <p>Назначение содержит спецкод заявки. После получения платежа LOVII автоматически формирует возврат. Если цепочка прошла успешно, точка получает доступ к приёму оплаты.</p>
+      ${canPay ? `<button class="cta-btn brand-gradient big" data-action="demo-pay">Смоделировать оплату и возврат</button>` : ''}
+    </div>
+    <div class="checklist-card">
+      <div class="cl-row done"><b>Карточка точки</b><span>${p ? esc(p.name) : 'ещё не создана'}</span></div>
+      <div class="cl-row ${['catalog','payment','ready'].includes(status) ? 'done' : ''}"><b>Апрув представителя</b><span>точка видна в каталоге района</span></div>
+      <div class="cl-row ${status === 'ready' ? 'done' : status === 'payment' ? 'active' : ''}"><b>Платёж и возврат</b><span>проверка реквизитов и автосплитов</span></div>
+      <div class="cl-row ${status === 'ready' ? 'done' : ''}"><b>Инструкция</b><span>${status === 'ready' ? 'отправлена в ' + esc(lead.channel || 'выбранный канал') : 'придёт после проверки'}</span></div>
+    </div>`;
+  }
+
+  if (tab === 'help') {
+    return `${head}${tabs}${mspStepsHtml(status)}
+    <div class="mentor-card ink-gradient"><div class="kicker">Ссылка-инструкция</div><div class="big">${status === 'ready' ? 'Отправлена в ' + esc(lead.channel || 'канал связи') : 'Откроется после платежа'}</div><p>Владелец проходит авторизацию, добавляет товары, цены и остатки. Каждый товар станет доступен на витрине LOVII именно в этой точке.</p></div>
+    <div class="script-card">
+      <div class="kicker">Что дальше</div>
+      <ol>
+        <li><b>Авторизация.</b> Откройте ссылку в ${esc(lead.channel || 'выбранном канале')}.</li>
+        <li><b>Каталог.</b> Добавьте товары, цены, остатки и фото.</li>
+        <li><b>Публикация.</b> Каждый товар будет виден на странице точки и в общем поиске LOVII.</li>
+      </ol>
+    </div>`;
+  }
+
+  // ЭКРАН ОЧИЩЕН ПОД ЧИСТУЮ СБОРКУ (запрос владельца).
+  // Каркас: шапка + вкладки. Содержимое соберём заново, по одному блоку.
   return `${head}${tabs}
   <div class="empty-state" data-empty-screen>
     <h4>Экран пуст</h4>
-    <p>Собираем заново с начала. Скажите, какой блок поставить первым.</p>
+    <p>Собираем заново с начала.</p>
   </div>`;
 }
 
