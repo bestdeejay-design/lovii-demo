@@ -1328,7 +1328,7 @@ function repMspApplicationHtml() {
   const lead = ensureMspLead();
   if (!lead) {
     return `<div class="empty-state-card">
-      <div class="big-emoji">📭</div>
+      <div class="empty-ico">${icon('store')}</div>
       <h3>Очередь заявок пуста</h3>
       <p>Покажите QR владельцу точки. После ввода ИНН и карточки точки заявка появится здесь.</p>
       <button class="cta-btn brand-gradient" data-go="msp-signup:${repInviteCode()}">Смоделировать скан QR</button>
@@ -1339,7 +1339,7 @@ function repMspApplicationHtml() {
   return `
   <div class="approval-card">
     <div class="approval-head">
-      <span class="ri-emoji ${tileBg(hasPoint && p.status !== 'pending_rep' ? 'tiffany' : 'gold')}">${hasPoint ? p.emoji : '🧾'}</span>
+      <span class="ri-emoji ${tileBg(hasPoint && p.status !== 'pending_rep' ? 'tiffany' : 'gold')}">${icon('store')}</span>
       <div class="ri-mid">
         <div class="nm">${hasPoint ? esc(p.name) : 'МСП зарегистрировано'}${statusChip(hasPoint ? p.status : 'lead')}</div>
         <div class="sb">ИНН ${esc(lead.inn)} · код ${esc(lead.repCode)}</div>
@@ -1359,18 +1359,6 @@ function repMspApplicationHtml() {
    Система: PartnerApplicationStatus (draft → submitted → awaiting_rep_approval →
    invoice_issued → awaiting_payment → verifying → verified | failed | expired).
    Каждый шаг: свой статус, подсказка «что дальше» и состояние витрины. */
-const MSP_APP_ALL = [
-  { id: 'draft', label: 'ИНН и карточка', hint: 'Заполните ИНН и карточку точки — это форма заявки', storefront: 'hidden' },
-  { id: 'submitted', label: 'Заявка отправлена', hint: 'Заявка отправлена, ждём апрув представителя', storefront: 'hidden' },
-  { id: 'awaiting_rep_approval', label: 'Проверяет представитель', hint: 'Представитель проверяет карточку точки', storefront: 'hidden' },
-  { id: 'invoice_issued', label: 'Счёт выставлен', hint: 'Счёт 1 ₽, код VER-* — оплатите с расчётного счёта компании', storefront: 'teaser' },
-  { id: 'awaiting_payment', label: 'Ожидаем платёж', hint: 'Платёж 1 ₽ по коду VER-* ещё не поступил', storefront: 'teaser' },
-  { id: 'verifying', label: 'Проверяем платёж', hint: 'Платёж получен, проверяем реквизиты компании', storefront: 'teaser' },
-  { id: 'verified', label: 'Продажи включены', hint: 'Всё готово — каталог открыт, заказы идут', storefront: 'active' },
-  { id: 'failed', label: 'Заявка не прошла', hint: 'Проверка не пройдена — исправьте карточку точки и отправьте снова', storefront: 'hidden' },
-  { id: 'expired', label: 'Срок истёк', hint: 'Срок заявки истёк — создайте новую, прогресс сохранится', storefront: 'hidden' },
-];
-
 const MSP_APP_STEPS = [
   { id: 'draft', label: 'ИНН и карточка', hint: 'Заполните ИНН и карточку точки', storefront: 'hidden' },
   { id: 'submitted', label: 'Заявка отправлена', hint: 'Отправлено, ждём апрув представителя', storefront: 'hidden' },
@@ -1394,19 +1382,6 @@ function mspStepsHtml(status, compact = false) {
   }
   const idx = Math.max(0, MSP_APP_STEPS.findIndex((x) => x.id === app));
   return `<div class="stepper ${compact ? 'compact' : ''}">${MSP_APP_STEPS.map((x, i) => `<div class="step ${i <= idx ? 'done' : ''} ${i === idx ? 'current' : ''}"><span>${i + 1}</span><b>${esc(x.label)}</b></div>`).join('')}</div>`;
-}
-
-function mspOldStepsHtml(status, compact = false) {
-  const order = ['draft', 'pending_rep', 'catalog', 'payment', 'ready'];
-  const labels = {
-    draft: 'ИНН и карточка',
-    pending_rep: 'Апрув представителя',
-    catalog: 'Видна в каталоге',
-    payment: 'Платёж и возврат',
-    ready: 'Продажи включены',
-  };
-  const idx = Math.max(0, order.indexOf(status));
-  return `<div class="stepper ${compact ? 'compact' : ''}">${order.map((id, i) => `<div class="step ${i <= idx ? 'done' : ''} ${i === idx ? 'current' : ''}"><span>${i + 1}</span><b>${esc(labels[id])}</b></div>`).join('')}</div>`;
 }
 
 function trustCuesHtml() {
@@ -1488,24 +1463,6 @@ function mspAppStatus(status) {
   const lead = state.mspLead;
   if (lead && lead.appStatus) return lead.appStatus;
   return MSP_STATUS_STEP[status] || 'draft';
-}
-
-function mspStatusText(status) {
-  // Подсказка «что дальше» и состояние витрины — по канонной таблице шагов заявки
-  if (status === 'failed' || status === 'expired') {
-    return status === 'expired'
-      ? 'Срок заявки истёк — создайте новую заявку, прогресс сохранится'
-      : 'Проверка не пройдена — исправьте карточку точки и отправьте снова';
-  }
-  const step = MSP_APP_ALL.find((x) => x.id === mspAppStatus(status)) || MSP_APP_ALL[0];
-  return step.hint;
-}
-
-function mspStorefrontText(status) {
-  if (status === 'failed' || status === 'expired') return { label: 'витрина: hidden', hint: 'точка не видна покупателям' };
-  const step = MSP_APP_ALL.find((x) => x.id === mspAppStatus(status)) || MSP_APP_ALL[0];
-  const map = { hidden: 'точка не видна покупателям', teaser: 'карточка видна, заказы закрыты', active: 'заказы открыты' };
-  return { label: 'витрина: ' + step.storefront, hint: map[step.storefront] };
 }
 
 /* ---- МСП: заказы (статусы и переходы — из ядра OrderStatus) ---- */
@@ -1745,13 +1702,13 @@ function handleMspGoodAdd(form) {
 }
 
 function renderMspCabinet(tab = 'index') {
+  if (!['index', 'catalog', 'orders', 'order'].includes(tab)) tab = 'index';
   const lead = ensureMspLead();
   if (!lead) return renderMspSignup(repInviteCode());
   const p = lead.point;
   const status = p ? p.status : 'draft';
-  const payCode = 'LOVII-' + lead.inn.slice(-4) + '-' + lead.repCode.slice(-3);
   const tabs = `<div class="seg dash-tabs msp-tabs" style="margin:14px 16px 0">
-    ${[['index','Заявка'], ['pay','Платёж'], ['catalog','Магазин'], ['orders','Заказы'], ['help','Инструкция']].map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="msp-tab" data-val="${id}">${label}</button>`).join('')}
+    ${[['index','Заявка'], ['catalog','Магазин'], ['orders','Заказы']].map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="msp-tab" data-val="${id}">${label}</button>`).join('')}
   </div>`;
   const head = `
   <div class="dash-head">
@@ -1794,41 +1751,9 @@ function renderMspCabinet(tab = 'index') {
 
   if (tab === 'catalog') {
     if (status !== 'ready') {
-      return `${head}${tabs}${mspStepsHtml(status)}<div class="empty-state-card"><div class="empty-ico">${icon('bag')}</div><h3>Настройка откроется после верификации</h3><p>Сначала представитель одобрит точку, затем пройдёт проверочный платёж 1 ₽ и возврат. После этого откроется базовая настройка точки.</p><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="pay">Посмотреть следующий шаг</button></div>`;
+      return `${head}${tabs}${mspStepsHtml(status)}<div class="empty-state-card"><div class="empty-ico">${icon('bag')}</div><h3>Настройка откроется после верификации</h3><p>Сначала представитель одобрит точку, затем пройдёт проверочный платёж 1 ₽ и возврат. После этого откроется базовая настройка точки.</p><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="index">Перейти к заявке</button></div>`;
     }
     return renderMspSetup(state.mspSetupPill || 'anketa', head, tabs);
-  }
-
-  if (tab === 'pay') {
-    const canPay = p && p.status === 'catalog';
-    return `${head}${tabs}${mspStepsHtml(status)}
-    <div class="pay-card">
-      <div class="kicker">Проверочный платёж и автоматический возврат</div>
-      <h2>${canPay ? 'Пора подтвердить реквизиты' : status === 'ready' ? 'Платёж и возврат успешны' : 'Этот шаг откроется после апрува представителя'}</h2>
-      <div class="pay-row"><span>Сумма</span><b>1 ₽</b></div>
-      <div class="pay-row"><span>Назначение</span><b>${esc(payCode)}</b></div>
-      <p>Назначение содержит спецкод заявки. После получения платежа LOVII автоматически формирует возврат. Если цепочка прошла успешно, точка получает доступ к приёму оплаты.</p>
-      ${canPay ? `<button class="cta-btn brand-gradient big" data-action="demo-pay">Смоделировать оплату и возврат</button>` : ''}
-    </div>
-    <div class="checklist-card">
-      <div class="cl-row done"><b>Карточка точки</b><span>${p ? esc(p.name) : 'ещё не создана'}</span></div>
-      <div class="cl-row ${['catalog','payment','ready'].includes(status) ? 'done' : ''}"><b>Апрув представителя</b><span>точка видна в каталоге района</span></div>
-      <div class="cl-row ${status === 'ready' ? 'done' : status === 'payment' ? 'active' : ''}"><b>Платёж и возврат</b><span>проверка реквизитов и автосплитов</span></div>
-      <div class="cl-row ${status === 'ready' ? 'done' : ''}"><b>Инструкция</b><span>${status === 'ready' ? 'отправлена в ' + esc(lead.channel || 'выбранный канал') : 'придёт после проверки'}</span></div>
-    </div>`;
-  }
-
-  if (tab === 'help') {
-    return `${head}${tabs}${mspStepsHtml(status)}
-    <div class="mentor-card ink-gradient"><div class="kicker">Ссылка-инструкция</div><div class="big">${status === 'ready' ? 'Отправлена в ' + esc(lead.channel || 'канал связи') : 'Откроется после платежа'}</div><p>Владелец проходит авторизацию, добавляет товары, цены и остатки. Каждый товар станет доступен на витрине LOVII именно в этой точке.</p></div>
-    <div class="script-card">
-      <div class="kicker">Что дальше</div>
-      <ol>
-        <li><b>Авторизация.</b> Откройте ссылку в ${esc(lead.channel || 'выбранном канале')}.</li>
-        <li><b>Каталог.</b> Добавьте товары, цены, остатки и фото.</li>
-        <li><b>Публикация.</b> Каждый товар будет виден на странице точки и в общем поиске LOVII.</li>
-      </ol>
-    </div>`;
   }
 
   // ===== Экран «Заявка» (#/msp/index) — пошаговый сценарий точки =====
@@ -1964,37 +1889,6 @@ function approveMspPoint() {
   persist();
   toast('Точка одобрена', 'Карточка уже видна в каталоге района');
   renderViewPreserveScroll();
-}
-
-function demoPayMsp() {
-  const lead = ensureMspLead();
-  if (!lead || !lead.point || lead.point.status !== 'catalog') return;
-  lead.point.status = 'payment';
-  persist();
-  renderViewPreserveScroll();
-  toast('Платёж получен', 'Формируем автоматический возврат');
-  setTimeout(() => {
-    if (!state.mspLead || !state.mspLead.point || state.mspLead.point.status !== 'payment') return;
-    state.mspLead.point.status = 'ready';
-    state.mspLead.point.readyAt = Date.now();
-    state.mspLead.goods = state.mspLead.goods || [];
-    syncMspStore();
-    persist();
-    if (state.view.name === 'msp') renderView();
-    toast('Точка готова к продажам', `Инструкция отправлена в ${state.mspLead.channel}`);
-  }, 2500);
-}
-
-function addMspGood(slug) {
-  const lead = ensureMspLead();
-  const src = LOVII_DASH.storeGoodsSeed.find((g) => g.slug === slug);
-  if (!lead || !lead.point || lead.point.status !== 'ready' || !src) return;
-  lead.goods = lead.goods || [];
-  if (!lead.goods.some((g) => g.slug === src.slug)) lead.goods.push({ ...src });
-  syncMspStore();
-  persist();
-  renderViewPreserveScroll();
-  toast('Товар опубликован', 'Он доступен на витрине точки');
 }
 
 /* ================= Экспорт CSV ================= */

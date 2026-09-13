@@ -444,6 +444,8 @@ main#view { flex: 1; }
 /* ---------- Мелочи ---------- */
 .empty-cat { padding: 44px 16px; text-align: center; }
 .empty-cat .big-emoji { font-size: 36px; }
+.empty-ico { width: 46px; height: 46px; margin: 0 auto; border-radius: 14px; background: var(--lv-surface); display: flex; align-items: center; justify-content: center; color: var(--lv-dim); }
+.empty-ico svg { width: 26px; height: 26px; }
 
 /* ---------- МСП: шаг «представитель проверяет точку» + форма ---------- */
 .msp-approving { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 56px 24px 24px; }
@@ -770,7 +772,7 @@ main#view { flex: 1; }
 
 /* ---------- QR-сценарий подключения МСП ---------- */
 .connect-hero { margin: 14px 16px 0; border-radius: 24px; padding: 18px; color: var(--lv-on-brand); display: grid; grid-template-columns: minmax(0, 1fr) 126px; gap: 16px; align-items: center; overflow: hidden; }
-.connect-copy .kicker, .script-card .kicker, .pay-card .kicker, .status-flow-card .kicker { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; opacity: .7; }
+.connect-copy .kicker, .script-card .kicker, .pay-card .kicker { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; opacity: .7; }
 .connect-copy h2 { margin: 5px 0 0; font-size: 22px; line-height: 1.15; letter-spacing: -.02em; }
 .connect-copy p { margin: 7px 0 0; font-size: 12.5px; line-height: 1.55; color: rgba(255,255,255,.72); }
 .connect-copy .chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
@@ -779,11 +781,11 @@ main#view { flex: 1; }
 .qr-grid { display: grid; grid-template-columns: repeat(11, 1fr); gap: 2px; aspect-ratio: 1; padding: 5px; border-radius: 12px; background: #fff; }
 .qr-grid span { border-radius: 2px; background: transparent; }
 .qr-grid span.on { background: #1a1a1a; }
-.script-card, .pay-card, .status-flow-card { margin: 14px 16px 0; padding: 16px; border-radius: 18px; background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: 0 1px 3px rgba(26, 26, 26, .06); }
+.script-card, .pay-card { margin: 14px 16px 0; padding: 16px; border-radius: 18px; background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: 0 1px 3px rgba(26, 26, 26, .06); }
 .script-card ol { margin: 10px 0 0; padding-left: 20px; }
 .script-card li { margin-top: 8px; font-size: 12.5px; line-height: 1.5; color: var(--lv-dim); }
 .script-card li b { color: var(--lv-ink); }
-.pay-card h2, .status-flow-card h2 { margin: 6px 0 12px; font-size: 20px; line-height: 1.22; letter-spacing: -.02em; }
+.pay-card h2 { margin: 6px 0 12px; font-size: 20px; line-height: 1.22; letter-spacing: -.02em; }
 .pay-card p { margin: 12px 0 0; font-size: 12.5px; line-height: 1.55; color: var(--lv-dim); }
 .pay-card .cta-btn { margin-top: 14px; }
 .pay-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 0; border-top: 1px solid var(--lv-line-2); }
@@ -816,7 +818,7 @@ main#view { flex: 1; }
 .step.done { background: var(--lv-soft-tiffany); border-color: rgba(10,186,181,.24); color: var(--lv-tiffany-text); }
 .step.done span { background-image: linear-gradient(135deg, #0abab5, #078d89); color: var(--lv-on-brand); border-color: transparent; }
 .step.current { box-shadow: 0 0 0 2px rgba(246,74,138,.16); }
-.approval-card, .empty-state-card, .checklist-card { margin: 10px 16px 0; padding: 14px; border-radius: 18px; background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: 0 1px 3px rgba(26,26,26,.06); }
+.approval-card, .empty-state-card { margin: 10px 16px 0; padding: 14px; border-radius: 18px; background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: 0 1px 3px rgba(26,26,26,.06); }
 .empty-state-card { text-align: center; padding: 26px 16px; }
 .empty-state-card .big-emoji { font-size: 38px; }
 .empty-state-card h3 { margin: 8px 0 0; font-size: 17px; font-weight: 800; }
@@ -828,15 +830,6 @@ main#view { flex: 1; }
 .review-grid span { display: block; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--lv-dim); }
 .review-grid b { display: block; margin-top: 3px; font-size: 12px; line-height: 1.35; overflow-wrap: anywhere; }
 .approval-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
-.status-flow-card p { margin: 8px 0 0; font-size: 12.5px; color: var(--lv-dim); line-height: 1.55; }
-.checklist-card { padding: 4px 14px; }
-.cl-row { position: relative; padding: 12px 0 12px 24px; border-left: 2px dashed var(--lv-line); }
-.cl-row:last-child { border-left-color: transparent; }
-.cl-row::before { content: ''; position: absolute; left: -6px; top: 17px; width: 10px; height: 10px; border-radius: 999px; background: var(--lv-line); box-shadow: 0 0 0 4px var(--lv-card); }
-.cl-row.done::before { background: var(--lv-tiffany); }
-.cl-row.active::before { background: var(--lv-pink); animation: lv-pulse-dot 1.4s ease-in-out infinite; }
-.cl-row b { display: block; font-size: 13px; }
-.cl-row span { display: block; margin-top: 2px; font-size: 11.5px; line-height: 1.45; color: var(--lv-dim); }
 @media (max-width: 430px) {
   .trust-cues, .review-grid { grid-template-columns: 1fr; }
   .stepper { display: flex; overflow-x: auto; padding-bottom: 2px; }
@@ -1120,4 +1113,3 @@ main#view { flex: 1; }
 .st-chip.st-blue { background: rgba(58,120,220,.12); color:#2f5fae; }
 .st-chip.st-lime { background: rgba(120,190,60,.14); color:#4b7d16; }
 .st-chip.st-accent { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
-.status-flow-card .sf-store { margin: 8px 0 0; font-size: 12px; color: var(--lv-dim); }
