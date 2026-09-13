@@ -88,7 +88,6 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
 .mono { font-variant-numeric:tabular-nums; letter-spacing:.06em; font-weight:800; }
 .foot-note { max-width:960px; margin:22px auto 0; font-size:12px; color:var(--lv-dim); text-align:center; }
 .toast { position:fixed; left:50%; bottom:22px; transform:translate(-50%,14px); max-width:340px; padding:11px 16px; border-radius:999px; background:var(--lv-ink); color:var(--lv-card); font-size:12.5px; font-weight:600; opacity:0; pointer-events:none; transition:opacity .2s, transform .2s; z-index:50; }
-.toast.is-on { opacity:1; transform:translate(-50%,0); }
 .row.is-gone { opacity:.45; }
 .qr-card { width:132px; padding:10px; border-radius:18px; background:var(--lv-card); border:1px solid var(--lv-line); text-align:center; }
 .qr-grid { display:grid; grid-template-columns:repeat(11,1fr); gap:2px; aspect-ratio:1; padding:5px; border-radius:12px; background:var(--lv-card); }
@@ -163,6 +162,17 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
 .quick-grid .ico { width:20px; height:20px; }
 .quick-grid .ico-wrap { display:block; }
 .tile:focus-visible { outline:2px solid var(--lv-pink); outline-offset:2px; }
+
+/* Уведомления: канонный тост (docs/07 §10, docs/11 §5) + статусная плашка сверху */
+.toast-wrap { position:fixed; left:0; right:0; bottom:84px; z-index:60; display:flex; flex-direction:column; align-items:center; gap:8px; pointer-events:none; padding:0 16px; }
+.toast { max-width:100%; background:var(--lv-ink); color:var(--lv-card); border-radius:16px; padding:10px 16px; font-size:13px; font-weight:600; box-shadow:var(--lv-shadow-toast,0 12px 32px -12px rgba(201,42,106,.35)); animation:toast-in .25s ease-out; text-align:left; }
+.toast .d { font-size:11px; color:var(--lv-toast-d,rgba(255,255,255,.66)); font-weight:400; margin-top:2px; }
+.toast.hide { opacity:0; transform:translateY(8px); transition:all .25s; }
+@keyframes toast-in { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+.status-banner { display:flex; align-items:center; gap:10px; margin:14px 16px 0; padding:10px 14px; background:var(--lv-card); border:1px solid var(--lv-line); border-radius:14px; }
+.status-banner .sb-tx { font-size:12.5px; font-weight:600; }
+.status-banner .sb { font-size:11.5px; color:var(--lv-dim); margin-left:auto; }
+.status-banner .ico { width:17px; height:17px; color:var(--lv-pink); flex:none; }
 </style>
 </head>
 <body>
@@ -195,6 +205,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
     </div>
 
     <div class="screen is-on" id="panel-rep-overview" role="tabpanel" data-screen="rep-overview">
+      <div class="status-banner"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-check"/></svg><span class="sb-tx">Данные обновлены</span><span class="sb">3 заявки ждут апрува</span></div>
       <div class="kpi-grid">
         <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">выплаты — с запуском финконтура</div></div>
         <div class="kpi"><div class="l">Активные точки</div><div class="v">4 / 7</div><div class="d">3 заявки в работе</div></div>
@@ -336,6 +347,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
     </div>
 
     <div class="screen is-on" id="panel-amb-overview" role="tabpanel" data-screen="amb-overview">
+      <div class="status-banner"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-award"/></svg><span class="sb-tx">Уровень сети</span><span class="sb">до «Губернатора» — 68 точек</span></div>
       <div class="kpi-grid">
         <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">до ledger-фазы 3</div></div>
         <div class="kpi"><div class="l">Представителей</div><div class="v">5</div><div class="d">в вашей ветке</div></div>
@@ -405,6 +417,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
     </div>
 
     <div class="screen is-on" id="panel-msp-overview" role="tabpanel" data-screen="msp-overview">
+      <div class="status-banner"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-check"/></svg><span class="sb-tx">Точка активна</span><span class="sb">заказы включены</span></div>
       <div class="section">
         <div class="cap">Статус точки</div>
         <h2>Продажи включены</h2>
@@ -664,15 +677,22 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
     document.querySelectorAll('[data-sheet]').forEach(function (sheet) { sheet.hidden = true; });
   });
 
-  var toastEl = document.getElementById('toast');
+  var toastEl = document.getElementById('toast-wrap');
   var toastTimer = null;
 
-  function toast(text) {
+  // Канон: один переиспользуемый тост, таймер, главная строка + подпись (.d)
+  function toast(main, sub) {
     if (!toastEl) { return; }
-    toastEl.textContent = text;
-    toastEl.classList.add('is-on');
+    toastEl.innerHTML = '';
+    var el = document.createElement('div');
+    el.className = 'toast';
+    el.innerHTML = main + (sub ? '<div class="d">' + sub + '</div>' : '');
+    toastEl.appendChild(el);
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { toastEl.classList.remove('is-on'); }, 2200);
+    toastTimer = setTimeout(function () {
+      el.classList.add('hide');
+      setTimeout(function () { el.remove(); }, 260);
+    }, 2400);
   }
 
   function updateQueue(delta) {
@@ -709,7 +729,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       applyCtx();
       var sheetEl = pick.closest('[data-sheet]');
       if (sheetEl) { sheetEl.hidden = true; }
-      toast('Контекст: ' + CTX.partners[ctx.partner].name);
+      toast('Контекст переключён', CTX.partners[ctx.partner].name);
       return;
     }
     var btn = event.target.closest('[data-action]');
@@ -719,26 +739,29 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
     if (action === 'copy') {
       var url = 'https://app.lovii.ru/business/apply?promo=PP7K2A';
       if (navigator.clipboard) { navigator.clipboard.writeText(url).catch(function () {}); }
-      toast('Ссылка регистрации скопирована');
+      toast('Ссылка скопирована', 'Отправь её точке — он получит бонус старта');
       return;
     }
 
     if (action === 'approve' || action === 'reject') {
       var card = firstPendingCard();
-      if (!card) { toast('Очередь пуста'); return; }
+      if (!card) { toast('Очередь пуста', 'Новые заявки появятся здесь'); return; }
       card.classList.add('is-gone');
       card.querySelector('.t2').textContent = action === 'approve'
         ? 'одобрено · счёт на верификацию отправлен'
         : 'отклонено · причина отправлена точке';
       updateQueue(-1);
-      toast(action === 'approve' ? 'Заявка одобрена' : 'Заявка отклонена');
+      toast(
+        action === 'approve' ? 'Заявка одобрена' : 'Заявка отклонена',
+        action === 'approve' ? 'Счёт на верификацию отправлен точке' : 'Причина отправлена владельцу точки',
+      );
       return;
     }
 
     if (action === 'status') {
       var badge = document.querySelector('[data-screen="msp-orders"] .status-pill.brand');
       if (badge) { badge.className = 'pill wait'; badge.textContent = 'Готовим'; }
-      toast('Статус заказа: «Готовим»');
+      toast('Статус обновлён', 'Заказ передан в работу точки');
       return;
     }
 
@@ -748,12 +771,12 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       sheet.hidden = !sheet.hidden;
       return;
     }
-    if (action === 'retry') { toast('Повторная загрузка…'); return; }
-    if (action === 'product') { toast('Форма товара — следующая итерация'); return; }
-    if (action === 'save') { toast('Настройки сохранены'); return; }
+    if (action === 'retry') { toast('Обновляем данные', 'Это займёт пару секунд'); return; }
+    if (action === 'product') { toast('Форма товара — в следующей итерации', 'Пока добавляйте товары в кабинете b2b'); return; }
+    if (action === 'save') { toast('Настройки сохранены', 'Применим к филиалу «На Белы Куна»'); return; }
   });
 })();
 </script>
-<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<div class="toast-wrap" id="toast-wrap" role="status" aria-live="polite"></div>
 </body>
 </html>
