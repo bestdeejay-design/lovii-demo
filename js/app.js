@@ -617,6 +617,65 @@ document.addEventListener('click', (e) => {
       mspInvoiceSend();
       break;
 
+    case 'msp-setup-pill':
+      state.mspSetupPill = actEl.dataset.val || 'anketa';
+      renderViewPreserveScroll();
+      break;
+
+    // Точечные переключатели анкеты: правим DOM на месте, чтобы не терять несохранённые поля.
+    case 'msp-day': {
+      const st = ensureMspSetup();
+      const d = actEl.dataset.day;
+      if (st && d) {
+        st.days[d] = st.days[d] ? null : ['08:00', '21:00'];
+        persist();
+        const off = !st.days[d];
+        const row = actEl.closest('.sch-row');
+        actEl.setAttribute('aria-pressed', String(!off));
+        row.classList.toggle('off', off);
+        const chk = actEl.querySelector('.chk');
+        chk.classList.toggle('on', !off);
+        chk.innerHTML = off ? '' : icon('check', '', 3);
+        const from = row.querySelector(`[name="d_${d}_from"]`);
+        const to = row.querySelector(`[name="d_${d}_to"]`);
+        if (from) { from.disabled = off || st.allDay; from.value = off ? '' : st.days[d][0]; }
+        if (to) { to.disabled = off || st.allDay; to.value = off ? '' : st.days[d][1]; }
+      }
+      break;
+    }
+
+    case 'msp-allday': {
+      const st = ensureMspSetup();
+      if (st) {
+        st.allDay = !st.allDay;
+        persist();
+        actEl.classList.toggle('on', st.allDay);
+        actEl.setAttribute('aria-pressed', String(st.allDay));
+        document.querySelectorAll('#msp-setup-form .sch-row input[type="time"]').forEach((inp) => { inp.disabled = st.allDay; });
+      }
+      break;
+    }
+
+    case 'msp-tog': {
+      const st = ensureMspSetup();
+      const k = actEl.dataset.k;
+      if (st && (k in st)) {
+        st[k] = !st[k];
+        persist();
+        const swEl = actEl.querySelector('.sw');
+        if (swEl) swEl.classList.toggle('on', st[k]);
+        actEl.setAttribute('aria-checked', String(st[k]));
+      }
+      break;
+    }
+
+    case 'msp-good-del': {
+      const l = ensureMspLead();
+      const i = Number(actEl.dataset.i);
+      if (l && l.goods && i >= 0) { l.goods.splice(i, 1); syncMspStore(); persist(); renderViewPreserveScroll(); toast('Товар удалён'); }
+      break;
+    }
+
     case 'demo-pay':
       demoPayMsp();
       break;
@@ -701,6 +760,12 @@ document.addEventListener('submit', (e) => {
   } else if (f.id === 'msp-point-form') {
     e.preventDefault();
     handleMspPoint(f);
+  } else if (f.id === 'msp-setup-form') {
+    e.preventDefault();
+    handleMspSetupSave(f);
+  } else if (f.id === 'msp-good-form') {
+    e.preventDefault();
+    handleMspGoodAdd(f);
   } else if (f.id === 'card-form') {
     e.preventDefault();
     handleCardSave(f);

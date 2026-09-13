@@ -1604,7 +1604,143 @@ function mspInvoiceSend() {
   if (!lead) return;
   lead.appStatus = 'verifying';
   persist();
-  toast('Отправлено на проверку', 'Платёж 1 ₽ обрабатывается');
+  toast('Оплата отправлена', 'Проверяем платёж и возврат');
+  renderViewPreserveScroll();
+  setTimeout(() => {
+    if (!state.mspLead) return;
+    state.mspLead.appStatus = 'verified';
+    if (state.mspLead.point) state.mspLead.point.status = 'ready';
+    syncMspStore();
+    persist();
+    go('msp', 'catalog');
+    toast('Точка активна', 'Открыта базовая настройка точки');
+  }, 2200);
+}
+
+// ---- МСП: базовая настройка точки (#/msp/catalog после верификации) ----
+// Пилюли-сценарии: анкета точки и товары. Данные — из схемы ядра (working_hours, pickup/delivery, min_order).
+const MSP_SETUP_PILLS = [['anketa', 'Анкета'], ['goods', 'Товары']];
+const MSP_WEEK = [['mon', 'Пн'], ['tue', 'Вт'], ['wed', 'Ср'], ['thu', 'Чт'], ['fri', 'Пт'], ['sat', 'Сб'], ['sun', 'Вс']];
+
+function ensureMspSetup() {
+  const lead = ensureMspLead();
+  if (!lead) return null;
+  if (!lead.setup) {
+    const p = lead.point || {};
+    lead.setup = {
+      name: p.name || '', address: p.address || '', about: p.about || '', phone: lead.phone || '',
+      minOrder: 500, pickup: true, delivery: false, allDay: false,
+      days: { mon: ['08:00', '21:00'], tue: ['08:00', '21:00'], wed: ['08:00', '21:00'], thu: ['08:00', '21:00'], fri: ['08:00', '21:00'], sat: ['10:00', '18:00'], sun: null },
+    };
+    persist();
+  }
+  return lead.setup;
+}
+
+function mspScheduleSummary(s) {
+  if (s.allDay) return 'Круглосуточно';
+  const on = MSP_WEEK.filter(([id]) => s.days[id]);
+  if (!on.length) return 'Выходной';
+  const f = s.days[on[0][0]];
+  const same = on.every(([id]) => s.days[id][0] === f[0] && s.days[id][1] === f[1]);
+  if (same && on.length === 7) return 'Ежедневно ' + f[0] + '–' + f[1];
+  return on.map(([id, l]) => l + ' ' + s.days[id][0] + '–' + s.days[id][1]).join(', ');
+}
+
+function renderMspSetup(pill, head, tabs) {
+  const lead = ensureMspLead();
+  const s = ensureMspSetup();
+  const goods = lead.goods || [];
+  const pv = pill === 'goods' ? 'goods' : 'anketa';
+  const pills = `<div class="seg" style="margin:14px 16px 0">${MSP_SETUP_PILLS.map(([id, l]) => `<button class="${pv === id ? 'active' : ''}" data-action="msp-setup-pill" data-val="${id}">${l}</button>`).join('')}</div>`;
+  const title = `<div class="section-head" style="margin-top:20px"><h2>Базовая настройка точки</h2></div>`;
+
+  if (pv === 'goods') {
+    const rows = goods.length
+      ? goods.map((g, i) => `<div class="row-item"><span class="ri-emoji ${tileBg('sand')}">${icon('package')}</span>
+          <div class="ri-mid"><div class="nm">${esc(g.name)}</div><div class="sb">${priceFmt(g.price)} / ${esc(g.unit)} · остаток ${g.stock}</div></div>
+          <button class="ri-del" data-action="msp-good-del" data-i="${i}" aria-label="Удалить товар">${icon('trash')}</button></div>`).join('')
+      : `<div class="empty-cat"><div class="empty-ico">${icon('bag')}</div><div class="t">Товаров пока нет</div><p class="d">Добавьте первый товар — он появится на витрине точки.</p></div>`;
+    return `${head}${tabs}${pills}${title}
+    <form id="msp-good-form" class="msp-apply-form">
+      <label class="f-field"><span class="lb">Название товара</span><input name="name" placeholder="Например, Багет классический" required></label>
+      <label class="f-field"><span class="lb">Цена, ₽</span><input name="price" type="number" inputmode="decimal" placeholder="120" required></label>
+      <div class="form-row2">
+        <label class="f-field"><span class="lb">Единица</span><input name="unit" value="шт"></label>
+        <label class="f-field"><span class="lb">Остаток</span><input name="stock" type="number" value="10"></label>
+      </div>
+      <div style="padding:16px 16px 0"><button class="cta-btn brand-gradient big" type="submit">${icon('plus')}Добавить товар</button></div>
+    </form>
+    <div class="section-head" style="margin-top:20px"><h2>Товары точки<span class="sub"> · ${goods.length}</span></h2></div>
+    <div class="list-card">${rows}</div>`;
+  }
+
+  const dayRows = MSP_WEEK.map(([id, l]) => {
+    const v = s.days[id];
+    const off = !v;
+    return `<div class="sch-row${off ? ' off' : ''}">
+      <button type="button" class="sch-day" data-action="msp-day" data-day="${id}" aria-pressed="${!off}"><span class="chk${off ? '' : ' on'}">${off ? '' : icon('check', '', 3)}</span>${l}</button>
+      <input type="time" name="d_${id}_from" value="${off ? '' : v[0]}" ${off || s.allDay ? 'disabled' : ''}>
+      <span class="sch-sep">–</span>
+      <input type="time" name="d_${id}_to" value="${off ? '' : v[1]}" ${off || s.allDay ? 'disabled' : ''}>
+    </div>`;
+  }).join('');
+
+  return `${head}${tabs}${pills}${title}
+  <form id="msp-setup-form" class="msp-apply-form">
+    <label class="f-field"><span class="lb">Название точки</span><input name="name" value="${esc(s.name)}" placeholder="Название торговой точки"></label>
+    <label class="f-field"><span class="lb">Адрес</span><input name="address" value="${esc(s.address)}" placeholder="Улица, дом"></label>
+    <label class="f-field"><span class="lb">Описание</span><textarea name="about" placeholder="Коротко о точке">${esc(s.about)}</textarea></label>
+    <label class="f-field"><span class="lb">Телефон</span><input name="phone" type="tel" value="${esc(s.phone)}" placeholder="+7 900 000-00-00"></label>
+
+    <div class="section-head" style="margin-top:20px"><h2>Расписание работы</h2></div>
+    <div class="sch-card">
+      <button type="button" class="sch-allday${s.allDay ? ' on' : ''}" data-action="msp-allday" aria-pressed="${s.allDay}">${icon('clock')}Круглосуточно</button>
+      ${dayRows}
+    </div>
+
+    <div class="section-head" style="margin-top:20px"><h2>Заказы</h2></div>
+    <div class="sch-card">
+      <button type="button" class="tog-row" data-action="msp-tog" data-k="pickup" role="switch" aria-checked="${s.pickup}"><span>Самовывоз</span><span class="sw${s.pickup ? ' on' : ''}"></span></button>
+      <button type="button" class="tog-row" data-action="msp-tog" data-k="delivery" role="switch" aria-checked="${s.delivery}"><span>Доставка</span><span class="sw${s.delivery ? ' on' : ''}"></span></button>
+      <label class="f-field" style="padding:0;margin:12px 0 4px"><span class="lb">Минимальная сумма заказа, ₽</span><input name="minOrder" type="number" inputmode="numeric" value="${s.minOrder}"></label>
+    </div>
+
+    <div style="padding:16px 16px 0"><button class="cta-btn brand-gradient big" type="submit">${icon('check')}Сохранить</button></div>
+  </form>`;
+}
+
+function handleMspSetupSave(form) {
+  const lead = ensureMspLead();
+  const s = ensureMspSetup();
+  if (!lead || !s) return;
+  const v = (n) => { const el = form.querySelector(`[name="${n}"]`); return el ? (el.value || '').trim() : ''; };
+  s.name = v('name'); s.address = v('address'); s.about = v('about'); s.phone = v('phone');
+  s.minOrder = Number(v('minOrder')) || 0;
+  MSP_WEEK.forEach(([id]) => {
+    if (s.days[id]) { const f = v('d_' + id + '_from'), t = v('d_' + id + '_to'); if (f && t) s.days[id] = [f, t]; }
+  });
+  lead.phone = s.phone;
+  lead.point = lead.point || {};
+  lead.point.name = s.name || lead.point.name;
+  lead.point.address = s.address || lead.point.address;
+  lead.point.about = s.about;
+  lead.point.hours = mspScheduleSummary(s);
+  syncMspStore(); persist();
+  toast('Настройки сохранены', 'Карточка точки обновлена');
+  renderViewPreserveScroll();
+}
+
+function handleMspGoodAdd(form) {
+  const lead = ensureMspLead();
+  if (!lead) return;
+  const v = (n) => { const el = form.querySelector(`[name="${n}"]`); return el ? (el.value || '').trim() : ''; };
+  const name = v('name'); const price = Number(v('price'));
+  if (!name || !price) return;
+  lead.goods = lead.goods || [];
+  lead.goods.push({ slug: 'g' + Date.now(), name, price, unit: v('unit') || 'шт', stock: Number(v('stock')) || 0 });
+  syncMspStore(); persist();
+  toast('Товар добавлен', 'Он появился на витрине точки');
   renderViewPreserveScroll();
 }
 
@@ -1615,7 +1751,7 @@ function renderMspCabinet(tab = 'index') {
   const status = p ? p.status : 'draft';
   const payCode = 'LOVII-' + lead.inn.slice(-4) + '-' + lead.repCode.slice(-3);
   const tabs = `<div class="seg dash-tabs msp-tabs" style="margin:14px 16px 0">
-    ${[['index','Заявка'], ['orders','Заказы'], ['catalog','Каталог'], ['pay','Платёж'], ['help','Инструкция']].map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="msp-tab" data-val="${id}">${label}</button>`).join('')}
+    ${[['index','Заявка'], ['orders','Заказы'], ['catalog','Магазин'], ['pay','Платёж'], ['help','Инструкция']].map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="msp-tab" data-val="${id}">${label}</button>`).join('')}
   </div>`;
   const head = `
   <div class="dash-head">
@@ -1658,14 +1794,9 @@ function renderMspCabinet(tab = 'index') {
 
   if (tab === 'catalog') {
     if (status !== 'ready') {
-      return `${head}${tabs}${mspStepsHtml(status)}<div class="empty-state-card"><div class="big-emoji">🧺</div><h3>Каталог товаров пока закрыт</h3><p>Сейчас точка может быть видна в каталоге только как карточка района. Товары откроются после апрува, проверочного платежа и автоматического возврата.</p><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="pay">Посмотреть следующий шаг</button></div>`;
+      return `${head}${tabs}${mspStepsHtml(status)}<div class="empty-state-card"><div class="empty-ico">${icon('bag')}</div><h3>Настройка откроется после верификации</h3><p>Сначала представитель одобрит точку, затем пройдёт проверочный платёж 1 ₽ и возврат. После этого откроется базовая настройка точки.</p><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="pay">Посмотреть следующий шаг</button></div>`;
     }
-    const goods = lead.goods || [];
-    const chips = LOVII_DASH.storeGoodsSeed.slice(0, 6).filter((g) => !goods.some((x) => x.slug === g.slug)).map((g) => `<button class="cat-chip" data-action="add-msp-good" data-slug="${g.slug}"><span class="e">${icon('bag')}</span>${esc(g.name)}</button>`).join('');
-    return `${head}${tabs}${mspStepsHtml(status)}
-    <div class="section-head" style="margin-top:20px"><h2>Каталог товаров<span class="sub"> · ${goods.length}</span></h2></div>
-    <div class="list-card">${goods.length ? goods.map((g) => `<div class="row-item"><span class="ri-emoji ${tileBg('sand')}">${icon('bag')}</span><div class="ri-mid"><div class="nm">${esc(g.name)}</div><div class="sb">${priceFmt(g.price)} / ${esc(g.unit)} · остаток ${g.stock}</div></div><span class="st-chip st-active">на витрине</span></div>`).join('') : '<div class="empty-cat"><div class="big-emoji">🛍️</div><div class="t">Добавьте первый товар</div><p class="d">После добавления он появится на витрине этой точки.</p></div>'}</div>
-    ${chips ? `<div class="section-head" style="margin-top:20px"><h2>Добавить товары</h2></div><div class="cats no-scrollbar" style="padding:10px 16px 4px">${chips}</div>` : dashNote('Все товары уже опубликованы на витрине точки.', 'tiffany')}`;
+    return renderMspSetup(state.mspSetupPill || 'anketa', head, tabs);
   }
 
   if (tab === 'pay') {
