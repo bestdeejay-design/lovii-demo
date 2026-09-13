@@ -173,6 +173,45 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
 .status-banner .sb-tx { font-size:12.5px; font-weight:600; }
 .status-banner .sb { font-size:11.5px; color:var(--lv-dim); margin-left:auto; }
 .status-banner .ico { width:17px; height:17px; color:var(--lv-pink); flex:none; }
+
+/* Движение по канону (docs/04, docs/01): вход 0.35s + подъём 10px, каскад 0.06s,
+   hover 0.2s, шторка — пружина cubic-bezier(.32,.72,0,1); только transform/opacity. */
+:root { --mv-enter:.35s; --mv-hover:.2s; --mv-spring:cubic-bezier(.32,.72,0,1); }
+
+.screen.is-on { animation: screen-in var(--mv-enter) var(--mv-spring) both; }
+@keyframes screen-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+
+/* каскад входа блоков внутри экрана */
+.screen.is-on > * { animation: block-in var(--mv-enter) var(--mv-spring) both; }
+.screen.is-on > *:nth-child(1){animation-delay:0s}
+.screen.is-on > *:nth-child(2){animation-delay:.06s}
+.screen.is-on > *:nth-child(3){animation-delay:.12s}
+.screen.is-on > *:nth-child(4){animation-delay:.18s}
+.screen.is-on > *:nth-child(5){animation-delay:.24s}
+.screen.is-on > *:nth-child(n+6){animation-delay:.3s}
+@keyframes block-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+
+/* микро-взаимодействия */
+.dash-tabs button, .role-switch button, .filter-chip, .status-banner { transition: background-color var(--mv-hover) ease, color var(--mv-hover) ease, border-color var(--mv-hover) ease, transform var(--mv-hover) ease; }
+.cta-btn, .ghost-btn, .tile { transition: transform var(--mv-hover) ease, box-shadow var(--mv-hover) ease, background-color var(--mv-hover) ease; }
+.cta-btn:active, .ghost-btn:active { transform: scale(.96); }
+.tile:active { transform: scale(.95); }
+.cta-btn:hover, .ghost-btn:hover { box-shadow: var(--lv-shadow-lift, 0 8px 24px -10px rgba(201,42,106,.45)); }
+.row { transition: background-color var(--mv-hover) ease; }
+.district-row { transition: background-color var(--mv-hover) ease, border-color var(--mv-hover) ease; }
+
+/* шторка: пружина снизу + затемнение */
+.mock-overlay { position:absolute; inset:0; background:rgba(26,26,26,.4); opacity:0; visibility:hidden; transition:opacity .25s ease, visibility .25s ease; z-index:15; }
+.mock-overlay.is-open { opacity:1; visibility:visible; }
+.mock-sheet { transform:translateY(105%); visibility:hidden; transition:transform .3s var(--mv-spring), visibility .3s; }
+.mock-sheet.is-open { transform:translateY(0); visibility:visible; }
+.mock-sheet[hidden] { display:block; }
+
+/* ОБЯЗАТЕЛЬНО: полное отключение движения */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation:none !important; transition:none !important; }
+  html { scroll-behavior:auto; }
+}
 </style>
 </head>
 <body>
@@ -403,7 +442,8 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       <div class="cab-sub" data-ctx-sub>ООО «НАПОЛИ ПИЦЦА» · точка «На Белы Куна» · ИНН ••4821</div>
       <button class="ctx-pill" data-action="ctx" data-testid="msp-ctx">Сменить юрлицо / точку ▾</button>
     </div>
-    <div class="mock-sheet" data-sheet hidden aria-label="Выбор юрлица и точки">
+    <div class="mock-overlay" data-sheet-overlay></div>
+    <div class="mock-sheet" data-sheet aria-label="Выбор юрлица и точки">
       <div class="mock-sheet-head" data-sheet-head>Юрлица</div>
       <div data-sheet-list></div>
     </div>
@@ -674,7 +714,8 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
   // Esc закрывает шторку контекста
   document.addEventListener('keydown', function (event) {
     if (event.key !== 'Escape') { return; }
-    document.querySelectorAll('[data-sheet]').forEach(function (sheet) { sheet.hidden = true; });
+    document.querySelectorAll('[data-sheet]').forEach(function (sheet) { sheet.classList.remove('is-open'); });
+    document.querySelectorAll('[data-sheet-overlay]').forEach(function (o) { o.classList.remove('is-open'); });
   });
 
   var toastEl = document.getElementById('toast-wrap');
@@ -713,6 +754,12 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
   }
 
   document.addEventListener('click', function (event) {
+    if (event.target.matches('[data-sheet-overlay]')) {
+      event.target.classList.remove('is-open');
+      var sh = event.target.parentElement.querySelector('[data-sheet]');
+      if (sh) { sh.classList.remove('is-open'); }
+      return;
+    }
     var back = event.target.closest('.mock-sheet-back');
     if (back) { renderSheet(0, 0); return; }
     var pick = event.target.closest('[data-pick-partner]');
@@ -728,7 +775,9 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       }
       applyCtx();
       var sheetEl = pick.closest('[data-sheet]');
-      if (sheetEl) { sheetEl.hidden = true; }
+      if (sheetEl) { sheetEl.classList.remove('is-open'); }
+      var ov = sheetEl && sheetEl.closest('.phone').querySelector('[data-sheet-overlay]');
+      if (ov) { ov.classList.remove('is-open'); }
       toast('Контекст переключён', CTX.partners[ctx.partner].name);
       return;
     }
@@ -768,7 +817,10 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
     if (action === 'ctx') {
       var sheet = btn.closest('.phone').querySelector('[data-sheet]');
       renderSheet(0, 0);
-      sheet.hidden = !sheet.hidden;
+      var overlay = btn.closest('.phone').querySelector('[data-sheet-overlay]');
+      var open = !sheet.classList.contains('is-open');
+      sheet.classList.toggle('is-open', open);
+      if (overlay) { overlay.classList.toggle('is-open', open); }
       return;
     }
     if (action === 'retry') { toast('Обновляем данные', 'Это займёт пару секунд'); return; }
