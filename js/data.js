@@ -114,6 +114,7 @@ const LOVII_DASH = {
     store:    { title: 'Торговая точка', short: 'точку',          desc: 'Своя витрина в приложении',      emoji: '🏪', color: 'pink' },
     rep:      { title: 'Представитель',  short: 'представителя',  desc: 'Точки района на связи',          emoji: '🤝', color: 'tiffany' },
     amb:      { title: 'Амбасадор',      short: 'амбасадора',     desc: 'Структура представителей',       emoji: '🚀', color: 'gold' },
+    msp:      { title: 'ЛОВИ Бизнес',    short: 'МСП',            desc: 'Заказы, товары и счёт точки',    emoji: '☕', color: 'tiffany' },
     owner:    { title: 'Владелец',       short: 'владельца',      desc: 'Платформа целиком',              emoji: '👑', color: 'sand' },
     investor: { title: 'Инвестор',       short: 'инвестора',      desc: 'Рост и доходность',              emoji: '📈', color: 'tiffany' },
   },
@@ -284,4 +285,71 @@ const LOVII_PAY_SEED = {
 
   // ---- Избранные МСП (slug из LOVII_DATA.stores) ----
   mspFavSeed: ['sloyka', 'daily', 'flowers', 'krasota'],
+};
+
+/**
+ * LOVII_CAB — сид редизайна кабинетов (2026-09-14, cabinets.js).
+ * repPromo — канон BRD §3.1: PP + 4 символа (алфавит 33), перепривязок нет.
+ * repSub — гейт подписки представителя (SZ-042): доля 40% действует,
+ * пока активна подписка 599/199 ₽; истекла → доля уходит Компании.
+ * legals/branches — мульти-юрлица (msp-ds-multibranch §B): юрлицо → филиалы.
+ * orders — статус-машина Task 20: самовывоз и доставка, отмена с причиной.
+ */
+const LOVII_CAB = {
+  repPromo: 'PPK7Q2',
+
+  repSub: {
+    plan: 'Лови PASS',
+    price: '599 ₽/мес',
+    until: '12 октября 2026',
+    days: 28,
+  },
+
+  // МСП: юрлица и филиалы (контекст-свитчер кабинета)
+  legals: [
+    {
+      id: 'l1', name: 'ИП Смирнова А. А.', inn: '7801234567',
+      branches: [
+        { id: 'b1', name: 'Кофейня «У дома»', address: 'ул. Тверская, 12', emoji: '☕' },
+        { id: 'b2', name: 'Кофейня «У дома» · Патриаршие', address: 'Малая Бронная, 4', emoji: '☕' },
+      ],
+    },
+    {
+      id: 'l2', name: 'ООО «Свежесть»', inn: '7704455661',
+      branches: [
+        { id: 'b3', name: 'Гастробар «Свежесть»', address: 'Столешников пер., 7', emoji: '🥗' },
+      ],
+    },
+  ],
+
+  // Оборот за месяц и средний чек по филиалам (демо-числа)
+  branchStats: {
+    b1: { revenueMonth: 214300, avgCheck: 540 },
+    b2: { revenueMonth: 96400, avgCheck: 610 },
+    b3: { revenueMonth: 143200, avgCheck: 820 },
+    lead: { revenueMonth: 42800, avgCheck: 470 },
+  },
+
+  // Товары: branch 'all' = «во всех филиалах» (SZ-013)
+  products: [
+    { slug: 'p-coffee', name: 'Кофе с собой', emoji: '☕', price: 190, unit: 'шт', stock: 40, branch: 'all' },
+    { slug: 'p-croiss', name: 'Круассан классический', emoji: '🥐', price: 140, unit: 'шт', stock: 12, branch: 'all' },
+    { slug: 'p-beans', name: 'Флэт уайт, зерно 250 г', emoji: '🫘', price: 890, unit: 'уп', stock: 7, branch: 'b1' },
+    { slug: 'p-cheese', name: 'Чизкейк Нью-Йорк', emoji: '🍰', price: 380, unit: 'шт', stock: 5, branch: 'b2' },
+    { slug: 'p-sandw', name: 'Сэндвич с индейкой', emoji: '🥪', price: 320, unit: 'шт', stock: 9, branch: 'all' },
+    { slug: 'p-lemon', name: 'Лимонад домашний', emoji: '🍋', price: 190, unit: 'шт', stock: 16, branch: 'b3' },
+  ],
+
+  // Заказы: statuses new/accepted/preparing/ready/handed_to_delivery/on_the_way/completed/cancelled
+  orders: [
+    { id: 'L-7421', branch: 'b1', delivery: 'pickup', status: 'new', customer: 'Мария', ts: 'сегодня · 14:05', total: 590, comment: 'Кофе без сахара', items: [ { name: 'Флэт уайт', emoji: '☕', qty: 2, price: 190 }, { name: 'Круассан классический', emoji: '🥐', qty: 1, price: 140 } ] },
+    { id: 'L-7420', branch: 'b1', delivery: 'delivery', status: 'new', customer: 'Дмитрий', ts: 'сегодня · 13:58', total: 780, items: [ { name: 'Кофе с собой', emoji: '☕', qty: 1, price: 190 }, { name: 'Сэндвич с индейкой', emoji: '🥪', qty: 2, price: 320 } ] },
+    { id: 'L-7418', branch: 'b2', delivery: 'pickup', status: 'preparing', customer: 'Анна', ts: 'сегодня · 13:40', total: 520, items: [ { name: 'Чизкейк Нью-Йорк', emoji: '🍰', qty: 1, price: 380 }, { name: 'Кофе с собой', emoji: '☕', qty: 1, price: 190 } ] },
+    { id: 'L-7415', branch: 'b3', delivery: 'delivery', status: 'ready', customer: 'Игорь', ts: 'сегодня · 12:55', total: 380, items: [ { name: 'Лимонад домашний', emoji: '🍋', qty: 2, price: 190 } ] },
+    { id: 'L-7411', branch: 'b1', delivery: 'delivery', status: 'handed_to_delivery', customer: 'Ольга', ts: 'сегодня · 12:20', total: 1140, items: [ { name: 'Флэт уайт', emoji: '☕', qty: 3, price: 190 }, { name: 'Круассан классический', emoji: '🥐', qty: 4, price: 140 } ] },
+    { id: 'L-7402', branch: 'b2', delivery: 'pickup', status: 'completed', customer: 'Сергей', ts: 'сегодня · 11:35', total: 760, items: [ { name: 'Чизкейк Нью-Йорк', emoji: '🍰', qty: 2, price: 380 } ] },
+    { id: 'L-7399', branch: 'b3', delivery: 'pickup', status: 'completed', customer: 'Нина', ts: 'вчера · 19:12', total: 510, items: [ { name: 'Сэндвич с индейкой', emoji: '🥪', qty: 1, price: 320 }, { name: 'Лимонад домашний', emoji: '🍋', qty: 1, price: 190 } ] },
+    { id: 'L-7391', branch: 'b1', delivery: 'pickup', status: 'cancelled', customer: 'Гость', ts: 'вчера · 18:04', total: 420, cancelReason: 'Клиент отменил — не успевал к закрытию', items: [ { name: 'Круассан классический', emoji: '🥐', qty: 3, price: 140 } ] },
+    { id: 'L-7387', branch: 'b2', delivery: 'delivery', status: 'completed', customer: 'Павел', ts: 'вчера · 17:30', total: 930, items: [ { name: 'Чизкейк Нью-Йорк', emoji: '🍰', qty: 1, price: 380 }, { name: 'Кофе с собой', emoji: '☕', qty: 2, price: 190 }, { name: 'Сэндвич с индейкой', emoji: '🥪', qty: 1, price: 320 } ] },
+  ],
 };

@@ -208,9 +208,13 @@ function renderPayProfile() {
     </div>`;
   }).join('');
 
-  const demoRows = ['owner', 'investor']
+  const demoRows = ['owner', 'investor', 'msp']
     .map((role) => {
       const m = roleMeta(role);
+      // msp — собственный маршрут (кабинет ЛОВИ Бизнес), не через renderDash
+      const btn = role === 'msp'
+        ? `<button class="cta-btn plain" data-go="msp:index">Открыть</button>`
+        : `<button class="cta-btn plain" data-action="enter-role" data-role="${role}">Открыть</button>`;
       return `
       <div class="row-item">
         <span class="ri-emoji ${tileBg(m.color)}">${m.emoji}</span>
@@ -218,7 +222,7 @@ function renderPayProfile() {
           <div class="nm">${esc(m.title)}<span class="demo-tag">демо</span></div>
           <div class="sb">${esc(m.desc)}</div>
         </div>
-        <button class="cta-btn plain" data-action="enter-role" data-role="${role}">Открыть</button>
+        ${btn}
       </div>`;
     })
     .join('');

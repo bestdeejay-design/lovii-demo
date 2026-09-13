@@ -58,6 +58,7 @@ const state = {
   pay: persisted.pay || null, // LOVII PAY (сид — ensurePay() в club.js)
   chats: persisted.chats || null, // сид создаёт dash.js (ensureChats)
   mspLead: persisted.mspLead || null, // QR-сценарий регистрации торговой точки через представителя
+  mspCtx: persisted.mspCtx || null, // контекст МСП: юрлицо + филиал (кабинет ЛОВИ Бизнес)
   // сессионное (не сохраняется)
   category: 'all',
   kindTab: 'goods',
@@ -84,6 +85,7 @@ function persist() {
         pay: state.pay,
         chats: state.chats,
         mspLead: state.mspLead,
+        mspCtx: state.mspCtx,
       })
     );
   } catch {
@@ -187,6 +189,7 @@ const selectors = {
 const navStack = [];
 
 function go(name, param) {
+  if (typeof closeActionSheet === 'function') closeActionSheet(); // листы не переживают навигацию
   navStack.push(location.hash || '#/home');
   if (navStack.length > 20) navStack.shift();
   const h = '#/' + name + (param ? '/' + param : '');
@@ -294,7 +297,7 @@ function updateChrome() {
 
   // активная кнопка навигации (роли подсвечивают «Профиль»)
   const navName = state.view.name;
-  const roleScreens = ['profile', 'apply', 'dash', 'chat'];
+  const roleScreens = ['profile', 'apply', 'dash', 'chat', 'msp'];
   document.querySelectorAll('.nav-btn').forEach((btn) => {
     const isActive = btn.dataset.nav === 'profile' ? roleScreens.includes(navName) : btn.dataset.nav === navName;
     btn.classList.toggle('active', isActive);
@@ -612,6 +615,72 @@ document.addEventListener('click', (e) => {
     case 'install-app':
       startInstall();
       break;
+
+    /* ---- Кабинеты ролей: редизайн 2026-09-14 (js/cabinets.js) ---- */
+
+    case 'confirm-approve':
+      openApproveSheet();
+      break;
+
+    case 'do-approve':
+      closeActionSheet();
+      approveMspPoint();
+      break;
+
+    case 'reject-open':
+      openRejectSheet();
+      break;
+
+    case 'sheet-close':
+      closeActionSheet();
+      break;
+
+    case 'order-open':
+      openOrderSheet(actEl.dataset.id);
+      break;
+
+    case 'order-status':
+      orderTransition(actEl.dataset.id, actEl.dataset.to);
+      break;
+
+    case 'order-cancel':
+      openCancelSheet(actEl.dataset.id);
+      break;
+
+    case 'ord-tab':
+      _ordTab = actEl.dataset.val;
+      renderViewPreserveScroll();
+      break;
+
+    case 'ctx-open':
+      openCtxSheet();
+      break;
+
+    case 'ctx-pick':
+      pickCtx(actEl.dataset.legal, actEl.dataset.branch);
+      break;
+
+    case 'rep-open':
+      openRepSheet(actEl.dataset.id);
+      break;
+
+    case 'sub-renew':
+      toast('Продление подписки', 'Лови PASS · 599 ₽/мес — в демо оплата не проводится');
+      break;
+
+    case 'pay-refresh':
+      renderViewPreserveScroll();
+      toast('Статус обновлён', 'Пока изменений нет — платёж матчится по коду VER');
+      break;
+
+    case 'b2b-open':
+      toast('Кабинет b2b', 'В app открывается b2b-кабинет в новом окне');
+      break;
+
+    case 'copy-link':
+      if (navigator.clipboard && actEl.dataset.link) navigator.clipboard.writeText(actEl.dataset.link).catch(() => {});
+      toast('Ссылка скопирована', 'Отправь владельцу точки');
+      break;
   }
 });
 
@@ -631,6 +700,15 @@ document.addEventListener('submit', (e) => {
   } else if (f.id === 'card-form') {
     e.preventDefault();
     handleCardSave(f);
+  } else if (f.id === 'reject-form') {
+    e.preventDefault();
+    const reason = (f.querySelector('[name="reason"]') || {}).value || '';
+    closeActionSheet();
+    returnMspPoint(reason);
+  } else if (f.id === 'cancel-form') {
+    e.preventDefault();
+    const reason = (f.querySelector('[name="reason"]') || {}).value || '';
+    cancelOrder(f.dataset.id, reason);
   } else if (f.id === 'chat-form') {
     e.preventDefault();
     const input = f.querySelector('#chat-input');
@@ -675,10 +753,12 @@ document.addEventListener('input', (e) => {
 // Оверлеи и Esc закрывают шиты
 document.getElementById('sheet-overlay').addEventListener('click', closeSheet);
 document.getElementById('install-overlay').addEventListener('click', closeInstallSheet);
+document.getElementById('action-overlay').addEventListener('click', closeActionSheet);
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     if (state.sheetOpen) closeSheet();
     closeInstallSheet();
+    closeActionSheet();
   }
 });
 
