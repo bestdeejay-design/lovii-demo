@@ -25,7 +25,7 @@ input { font-family: inherit; }
 :focus-visible { outline: 2px solid var(--lv-pink); outline-offset: 2px; border-radius: 8px; }
 
 /* ---------- Градиенты, тени, утилиты ---------- */
-.brand-gradient { background-image: linear-gradient(135deg, #f64a8a 0%, #c92a6a 100%); }
+.brand-gradient { background-image: var(--lv-gradient-brand); }  /* канон: градиент только токеном */
 .ink-gradient { background-image: linear-gradient(150deg, #262023 0%, #1a1a1a 55%, #2b1219 100%); }
 .shadow-soft { box-shadow: 0 1px 3px rgba(26, 26, 26, .06); }
 .shadow-lift { box-shadow: 0 12px 32px -12px rgba(201, 42, 106, .22); }
