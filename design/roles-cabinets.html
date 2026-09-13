@@ -145,6 +145,13 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
 .kpi .v { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .kpi-grid { grid-template-columns:repeat(2, minmax(0, 1fr)); }
 .mock-sheet .district-row { width:100%; }
+
+/* Диагностика вёрстки: контуры блоков + направляющие 16px */
+body.guides .phone * { outline:1px dashed rgba(246,74,138,.35); }
+body.guides .phone::after { content:''; position:absolute; inset:0; pointer-events:none; z-index:30;
+  background-image:repeating-linear-gradient(to right,
+    rgba(10,186,181,.35) 0 1px, transparent 1px 16px),
+    repeating-linear-gradient(to bottom, rgba(10,186,181,.18) 0 1px, transparent 1px 16px); }
 </style>
 </head>
 <body>
@@ -160,7 +167,7 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
   <button role="tab" aria-selected="false" data-role="msp">МСП</button>
 </div>
 
-<div class="state-bar" role="group" aria-label="Состояние экрана"><button data-state="normal" aria-pressed="true">Норма</button><button data-state="loading" aria-pressed="false">Загрузка</button><button data-state="empty" aria-pressed="false">Пусто</button><button data-state="error" aria-pressed="false">Ошибка</button></div>
+<div class="state-bar" role="group" aria-label="Состояние экрана"><button data-state="normal" aria-pressed="true">Норма</button><button data-state="loading" aria-pressed="false">Загрузка</button><button data-state="empty" aria-pressed="false">Пусто</button><button data-state="error" aria-pressed="false">Ошибка</button><button data-guides aria-pressed="false">Сетка</button></div>
 
 <div class="boards">
   <section class="phone" data-board="rep" data-accent="tiffany" aria-label="Кабинет представителя">
@@ -476,6 +483,13 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
   });
 
   // Переключатель состояний: наглядно показывает загрузку, пустоту и ошибку.
+  document.querySelectorAll('[data-guides]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var on = document.body.classList.toggle('guides');
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  });
+
   document.querySelectorAll('.state-bar button').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var state = btn.dataset.state;
