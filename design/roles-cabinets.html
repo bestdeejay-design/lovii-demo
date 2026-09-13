@@ -156,6 +156,13 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
 /* Иконки: канонный спрайт ДС, цвет через currentColor (docs/09 §1) */
 .ico { width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; display:block; }
 .cta-btn .ico, .ghost-btn .ico, .filter-chip .ico { width:16px; height:16px; }
+
+/* Слой C: сетка быстрых действий 2×2 (канон .tiles-row фиксирован на 5 колонок) */
+.quick-grid { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px; margin-top:10px; }
+.quick-grid .tile { color:var(--lv-on-tile); font-size:12px; font-weight:700; gap:8px; }
+.quick-grid .ico { width:20px; height:20px; }
+.quick-grid .ico-wrap { display:block; }
+.tile:focus-visible { outline:2px solid var(--lv-pink); outline-offset:2px; }
 </style>
 </head>
 <body>
@@ -180,14 +187,14 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       <div class="cab-sub">PP7K2A · Анна Ветрова · +7 911 000-00-00</div>
     </div>
     <div class="dash-tabs" role="tablist">
-      <button role="tab" aria-selected="true" data-tab="rep-overview">Обзор</button>
-      <button role="tab" aria-selected="false" data-tab="rep-points">Точки</button>
-      <button role="tab" aria-selected="false" data-tab="rep-approvals">Подключение</button>
-      <button role="tab" aria-selected="false" data-tab="rep-income">Доход</button>
-      <button role="tab" aria-selected="false" data-tab="rep-profile">Профиль</button>
+      <button role="tab" aria-selected="true" aria-controls="panel-rep-overview" data-tab="rep-overview">Обзор</button>
+      <button role="tab" aria-selected="false" aria-controls="panel-rep-points" data-tab="rep-points">Точки</button>
+      <button role="tab" aria-selected="false" aria-controls="panel-rep-approvals" data-tab="rep-approvals">Подключение</button>
+      <button role="tab" aria-selected="false" aria-controls="panel-rep-income" data-tab="rep-income">Доход</button>
+      <button role="tab" aria-selected="false" aria-controls="panel-rep-profile" data-tab="rep-profile">Профиль</button>
     </div>
 
-    <div class="screen is-on" data-screen="rep-overview">
+    <div class="screen is-on" id="panel-rep-overview" role="tabpanel" data-screen="rep-overview">
       <div class="kpi-grid">
         <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">выплаты — с запуском финконтура</div></div>
         <div class="kpi"><div class="l">Активные точки</div><div class="v">4 / 7</div><div class="d">3 заявки в работе</div></div>
@@ -214,9 +221,19 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
         <div class="bar"><span style="width:18%"></span></div>
         <p>УЛЫБКА РАДУГИ — 1 534 ₽</p>
       </div>
+      <div class="section">
+        <div class="cap">Быстрые действия</div>
+        <div class="quick-grid">
+          <button class="tile tile-pink" data-tab-jump="rep-approvals"><span class="ico-wrap"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-copy"/></svg></span>Подключение</button>
+          <button class="tile tile-tiffany" data-tab-jump="rep-points"><span class="ico-wrap"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-bag"/></svg></span>Точки</button>
+          <button class="tile tile-gold" data-tab-jump="rep-income"><span class="ico-wrap"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-star"/></svg></span>Доход</button>
+          <button class="tile tile-ink" data-tab-jump="rep-profile"><span class="ico-wrap"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-user"/></svg></span>Профиль</button>
+        </div>
+
+      </div>
     </div>
 
-    <div class="screen" data-screen="rep-points">
+    <div class="screen" id="panel-rep-points" role="tabpanel" data-screen="rep-points">
       <div class="section" style="padding:12px 14px">
         <div class="chips">
           <span class="filter-chip">Все</span><span class="filter-chip">Активные</span><span class="filter-chip">Ожидают</span><span class="filter-chip">Отклонены</span>
@@ -234,7 +251,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       <div class="dash-note tone-dim">Поиск и сортировка — как в спеке (по названию, выручке, статусу).</div>
     </div>
 
-    <div class="screen" data-screen="rep-approvals">
+    <div class="screen" id="panel-rep-approvals" role="tabpanel" data-screen="rep-approvals">
       <div class="section">
         <div class="cap">QR-подключение МСП</div>
         <div class="connect-row">
@@ -242,7 +259,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
           <div class="grow">
             <h2>Один понятный маршрут для владельца точки</h2>
             <p>0 ₽ старт · 3 дня запуск · 90/10 сплит. QR ведёт на app.lovii.ru/business/apply?promo=PP7K2A</p>
-            <div class="btn-row"><button class="cta-btn" data-action="copy">Скопировать ссылку</button></div>
+            <div class="btn-row"><button class="cta-btn" data-action="copy"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-copy"/></svg>Скопировать ссылку</button></div>
           </div>
         </div>
       </div>
@@ -264,11 +281,11 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
           <li><div class="st">Верификация платежом</div><div class="sd">витрина становится teaser</div></li>
           <li><div class="st">Продажи включены</div><div class="sd">витрина active</div></li>
         </ol>
-        <div class="btn-row"><button class="cta-btn" data-action="approve">Апрувить</button><button class="ghost-btn" data-action="reject">Отклонить</button></div>
+        <div class="btn-row"><button class="cta-btn" data-action="approve"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-check"/></svg>Апрувить</button><button class="ghost-btn" data-action="reject"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-x"/></svg>Отклонить</button></div>
       </div>
     </div>
 
-    <div class="screen" data-screen="rep-income">
+    <div class="screen" id="panel-rep-income" role="tabpanel" data-screen="rep-income">
       <div class="kpi-grid">
         <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">до ledger-фазы 3</div></div>
         <div class="kpi"><div class="l">Подписка</div><div class="v">199 ₽/мес</div><div class="d">по промокоду</div></div>
@@ -277,12 +294,12 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       <div class="list-card"><div class="empty-state"><h4>Операций пока нет</h4><p>Здесь появится история, когда пойдут начисления.</p></div></div>
     </div>
 
-    <div class="screen" data-screen="rep-profile">
+    <div class="screen" id="panel-rep-profile" role="tabpanel" data-screen="rep-profile">
       <div class="section">
         <div class="cap">Промокод для подключения точек</div>
         <h2 class="mono">PP7K2A</h2>
         <p>Ссылка: app.lovii.ru/business/apply?promo=PP7K2A</p>
-        <div class="btn-row"><button class="cta-btn" data-action="copy">Скопировать ссылку регистрации</button></div>
+        <div class="btn-row"><button class="cta-btn" data-action="copy"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-copy"/></svg>Скопировать ссылку регистрации</button></div>
       </div>
       <div class="kpi-grid">
         <div class="kpi"><div class="l">Активные точки</div><div class="v">4</div></div>
@@ -312,13 +329,13 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       <div class="cab-sub">AMB4K · Алина · сеть из 5 представителей</div>
     </div>
     <div class="dash-tabs" role="tablist">
-      <button role="tab" aria-selected="true" data-tab="amb-overview">Обзор</button>
-      <button role="tab" aria-selected="false" data-tab="amb-reps">Структура</button>
-      <button role="tab" aria-selected="false" data-tab="amb-training">Обучение</button>
-      <button role="tab" aria-selected="false" data-tab="amb-income">Доход</button>
+      <button role="tab" aria-selected="true" aria-controls="panel-amb-overview" data-tab="amb-overview">Обзор</button>
+      <button role="tab" aria-selected="false" aria-controls="panel-amb-reps" data-tab="amb-reps">Структура</button>
+      <button role="tab" aria-selected="false" aria-controls="panel-amb-training" data-tab="amb-training">Обучение</button>
+      <button role="tab" aria-selected="false" aria-controls="panel-amb-income" data-tab="amb-income">Доход</button>
     </div>
 
-    <div class="screen is-on" data-screen="amb-overview">
+    <div class="screen is-on" id="panel-amb-overview" role="tabpanel" data-screen="amb-overview">
       <div class="kpi-grid">
         <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">до ledger-фазы 3</div></div>
         <div class="kpi"><div class="l">Представителей</div><div class="v">5</div><div class="d">в вашей ветке</div></div>
@@ -342,7 +359,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       <div class="dash-note tone-gold">Ваша доля — 20% от пула платформы со всей ветки представителей.</div>
     </div>
 
-    <div class="screen" data-screen="amb-reps">
+    <div class="screen" id="panel-amb-reps" role="tabpanel" data-screen="amb-reps">
       <div class="list-card">
         <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-user"/></svg></div><div class="row-main"><div class="row-title">Анна Ветрова</div><div class="row-sub">PP7K2A · 4 точки</div></div><div class="row-sum">0 ₽</div></div>
         <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-user"/></svg></div><div class="row-main"><div class="row-title">Игорь Смирнов</div><div class="row-sub">PP3M9Q · 3 точки</div></div><div class="row-sum">0 ₽</div></div>
@@ -350,7 +367,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       </div>
     </div>
 
-    <div class="screen" data-screen="amb-training">
+    <div class="screen" id="panel-amb-training" role="tabpanel" data-screen="amb-training">
       <div class="list-card" style="padding:0;margin-top:14px">
         <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-info"/></svg></div><div class="row-main"><div class="row-title">Как подключить точку</div><div class="row-sub">8 минут · 100%</div></div><div class="row-sum"><span class="status-pill ok">Пройден</span></div></div>
         <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-award"/></svg></div><div class="row-main"><div class="row-title">Работа с возражениями</div><div class="row-sub">12 минут · 40%</div></div><div class="row-sum"><span class="status-pill wait">В процессе</span></div></div>
@@ -358,7 +375,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       </div>
     </div>
 
-    <div class="screen" data-screen="amb-income">
+    <div class="screen" id="panel-amb-income" role="tabpanel" data-screen="amb-income">
       <div class="kpi-grid">
         <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">до ledger-фазы 3</div></div>
         <div class="kpi"><div class="l">Ставка</div><div class="v">20%</div><div class="d">пула ветки</div></div>
@@ -379,15 +396,15 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       <div data-sheet-list></div>
     </div>
     <div class="dash-tabs" role="tablist">
-      <button role="tab" aria-selected="true" data-tab="msp-overview">Обзор</button>
-      <button role="tab" aria-selected="false" data-tab="msp-orders">Заказы</button>
-      <button role="tab" aria-selected="false" data-tab="msp-order">Заказ</button>
-      <button role="tab" aria-selected="false" data-tab="msp-products">Товары</button>
-      <button role="tab" aria-selected="false" data-tab="msp-settings">Настройки</button>
-      <button role="tab" aria-selected="false" data-tab="msp-pay">Платёж</button>
+      <button role="tab" aria-selected="true" aria-controls="panel-msp-overview" data-tab="msp-overview">Обзор</button>
+      <button role="tab" aria-selected="false" aria-controls="panel-msp-orders" data-tab="msp-orders">Заказы</button>
+      <button role="tab" aria-selected="false" aria-controls="panel-msp-order" data-tab="msp-order">Заказ</button>
+      <button role="tab" aria-selected="false" aria-controls="panel-msp-products" data-tab="msp-products">Товары</button>
+      <button role="tab" aria-selected="false" aria-controls="panel-msp-settings" data-tab="msp-settings">Настройки</button>
+      <button role="tab" aria-selected="false" aria-controls="panel-msp-pay" data-tab="msp-pay">Платёж</button>
     </div>
 
-    <div class="screen is-on" data-screen="msp-overview">
+    <div class="screen is-on" id="panel-msp-overview" role="tabpanel" data-screen="msp-overview">
       <div class="section">
         <div class="cap">Статус точки</div>
         <h2>Продажи включены</h2>
@@ -413,24 +430,24 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       </div>
     </div>
 
-    <div class="screen" data-screen="msp-orders">
+    <div class="screen" id="panel-msp-orders" role="tabpanel" data-screen="msp-orders">
       <div class="section" style="padding:12px 14px"><div class="chips"><span class="filter-chip">Новые</span><span class="filter-chip">В работе</span><span class="filter-chip">Готовы</span><span class="filter-chip">Завершены</span></div></div>
       <div class="list-card" style="padding:0;margin-top:14px">
         <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-bag"/></svg></div><div class="row-main"><div class="row-title">№155 · 1 000 ₽</div><div class="row-sub">Пышка с корицей ×10 · самовывоз · 13.09 10:59</div></div><div class="row-sum"><span class="status-pill ok">Завершён</span></div></div>
         <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-bag"/></svg></div><div class="row-main"><div class="row-title">№154 · 26 700 ₽</div><div class="row-sub">Семейный набор ×30 · доставка</div></div><div class="row-sum"><span class="status-pill wait">Готовим</span></div></div>
         <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-bag"/></svg></div><div class="row-main"><div class="row-title">№153 · 8 300 ₽</div><div class="row-sub">Лилия и букет тюльпанов · самовывоз</div></div><div class="row-sum"><span class="status-pill ok">Завершён</span></div></div>
       </div>
-      <div class="btn-row" style="padding:0 16px"><button class="cta-btn" data-action="status">Сменить статус</button><button class="ghost-btn" disabled>Отменить</button></div>
+      <div class="btn-row" style="padding:0 16px"><button class="cta-btn" data-action="status"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-edit"/></svg>Сменить статус</button><button class="ghost-btn" disabled>Отменить</button></div>
     </div>
 
 
 
-        <div class="screen" data-screen="msp-order">
+        <div class="screen" id="panel-msp-order" role="tabpanel" data-screen="msp-order">
       <div class="section">
         <div class="cap">Заказ №153 · ждёт принятия</div>
         <h2>8 300 ₽ · самовывоз · 13.09 06:45</h2>
         <p>Оплата картой · 3,16% эквайринг · чек сформирован (агент + ИНН поставщика)</p>
-        <div class="btn-row"><button class="cta-btn" data-action="status">Принять заказ</button><button class="ghost-btn" data-action="reject-order">Отклонить</button></div>
+        <div class="btn-row"><button class="cta-btn" data-action="status"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-check"/></svg>Принять заказ</button><button class="ghost-btn" data-action="reject-order" data-action="reject-order"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-x"/></svg>Отклонить</button></div>
       </div>
       <div class="list-card">
         <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-choco"/></svg></div><div class="row-main"><div class="row-title">Лилия Азиатская оранжевая</div><div class="row-sub">2 шт · 450 ₽</div></div><div class="row-sum">900 ₽</div></div>
@@ -447,16 +464,16 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       </div>
     </div>
 
-    <div class="screen" data-screen="msp-products">
+    <div class="screen" id="panel-msp-products" role="tabpanel" data-screen="msp-products">
       <div class="list-card">
         <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-choco"/></svg></div><div class="row-main"><div class="row-title">Семейный набор</div><div class="row-sub">890 ₽ · во всех филиалах</div></div><div class="row-sum"><span class="status-pill ok">Виден</span></div></div>
         <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-choco"/></svg></div><div class="row-main"><div class="row-title">Медовик (кусочек)</div><div class="row-sub">160 ₽ · филиал «На Белы Куна»</div></div><div class="row-sum"><span class="status-pill off">Скрыт</span></div></div>
       </div>
-      <div class="btn-row" style="padding:0 16px"><button class="cta-btn" data-action="product">Добавить товар</button></div>
+      <div class="btn-row" style="padding:0 16px"><button class="cta-btn" data-action="product"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-plus"/></svg>Добавить товар</button></div>
       <div class="dash-note tone-dim">Загрузка фото — <code>POST /msp/uploads</code>; расширенная настройка каталога остаётся в кабинете b2b.</div>
     </div>
 
-    <div class="screen" data-screen="msp-settings">
+    <div class="screen" id="panel-msp-settings" role="tabpanel" data-screen="msp-settings">
       <div class="section">
         <div class="cap">Часы работы</div>
         <h2>Пн–Сб · 08:00–20:00</h2>
@@ -468,10 +485,10 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
         <h2>300 ₽</h2>
         <p>Заказы ниже суммы не принимаются.</p>
       </div>
-      <div class="btn-row" style="padding:0 16px"><button class="cta-btn" data-action="save">Сохранить</button><button class="ghost-btn" disabled>Сбросить</button></div>
+      <div class="btn-row" style="padding:0 16px"><button class="cta-btn" data-action="save"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-check"/></svg>Сохранить</button><button class="ghost-btn" disabled>Сбросить</button></div>
     </div>
 
-    <div class="screen" data-screen="msp-pay">
+    <div class="screen" id="panel-msp-pay" role="tabpanel" data-screen="msp-pay">
       <div class="section">
         <div class="cap">Счёт на верификацию</div>
         <h2 class="mono">1 ₽</h2>
@@ -631,6 +648,21 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       sub.textContent = p.name + ' · ' + (ctx.point === null ? p.points.length + ' точки' : p.points[ctx.point]) + ' · ИНН ' + p.inn;
     }
   }
+
+  // Быстрые действия: плитка переключает вкладку кабинета
+  document.querySelectorAll('[data-tab-jump]').forEach(function (tile) {
+    tile.addEventListener('click', function () {
+      var board = tile.closest('.phone');
+      var btn = board.querySelector('[data-tab="' + tile.dataset.tabJump + '"]');
+      if (btn) { btn.click(); }
+    });
+  });
+
+  // Esc закрывает шторку контекста
+  document.addEventListener('keydown', function (event) {
+    if (event.key !== 'Escape') { return; }
+    document.querySelectorAll('[data-sheet]').forEach(function (sheet) { sheet.hidden = true; });
+  });
 
   var toastEl = document.getElementById('toast');
   var toastTimer = null;
