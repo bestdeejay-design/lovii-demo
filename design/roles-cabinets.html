@@ -84,6 +84,9 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
 .empty { padding:18px 16px; font-size:12.5px; color:var(--lv-dim); text-align:center; }
 .mono { font-variant-numeric:tabular-nums; letter-spacing:.06em; font-weight:800; }
 .foot-note { max-width:960px; margin:22px auto 0; font-size:12px; color:var(--lv-dim); text-align:center; }
+.toast { position:fixed; left:50%; bottom:22px; transform:translate(-50%,14px); max-width:340px; padding:11px 16px; border-radius:999px; background:var(--lv-ink); color:var(--lv-card); font-size:12.5px; font-weight:600; opacity:0; pointer-events:none; transition:opacity .2s, transform .2s; z-index:50; }
+.toast.is-on { opacity:1; transform:translate(-50%,0); }
+.row.is-gone { opacity:.45; }
 @media (max-width:420px) { .phone { width:100%; border-radius:20px; } }
 </style>
 </head>
@@ -152,7 +155,7 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
     <div class="screen" data-screen="rep-approvals">
       <div class="card">
         <div class="kicker">Очередь заявок</div>
-        <h2>2 карточки ждут апрува</h2>
+        <h2><span data-queue-count>2</span> карточки ждут апрува</h2>
         <p>Заявка приходит по вашему промокоду. Проверьте ИНН и адрес — после апрува точка получит счёт на верификацию.</p>
       </div>
       <div class="card" style="padding:0">
@@ -168,7 +171,7 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
           <li><div class="st">Верификация платежом</div><div class="sd">витрина становится teaser</div></li>
           <li><div class="st">Продажи включены</div><div class="sd">витрина active</div></li>
         </ol>
-        <div class="btn-row"><button class="btn">Апрувить</button><button class="btn ghost">Отклонить</button></div>
+        <div class="btn-row"><button class="btn" data-action="approve">Апрувить</button><button class="btn ghost" data-action="reject">Отклонить</button></div>
       </div>
     </div>
 
@@ -186,7 +189,7 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
         <div class="kicker">Промокод для подключения точек</div>
         <h2 class="mono">PP7K2A</h2>
         <p>Ссылка: app.lovii.ru/business/apply?promo=PP7K2A</p>
-        <div class="btn-row"><button class="btn">Скопировать ссылку регистрации</button></div>
+        <div class="btn-row"><button class="btn" data-action="copy">Скопировать ссылку регистрации</button></div>
       </div>
       <div class="kpi-grid">
         <div class="kpi"><div class="l">Активные точки</div><div class="v">4</div></div>
@@ -294,7 +297,7 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
         <div class="row"><div class="em">🧾</div><div class="tx"><div class="t1">№150 · 860 ₽</div><div class="t2">1 позиция · доставка</div></div><div class="r"><span class="pill wait">Готовим</span></div></div>
         <div class="row"><div class="em">🧾</div><div class="tx"><div class="t1">№149 · 540 ₽</div><div class="t2">завершён</div></div><div class="r"><span class="pill ok">Завершён</span></div></div>
       </div>
-      <div class="btn-row" style="padding:0 16px"><button class="btn">Сменить статус</button><button class="btn ghost" disabled>Отменить</button></div>
+      <div class="btn-row" style="padding:0 16px"><button class="btn" data-action="status">Сменить статус</button><button class="btn ghost" disabled>Отменить</button></div>
     </div>
 
     <div class="screen" data-screen="msp-products">
@@ -302,7 +305,7 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
         <div class="row"><div class="em">🥐</div><div class="tx"><div class="t1">Круассан классический</div><div class="t2">120 ₽ · остаток 14</div></div><div class="r"><span class="pill ok">Виден</span></div></div>
         <div class="row"><div class="em">🍞</div><div class="tx"><div class="t1">Хлеб бородинский</div><div class="t2">85 ₽ · остаток 6</div></div><div class="r"><span class="pill off">Скрыт</span></div></div>
       </div>
-      <div class="btn-row" style="padding:0 16px"><button class="btn">Добавить товар</button></div>
+      <div class="btn-row" style="padding:0 16px"><button class="btn" data-action="product">Добавить товар</button></div>
       <div class="dash-note tone-dim">Загрузка фото — <code>POST /msp/uploads</code>; расширенная настройка каталога остаётся в кабинете b2b.</div>
     </div>
 
@@ -317,7 +320,7 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
         <h2>300 ₽</h2>
         <p>Заказы ниже суммы не принимаются.</p>
       </div>
-      <div class="btn-row" style="padding:0 16px"><button class="btn">Сохранить</button><button class="btn ghost" disabled>Сбросить</button></div>
+      <div class="btn-row" style="padding:0 16px"><button class="btn" data-action="save">Сохранить</button><button class="btn ghost" disabled>Сбросить</button></div>
     </div>
 
     <div class="screen" data-screen="msp-pay">
@@ -365,7 +368,71 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
       });
     });
   });
+
+  var toastEl = document.getElementById('toast');
+  var toastTimer = null;
+
+  function toast(text) {
+    if (!toastEl) { return; }
+    toastEl.textContent = text;
+    toastEl.classList.add('is-on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('is-on'); }, 2200);
+  }
+
+  function updateQueue(delta) {
+    var el = document.querySelector('[data-queue-count]');
+    if (!el) { return; }
+    var next = Math.max(0, parseInt(el.textContent, 10) + delta);
+    el.textContent = String(next);
+  }
+
+  function firstPendingCard() {
+    var screen = document.querySelector('[data-screen="rep-approvals"]');
+    if (!screen) { return null; }
+    var rows = screen.querySelectorAll('.card .row');
+    for (var i = 0; i < rows.length; i++) {
+      if (!rows[i].classList.contains('is-gone')) { return rows[i]; }
+    }
+    return null;
+  }
+
+  document.addEventListener('click', function (event) {
+    var btn = event.target.closest('[data-action]');
+    if (!btn) { return; }
+    var action = btn.dataset.action;
+
+    if (action === 'copy') {
+      var url = 'https://app.lovii.ru/business/apply?promo=PP7K2A';
+      if (navigator.clipboard) { navigator.clipboard.writeText(url).catch(function () {}); }
+      toast('Ссылка регистрации скопирована');
+      return;
+    }
+
+    if (action === 'approve' || action === 'reject') {
+      var card = firstPendingCard();
+      if (!card) { toast('Очередь пуста'); return; }
+      card.classList.add('is-gone');
+      card.querySelector('.t2').textContent = action === 'approve'
+        ? 'одобрено · счёт на верификацию отправлен'
+        : 'отклонено · причина отправлена точке';
+      updateQueue(-1);
+      toast(action === 'approve' ? 'Заявка одобрена' : 'Заявка отклонена');
+      return;
+    }
+
+    if (action === 'status') {
+      var badge = document.querySelector('[data-screen="msp-orders"] .pill.brand');
+      if (badge) { badge.className = 'pill wait'; badge.textContent = 'Готовим'; }
+      toast('Статус заказа: «Готовим»');
+      return;
+    }
+
+    if (action === 'product') { toast('Форма товара — следующая итерация'); return; }
+    if (action === 'save') { toast('Настройки сохранены'); return; }
+  });
 })();
 </script>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
