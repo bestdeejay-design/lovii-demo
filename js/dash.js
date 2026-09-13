@@ -1751,7 +1751,7 @@ function renderMspCabinet(tab = 'index') {
 
   if (tab === 'catalog') {
     if (status !== 'ready') {
-      return `${head}${tabs}${mspStepsHtml(status)}<div class="empty-state-card"><div class="empty-ico">${icon('bag')}</div><h3>Настройка откроется после верификации</h3><p>Сначала представитель одобрит точку, затем пройдёт проверочный платёж 1 ₽ и возврат. После этого откроется базовая настройка точки.</p><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="index">Перейти к заявке</button></div>`;
+      return `${head}${tabs}<div class="empty-state-card"><div class="empty-ico">${icon('bag')}</div><h3>Настройка откроется после верификации</h3><p>Сначала представитель одобрит точку, затем пройдёт проверочный платёж 1 ₽ и возврат. После этого откроется базовая настройка точки.</p><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="index">Перейти к заявке</button></div>`;
     }
     return renderMspSetup(state.mspSetupPill || 'anketa', head, tabs);
   }
