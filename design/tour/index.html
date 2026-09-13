@@ -3,182 +3,182 @@
 <title>LOVII · Обзор экранов кабинетов</title>
 <link rel="stylesheet" href="../lovii-ds.css">
 <style>
-  body { font-family: var(--lv-font, system-ui); background: var(--lv-page); color: var(--lv-ink); margin: 0; padding: 28px 20px 60px; }
-  .wrap { max-width: 1400px; margin: 0 auto; }
-  h1 { font-size: 24px; margin: 0 0 6px; }
-  .lede { color: var(--lv-dim); font-size: 14px; margin: 0 0 24px; max-width: 80ch; }
-  h2 { font-size: 17px; margin: 30px 0 12px; display: flex; align-items: center; gap: 8px; }
-  .cnt { font-size: 11px; font-weight: 700; background: var(--lv-soft-pink); color: var(--lv-pink-dark); padding: 2px 8px; border-radius: 999px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-  .card { background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; padding: 12px; box-shadow: var(--lv-shadow-soft, 0 1px 3px rgba(26,26,26,.06)); display: flex; flex-direction: column; }
-  .card header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-  .card header b { font-size: 13px; }
-  .card header a { font-family: ui-monospace, monospace; font-size: 11px; color: var(--lv-pink-dark); text-decoration: none; }
-  .req { font-size: 11.5px; line-height: 1.45; color: var(--lv-dim); margin: 8px 0 0; }
-  .tabs { font-size: 11px; color: var(--lv-dim); margin: 6px 0 0; }
-  .muted { color: var(--lv-dim); font-style: italic; }
-  .shot { margin-top: 10px; }
-  .shot img { width: 100%; border-radius: 12px; border: 1px solid var(--lv-line); display: block; }
+  body{font-family:var(--lv-font,system-ui);background:var(--lv-page);color:var(--lv-ink);margin:0;padding:28px 20px 60px}
+  .wrap{max-width:1400px;margin:0 auto}
+  h1{font-size:24px;margin:0 0 6px}
+  .lede{color:var(--lv-dim);font-size:14px;margin:0 0 24px;max-width:80ch}
+  h2{font-size:17px;margin:30px 0 12px;display:flex;align-items:center;gap:8px}
+  .cnt{font-size:11px;font-weight:700;background:var(--lv-soft-pink);color:var(--lv-pink-dark);padding:2px 8px;border-radius:999px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+  .card{background:var(--lv-card);border:1px solid var(--lv-line);border-radius:16px;padding:12px;box-shadow:var(--lv-shadow-soft,0 1px 3px rgba(26,26,26,.06));display:flex;flex-direction:column}
+  .card header{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+  .card header b{font-size:13px}
+  .card header a{font-family:ui-monospace,monospace;font-size:11px;color:var(--lv-pink-dark);text-decoration:none}
+  .req,.tabs{font-size:11.5px;line-height:1.45;color:var(--lv-dim);margin:8px 0 0}
+  .lbl{color:var(--lv-ink);font-weight:700}
+  .muted{font-style:italic}
+  .shot{margin-top:10px}
+  .shot img{width:100%;border-radius:12px;border:1px solid var(--lv-line);display:block}
 </style></head><body><div class="wrap">
 <h1>Обзор экранов: как выглядит каждый</h1>
-<p class="lede">25 экранов: клиент, кабинет представителя, кабинет амбассадора, кабинет точки и МСП. У каждого — маршрут (ссылка открывает его в демо), требование из спеки <code>roles-screens-spec.md</code> и текущий вид. Снято при 390 px.</p>
+<p class="lede">25 экранов: клиент, кабинет представителя, амбассадора, точки и МСП. У каждого — маршрут (ссылка открывает его в демо), требование из <code>roles-screens-spec.md</code>, состав вкладок и текущий вид при 390 px. Роли в кадрах оформлены, уведомлений «роль не получена» нет.</p>
 <h2>Клиент <span class="cnt">5</span></h2><div class="grid">
 <section class="card">
-  <header><b>Главная: витрина района</b><a href="#/home" target="_blank">#/home</a></header>
-  <p class="req"><span class="muted">— требование в спеке отсутствует (экран вне ролевой спеки)</span></p>
+  <header><b>Всё нужное — в шаговой доступности</b><a href="#/home" target="_blank">#/home</a></header>
+  <p class="req"><span class="lbl">Требование:</span> <span class="muted">— требования в ролевой спеке нет (клиентские экраны)</span></p>
   
   <a class="shot" href="shots/home.png" target="_blank"><img src="shots/home.png" alt=""></a>
 </section>
 <section class="card">
-  <header><b>Поиск и категории</b><a href="#/search" target="_blank">#/search</a></header>
-  <p class="req"><span class="muted">— требование в спеке отсутствует (экран вне ролевой спеки)</span></p>
+  <header><b>Поиск</b><a href="#/search" target="_blank">#/search</a></header>
+  <p class="req"><span class="lbl">Требование:</span> <span class="muted">— требования в ролевой спеке нет (клиентские экраны)</span></p>
   
   <a class="shot" href="shots/search.png" target="_blank"><img src="shots/search.png" alt=""></a>
 </section>
 <section class="card">
   <header><b>Корзина</b><a href="#/cart" target="_blank">#/cart</a></header>
-  <p class="req"><span class="muted">— требование в спеке отсутствует (экран вне ролевой спеки)</span></p>
+  <p class="req"><span class="lbl">Требование:</span> <span class="muted">— требования в ролевой спеке нет (клиентские экраны)</span></p>
   
   <a class="shot" href="shots/cart.png" target="_blank"><img src="shots/cart.png" alt=""></a>
 </section>
 <section class="card">
   <header><b>Мои заказы</b><a href="#/orders" target="_blank">#/orders</a></header>
-  <p class="req"><span class="muted">— требование в спеке отсутствует (экран вне ролевой спеки)</span></p>
+  <p class="req"><span class="lbl">Требование:</span> <span class="muted">— требования в ролевой спеке нет (клиентские экраны)</span></p>
   
   <a class="shot" href="shots/orders.png" target="_blank"><img src="shots/orders.png" alt=""></a>
 </section>
 <section class="card">
   <header><b>Профиль и роли</b><a href="#/profile" target="_blank">#/profile</a></header>
-  <p class="req"><span class="muted">— требование в спеке отсутствует (экран вне ролевой спеки)</span></p>
+  <p class="req"><span class="lbl">Требование:</span> <span class="muted">— требования в ролевой спеке нет (клиентские экраны)</span></p>
   
   <a class="shot" href="shots/profile.png" target="_blank"><img src="shots/profile.png" alt=""></a>
 </section>
 </div>
 <h2>Представитель <span class="cnt">6</span></h2><div class="grid">
 <section class="card">
-  <header><b>rep/index</b><a href="#/dash/index" target="_blank">#/dash/index</a></header>
-  <p class="req">KPI-карточки (4 штуки, grid 2×2) — формулы ниже = заглушки демо; прод-значения считает core по канону (пул/сплит/гейты), «конверсия» и «delta»-проценты демо не переносятся (просмотров витрины в системе нет): | KPI | Формула | Тон | |-----|---------|-----| | Доход · месяц | roleIncome (40% от комиссии платформы) | accent (розовый), delta +12% | | Активные точки | activePts.length / pts.length | tiffany, spark-график |</p>
-  
+  <header><b>Представитель</b><a href="#/dash/index" target="_blank">#/dash/index</a></header>
+  <p class="req"><span class="lbl">Требование:</span> KPI-карточки (4 штуки, grid 2×2) — формулы ниже = заглушки демо; прод-значения считает core по канону (пул/сплит/гейты), «конверсия» и «delta»-проценты демо не переносятся (просмотров витрины в системе нет): | KPI | Формула | Тон | |-----|---------|-----| | Доход · месяц | roleIncome (40% от комиссии платформы) | accent (розовый), delta +12% | | Активные точки | activePts.length / pts.length | tiffany, spark-график |</p>
+  <p class="tabs"><span class="lbl">Вкладки:</span> Обзор · Подключение · Точки · Доход · Профиль · Чаты 3</p>
   <a class="shot" href="shots/rep-index.png" target="_blank"><img src="shots/rep-index.png" alt=""></a>
 </section>
 <section class="card">
-  <header><b>rep/connect</b><a href="#/dash/connect" target="_blank">#/dash/connect</a></header>
-  <p class="req">Hero-секция (ink-gradient): - Заголовок: «QR-подключение МСП» - Подзаголовок: «Один понятный маршрут для владельца точки» - Глаголы: 0 ₽ старт, 3 дня запуск, 90/10 сплит - QR-код (генерируется из invite code) Промокод представителя: PPXXXX — 4 символа, алфавит 33 (BRD §3.1, PRD FR-13.1, SZ-034 фаза A). QR ведёт на https://app.lovii.ru/business/apply?promo=&lt;PPXXXX&gt;. Перепривязок нет. Stepper статуса заявки (реальная м</p>
-  
+  <header><b>Представитель</b><a href="#/dash/connect" target="_blank">#/dash/connect</a></header>
+  <p class="req"><span class="lbl">Требование:</span> Hero-секция (ink-gradient): - Заголовок: «QR-подключение МСП» - Подзаголовок: «Один понятный маршрут для владельца точки» - Глаголы: 0 ₽ старт, 3 дня запуск, 90/10 сплит - QR-код (генерируется из invite code) Промокод представителя: PPXXXX — 4 символа, алфавит 33 (BRD §3.1, PRD FR-13.1, SZ-034 фаза A). QR ведёт на https://app.lovii.ru/business/apply?promo=&lt;PPXXXX&gt;. Перепривязок нет. Stepper статуса заявки (реальная м</p>
+  <p class="tabs"><span class="lbl">Вкладки:</span> Обзор · Подключение · Точки · Доход · Профиль · Чаты 3</p>
   <a class="shot" href="shots/rep-connect.png" target="_blank"><img src="shots/rep-connect.png" alt=""></a>
 </section>
 <section class="card">
-  <header><b>rep/points</b><a href="#/dash/points" target="_blank">#/dash/points</a></header>
-  <p class="req">Фильтры (chips): - Все (N) - Ожидание (waiting) - Активные (active) - Отклонено (rejected) Поиск: по названию или категории Сортировка (pill-кнопки): - По названию - По доходу - По статусу Список точек: - Эмодзи + название + статус-чип - Категория · Тариф · время пешком · рейтинг - GMV/нед справа - Клик → экран точки (store:{slug}) Воронка подключения (timeline): 1. Лид найден 2. Презентация 3. Документы 4. Запуск ви</p>
-  
+  <header><b>Представитель</b><a href="#/dash/points" target="_blank">#/dash/points</a></header>
+  <p class="req"><span class="lbl">Требование:</span> Фильтры (chips): - Все (N) - Ожидание (waiting) - Активные (active) - Отклонено (rejected) Поиск: по названию или категории Сортировка (pill-кнопки): - По названию - По доходу - По статусу Список точек: - Эмодзи + название + статус-чип - Категория · Тариф · время пешком · рейтинг - GMV/нед справа - Клик → экран точки (store:{slug}) Воронка подключения (timeline): 1. Лид найден 2. Презентация 3. Документы 4. Запуск ви</p>
+  <p class="tabs"><span class="lbl">Вкладки:</span> Обзор · Подключение · Точки · Доход · Профиль · Чаты 3</p>
   <a class="shot" href="shots/rep-points.png" target="_blank"><img src="shots/rep-points.png" alt=""></a>
 </section>
 <section class="card">
-  <header><b>rep/income</b><a href="#/dash/income" target="_blank">#/dash/income</a></header>
-  <p class="req">KPI (4 штуки): - Доход · месяц (accent, delta +12%) - Средний доход/точка (tiffany, spark) - Активные точки (tiffany, spark) - Ближайшая выплата (46% от месячного дохода) Примечание к модели: «Модель демо: тарифы МСП — «Старт» 0 ₽ и 0% до 30 000 ₽, «Базовый» 10%, «Про» 2 990 ₽/мес и 4–7%...» Чарты: - Доход представителя (6 месяцев, area chart) - Доход по категориям (horizontal bars) - Доход по точкам (horizontal bars</p>
-  
+  <header><b>Представитель</b><a href="#/dash/income" target="_blank">#/dash/income</a></header>
+  <p class="req"><span class="lbl">Требование:</span> KPI (4 штуки): - Доход · месяц (accent, delta +12%) - Средний доход/точка (tiffany, spark) - Активные точки (tiffany, spark) - Ближайшая выплата (46% от месячного дохода) Примечание к модели: «Модель демо: тарифы МСП — «Старт» 0 ₽ и 0% до 30 000 ₽, «Базовый» 10%, «Про» 2 990 ₽/мес и 4–7%...» Чарты: - Доход представителя (6 месяцев, area chart) - Доход по категориям (horizontal bars) - Доход по точкам (horizontal bars</p>
+  <p class="tabs"><span class="lbl">Вкладки:</span> Обзор · Подключение · Точки · Доход · Профиль · Чаты 3</p>
   <a class="shot" href="shots/rep-income.png" target="_blank"><img src="shots/rep-income.png" alt=""></a>
 </section>
 <section class="card">
-  <header><b>rep/profile</b><a href="#/dash/profile" target="_blank">#/dash/profile</a></header>
-  <p class="req">Ранг-карточка (как на обзоре) Промокод для точек: PPXXXX (см. «Подключение») Данные: - Имя - Локация (город) - Активные точки (N) - План до «Мэра» (N точек) Привилегии статуса (chips): - обучение - чат с точками - приоритетные лиды - бейдж в сети ---</p>
-  
+  <header><b>Представитель</b><a href="#/dash/profile" target="_blank">#/dash/profile</a></header>
+  <p class="req"><span class="lbl">Требование:</span> Ранг-карточка (как на обзоре) Промокод для точек: PPXXXX (см. «Подключение») Данные: - Имя - Локация (город) - Активные точки (N) - План до «Мэра» (N точек) Привилегии статуса (chips): - обучение - чат с точками - приоритетные лиды - бейдж в сети ---</p>
+  <p class="tabs"><span class="lbl">Вкладки:</span> Обзор · Подключение · Точки · Доход · Профиль · Чаты 3</p>
   <a class="shot" href="shots/rep-profile.png" target="_blank"><img src="shots/rep-profile.png" alt=""></a>
 </section>
 <section class="card">
-  <header><b>rep/chats</b><a href="#/dash/chats" target="_blank">#/dash/chats</a></header>
-  <p class="req">&gt; Решение владельца 2026-09-11: чат-подсистему не строим в первой фазе &gt; (в системе нет ничего: таблицы/события/unread). Вкладка-заглушка «Скоро». &gt; Уведомления о заказах точки клиенту/продавцу уже идут пушем (SZ-010), &gt; письмо (SZ-009) и ботами MAX/TG. Список чатов: - Каждая точка = отдельный чат - Показывает: эмодзи, название, последнее сообщение, непрочитанные - Статус точки (если не active) Чат с точкой: - Заголо</p>
-  
+  <header><b>Представитель</b><a href="#/dash/chats" target="_blank">#/dash/chats</a></header>
+  <p class="req"><span class="lbl">Требование:</span> &gt; Решение владельца 2026-09-11: чат-подсистему не строим в первой фазе &gt; (в системе нет ничего: таблицы/события/unread). Вкладка-заглушка «Скоро». &gt; Уведомления о заказах точки клиенту/продавцу уже идут пушем (SZ-010), &gt; письмо (SZ-009) и ботами MAX/TG. Список чатов: - Каждая точка = отдельный чат - Показывает: эмодзи, название, последнее сообщение, непрочитанные - Статус точки (если не active) Чат с точкой: - Заголо</p>
+  <p class="tabs"><span class="lbl">Вкладки:</span> Обзор · Подключение · Точки · Доход · Профиль · Чаты 3</p>
   <a class="shot" href="shots/rep-chats.png" target="_blank"><img src="shots/rep-chats.png" alt=""></a>
 </section>
 </div>
 <h2>Амбассадор <span class="cnt">5</span></h2><div class="grid">
 <section class="card">
-  <header><b>amb/index</b><a href="#/dash/index" target="_blank">#/dash/index</a></header>
-  <p class="req">KPI (4 штуки): - Доход · месяц (accent, delta = средний рост по reps) - Представители (tiffany, spark) - Точки в структуре (gold) - GMV структуры · месяц (pink, delta +10%) Next-step-card (gold): - «Проведи созвон с структурой — N представителей нуждаются в помощи» - Ссылка на вкладку training Моя структура (дерево): - Корень: «Ты · амбасадор» → N представителей · N точек · GMV/нед - Ветки: каждый представитель → его</p>
-  
+  <header><b>Амбассадор</b><a href="#/dash/index" target="_blank">#/dash/index</a></header>
+  <p class="req"><span class="lbl">Требование:</span> KPI (4 штуки): - Доход · месяц (accent, delta = средний рост по reps) - Представители (tiffany, spark) - Точки в структуре (gold) - GMV структуры · месяц (pink, delta +10%) Next-step-card (gold): - «Проведи созвон с структурой — N представителей нуждаются в помощи» - Ссылка на вкладку training Моя структура (дерево): - Корень: «Ты · амбасадор» → N представителей · N точек · GMV/нед - Ветки: каждый представитель → его</p>
+  <p class="tabs"><span class="lbl">Вкладки:</span> Обзор · Представители · Доход · Обучение · Чаты 6</p>
   <a class="shot" href="shots/amb-index.png" target="_blank"><img src="shots/amb-index.png" alt=""></a>
 </section>
 <section class="card">
-  <header><b>amb/reps</b><a href="#/dash/reps" target="_blank">#/dash/reps</a></header>
-  <p class="req">Список представителей: - Эмодзи + имя + delta роста - Город · количество точек · названия точек - Доход/мес справа - Клик → чат с представителем (chat:r-{id}) Структура амбассадора: по канону (BRD §2.4) амбассадор назначается Основателем вручную, ветка представителей закрепляется за ним — «ввода кода» для попадания в структуру нет. Экран показывает закрепление read-only. Дерево структуры: - Корень: амбасадор - Ветки:</p>
-  
+  <header><b>Амбассадор</b><a href="#/dash/reps" target="_blank">#/dash/reps</a></header>
+  <p class="req"><span class="lbl">Требование:</span> Список представителей: - Эмодзи + имя + delta роста - Город · количество точек · названия точек - Доход/мес справа - Клик → чат с представителем (chat:r-{id}) Структура амбассадора: по канону (BRD §2.4) амбассадор назначается Основателем вручную, ветка представителей закрепляется за ним — «ввода кода» для попадания в структуру нет. Экран показывает закрепление read-only. Дерево структуры: - Корень: амбасадор - Ветки:</p>
+  <p class="tabs"><span class="lbl">Вкладки:</span> Обзор · Представители · Доход · Обучение · Чаты 6</p>
   <a class="shot" href="shots/amb-reps.png" target="_blank"><img src="shots/amb-reps.png" alt=""></a>
 </section>
 <section class="card">
-  <header><b>amb/income</b><a href="#/dash/income" target="_blank">#/dash/income</a></header>
-  <p class="req">KPI (4 штуки): - Доход амбасадора · месяц (accent) - Доход LOVII сети (gold) - Средний доход/предст. (tiffany) - GMV структуры · месяц (pink) Примечание: «...доля амбасадора за обучение и мотивацию сети» Чарты: - Доход амбасадора (6 месяцев, area chart) - Доход по представителям (horizontal bars) История выплат: «кураторская выплата» ---</p>
-  
+  <header><b>Амбассадор</b><a href="#/dash/income" target="_blank">#/dash/income</a></header>
+  <p class="req"><span class="lbl">Требование:</span> KPI (4 штуки): - Доход амбасадора · месяц (accent) - Доход LOVII сети (gold) - Средний доход/предст. (tiffany) - GMV структуры · месяц (pink) Примечание: «...доля амбасадора за обучение и мотивацию сети» Чарты: - Доход амбасадора (6 месяцев, area chart) - Доход по представителям (horizontal bars) История выплат: «кураторская выплата» ---</p>
+  <p class="tabs"><span class="lbl">Вкладки:</span> Обзор · Представители · Доход · Обучение · Чаты 6</p>
   <a class="shot" href="shots/amb-income.png" target="_blank"><img src="shots/amb-income.png" alt=""></a>
 </section>
 <section class="card">
-  <header><b>amb/training</b><a href="#/dash/training" target="_blank">#/dash/training</a></header>
-  <p class="req">Mentor-card (ink-gradient): - «Обучающий трек амбасадора» - «Осваивайте инструменты и запускайте точку» Прогресс-リング: - SVG-кольцо с процентом - «Пройдено N из M уроков» - Progress bar Уроки (список): | # | Эмодзи | Название | Описание | Прогресс | Время | |---|--------|----------|----------|----------|-------| | 1 | 🎯 | Как объяснить ценность LOVII точке | Скрипт первой встречи и возражения | 100% | ~15 мин | | 2 | </p>
-  
+  <header><b>Амбассадор</b><a href="#/dash/training" target="_blank">#/dash/training</a></header>
+  <p class="req"><span class="lbl">Требование:</span> Mentor-card (ink-gradient): - «Обучающий трек амбасадора» - «Осваивайте инструменты и запускайте точку» Прогресс-リング: - SVG-кольцо с процентом - «Пройдено N из M уроков» - Progress bar Уроки (список): | # | Эмодзи | Название | Описание | Прогресс | Время | |---|--------|----------|----------|----------|-------| | 1 | 🎯 | Как объяснить ценность LOVII точке | Скрипт первой встречи и возражения | 100% | ~15 мин | | 2 | </p>
+  <p class="tabs"><span class="lbl">Вкладки:</span> Обзор · Представители · Доход · Обучение · Чаты 6</p>
   <a class="shot" href="shots/amb-training.png" target="_blank"><img src="shots/amb-training.png" alt=""></a>
 </section>
 <section class="card">
-  <header><b>amb/chats</b><a href="#/dash/chats" target="_blank">#/dash/chats</a></header>
-  <p class="req">&gt; Аналогично rep/chats: вкладка-заглушка, подсистема — отдельная задача. Список чатов: - Групповой чат «Все представители» (первый в списке) - Личные чаты с каждым представителем Чат с представителем: - Заголовок: имя - Подзаголовок: город · N точек - Сообщения с таймстампами --- ## МСП (Partner / Store Owner)</p>
-  
+  <header><b>Амбассадор</b><a href="#/dash/chats" target="_blank">#/dash/chats</a></header>
+  <p class="req"><span class="lbl">Требование:</span> &gt; Аналогично rep/chats: вкладка-заглушка, подсистема — отдельная задача. Список чатов: - Групповой чат «Все представители» (первый в списке) - Личные чаты с каждым представителем Чат с представителем: - Заголовок: имя - Подзаголовок: город · N точек - Сообщения с таймстампами --- ## МСП (Partner / Store Owner)</p>
+  <p class="tabs"><span class="lbl">Вкладки:</span> Обзор · Представители · Доход · Обучение · Чаты 6</p>
   <a class="shot" href="shots/amb-chats.png" target="_blank"><img src="shots/amb-chats.png" alt=""></a>
 </section>
 </div>
 <h2>Точка (store) <span class="cnt">3</span></h2><div class="grid">
 <section class="card">
-  <header><b>store/index</b><a href="#/dash/index" target="_blank">#/dash/index</a></header>
-  <p class="req"><span class="muted">— требование в спеке отсутствует (экран вне ролевой спеки)</span></p>
-  
+  <header><b>Торговая точка</b><a href="#/dash/index" target="_blank">#/dash/index</a></header>
+  <p class="req"><span class="lbl">Требование:</span> <span class="muted">— требования в ролевой спеке нет (клиентские экраны)</span></p>
+  <p class="tabs"><span class="lbl">Вкладки:</span> Обзор · Товары · Точка</p>
   <a class="shot" href="shots/store-index.png" target="_blank"><img src="shots/store-index.png" alt=""></a>
 </section>
 <section class="card">
-  <header><b>store/goods</b><a href="#/dash/goods" target="_blank">#/dash/goods</a></header>
-  <p class="req"><span class="muted">— требование в спеке отсутствует (экран вне ролевой спеки)</span></p>
-  
+  <header><b>Торговая точка</b><a href="#/dash/goods" target="_blank">#/dash/goods</a></header>
+  <p class="req"><span class="lbl">Требование:</span> <span class="muted">— требования в ролевой спеке нет (клиентские экраны)</span></p>
+  <p class="tabs"><span class="lbl">Вкладки:</span> Обзор · Товары · Точка</p>
   <a class="shot" href="shots/store-goods.png" target="_blank"><img src="shots/store-goods.png" alt=""></a>
 </section>
 <section class="card">
-  <header><b>store/card</b><a href="#/dash/card" target="_blank">#/dash/card</a></header>
-  <p class="req"><span class="muted">— требование в спеке отсутствует (экран вне ролевой спеки)</span></p>
-  
+  <header><b>Торговая точка</b><a href="#/dash/card" target="_blank">#/dash/card</a></header>
+  <p class="req"><span class="lbl">Требование:</span> <span class="muted">— требования в ролевой спеке нет (клиентские экраны)</span></p>
+  <p class="tabs"><span class="lbl">Вкладки:</span> Обзор · Товары · Точка</p>
   <a class="shot" href="shots/store-card.png" target="_blank"><img src="shots/store-card.png" alt=""></a>
 </section>
 </div>
 <h2>МСП <span class="cnt">6</span></h2><div class="grid">
 <section class="card">
-  <header><b>msp/index</b><a href="#/msp/index" target="_blank">#/msp/index</a></header>
-  <p class="req">Status-flow-card: - Текущий этап и описание что делать Stepper (та же машина, что и в rep/connect): 1. ИНН и карточка 2. Апрув представителя 3. Счёт на верификацию 4. Верификация платёжом с р/с 5. Продажи включены Данные заявки: - Юрлицо - Канал связи (VK, Telegram, MAX) - Название точки - Адрес - Описание - Фото ---</p>
-  <p class="tabs">Заявка · Заказы · Каталог · Платёж · Инструкция</p>
+  <header><b>Экран МСП</b><a href="#/msp/index" target="_blank">#/msp/index</a></header>
+  <p class="req"><span class="lbl">Требование:</span> Status-flow-card: - Текущий этап и описание что делать Stepper (та же машина, что и в rep/connect): 1. ИНН и карточка 2. Апрув представителя 3. Счёт на верификацию 4. Верификация платёжом с р/с 5. Продажи включены Данные заявки: - Юрлицо - Канал связи (VK, Telegram, MAX) - Название точки - Адрес - Описание - Фото ---</p>
+  <p class="tabs"><span class="lbl">Вкладки:</span> Заявка · Заказы · Каталог · Платёж · Инструкция</p>
   <a class="shot" href="shots/msp-index.png" target="_blank"><img src="shots/msp-index.png" alt=""></a>
 </section>
 <section class="card">
-  <header><b>msp/orders</b><a href="#/msp/orders" target="_blank">#/msp/orders</a></header>
-  <p class="req"><span class="muted">— требование в спеке отсутствует (экран вне ролевой спеки)</span></p>
-  <p class="tabs">Заявка · Заказы · Каталог · Платёж · Инструкция</p>
+  <header><b>Экран МСП</b><a href="#/msp/orders" target="_blank">#/msp/orders</a></header>
+  <p class="req"><span class="lbl">Требование:</span> <span class="muted">— требования в ролевой спеке нет (клиентские экраны)</span></p>
+  <p class="tabs"><span class="lbl">Вкладки:</span> Заявка · Заказы · Каталог · Платёж · Инструкция</p>
   <a class="shot" href="shots/msp-orders.png" target="_blank"><img src="shots/msp-orders.png" alt=""></a>
 </section>
 <section class="card">
-  <header><b>msp/order</b><a href="#/msp/order" target="_blank">#/msp/order</a></header>
-  <p class="req"><span class="muted">— требование в спеке отсутствует (экран вне ролевой спеки)</span></p>
-  <p class="tabs">Заявка · Заказы · Каталог · Платёж · Инструкция</p>
+  <header><b>Экран МСП</b><a href="#/msp/order" target="_blank">#/msp/order</a></header>
+  <p class="req"><span class="lbl">Требование:</span> <span class="muted">— требования в ролевой спеке нет (клиентские экраны)</span></p>
+  <p class="tabs"><span class="lbl">Вкладки:</span> Заявка · Заказы · Каталог · Платёж · Инструкция</p>
   <a class="shot" href="shots/msp-order.png" target="_blank"><img src="shots/msp-order.png" alt=""></a>
 </section>
 <section class="card">
-  <header><b>msp/catalog</b><a href="#/msp/catalog" target="_blank">#/msp/catalog</a></header>
-  <p class="req">Scope (решение владельца 2026-09-11): в app — read-only обзор + кнопка «Открыть кабинет» (b2b/Filament). Добавление/редактирование товаров — только в b2b-кабинете (уже работает, SZ-011); в app не дублируем. До верификации: заглушка «Каталог товаров пока закрыт» После верификации: обзор витрины (товары, цены, остатки) + последние заказы. ---</p>
-  <p class="tabs">Заявка · Заказы · Каталог · Платёж · Инструкция</p>
+  <header><b>Экран МСП</b><a href="#/msp/catalog" target="_blank">#/msp/catalog</a></header>
+  <p class="req"><span class="lbl">Требование:</span> Scope (решение владельца 2026-09-11): в app — read-only обзор + кнопка «Открыть кабинет» (b2b/Filament). Добавление/редактирование товаров — только в b2b-кабинете (уже работает, SZ-011); в app не дублируем. До верификации: заглушка «Каталог товаров пока закрыт» После верификации: обзор витрины (товары, цены, остатки) + последние заказы. ---</p>
+  <p class="tabs"><span class="lbl">Вкладки:</span> Заявка · Заказы · Каталог · Платёж · Инструкция</p>
   <a class="shot" href="shots/msp-catalog.png" target="_blank"><img src="shots/msp-catalog.png" alt=""></a>
 </section>
 <section class="card">
-  <header><b>msp/pay</b><a href="#/msp/pay" target="_blank">#/msp/pay</a></header>
-  <p class="req">Pay-card (канон FINANCIAL_CONTOUR §3 / PARAMS §5.1): - Сумма: 1 ₽ (решение владельца 2026-09-11; покрытие комиссии банка — правило PARAMS §5.1) - Код: VER-&lt;partner_id&gt;-&lt;суффикс&gt; (суффикс 8+ криптослучайных символов; поле verification_suffix в partner_applications уже есть) - Инструкция: платёж строго с р/с компании (плательщик = компания из заявки) - Возврат: возвратный (решение владельца 2026-09-11); механика уточня</p>
-  <p class="tabs">Заявка · Заказы · Каталог · Платёж · Инструкция</p>
+  <header><b>Экран МСП</b><a href="#/msp/pay" target="_blank">#/msp/pay</a></header>
+  <p class="req"><span class="lbl">Требование:</span> Pay-card (канон FINANCIAL_CONTOUR §3 / PARAMS §5.1): - Сумма: 1 ₽ (решение владельца 2026-09-11; покрытие комиссии банка — правило PARAMS §5.1) - Код: VER-&lt;partner_id&gt;-&lt;суффикс&gt; (суффикс 8+ криптослучайных символов; поле verification_suffix в partner_applications уже есть) - Инструкция: платёж строго с р/с компании (плательщик = компания из заявки) - Возврат: возвратный (решение владельца 2026-09-11); механика уточня</p>
+  <p class="tabs"><span class="lbl">Вкладки:</span> Заявка · Заказы · Каталог · Платёж · Инструкция</p>
   <a class="shot" href="shots/msp-pay.png" target="_blank"><img src="shots/msp-pay.png" alt=""></a>
 </section>
 <section class="card">
-  <header><b>msp/help</b><a href="#/msp/help" target="_blank">#/msp/help</a></header>
-  <p class="req">Mentor-card: - «Ссылка-инструкция» - Отправлена в {канал} (после платежа) Пошаговая инструкция: 1. Авторизация по ссылке 2. Добавление товаров, цен, остатков, фото 3. Публикация на витрине LOVII --- ## API-эндпоинты (требуются в lovii-core) &gt; ⚠️ Пути ниже — ориентиры из демо. Для rep-роли база — /api/v1/representative/* &gt; (спека SZ-034B готова); /rep/* не создаём, чтобы не дублировать. Итоговый &gt; контракт фазы 1 — в </p>
-  <p class="tabs">Заявка · Заказы · Каталог · Платёж · Инструкция</p>
+  <header><b>Экран МСП</b><a href="#/msp/help" target="_blank">#/msp/help</a></header>
+  <p class="req"><span class="lbl">Требование:</span> Mentor-card: - «Ссылка-инструкция» - Отправлена в {канал} (после платежа) Пошаговая инструкция: 1. Авторизация по ссылке 2. Добавление товаров, цен, остатков, фото 3. Публикация на витрине LOVII --- ## API-эндпоинты (требуются в lovii-core) &gt; ⚠️ Пути ниже — ориентиры из демо. Для rep-роли база — /api/v1/representative/* &gt; (спека SZ-034B готова); /rep/* не создаём, чтобы не дублировать. Итоговый &gt; контракт фазы 1 — в </p>
+  <p class="tabs"><span class="lbl">Вкладки:</span> Заявка · Заказы · Каталог · Платёж · Инструкция</p>
   <a class="shot" href="shots/msp-help.png" target="_blank"><img src="shots/msp-help.png" alt=""></a>
 </section>
 </div>
