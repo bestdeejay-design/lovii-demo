@@ -7,7 +7,10 @@
 <link rel="icon" type="image/svg+xml" href="../assets/lovii-icon.svg">
 <link rel="stylesheet" href="../assets/lovii-tokens.css">
 <!-- слой A+B канонной ДС (предпросмотровый снапшот; в прод — только через propagate.py) -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="lovii-ds.css">
+<meta name="theme-color" content="#f64a8a">
+<script>(function(){try{var t=localStorage.getItem("lovii_theme");if(t){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
 <style>
 /* Слой C — анатомия страницы превью (каркас телефона, сетка KPI, дайджест, панель состояний).
    Всё остальное берётся из канонной ДС: design/lovii-ds.css (слои A+B). */
@@ -23,7 +26,7 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
 .role-switch button:focus-visible { outline:2px solid var(--lv-pink); outline-offset:2px; }
 
 .boards { display:flex; gap:18px; flex-wrap:wrap; justify-content:center; align-items:flex-start; }
-.phone { width:380px; max-width:100%; background:var(--lv-bg); border-radius:26px; padding:14px 0 20px; box-shadow:var(--lv-shadow-float,0 6px 24px rgba(0,0,0,.08)); position:relative; }
+.phone { width:380px; max-width:100%; padding-bottom:calc(20px + env(safe-area-inset-bottom,0px)); background:var(--lv-bg); border-radius:26px; padding:14px 0 20px; box-shadow:var(--lv-shadow-float,0 6px 24px rgba(0,0,0,.08)); position:relative; }
 .phone::before { content:''; position:absolute; top:7px; left:50%; transform:translateX(-50%); width:76px; height:4px; background:rgba(0,0,0,.1); border-radius:999px; }
 .cab-head { padding:14px 16px 0; }
 .cab-title { font-size:19px; font-weight:800; letter-spacing:-.01em; }
@@ -87,7 +90,7 @@ body { font-family:var(--lv-font,'Inter',system-ui,sans-serif); background:var(-
 .empty { padding:18px 16px; font-size:12.5px; color:var(--lv-dim); text-align:center; }
 .mono { font-variant-numeric:tabular-nums; letter-spacing:.06em; font-weight:800; }
 .foot-note { max-width:960px; margin:22px auto 0; font-size:12px; color:var(--lv-dim); text-align:center; }
-.toast { position:fixed; left:50%; bottom:22px; transform:translate(-50%,14px); max-width:340px; padding:11px 16px; border-radius:999px; background:var(--lv-ink); color:var(--lv-card); font-size:12.5px; font-weight:600; opacity:0; pointer-events:none; transition:opacity .2s, transform .2s; z-index:50; }
+.toast { max-width:min(420px,100%); background-image:var(--lv-gradient-brand); color:var(--lv-on-brand); border-radius:999px; padding:12px 18px; font-size:14px; font-weight:600; text-align:center; box-shadow:var(--lv-shadow-toast); animation:toast-in .25s var(--mv-spring) both; }
 .row.is-gone { opacity:.45; }
 .qr-card { width:132px; padding:10px; border-radius:18px; background:var(--lv-card); border:1px solid var(--lv-line); text-align:center; }
 .qr-grid { display:grid; grid-template-columns:repeat(11,1fr); gap:2px; aspect-ratio:1; padding:5px; border-radius:12px; background:var(--lv-card); }
@@ -164,9 +167,9 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
 .tile:focus-visible { outline:2px solid var(--lv-pink); outline-offset:2px; }
 
 /* Уведомления: канонный тост (docs/07 §10, docs/11 §5) + статусная плашка сверху */
-.toast-wrap { position:fixed; left:0; right:0; bottom:84px; z-index:60; display:flex; flex-direction:column; align-items:center; gap:8px; pointer-events:none; padding:0 16px; }
+.toast-wrap { position:fixed; left:0; right:0; bottom:calc(84px + env(safe-area-inset-bottom,0px)); z-index:60; display:flex; flex-direction:column; align-items:center; gap:8px; pointer-events:none; padding:0 16px; }
 .toast { max-width:100%; background:var(--lv-ink); color:var(--lv-card); border-radius:16px; padding:10px 16px; font-size:13px; font-weight:600; box-shadow:var(--lv-shadow-toast,0 12px 32px -12px rgba(201,42,106,.35)); animation:toast-in .25s ease-out; text-align:left; }
-.toast .d { font-size:11px; color:var(--lv-toast-d,rgba(255,255,255,.66)); font-weight:400; margin-top:2px; }
+.toast .d { font-size:11.5px; color:var(--lv-toast-d,rgba(255,255,255,.72)); font-weight:500; margin-top:3px; }
 .toast.hide { opacity:0; transform:translateY(8px); transition:all .25s; }
 @keyframes toast-in { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
 .status-banner { display:flex; align-items:center; gap:10px; margin:14px 16px 0; padding:10px 14px; background:var(--lv-card); border:1px solid var(--lv-line); border-radius:14px; }
@@ -194,8 +197,9 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
 /* микро-взаимодействия */
 .dash-tabs button, .role-switch button, .filter-chip, .status-banner { transition: background-color var(--mv-hover) ease, color var(--mv-hover) ease, border-color var(--mv-hover) ease, transform var(--mv-hover) ease; }
 .cta-btn, .ghost-btn, .tile { transition: transform var(--mv-hover) ease, box-shadow var(--mv-hover) ease, background-color var(--mv-hover) ease; }
-.cta-btn:active, .ghost-btn:active { transform: scale(.96); }
-.tile:active { transform: scale(.95); }
+.cta-btn:active, .ghost-btn:active { transform: scale(.96); transition-duration:.15s; }
+.tile:active { transform: scale(.95); transition-duration:.15s; }
+.cta-btn[disabled], .ghost-btn[disabled], .tile[disabled] { opacity:.45; cursor:not-allowed; box-shadow:none; }
 .cta-btn:hover, .ghost-btn:hover { box-shadow: var(--lv-shadow-lift, 0 8px 24px -10px rgba(201,42,106,.45)); }
 .row { transition: background-color var(--mv-hover) ease; }
 .district-row { transition: background-color var(--mv-hover) ease, border-color var(--mv-hover) ease; }
@@ -212,6 +216,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
   *, *::before, *::after { animation:none !important; transition:none !important; }
   html { scroll-behavior:auto; }
 }
+.empty-state .ico { width:44px; height:44px; color:var(--lv-dim); margin:0 auto; }
 </style>
 </head>
 <body>
@@ -227,7 +232,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
   <button role="tab" aria-selected="false" data-role="msp">МСП</button>
 </div>
 
-<div class="state-bar" role="group" aria-label="Состояние экрана"><button data-state="normal" aria-pressed="true">Норма</button><button data-state="loading" aria-pressed="false">Загрузка</button><button data-state="empty" aria-pressed="false">Пусто</button><button data-state="error" aria-pressed="false">Ошибка</button><button data-guides aria-pressed="false">Сетка</button></div>
+<div class="state-bar" role="group" aria-label="Состояние экрана"><button data-state="normal" aria-pressed="true">Норма</button><button data-state="loading" aria-pressed="false">Загрузка</button><button data-state="empty" aria-pressed="false">Пусто</button><button data-state="error" aria-pressed="false">Ошибка</button><button data-guides aria-pressed="false">Сетка</button><button data-theme-toggle aria-pressed="false">Тема</button></div>
 
 <div class="boards">
   <section class="phone" data-board="rep" data-accent="tiffany" aria-label="Кабинет представителя">
@@ -246,9 +251,9 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
     <div class="screen is-on" id="panel-rep-overview" role="tabpanel" data-screen="rep-overview">
       <div class="status-banner"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-check"/></svg><span class="sb-tx">Данные обновлены</span><span class="sb">3 заявки ждут апрува</span></div>
       <div class="kpi-grid">
-        <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">выплаты — с запуском финконтура</div></div>
+        <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">выплаты — после запуска платформы</div></div>
         <div class="kpi"><div class="l">Активные точки</div><div class="v">4 / 7</div><div class="d">3 заявки в работе</div></div>
-        <div class="kpi"><div class="l">GMV сети · месяц</div><div class="v">84 700 ₽</div><div class="d">по активным точкам</div></div>
+        <div class="kpi"><div class="l">Оборот сети · месяц</div><div class="v">84 700 ₽</div><div class="d">по активным точкам</div></div>
         <div class="kpi"><div class="l">Статус</div><div class="v">Представитель</div><div class="d">до «Мэра» — 26 точек</div></div>
       </div>
       <div class="section">
@@ -263,7 +268,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
         <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-coffee"/></svg></div><div class="row-main"><div class="row-title">Перекресток, Карбышева 9</div><div class="row-sub">активна · Лови Базовый</div></div><div class="row-sum">4 247 ₽</div></div>
       </div>
       <div class="section">
-        <div class="cap">Топ точек по GMV</div>
+        <div class="cap">Топ точек по обороту</div>
         <div class="bar" style="margin-top:10px"><span style="width:72%"></span></div>
         <p>НАПОЛИ ПИЦЦА · «На Белы Куна» — 26 700 ₽</p>
         <div class="bar"><span style="width:49%"></span></div>
@@ -298,7 +303,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
         <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-shapes"/></svg></div><div class="row-main"><div class="row-title">УЛЫБКА РАДУГИ, Малая Посадская</div><div class="row-sub">заявка отправлена</div></div><div class="row-sum"><span class="status-pill wait">Ожидает</span></div></div>
         <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-choco"/></svg></div><div class="row-main"><div class="row-title">My little garden, Клинский пр.</div><div class="row-sub">карточка не заполнена</div></div><div class="row-sum"><span class="status-pill off">Отклонена</span></div></div>
       </div>
-      <div class="dash-note tone-dim">Поиск и сортировка — как в спеке (по названию, выручке, статусу).</div>
+      <div class="dash-note tone-dim">Поиск и сортировка: по названию, выручке или статусу.</div>
     </div>
 
     <div class="screen" id="panel-rep-approvals" role="tabpanel" data-screen="rep-approvals">
@@ -308,7 +313,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
           <div class="qr-card"><div class="qr-grid" data-qr="PP7K2A" aria-hidden="true"></div><span>PP7K2A</span></div>
           <div class="grow">
             <h2>Один понятный маршрут для владельца точки</h2>
-            <p>0 ₽ старт · 3 дня запуск · 90/10 сплит. QR ведёт на app.lovii.ru/business/apply?promo=PP7K2A</p>
+            <p>0 ₽ старт · 3 дня запуск . QR ведёт на app.lovii.ru/business/apply?promo=PP7K2A</p>
             <div class="btn-row"><button class="cta-btn" data-action="copy"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-copy"/></svg>Скопировать ссылку</button></div>
           </div>
         </div>
@@ -328,7 +333,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
           <li class="done"><div class="st">ИНН и карточка</div><div class="sd">отправлено владельцем точки</div></li>
           <li><div class="st">Апрув представителя</div><div class="sd">ваш шаг — 2 заявки</div></li>
           <li><div class="st">Счёт на верификацию</div><div class="sd">1 ₽, возвратный</div></li>
-          <li><div class="st">Верификация платежом</div><div class="sd">витрина становится teaser</div></li>
+          <li><div class="st">Верификация платежом</div><div class="sd">витрина откроется</div></li>
           <li><div class="st">Продажи включены</div><div class="sd">витрина active</div></li>
         </ol>
         <div class="btn-row"><button class="cta-btn" data-action="approve"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-check"/></svg>Апрувить</button><button class="ghost-btn" data-action="reject"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-x"/></svg>Отклонить</button></div>
@@ -337,11 +342,11 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
 
     <div class="screen" id="panel-rep-income" role="tabpanel" data-screen="rep-income">
       <div class="kpi-grid">
-        <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">до ledger-фазы 3</div></div>
+        <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">после запуска выплат</div></div>
         <div class="kpi"><div class="l">Подписка</div><div class="v">199 ₽/мес</div><div class="d">по промокоду</div></div>
       </div>
-      <div class="dash-note tone-tiffany">Ваша доля — 40% от пула платформы с лично подключённых точек. Учёт включится вместе с выплатами.</div>
-      <div class="list-card"><div class="empty-state"><h4>Операций пока нет</h4><p>Здесь появится история, когда пойдут начисления.</p></div></div>
+      <div class="dash-note tone-tiffany">Твоя доля — 40% от пула платформы с лично подключённых точек. Учёт включится вместе с выплатами.</div>
+      <div class="list-card"><div class="empty-state"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-clock"/></svg><h4>Операций пока нет</h4><p>Здесь появится история, когда пойдут начисления.</p></div></div>
     </div>
 
     <div class="screen" id="panel-rep-profile" role="tabpanel" data-screen="rep-profile">
@@ -388,7 +393,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
     <div class="screen is-on" id="panel-amb-overview" role="tabpanel" data-screen="amb-overview">
       <div class="status-banner"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-award"/></svg><span class="sb-tx">Уровень сети</span><span class="sb">до «Губернатора» — 68 точек</span></div>
       <div class="kpi-grid">
-        <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">до ledger-фазы 3</div></div>
+        <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">после запуска выплат</div></div>
         <div class="kpi"><div class="l">Представителей</div><div class="v">5</div><div class="d">в вашей ветке</div></div>
         <div class="kpi"><div class="l">Точек в сети</div><div class="v">12</div><div class="d">подключены</div></div>
         <div class="kpi"><div class="l">GMV ветки</div><div class="v">212 400 ₽</div><div class="d">за месяц</div></div>
@@ -407,7 +412,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
           <li><div class="st">Провести встречу сети</div><div class="sd">до конца недели</div></li>
         </ul>
       </div>
-      <div class="dash-note tone-gold">Ваша доля — 20% от пула платформы со всей ветки представителей.</div>
+      <div class="dash-note tone-gold">Твоя доля — 20% от пула платформы со всей ветки представителей.</div>
     </div>
 
     <div class="screen" id="panel-amb-reps" role="tabpanel" data-screen="amb-reps">
@@ -428,17 +433,17 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
 
     <div class="screen" id="panel-amb-income" role="tabpanel" data-screen="amb-income">
       <div class="kpi-grid">
-        <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">до ledger-фазы 3</div></div>
+        <div class="kpi accent"><div class="l">Доход · месяц</div><div class="v">0 ₽</div><div class="d">после запуска выплат</div></div>
         <div class="kpi"><div class="l">Ставка</div><div class="v">20%</div><div class="d">пула ветки</div></div>
       </div>
-      <div class="section"><div class="cap">История выплат</div><div class="empty-state"><h4>Операций пока нет</h4><p>Здесь появится история, когда пойдут начисления.</p></div></div>
+      <div class="section"><div class="cap">История выплат</div><div class="empty-state"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-clock"/></svg><h4>Операций пока нет</h4><p>Здесь появится история, когда пойдут начисления.</p></div></div>
       <div class="dash-note tone-gold">Ваша доля — 20% от пула платформы со всей ветки. Учёт включится вместе с выплатами платформы.</div>
     </div>
   </section>
 
   <section class="phone" data-board="msp" data-accent="tiffany" hidden aria-label="Кабинет МСП">
     <div class="cab-head">
-      <div class="cab-title">Мой магазин</div>
+      <div class="cab-title">Моя точка</div>
       <div class="cab-sub" data-ctx-sub>ООО «НАПОЛИ ПИЦЦА» · точка «На Белы Куна» · ИНН ••4821</div>
       <button class="ctx-pill" data-action="ctx" data-testid="msp-ctx">Сменить юрлицо / точку ▾</button>
     </div>
@@ -473,8 +478,8 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
           <li class="done"><div class="st">Карточка точки</div><div class="sd">ИНН, адрес, канал связи</div></li>
           <li class="done"><div class="st">Апрув представителя</div><div class="sd">карточку проверил представитель</div></li>
           <li class="done"><div class="st">Счёт на верификацию</div><div class="sd">1 ₽, возвратный, с р/с компании</div></li>
-          <li class="done"><div class="st">Верификация платежом</div><div class="sd">витрина стала teaser</div></li>
-          <li class="done"><div class="st">Продажи включены</div><div class="sd">витрина active — заказы идут</div></li>
+          <li class="done"><div class="st">Верификация платежом</div><div class="sd">витрина открылась</div></li>
+          <li class="done"><div class="st">Продажи включены</div><div class="sd">продажи включены — заказы идут</div></li>
         </ol>
       </div>
       <div class="list-card">
@@ -500,7 +505,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
         <div class="cap">Заказ №153 · ждёт принятия</div>
         <h2>8 300 ₽ · самовывоз · 13.09 06:45</h2>
         <p>Оплата картой · 3,16% эквайринг · чек сформирован (агент + ИНН поставщика)</p>
-        <div class="btn-row"><button class="cta-btn" data-action="status"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-check"/></svg>Принять заказ</button><button class="ghost-btn" data-action="reject-order" data-action="reject-order"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-x"/></svg>Отклонить</button></div>
+        <div class="btn-row"><button class="cta-btn" data-action="status"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-check"/></svg>Принять заказ</button><button class="ghost-btn" data-action="reject-order"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-x"/></svg>Отклонить</button></div>
       </div>
       <div class="list-card">
         <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-choco"/></svg></div><div class="row-main"><div class="row-title">Лилия Азиатская оранжевая</div><div class="row-sub">2 шт · 450 ₽</div></div><div class="row-sum">900 ₽</div></div>
@@ -523,14 +528,14 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
         <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-choco"/></svg></div><div class="row-main"><div class="row-title">Медовик (кусочек)</div><div class="row-sub">160 ₽ · филиал «На Белы Куна»</div></div><div class="row-sum"><span class="status-pill off">Скрыт</span></div></div>
       </div>
       <div class="btn-row" style="padding:0 16px"><button class="cta-btn" data-action="product"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-plus"/></svg>Добавить товар</button></div>
-      <div class="dash-note tone-dim">Загрузка фото — <code>POST /msp/uploads</code>; расширенная настройка каталога остаётся в кабинете b2b.</div>
+      <div class="dash-note tone-dim">Фото товара добавляется прямо из приложения. Расширенные настройки каталога — в кабинете b2b.</div>
     </div>
 
     <div class="screen" id="panel-msp-settings" role="tabpanel" data-screen="msp-settings">
       <div class="section">
         <div class="cap">Часы работы</div>
         <h2>Пн–Сб · 08:00–20:00</h2>
-        <p>Филиал «На Белы Куна». У юрлица 8 филиалов — расписание настраивается по каждому.</p>
+        <p>Филиал «На Белы Куна». У юрлица 8 точек — расписание настраивается по каждой.</p>
         <p>Воскресенье — выходной. Слоты выдачи: 30 минут.</p>
       </div>
       <div class="section">
@@ -573,6 +578,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
 
 <p class="foot-note">Прототип для просмотра до работы с реальным кодом. Токены — из дизайн-системы LOVII (<code>assets/lovii-tokens.css</code>).</p>
 
+<div class="toast-wrap" id="toast-wrap" role="status" aria-live="polite"></div>
 <script>
 (function () {
   document.querySelectorAll('.role-switch button').forEach(function (btn) {
@@ -618,6 +624,16 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
   });
 
   // Переключатель состояний: наглядно показывает загрузку, пустоту и ошибку.
+  document.querySelectorAll('[data-theme-toggle]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', cur);
+      btn.setAttribute('aria-pressed', cur === 'dark' ? 'true' : 'false');
+      try { localStorage.setItem('lovii_theme', cur); } catch (e) {}
+      toast(cur === 'dark' ? 'Тёмная тема включена' : 'Светлая тема включена');
+    });
+  });
+
   document.querySelectorAll('[data-guides]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var on = document.body.classList.toggle('guides');
@@ -628,6 +644,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
   document.querySelectorAll('.state-bar button').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var state = btn.dataset.state;
+      if (!state) { return; }
       document.querySelectorAll('.state-bar button').forEach(function (b) {
         b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
       });
@@ -642,7 +659,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       } else if (state === 'empty') {
         block.innerHTML = '<div class="st">Пока ничего нет</div><div class="sd">Здесь появится список, когда данные придут.</div>';
       } else {
-        block.innerHTML = '<div class="st">Не удалось загрузить данные</div><div class="sd">Проверьте соединение и попробуйте снова. <button class="ghost-btn" data-action="retry" style="height:30px;margin-top:8px">Обновить</button></div>';
+        block.innerHTML = '<div class="st">Не удалось загрузить данные</div><div class="sd">Проверь соединение и попробуй снова. <button class="ghost-btn" data-action="retry" style="height:30px;margin-top:8px">Обновить</button></div>';
       }
       screen.insertBefore(block, screen.firstChild);
     });
@@ -746,7 +763,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
   function firstPendingCard() {
     var screen = document.querySelector('[data-screen="rep-approvals"]');
     if (!screen) { return null; }
-    var rows = screen.querySelectorAll('.card .row');
+    var rows = screen.querySelectorAll('.row');
     for (var i = 0; i < rows.length; i++) {
       if (!rows[i].classList.contains('is-gone')) { return rows[i]; }
     }
@@ -764,8 +781,8 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
     if (back) { renderSheet(0, 0); return; }
     var pick = event.target.closest('[data-pick-partner]');
     if (pick) {
-      var pi = parseInt(pick.dataset.pick_partner, 10);
-      var pt = pick.dataset.pick_point;
+      var pi = parseInt(pick.dataset.pickPartner, 10);
+      var pt = pick.dataset.pickPoint;
       var partner = CTX.partners[pi];
       if (pt === undefined) {
         if (partner.points.length > 1) { renderSheet(1, pi); return; }
@@ -796,7 +813,7 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       var card = firstPendingCard();
       if (!card) { toast('Очередь пуста', 'Новые заявки появятся здесь'); return; }
       card.classList.add('is-gone');
-      card.querySelector('.t2').textContent = action === 'approve'
+      card.querySelector('.row-sub').textContent = action === 'approve'
         ? 'одобрено · счёт на верификацию отправлен'
         : 'отклонено · причина отправлена точке';
       updateQueue(-1);
@@ -808,7 +825,8 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
     }
 
     if (action === 'status') {
-      var badge = document.querySelector('[data-screen="msp-orders"] .status-pill.brand');
+      var scr = document.querySelector('.phone:not([hidden]) .screen.is-on');
+      var badge = scr ? scr.querySelector('.status-pill.brand') : null;
       if (badge) { badge.className = 'pill wait'; badge.textContent = 'Готовим'; }
       toast('Статус обновлён', 'Заказ передан в работу точки');
       return;
@@ -829,6 +847,5 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
   });
 })();
 </script>
-<div class="toast-wrap" id="toast-wrap" role="status" aria-live="polite"></div>
 </body>
 </html>
