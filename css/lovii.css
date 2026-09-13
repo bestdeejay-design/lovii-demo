@@ -1035,3 +1035,8 @@ main#view { flex: 1; }
 @media (min-width: 1024px) {
   .pay-cols { gap: 0 28px; }
 }
+
+/* Иконки ролей: спрайт вместо эмодзи — размер и цвет по канону (docs/09 §1) */
+.ri-emoji svg, .dash-ava svg { width: 26px; height: 26px; }
+.ri-emoji, .dash-ava { color: var(--lv-on-tile, currentColor); }
+.ri-emoji [class*="tile-"], .dash-ava [class*="tile-"] { }
