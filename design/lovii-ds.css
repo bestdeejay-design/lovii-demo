@@ -1,0 +1,736 @@
+/*! LOVII DS snapshot (prototype) — собран из lovii-design/lovii.css
+ *  источник: lovii-design @ 60edc80 · дата: 2026-09-13 · размер источника: 50089 B
+ *  слой A — токены (--lv-*), слой B — компоненты (LOVII UI).
+ *  ВНИМАНИЕ: это предпросмотровый снапшот. Для прод-потребителей снапшот
+ *  кладётся только канонным путём: tools/propagate.py --push (реестр targets.json).
+ */
+/* ============================================================
+   LOVII UI v1.0.0 — ЕДИНЫЙ ФАЙЛ дизайн-системы «Лови»
+   Канон токенов: v1.11.0 · собрано 2026-09-05
+   Провенанс снапшота (из какого коммита lovii-design взят файл)
+   добавляется разносчиком — см. шапку файла на сайте-потребителе.
+   ------------------------------------------------------------
+   ОДИН файл на любой сайт LOVII. Меняется в одном месте
+   (репо lovii-design) и разносится во все сайты одной командой:
+     python3 tools/propagate.py --push
+   Править здесь нельзя — правятся исходники слоёв:
+     tokens/tokens.css            — токены, база, движение
+     tokens/compat-legacy.css     — легаси-алиасы (мост миграции)
+     css/lovii-components.css     — компоненты
+   Живой каталог компонентов: style-guide.html, examples/08.
+   Правила: только var(--lv-*), классы только канонические.
+   ============================================================ */
+
+/* ══════════════════ СЛОЙ A: ТОКЕНЫ И БАЗА ══════════════════ */
+
+/* ============================================================
+   LOVII «Лови» — канонические дизайн-токены v1.11.0 (значения без изменений с 1.9.1)
+   Источник истины: lovii.mobiap.com (репо lovii_demo, css/lovii.css)
+   Репо дизайн-системы: bestdeejay-design/lovii-design
+
+   Как подключать:
+     <link rel="stylesheet" href="tokens/tokens.css">
+   Как использовать: только var(--lv-*). Хардкод цветов/теней запрещён.
+
+   Совместимость (маппинг легаси-имён):
+     lovii_demo  css/lovii.css : --pink, --bg, --card, --soft-pink …
+     lovii-site  globals.css   : --color-lovii-* (Tailwind), --lv-* (частично)
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. БРЕНДОВЫЕ ЦВЕТА — не зависят от темы
+   ------------------------------------------------------------ */
+:root {
+  --lv-pink: #f64a8a;          /* primary-акцент: CTA, ссылки, фокус */
+  --lv-pink-dark: #c92a6a;     /* hover CTA, конец градиента, текст на soft-pink */
+  --lv-tiffany: #0abab5;       /* secondary-акцент: «рядом», «в наличии», успех */
+  --lv-gold: #d4a854;          /* tertiary: премиум, рейтинг, лояльность */
+  --lv-sand: #e8d5b7;          /* золотой акцент-бордер/текст на тёмном */
+
+  /* Градиенты */
+  --lv-gradient-brand: linear-gradient(135deg, #f64a8a 0%, #c92a6a 100%);
+  --lv-gradient-ink: linear-gradient(150deg, #262023 0%, #1a1a1a 55%, #2b1219 100%);
+  --lv-gradient-tiffany: linear-gradient(90deg, #0abab5, #078d89);
+  --lv-gradient-gold: linear-gradient(90deg, #d4a854, #b98d3e);
+
+  /* Подложки-плитки категорий (только светлая подача) */
+  --lv-tile-pink: linear-gradient(135deg, #fde8f1, #fbf0f5);
+  --lv-tile-tiffany: linear-gradient(135deg, #e0f7f6, #eefcfb);
+  --lv-tile-gold: linear-gradient(135deg, #f7edda, #fbf5ea);
+  --lv-tile-sand: linear-gradient(135deg, #f3e9dc, #faf4ec);
+  --lv-tile-ink: linear-gradient(135deg, #f4f4f4, #fafafa);
+
+  /* Плашки-бейджи на обложках (фиксированные светлые подложки) */
+  --lv-badge-hit: #fde8f1;
+  --lv-badge-new: #e0f7f6;
+  --lv-badge-sale: #f7edda;
+
+  /* Текст и чипы НА фиксированно-светлых подложках (tile-*) — не зависят от темы.
+     Введено в v1.1.0: плитки остаются светлыми в тёмной теме, поэтому их текст
+     нельзя брать из темовых --lv-ink/--lv-dim. */
+  --lv-on-tile: #1a1a1a;
+  --lv-on-tile-dim: #8a7a84;
+  --lv-tile-chip: rgba(26, 26, 26, .07);
+
+  /* Типографика */
+  --lv-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Механика тем */
+  --lv-theme-key: 'lovii_theme';      /* localStorage ключ */
+  --lv-meta-light: #f64a8a;           /* meta theme-color для светлой */
+  --lv-meta-dark: #171219;            /* meta theme-color для тёмной */
+
+  /* Радиусы (канон docs/04): пилюли-капсулы, карточки, шиты.
+     v1.7.0: токенизированы — раньше дрейфовали как литералы */
+  --lv-r-sm: 12px;                    /* плитки, мелкие контролы */
+  --lv-r-md: 14px;                    /* поля ввода */
+  --lv-r-lg: 16px;                    /* карточки, панели, тосты */
+  --lv-r-xl: 24px;                    /* bottom-sheet, премиум-обложки */
+  --lv-r-pill: 999px;                 /* все капсулы/пилюли */
+
+  /* Каркас */
+  --lv-header-h: 56px;                /* шапка приложения-витрины */
+  --lv-subheader-h: 48px;             /* подшапка «назад» */
+  --lv-nav-h: 64px;                   /* нижняя навигация (десктоп-капсула 60px) */
+  --lv-container: 480px;              /* мобильная капсула приложения */
+  --lv-container-wide: 1120px;        /* общий поток ≥640px */
+  --lv-container-narrow: 760px;       /* линейные экраны ≥640px */
+  --lv-pad-x: 16px;                   /* боковой отступ экрана */
+}
+
+/* ------------------------------------------------------------
+   2. СВЕТЛАЯ ТЕМА (по умолчанию; [data-theme="light"])
+   ------------------------------------------------------------ */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* Текст */
+  --lv-ink: #1a1a1a;                  /* основной текст */
+  --lv-dim: #888888;                  /* вторичный текст */
+
+  /* Поверхности */
+  --lv-bg: #f8f5f0;                   /* фон вокруг капсулы приложения (v1.3: тёплый бежевый вместо розоватого #f7f2f4) */
+  --lv-page: #ffffff;                 /* фон страницы (посадка) */
+  --lv-card: #ffffff;                 /* карточки */
+  --lv-surface: #f8f8f8;              /* заливка контролов: пилюли, инпуты, сегменты */
+  --lv-glass: rgba(255, 255, 255, .85);  /* стеклянный хедер/навигация */
+  --lv-on-brand: #ffffff;             /* текст НА брендовом градиенте */
+
+  /* Бордеры и разделители */
+  --lv-line: #ece5da;                 /* бордер карточек (v1.3: бежевый нейтральный вместо розоватого) */
+  --lv-line-2: #f6f1e8;               /* разделитель строк внутри карточки (v1.3) */
+  --lv-hairline: rgba(26, 26, 26, .08);   /* тонкая линия (юр.блок) */
+
+  /* Soft-заливки акцентов (плашки статусов, тоновые карточки) */
+  --lv-soft-pink: rgba(246, 74, 138, .12);
+  --lv-mist-pink: rgba(246, 74, 138, .06);
+  --lv-soft-tiffany: rgba(10, 186, 181, .12);
+  --lv-soft-gold: rgba(212, 168, 84, .16);
+  --lv-sand-soft: #f6ecdf;
+  --lv-grey-soft: #f1f1f1;
+
+  /* Читаемые тексты на soft-заливках (пары: soft → text) */
+  --lv-gold-text: #8a6a25;
+  --lv-tiffany-text: #07726f;
+  --lv-green-text: #4a7a2a;
+  --lv-green-soft: #eef7e6;
+
+  /* Спец-поверхности */
+  --lv-hero-top: #fdf1f6;             /* верх hero-градиента */
+  --lv-kpi-soft: #fff5f8;             /* фон акцентного KPI */
+  --lv-ch-ink-a: #3a3a3a;             /* чернильная пара A (чаты/декор) */
+  --lv-ch-ink-b: #1a1a1a;             /* чернильная пара B */
+  --lv-toast-d: rgba(255, 255, 255, .7);  /* подпись на тосте */
+
+  /* Тени */
+  --lv-shadow-soft: 0 1px 3px rgba(26, 26, 26, .06);
+  --lv-shadow-lift: 0 12px 32px -12px rgba(201, 42, 106, .22);
+  --lv-shadow-nav: 0 12px 32px -12px rgba(26, 26, 26, .28);
+  --lv-shadow-stuck: 0 12px 16px -16px rgba(26, 26, 26, .28);
+  --lv-shadow-toast: 0 12px 32px -12px rgba(201, 42, 106, .35);
+  --lv-shadow-float: 0 2px 8px rgba(26, 26, 26, .1);
+  --lv-shadow-app: 0 0 60px rgba(26, 26, 26, .08);
+  --lv-ring-search: 0 0 0 2px rgba(246, 74, 138, .4);
+  --lv-ring-field: 0 0 0 4px rgba(246, 74, 138, .1);
+
+  /* Скроллбар */
+  --lv-scroll-thumb: rgba(26, 26, 26, .15);
+}
+
+/* ------------------------------------------------------------
+   3. ТЁМНАЯ ТЕМА — [data-theme="dark"] на <html>
+   Тёмно-сливовые поверхности, тёплый светлый текст.
+   Брендовые pink/tiffany/gold НЕ меняются.
+   ------------------------------------------------------------ */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --lv-ink: #f3ebf0;
+  --lv-dim: #a798a6;
+
+  --lv-bg: #171219;
+  --lv-page: #171219;
+  --lv-card: #211b26;
+  --lv-surface: #2b2331;
+  --lv-glass: rgba(30, 23, 34, .86);
+  --lv-on-brand: #ffffff;
+
+  --lv-line: #372d3e;
+  --lv-line-2: #2e2535;
+  --lv-hairline: rgba(255, 255, 255, .12);
+
+  /* v1.2: альфы подняты (решение по docs/06 #1–#2) — на тёмном .12 читались слабо */
+  --lv-soft-pink: rgba(246, 74, 138, .20);
+  --lv-mist-pink: rgba(246, 74, 138, .10);
+  --lv-soft-tiffany: rgba(10, 186, 181, .18);
+  --lv-soft-gold: rgba(212, 168, 84, .20);
+  --lv-sand-soft: #38302a;
+  --lv-grey-soft: #2e2535;
+
+  /* v1.9 «Тихая тёмная тема» (docs/05): тексты-пары приглушены —
+     неоновые #e2c88c/#6fd9d4 на тёмном кричали; пыльные варианты
+     контраст не потеряли (≥ 8:1 на #171219/#211b26) */
+  --lv-gold-text: #d6bd8d;
+  --lv-tiffany-text: #82c8c3;
+  --lv-green-text: #a8d686;
+  --lv-green-soft: rgba(110, 180, 80, .16);
+
+  --lv-hero-top: #1e1524;
+  --lv-kpi-soft: #2b1f2b;
+  --lv-ch-ink-a: #c9b6c4;
+  --lv-ch-ink-b: #9c8496;
+  --lv-toast-d: rgba(26, 26, 26, .55);
+
+  /* v1.2: тени глубже (решение по docs/06 #3) — «сливовая» тень на тёмном не видна */
+  --lv-shadow-soft: 0 1px 3px rgba(0, 0, 0, .45);
+  --lv-shadow-lift: 0 12px 32px -12px rgba(0, 0, 0, .55);
+  --lv-shadow-nav: 0 12px 32px -12px rgba(0, 0, 0, .55);
+  --lv-shadow-stuck: 0 12px 16px -16px rgba(26, 26, 26, .28);
+  --lv-shadow-toast: 0 12px 32px -12px rgba(201, 42, 106, .35);
+  --lv-shadow-float: 0 2px 8px rgba(26, 26, 26, .1);
+  --lv-shadow-app: 0 0 60px rgba(26, 26, 26, .08);
+  --lv-ring-search: 0 0 0 2px rgba(246, 74, 138, .4);
+  --lv-ring-field: 0 0 0 4px rgba(246, 74, 138, .1);
+
+  --lv-scroll-thumb: rgba(255, 255, 255, .18);
+}
+
+/* ------------------------------------------------------------
+   4. БАЗОВЫЕ СТИЛИ (опционально — можно не подключать)
+   ------------------------------------------------------------ */
+body {
+  font-family: var(--lv-font);
+  background: var(--lv-bg);
+  color: var(--lv-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button { font-family: inherit; border: 0; background: none; padding: 0; cursor: pointer; color: inherit; font-size: inherit; }
+input, textarea, select { font-family: inherit; }
+
+/* Фокус с клавиатуры — всегда розовый брендовый */
+:focus-visible { outline: 2px solid var(--lv-pink); outline-offset: 2px; border-radius: 8px; }
+
+/* Выделение текста — тоже бренд (v1.7.0): системное синее выбивалось из палитры */
+::selection { background: var(--lv-pink); color: #ffffff; }
+
+/* Уважение к reduce motion — обязательное a11y-правило */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   5. ДВИЖЕНИЕ (ключевые кадры канона)
+   ------------------------------------------------------------ */
+@keyframes lv-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes lv-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes lv-pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .45; transform: scale(.8); } }
+
+.lv-enter { animation: lv-enter .35s ease-out both; }
+.lv-float { animation: lv-float 5s ease-in-out infinite; }
+.lv-dot { width: 6px; height: 6px; border-radius: 999px; display: inline-block; animation: lv-pulse-dot 1.4s ease-in-out infinite; }
+
+/* Ленты-карусели: карточки растворяются у краёв */
+.lv-edge-fade {
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+}
+
+/* ══════════════ СЛОЙ A-COMPAT: ЛЕГАСИ-АЛИАСЫ ══════════════ */
+
+/* ------------------------------------------------------------
+   СЛОЙ A-COMPAT: легаси-алиасы (мост миграции)
+   ------------------------------------------------------------
+   Зачем: потребители, выросшие ДО канона --lv-* (витрина
+   lovii.mobiap.com и старые прототипы), используют короткие
+   имена --pink, --bg, --card… Эти алиасы связывают их с
+   каноническими токенами: правка значения в tokens.css
+   доезжает до легаси-кода без его правки.
+
+   ПРАВИЛА:
+   • только var(--lv-*) справа — никаких литералов (следит
+     check-sync);
+   • НОВЫЙ код алиасы не использует — только var(--lv-*);
+   • не удалять: легаси-потребители живут на снапшотах.
+
+   Полный список см. docs/05-theming.md.
+   ------------------------------------------------------------ */
+
+:root,
+[data-theme="light"] {
+  --pink: var(--lv-pink);
+  --pink-dark: var(--lv-pink-dark);
+  --tiffany: var(--lv-tiffany);
+  --gold: var(--lv-gold);
+  --sand: var(--lv-sand);
+  --ink: var(--lv-ink);
+  --dim: var(--lv-dim);
+  --surface: var(--lv-surface);
+  --line: var(--lv-line);
+  --line-2: var(--lv-line-2);
+  --soft-pink: var(--lv-soft-pink);
+  --mist-pink: var(--lv-mist-pink);
+  --soft-tiffany: var(--lv-soft-tiffany);
+  --soft-gold: var(--lv-soft-gold);
+  --sand-soft: var(--lv-sand-soft);
+  --grey-soft: var(--lv-grey-soft);
+  --gold-text: var(--lv-gold-text);
+  --tiffany-text: var(--lv-tiffany-text);
+  --green-text: var(--lv-green-text);
+  --green-soft: var(--lv-green-soft);
+  --bg: var(--lv-bg);
+  --page: var(--lv-page);
+  --card: var(--lv-card);
+  --glass: var(--lv-glass);
+  --on-brand: var(--lv-on-brand);
+  --hero-top: var(--lv-hero-top);
+  --kpi-soft: var(--lv-kpi-soft);
+  --hairline: var(--lv-hairline);
+  --ch-ink-a: var(--lv-ch-ink-a);
+  --ch-ink-b: var(--lv-ch-ink-b);
+  --toast-d: var(--lv-toast-d);
+}
+
+[data-theme="dark"] {
+  --pink: var(--lv-pink);
+  --pink-dark: var(--lv-pink-dark);
+  --tiffany: var(--lv-tiffany);
+  --gold: var(--lv-gold);
+  --sand: var(--lv-sand);
+  --ink: var(--lv-ink);
+  --dim: var(--lv-dim);
+  --surface: var(--lv-surface);
+  --line: var(--lv-line);
+  --line-2: var(--lv-line-2);
+  --soft-pink: var(--lv-soft-pink);
+  --mist-pink: var(--lv-mist-pink);
+  --soft-tiffany: var(--lv-soft-tiffany);
+  --soft-gold: var(--lv-soft-gold);
+  --sand-soft: var(--lv-sand-soft);
+  --grey-soft: var(--lv-grey-soft);
+  --gold-text: var(--lv-gold-text);
+  --tiffany-text: var(--lv-tiffany-text);
+  --green-text: var(--lv-green-text);
+  --green-soft: var(--lv-green-soft);
+  --bg: var(--lv-bg);
+  --page: var(--lv-page);
+  --card: var(--lv-card);
+  --glass: var(--lv-glass);
+  --on-brand: var(--lv-on-brand);
+  --hero-top: var(--lv-hero-top);
+  --kpi-soft: var(--lv-kpi-soft);
+  --hairline: var(--lv-hairline);
+  --ch-ink-a: var(--lv-ch-ink-a);
+  --ch-ink-b: var(--lv-ch-ink-b);
+  --toast-d: var(--lv-toast-d);
+}
+
+/* ══════════════════ СЛОЙ B: КОМПОНЕНТЫ ══════════════════ */
+
+/* ============================================================
+   LOVII UI — СЛОЙ B: КОМПОНЕНТЫ (рукописный исходник)
+   ------------------------------------------------------------
+   Этот файл — источник слоя компонентов. Единый файл для сайтов
+   lovii.css собирается из двух слоёв командой:
+     python3 tools/build-lovii-css.py
+       слой A: tokens/tokens.css   (токены + база + движение)
+       слой B: css/lovii-components.css (этот файл)
+
+   Нормы правок:
+   - имена классов каноничны (docs/09, style-guide.html,
+     examples/08) — переименование = ломает все сайты;
+   - никаких hex-литералов: только var(--lv-*) — страж
+     tools/check-sync.py ловит дрейф;
+   - новый компонент = сюда + docs/09 + живой образец в
+     examples/08 (три места, иначе компонента «нет»).
+
+   Разделы §1–§9 соответствуют docs/09-components.md и
+   библиотеке examples/08-components.html.
+   ============================================================ */
+
+/* ============ Каркас (канон examples) ============ */
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+@media (prefers-reduced-motion: reduce){ html { scroll-behavior:auto; } }
+/* body задаёт слой A (tokens/tokens.css §4) — здесь не дублируется */
+.view { max-width:var(--lv-container-wide); margin:0 auto; padding:0 16px calc(var(--lv-nav-h) + 32px + env(safe-area-inset-bottom,0px)); }
+.no-scrollbar { scrollbar-width:none; } .no-scrollbar::-webkit-scrollbar { display:none; }
+img.logo-dark-img, img.logo-light-img { display:block; height:28px; width:auto; }
+html[data-theme="light"] img.logo-dark-img { display:none; }
+html[data-theme="dark"] img.logo-light-img { display:none; }
+.ico { fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+section[id] { scroll-margin-top:calc(var(--lv-header-h) + 12px); }
+
+/* Хедер: sticky glass 56px */
+.app-header {
+  position:sticky; top:0; z-index:40; height:var(--lv-header-h);
+  display:flex; align-items:center; gap:12px; padding:0 var(--lv-pad-x);
+  background:var(--lv-glass); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+}
+.theme-btn {
+  margin-left:auto; width:36px; height:36px; border-radius:var(--lv-r-pill); flex:none;
+  background:var(--lv-surface); display:flex; align-items:center; justify-content:center;
+  color:var(--lv-ink); transition:transform .15s ease, background .2s ease;
+}
+.theme-btn:active { transform:scale(.95); }
+.theme-btn svg { width:16px; height:16px; }
+.theme-btn .tb-sun { display:none; }
+html[data-theme="dark"] .theme-btn .tb-sun { display:block; }
+html[data-theme="dark"] .theme-btn .tb-moon { display:none; }
+.head-pill { font-size:11px; font-weight:700; color:var(--lv-dim); background:var(--lv-surface); border-radius:var(--lv-r-pill); padding:4px 10px; white-space:nowrap; }
+
+/* Hero */
+.hero {
+  margin-top:16px; padding:26px 22px; border-radius:var(--lv-r-lg);
+  background-image:var(--lv-gradient-brand); color:var(--lv-on-brand);
+  box-shadow:var(--lv-shadow-lift); position:relative; overflow:hidden;
+}
+.hero .kicker { font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.7); }
+.hero h1 { font-size:26px; font-weight:800; letter-spacing:-.02em; line-height:1.15; margin:8px 0 6px; }
+.hero p { font-size:14px; color:rgba(255,255,255,.72); line-height:1.6; max-width:52ch; }
+.hero .chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+.hero .chip { font-size:12px; font-weight:600; padding:6px 12px; border-radius:var(--lv-r-pill); background:rgba(255,255,255,.14); color:var(--lv-on-brand); }
+
+/* Якорная лента */
+.anchor-rail { display:flex; gap:8px; overflow-x:auto; padding:14px 0 2px; }
+.anchor-chip {
+  flex:none; display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 14px;
+  border-radius:var(--lv-r-pill); background:var(--lv-card); border:1px solid var(--lv-line);
+  font-size:12px; font-weight:600; color:var(--lv-ink); text-decoration:none;
+  transition:background .15s ease, border-color .15s ease;
+}
+.anchor-chip .ico { width:14px; height:14px; }
+.anchor-chip:hover { background:var(--lv-soft-pink); border-color:transparent; }
+
+/* Секции и панели */
+.section { margin-top:28px; }
+.section-title { font-size:20px; font-weight:800; letter-spacing:-.02em; }
+.section-sub { font-size:13px; color:var(--lv-dim); line-height:1.6; margin:4px 0 14px; }
+.section-sub code { font-family:ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size:12px; color:var(--lv-pink-dark); background:var(--lv-soft-pink); border-radius:6px; padding:1px 6px; }
+.panel {
+  background:var(--lv-card); border:1px solid var(--lv-line); border-radius:var(--lv-r-lg);
+  box-shadow:var(--lv-shadow-soft); padding:16px;
+}
+.panel + .panel { margin-top:12px; }
+.panel h3 { font-size:14px; font-weight:700; letter-spacing:-.01em; }
+.spec {
+  margin-top:12px; padding-top:10px; border-top:1px solid var(--lv-line-2);
+  font-family:ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size:10.5px; line-height:1.6; color:var(--lv-dim);
+}
+.spec b { color:var(--lv-ink); font-weight:700; }
+.demo-row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+.demo-row + .demo-row { margin-top:12px; }
+.demo-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:12px; }
+@media (max-width:560px){ .demo-grid { grid-template-columns:1fr 1fr; } }
+
+/* ============ §1 Кнопки (канон docs/09 §2) ============ */
+.btn-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:0; align-items:center; }
+.btn-row + .btn-row { margin-top:12px; }
+.cta-btn { height:36px; padding:0 16px; border-radius:var(--lv-r-pill); color:var(--lv-on-brand); font-size:12px; font-weight:700; transition:all .2s; display:inline-flex; align-items:center; justify-content:center; gap:6px; background-image:var(--lv-gradient-brand); }
+.cta-btn:hover { box-shadow:var(--lv-shadow-lift); }
+.cta-btn:active { transform:scale(.95); }
+.cta-btn.big { height:48px; font-size:14px; padding:0 24px; }
+.cta-btn.sm { height:32px; padding:0 12px; font-size:12px; }
+.cta-btn .ico { width:16px; height:16px; }
+.cta-btn.plain { background-image:none; background:var(--lv-surface); color:var(--lv-ink); }
+.cta-btn.disabled { opacity:.5; pointer-events:none; }
+.cta-btn.loading { opacity:.7; pointer-events:none; }
+.cta-btn .spinner { width:14px; height:14px; border-radius:var(--lv-r-pill); border:2px solid rgba(255,255,255,.4); border-top-color:var(--lv-on-brand); animation:spin .8s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.ghost-btn { display:inline-flex; align-items:center; justify-content:center; gap:6px; height:40px; padding:0 16px; border-radius:var(--lv-r-pill); border:1.5px solid var(--lv-line); background:var(--lv-card); font-size:13px; font-weight:700; color:var(--lv-ink); transition:all .2s; }
+.ghost-btn:hover { border-color:var(--lv-pink); color:var(--lv-pink-dark); }
+.ghost-btn.sm { height:32px; padding:0 12px; font-size:12px; }
+.ghost-btn .ico { width:16px; height:16px; }
+.link-btn { display:inline-flex; align-items:center; gap:2px; font-size:13px; font-weight:600; color:var(--lv-pink-dark); transition:gap .2s; cursor:pointer; }
+.link-btn:hover { gap:6px; }
+.link-btn .ico { width:16px; height:16px; }
+.pill-btn { display:flex; align-items:center; gap:6px; height:36px; padding:0 10px; border-radius:var(--lv-r-pill); background:var(--lv-surface); font-size:14px; font-weight:500; color:var(--lv-ink); transition:background .2s; }
+.pill-btn:hover { background:var(--lv-soft-pink); }
+.pill-btn .ico { width:16px; height:16px; color:var(--lv-pink); flex-shrink:0; }
+.icon-btn { position:relative; display:flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:var(--lv-r-pill); background:var(--lv-surface); color:var(--lv-ink); transition:background .2s; }
+.icon-btn:hover { background:var(--lv-soft-pink); }
+.icon-btn:active { transform:scale(.95); }
+.icon-btn .ico { width:18px; height:18px; }
+.count-badge {
+  position:absolute; top:-3px; right:-3px; min-width:17px; height:17px; padding:0 4px;
+  border-radius:var(--lv-r-pill); background-image:var(--lv-gradient-brand); color:var(--lv-on-brand);
+  font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center;
+  font-variant-numeric:tabular-nums; border:2px solid var(--lv-card);
+}
+
+/* ============ §2 Чипы, статусы, бейджи (канон docs/09 §3) ============ */
+.pill-row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.pill-row + .pill-row { margin-top:12px; }
+.stat-pill { display:inline-flex; align-items:center; gap:6px; height:28px; padding:0 12px; border-radius:var(--lv-r-pill); font-size:12px; font-weight:600; }
+.stat-pill.pink { background:var(--lv-soft-pink); color:var(--lv-pink-dark); }
+.stat-pill.tiffany { background:var(--lv-soft-tiffany); color:var(--lv-tiffany-text); }
+.stat-pill.gold { background:var(--lv-soft-gold); color:var(--lv-gold-text); }
+.stat-pill.grey { background:var(--lv-grey-soft); color:#999; }
+.badge-pill { display:inline-flex; align-items:center; height:20px; padding:0 8px; border-radius:var(--lv-r-pill); font-size:10px; font-weight:700; }
+.badge-hit { background:var(--lv-badge-hit); color:var(--lv-pink-dark); }
+.badge-new { background:var(--lv-badge-new); color:var(--lv-tiffany-text); }
+.badge-sale { background:var(--lv-badge-sale); color:var(--lv-gold-text); }
+.badge-eco { background:var(--lv-green-soft); color:var(--lv-green-text); }
+.status-pill { display:inline-flex; align-items:center; gap:6px; height:24px; padding:0 10px; border-radius:var(--lv-r-pill); font-size:11px; font-weight:700; }
+.st-chip { display:inline-flex; align-items:center; gap:5px; height:22px; padding:0 9px; border-radius:var(--lv-r-pill); font-size:10.5px; font-weight:700; }
+.walk-pill { display:inline-flex; align-items:center; gap:4px; height:24px; padding:0 8px; border-radius:var(--lv-r-pill); background:var(--lv-soft-tiffany); color:var(--lv-tiffany-text); font-size:11px; font-weight:600; }
+.walk-pill .ico { width:13px; height:13px; }
+.open-pill { display:inline-flex; align-items:center; gap:4px; height:20px; padding:0 8px; border-radius:var(--lv-r-pill); font-size:10px; font-weight:700; }
+.open-pill .dot { width:6px; height:6px; border-radius:var(--lv-r-pill); }
+.open-pill.on { background:var(--lv-badge-new); color:var(--lv-tiffany-text); }
+.open-pill.on .dot { background:var(--lv-tiffany); }
+.open-pill.off { background:var(--lv-grey-soft); color:#999; }
+.open-pill.off .dot { background:#bbb; }
+.filter-chip {
+  display:inline-flex; align-items:center; gap:6px; height:36px; padding:0 14px;
+  border-radius:var(--lv-r-pill); border:1px solid var(--lv-line); background:var(--lv-card);
+  font-size:12px; font-weight:600; color:var(--lv-ink); cursor:pointer;
+  transition:background .15s ease, color .15s ease, border-color .15s ease;
+}
+.filter-chip .ico { width:14px; height:14px; }
+.filter-chip:hover { background:var(--lv-surface); }
+.filter-chip.active { background-image:var(--lv-gradient-brand); color:var(--lv-on-brand); border-color:transparent; }
+.filter-chip:focus-visible { outline:2px solid var(--lv-pink); outline-offset:2px; }
+
+/* ============ §3 Поля и контролы (канон docs/07 §5) ============ */
+.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width:640px){ .form-grid { grid-template-columns:1fr; } }
+.f-field { display:block; }
+.f-field .lb { display:block; margin-bottom:6px; font-size:12px; font-weight:700; color:var(--lv-ink); }
+.f-field input, .f-field textarea, .f-field select { width:100%; border:1.5px solid var(--lv-line); border-radius:var(--lv-r-md); padding:12px 14px; font:inherit; font-size:14px; background:var(--lv-card); color:var(--lv-ink); outline:none; transition:border-color .2s, box-shadow .2s; }
+.f-field input:focus, .f-field textarea:focus, .f-field select:focus { border-color:var(--lv-pink); box-shadow:var(--lv-ring-field); }
+.f-field textarea { min-height:84px; resize:vertical; }
+.f-field .err { display:none; margin-top:6px; font-size:11px; font-weight:600; color:var(--lv-pink-dark); }
+.f-field.error input { border-color:var(--lv-pink); box-shadow:var(--lv-ring-field); }
+.f-field.error .err { display:block; }
+.search-bar { display:flex; align-items:center; gap:8px; height:44px; padding:0 16px; border-radius:var(--lv-r-pill); background:var(--lv-surface); transition:all .2s; }
+.search-bar:focus-within { background:var(--lv-card); box-shadow:var(--lv-ring-search); }
+.search-bar .ico { width:16px; height:16px; color:var(--lv-dim); flex-shrink:0; }
+.search-bar input { flex:1; border:0; outline:none; background:none; font-size:14px; color:var(--lv-ink); min-width:0; }
+.search-bar input::placeholder { color:var(--lv-dim); }
+.check-row { display:flex; align-items:center; gap:10px; cursor:pointer; font-size:13px; font-weight:600; color:var(--lv-ink); }
+.check-row input { position:absolute; opacity:0; width:0; height:0; }
+.cbx { flex:none; width:20px; height:20px; border-radius:6px; border:1.5px solid var(--lv-line); background:var(--lv-card); display:flex; align-items:center; justify-content:center; transition:all .15s ease; }
+.cbx .ico { width:12px; height:12px; stroke-width:3; color:var(--lv-on-brand); opacity:0; transform:scale(.5); transition:all .15s ease; }
+.check-row input:checked + .cbx { background-image:var(--lv-gradient-brand); border-color:transparent; }
+.check-row input:checked + .cbx .ico { opacity:1; transform:scale(1); }
+.check-row input:focus-visible + .cbx { outline:2px solid var(--lv-pink); outline-offset:2px; }
+.switch-row { display:flex; align-items:center; justify-content:space-between; gap:12px; font-size:13px; font-weight:600; color:var(--lv-ink); }
+.switch { position:relative; flex:none; width:42px; height:24px; border-radius:var(--lv-r-pill); background:var(--lv-grey-soft); transition:background .2s ease; cursor:pointer; }
+.switch input { position:absolute; opacity:0; width:0; height:0; }
+.switch .knob { position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:var(--lv-r-pill); background:var(--lv-card); box-shadow:var(--lv-shadow-float); transition:transform .2s ease; }
+.switch input:checked ~ .knob { transform:translateX(18px); }
+.switch:has(input:checked) { background-image:var(--lv-gradient-brand); }
+.switch input:focus-visible ~ .knob { outline:2px solid var(--lv-pink); outline-offset:2px; }
+.seg { display:inline-flex; gap:2px; padding:3px; border-radius:var(--lv-r-pill); background:var(--lv-surface); }
+.seg button { height:30px; padding:0 14px; border-radius:var(--lv-r-pill); border:0; background:none; font-size:12px; font-weight:700; color:var(--lv-dim); cursor:pointer; transition:all .15s ease; font-family:inherit; }
+.seg button.active { background:var(--lv-card); color:var(--lv-ink); box-shadow:var(--lv-shadow-float); }
+.seg button:focus-visible { outline:2px solid var(--lv-pink); outline-offset:1px; }
+.stepper { display:inline-flex; align-items:center; gap:2px; height:36px; padding:0 4px; border-radius:var(--lv-r-pill); background:var(--lv-surface); }
+.stepper button { width:28px; height:28px; border-radius:var(--lv-r-pill); border:0; background:none; color:var(--lv-ink); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .15s ease; font-family:inherit; }
+.stepper button:hover { background:var(--lv-soft-pink); }
+.stepper button:active { transform:scale(.92); }
+.stepper button .ico { width:14px; height:14px; }
+.stepper .val { min-width:28px; text-align:center; font-size:14px; font-weight:700; font-variant-numeric:tabular-nums; }
+
+/* ============ §4 Карточки (канон docs/09 §4) ============ */
+.btn-card { display:block; width:100%; text-align:left; background:var(--lv-card); border:1px solid var(--lv-line); border-radius:var(--lv-r-lg); box-shadow:var(--lv-shadow-soft); overflow:hidden; transition:transform .2s, box-shadow .2s; padding:0; cursor:pointer; color:var(--lv-ink); font-family:inherit; }
+.btn-card:hover { transform:translateY(-2px); box-shadow:var(--lv-shadow-lift); }
+.btn-card:active { transform:scale(.97); }
+.cover { height:80px; display:flex; align-items:center; justify-content:center; position:relative; }
+.cover .em { width:38px; height:38px; color:var(--lv-on-tile); transition:transform .2s; }
+.btn-card:hover .em { transform:scale(1.1); }
+.cover.tile-pink { background:var(--lv-tile-pink); }
+.cover.tile-tiffany { background:var(--lv-tile-tiffany); }
+.cover.tile-gold { background:var(--lv-tile-gold); }
+.cover.tile-sand { background:var(--lv-tile-sand); }
+.cover.tile-ink { background:var(--lv-tile-ink); }
+.card-body { padding:12px; }
+.card-name { font-size:14px; font-weight:700; letter-spacing:-.01em; }
+.card-sub { font-size:12px; color:var(--lv-dim); margin-top:2px; }
+.card-foot { display:flex; align-items:center; justify-content:space-between; margin-top:10px; }
+.rating { display:flex; align-items:center; gap:3px; font-size:12px; font-weight:700; color:var(--lv-gold); }
+.star-ico { display:inline-block; width:12px; height:12px; fill:var(--lv-gold); flex:none; }
+.price { font-size:16px; font-weight:800; font-variant-numeric:tabular-nums; }
+.price-old { font-size:12px; color:var(--lv-dim); text-decoration:line-through; font-variant-numeric:tabular-nums; }
+.quick-btn { width:36px; height:36px; border-radius:var(--lv-r-pill); border:0; background-image:var(--lv-gradient-brand); color:var(--lv-on-brand); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .2s; flex:none; }
+.quick-btn:hover { box-shadow:var(--lv-shadow-lift); }
+.quick-btn:active { transform:scale(.95); }
+.quick-btn .ico { width:16px; height:16px; }
+.promo-card { border-radius:var(--lv-r-lg); padding:16px; transition:transform .2s, box-shadow .2s; }
+.promo-card:hover { transform:translateY(-2px); box-shadow:var(--lv-shadow-lift); }
+.promo-card.tone-pink { background:var(--lv-soft-pink); }
+.promo-card.tone-gold { background:var(--lv-sand-soft); }
+.promo-mini { display:inline-flex; align-items:center; gap:6px; height:20px; padding:0 8px; border-radius:var(--lv-r-pill); background:rgba(255,255,255,.8); font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--lv-pink-dark); }
+.promo-title { margin-top:8px; font-size:16px; font-weight:800; line-height:1.3; }
+.promo-desc { font-size:12px; color:var(--lv-dim); margin-top:2px; }
+.kpi { border-radius:var(--lv-r-lg); padding:12px 14px; min-width:0; background:var(--lv-card); border:1px solid var(--lv-line); box-shadow:var(--lv-shadow-soft); }
+.kpi.accent { background-image:linear-gradient(150deg, var(--lv-kpi-soft), var(--lv-card)); border-color:rgba(246, 74, 138, .25); }
+.kpi .l { font-size:10.5px; font-weight:700; color:var(--lv-dim); text-transform:uppercase; letter-spacing:.04em; }
+.kpi .v { margin-top:5px; font-size:19px; font-weight:800; letter-spacing:-.02em; font-variant-numeric:tabular-nums; }
+.kpi .d { margin-top:5px; display:flex; align-items:center; gap:6px; font-size:11px; font-weight:700; }
+.delta-up { color:var(--lv-tiffany-text); }
+.delta-down { color:var(--lv-pink-dark); }
+
+/* ============ §5 Списки и строки ============ */
+.list-card { background:var(--lv-card); border:1px solid var(--lv-line); border-radius:var(--lv-r-lg); box-shadow:var(--lv-shadow-soft); padding:4px 0; }
+.row { display:flex; align-items:center; gap:12px; padding:11px 14px; border-bottom:1px solid var(--lv-line-2); cursor:pointer; background:none; border-left:0; border-right:0; border-top:0; width:100%; text-align:left; font-family:inherit; color:var(--lv-ink); transition:background .15s ease; }
+.row:last-child { border-bottom:0; }
+.row:hover { background:var(--lv-surface); }
+.row-icon { flex:none; width:36px; height:36px; border-radius:var(--lv-r-sm); background:var(--lv-soft-pink); color:var(--lv-pink-dark); display:flex; align-items:center; justify-content:center; }
+.row-icon.tiffany { background:var(--lv-soft-tiffany); color:var(--lv-tiffany-text); }
+.row-icon.gold { background:var(--lv-soft-gold); color:var(--lv-gold-text); }
+.row-icon .ico { width:17px; height:17px; }
+.row-main { flex:1; min-width:0; }
+.row-title { font-size:14px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.row-sub { font-size:12px; color:var(--lv-dim); margin-top:1px; }
+.row .chev { flex:none; width:16px; height:16px; color:var(--lv-dim); }
+.row.danger .row-title, .row.danger .row-icon { color:var(--lv-pink-dark); }
+.row.danger .row-icon { background:var(--lv-soft-pink); }
+.district-row { display:flex; align-items:center; justify-content:space-between; height:56px; padding:0 16px; border-radius:var(--lv-r-lg); border:1px solid var(--lv-line); transition:all .2s; text-align:left; width:100%; color:var(--lv-ink); background:var(--lv-card); cursor:pointer; font-family:inherit; }
+.district-row:hover { border-color:var(--lv-pink); }
+.district-row.active { border-color:var(--lv-pink); background:var(--lv-soft-pink); }
+.district-row .nm { display:block; font-size:14px; font-weight:600; }
+.district-row .mt { display:block; font-size:12px; color:var(--lv-dim); }
+.divider-demo { display:flex; flex-direction:column; gap:14px; }
+.divider-demo .cap { font-family:ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size:10.5px; color:var(--lv-dim); }
+.hr-2 { height:1px; background:var(--lv-line-2); }
+.hr-hair { height:1px; background:var(--lv-hairline); }
+
+/* ============ §6 Навигация ============ */
+.nav-demo { border:1px solid var(--lv-line); border-radius:var(--lv-r-lg); background:var(--lv-card); overflow:hidden; max-width:480px; }
+.app-nav-in { display:grid; grid-template-columns:repeat(5, 1fr); height:64px; }
+.nav-btn { position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; font-size:11px; font-weight:500; color:var(--lv-dim); transition:color .2s; font-family:inherit; border:0; background:none; cursor:pointer; }
+.nav-btn.active { color:var(--lv-pink); font-weight:700; }
+.nav-btn .top-ind { position:absolute; top:0; width:32px; height:2px; border-radius:var(--lv-r-pill); background:var(--lv-pink); display:none; }
+.nav-btn.active .top-ind { display:block; }
+.nav-btn:active { transform:scale(.95); }
+.nav-ico { display:flex; }
+.nav-ico .ico { width:22px; height:22px; }
+.subheader-demo { display:flex; align-items:center; gap:10px; height:48px; padding:0 12px; border:1px solid var(--lv-line); border-radius:var(--lv-r-lg); background:var(--lv-card); max-width:480px; }
+.subheader-demo .back { flex:none; width:32px; height:32px; border-radius:var(--lv-r-pill); background:var(--lv-surface); display:flex; align-items:center; justify-content:center; color:var(--lv-ink); border:0; cursor:pointer; transition:background .15s ease; font-family:inherit; }
+.subheader-demo .back:hover { background:var(--lv-soft-pink); }
+.subheader-demo .back .ico { width:16px; height:16px; }
+.subheader-demo .t { font-size:15px; font-weight:700; }
+.tabs { display:flex; gap:2px; border-bottom:1px solid var(--lv-line-2); max-width:480px; }
+.tabs button { flex:1; height:40px; padding:0 8px; border:0; background:none; font-size:13px; font-weight:600; color:var(--lv-dim); cursor:pointer; position:relative; transition:color .15s ease; font-family:inherit; }
+.tabs button.active { color:var(--lv-pink-dark); font-weight:700; }
+.tabs button.active::after { content:''; position:absolute; left:50%; transform:translateX(-50%); bottom:-1px; width:32px; height:2px; border-radius:var(--lv-r-pill); background:var(--lv-pink); }
+.tabs button:focus-visible { outline:2px solid var(--lv-pink); outline-offset:-2px; border-radius:10px; }
+
+/* ============ §7 Обратная связь ============ */
+.toast-wrap { position:fixed; left:0; right:0; bottom:84px; z-index:60; display:flex; flex-direction:column; align-items:center; gap:8px; pointer-events:none; padding:0 16px; }
+.toast { max-width:100%; background:var(--lv-ink); color:var(--lv-card); border-radius:var(--lv-r-lg); padding:10px 16px; font-size:13px; font-weight:600; box-shadow:var(--lv-shadow-toast); animation:lv-toast-in .25s ease-out; }
+.toast .d { font-size:11px; color:var(--lv-toast-d); font-weight:400; margin-top:2px; }
+@keyframes lv-toast-in { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+.toast.hide { opacity:0; transform:translateY(8px); transition:all .25s; }
+.sheet-overlay { position:fixed; inset:0; z-index:50; background:rgba(26, 26, 26, .4); opacity:0; pointer-events:none; transition:opacity .25s; }
+.sheet-overlay.open { opacity:1; pointer-events:auto; }
+.sheet { position:fixed; left:0; right:0; bottom:0; z-index:51; background:var(--lv-card); border-radius:var(--lv-r-xl) var(--lv-r-xl) 0 0; max-height:72dvh; display:flex; flex-direction:column; transform:translateY(100%); visibility:hidden; transition:transform .3s cubic-bezier(.32, .72, 0, 1), visibility .3s; max-width:var(--lv-container); margin:0 auto; }
+.sheet.open { transform:translateY(0); visibility:visible; }
+.sheet-head { padding:20px 16px 8px; }
+.sheet-head h3 { margin:0; font-size:18px; font-weight:800; }
+.sheet-head p { margin:4px 0 0; font-size:14px; color:var(--lv-dim); }
+.sheet-body { padding:0 16px 24px; overflow-y:auto; display:grid; gap:8px; }
+.skeleton-card { border:1px solid var(--lv-line); border-radius:var(--lv-r-lg); padding:12px; display:flex; gap:12px; align-items:center; }
+.sk { background:var(--lv-grey-soft); border-radius:8px; position:relative; overflow:hidden; }
+.sk::after { content:''; position:absolute; inset:0; transform:translateX(-100%); background:linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent); animation:shimmer 1.4s infinite; }
+@keyframes shimmer { to { transform:translateX(100%); } }
+.sk-ava { width:44px; height:44px; border-radius:var(--lv-r-pill); flex:none; }
+.sk-l1 { height:12px; width:70%; }
+.sk-l2 { height:10px; width:45%; margin-top:8px; }
+.empty-state { display:flex; flex-direction:column; align-items:center; text-align:center; padding:28px 16px; }
+.empty-state .ico { width:44px; height:44px; color:var(--lv-dim); stroke-width:1.6; }
+.empty-state h4 { margin-top:12px; font-size:16px; font-weight:800; }
+.empty-state p { margin-top:4px; font-size:13px; color:var(--lv-dim); line-height:1.55; max-width:34ch; }
+.empty-state .cta-btn { margin-top:14px; }
+.progress-wrap { max-width:360px; }
+.progress-track { height:6px; border-radius:var(--lv-r-pill); background:var(--lv-grey-soft); overflow:hidden; }
+.progress-fill { height:100%; width:64%; border-radius:var(--lv-r-pill); background-image:var(--lv-gradient-brand); transition:width .3s ease; }
+.progress-meta { display:flex; justify-content:space-between; margin-top:6px; font-size:11px; font-weight:600; color:var(--lv-dim); font-variant-numeric:tabular-nums; }
+.spinner-lg { width:20px; height:20px; border-radius:var(--lv-r-pill); border:2px solid var(--lv-soft-pink); border-top-color:var(--lv-pink); animation:spin .8s linear infinite; }
+
+/* ============ §8 Контентные блоки ============ */
+.section-head { display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
+.section-head .t { font-size:16px; font-weight:800; letter-spacing:-.01em; }
+.tiles-row { display:grid; grid-template-columns:repeat(5, 1fr); gap:8px; }
+@media (max-width:560px){ .tiles-row { grid-template-columns:repeat(3, 1fr); } }
+.tile { border-radius:var(--lv-r-sm); padding:12px 8px; display:flex; flex-direction:column; align-items:center; gap:6px; cursor:pointer; border:0; font-family:inherit; color:var(--lv-on-tile); transition:transform .15s ease; }
+.tile:active { transform:scale(.96); }
+.tile .ico { width:26px; height:26px; color:var(--lv-on-tile); }
+.tile .nm { font-size:11px; font-weight:600; }
+.tile-pink { background:var(--lv-tile-pink); }
+.tile-tiffany { background:var(--lv-tile-tiffany); }
+.tile-gold { background:var(--lv-tile-gold); }
+.tile-sand { background:var(--lv-tile-sand); }
+.tile-ink { background:var(--lv-tile-ink); }
+.glass-demo { border-radius:var(--lv-r-xl); padding:20px; color:var(--lv-on-brand); background-image:var(--lv-gradient-ink); position:relative; overflow:hidden; }
+.glass-demo .kicker { font-size:10.5px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.6); }
+.glass-demo .big { margin-top:6px; font-size:18px; font-weight:800; }
+.glass-demo .big .g { color:var(--lv-gold); }
+.glass-chip { display:inline-flex; align-items:center; gap:4px; height:28px; padding:0 12px; border-radius:var(--lv-r-pill); background:rgba(255,255,255,.1); font-size:12px; font-weight:600; color:var(--lv-on-brand); }
+.glass-chip .g { color:var(--lv-gold); }
+.glass-chip .t { color:var(--lv-tiffany); }
+.stars-row { display:flex; align-items:center; gap:3px; }
+.stars-row .star-ico { width:16px; height:16px; }
+.stars-row .off { fill:var(--lv-grey-soft); }
+.stars-meta { margin-left:8px; font-size:12px; font-weight:600; color:var(--lv-dim); }
+.avatar-row { display:flex; align-items:center; gap:12px; }
+.avatar { flex:none; width:40px; height:40px; border-radius:var(--lv-r-pill); background:var(--lv-soft-pink); color:var(--lv-pink-dark); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; letter-spacing:.02em; }
+.avatar.tiffany { background:var(--lv-soft-tiffany); color:var(--lv-tiffany-text); }
+.avatar.gold { background:var(--lv-soft-gold); color:var(--lv-gold-text); }
+.avatar .ico { width:18px; height:18px; }
+.timeline { position:relative; padding-left:22px; display:grid; gap:16px; }
+.timeline::before { content:''; position:absolute; left:5px; top:6px; bottom:6px; width:1px; background:var(--lv-hairline); }
+.milestone { position:relative; }
+.milestone .pt { position:absolute; left:-22px; top:3px; width:11px; height:11px; border-radius:var(--lv-r-pill); background:var(--lv-dim); border:2px solid var(--lv-card); }
+.milestone.done .pt { background:var(--lv-tiffany); }
+.milestone.now .pt { background:var(--lv-pink); animation:lv-pulse-dot 1.4s ease-in-out infinite; }
+.milestone .t { font-size:13px; font-weight:700; }
+.milestone.now .t { color:var(--lv-pink-dark); }
+.milestone .s { font-size:12px; color:var(--lv-dim); margin-top:1px; }
+.promo-code { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 16px; border-radius:var(--lv-r-lg); border:1.5px dashed var(--lv-line); background:var(--lv-card); max-width:360px; }
+.promo-code .code { font-size:20px; font-weight:800; letter-spacing:.06em; background-image:var(--lv-gradient-brand); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.copy-mini { flex:none; width:36px; height:36px; border-radius:var(--lv-r-pill); border:0; background:var(--lv-surface); color:var(--lv-pink-dark); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .15s ease; font-family:inherit; }
+.copy-mini:hover { background:var(--lv-soft-pink); }
+.copy-mini .ico { width:16px; height:16px; }
+.legal { border-top:1px solid var(--lv-hairline); padding-top:12px; margin-top:14px; font-size:12px; line-height:1.7; color:var(--lv-dim); }
+.legal a { color:var(--lv-pink-dark); font-weight:600; text-decoration:none; }
+
+/* ============ §9 Состояния ============ */
+.state-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:10px; }
+.state-cell { border:1px solid var(--lv-line-2); border-radius:var(--lv-r-md); padding:14px 12px 10px; display:flex; flex-direction:column; align-items:center; gap:10px; }
+.state-cell .nm { font-family:ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size:10px; color:var(--lv-dim); }
+.enter-target { transition:none; }
+
+/* Фирменное свечение бренда (v1.7.0) */
+.hero::before, .hero::after { content:""; position:absolute; border-radius:var(--lv-r-pill); pointer-events:none; }
+.hero::before { width:210px; height:210px; right:-60px; top:-90px; background:radial-gradient(closest-side, rgba(255,255,255,.3), rgba(255,255,255,0)); animation:lv-float 6s ease-in-out infinite; }
+.hero::after { width:150px; height:150px; left:-50px; bottom:-70px; background:radial-gradient(closest-side, rgba(255,255,255,.18), rgba(255,255,255,0)); animation:lv-float 7s ease-in-out 1s infinite reverse; }
