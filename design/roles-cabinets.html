@@ -152,6 +152,10 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
   background-image:repeating-linear-gradient(to right,
     rgba(10,186,181,.35) 0 1px, transparent 1px 16px),
     repeating-linear-gradient(to bottom, rgba(10,186,181,.18) 0 1px, transparent 1px 16px); }
+
+/* Иконки: канонный спрайт ДС, цвет через currentColor (docs/09 §1) */
+.ico { width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; display:block; }
+.cta-btn .ico, .ghost-btn .ico, .filter-chip .ico { width:16px; height:16px; }
 </style>
 </head>
 <body>
@@ -198,8 +202,8 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
       </div>
       <div class="dash-note tone-pink">3 заявки в очереди — апрувните их сейчас, чтобы точки увидели витрину.</div>
       <div class="list-card">
-        <div class="row"><div class="row-icon">🥖</div><div class="row-main"><div class="row-title">НАПОЛИ ПИЦЦА · «На Белы Куна»</div><div class="row-sub">активна · Лови Базовый</div></div><div class="row-sum">26 700 ₽</div></div>
-        <div class="row"><div class="row-icon">☕</div><div class="row-main"><div class="row-title">Перекресток, Карбышева 9</div><div class="row-sub">активна · Лови Базовый</div></div><div class="row-sum">4 247 ₽</div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-choco"/></svg></div><div class="row-main"><div class="row-title">НАПОЛИ ПИЦЦА · «На Белы Куна»</div><div class="row-sub">активна · Лови Базовый</div></div><div class="row-sum">26 700 ₽</div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-coffee"/></svg></div><div class="row-main"><div class="row-title">Перекресток, Карбышева 9</div><div class="row-sub">активна · Лови Базовый</div></div><div class="row-sum">4 247 ₽</div></div>
       </div>
       <div class="section">
         <div class="cap">Топ точек по GMV</div>
@@ -222,10 +226,10 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
         </div>
       </div>
       <div class="list-card">
-        <div class="row"><div class="row-icon">🥖</div><div class="row-main"><div class="row-title">НАПОЛИ ПИЦЦА · «На Белы Куна»</div><div class="row-sub">Лови Базовый · 3 заказа</div></div><div class="row-sum"><span class="status-pill ok">Активна</span></div></div>
-        <div class="row"><div class="row-icon">☕</div><div class="row-main"><div class="row-title">Перекресток, Карбышева 9</div><div class="row-sub">Лови Базовый · 2 заказа</div></div><div class="row-sum"><span class="status-pill ok">Активна</span></div></div>
-        <div class="row"><div class="row-icon">🧺</div><div class="row-main"><div class="row-title">УЛЫБКА РАДУГИ, Малая Посадская</div><div class="row-sub">заявка отправлена</div></div><div class="row-sum"><span class="status-pill wait">Ожидает</span></div></div>
-        <div class="row"><div class="row-icon">🧁</div><div class="row-main"><div class="row-title">My little garden, Клинский пр.</div><div class="row-sub">карточка не заполнена</div></div><div class="row-sum"><span class="status-pill off">Отклонена</span></div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-choco"/></svg></div><div class="row-main"><div class="row-title">НАПОЛИ ПИЦЦА · «На Белы Куна»</div><div class="row-sub">Лови Базовый · 3 заказа</div></div><div class="row-sum"><span class="status-pill ok">Активна</span></div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-coffee"/></svg></div><div class="row-main"><div class="row-title">Перекресток, Карбышева 9</div><div class="row-sub">Лови Базовый · 2 заказа</div></div><div class="row-sum"><span class="status-pill ok">Активна</span></div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-shapes"/></svg></div><div class="row-main"><div class="row-title">УЛЫБКА РАДУГИ, Малая Посадская</div><div class="row-sub">заявка отправлена</div></div><div class="row-sum"><span class="status-pill wait">Ожидает</span></div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-choco"/></svg></div><div class="row-main"><div class="row-title">My little garden, Клинский пр.</div><div class="row-sub">карточка не заполнена</div></div><div class="row-sum"><span class="status-pill off">Отклонена</span></div></div>
       </div>
       <div class="dash-note tone-dim">Поиск и сортировка — как в спеке (по названию, выручке, статусу).</div>
     </div>
@@ -248,8 +252,8 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
         <p>Заявка приходит по вашему промокоду. Проверьте ИНН и адрес — после апрува точка получит счёт на верификацию.</p>
       </div>
       <div class="list-card">
-        <div class="row"><div class="row-icon">🧺</div><div class="row-main"><div class="row-title">Пекарня Статус-92</div><div class="row-sub">ИНН 970512345688 · карточка заполнена</div></div></div>
-        <div class="row"><div class="row-icon">🍣</div><div class="row-main"><div class="row-title">Кофейня Приёмка-2</div><div class="row-sub">ИНН 7712345671 · ждёт проверки</div></div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-shapes"/></svg></div><div class="row-main"><div class="row-title">Пекарня Статус-92</div><div class="row-sub">ИНН 970512345688 · карточка заполнена</div></div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-salad"/></svg></div><div class="row-main"><div class="row-title">Кофейня Приёмка-2</div><div class="row-sub">ИНН 7712345671 · ждёт проверки</div></div></div>
       </div>
       <div class="section">
         <div class="cap">Маршрут подключения</div>
@@ -340,17 +344,17 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
 
     <div class="screen" data-screen="amb-reps">
       <div class="list-card">
-        <div class="row"><div class="row-icon">🤝</div><div class="row-main"><div class="row-title">Анна Ветрова</div><div class="row-sub">PP7K2A · 4 точки</div></div><div class="row-sum">0 ₽</div></div>
-        <div class="row"><div class="row-icon">🤝</div><div class="row-main"><div class="row-title">Игорь Смирнов</div><div class="row-sub">PP3M9Q · 3 точки</div></div><div class="row-sum">0 ₽</div></div>
-        <div class="row"><div class="row-icon">🤝</div><div class="row-main"><div class="row-title">Мария Ким</div><div class="row-sub">PP8D1L · 5 точек</div></div><div class="row-sum">0 ₽</div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-user"/></svg></div><div class="row-main"><div class="row-title">Анна Ветрова</div><div class="row-sub">PP7K2A · 4 точки</div></div><div class="row-sum">0 ₽</div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-user"/></svg></div><div class="row-main"><div class="row-title">Игорь Смирнов</div><div class="row-sub">PP3M9Q · 3 точки</div></div><div class="row-sum">0 ₽</div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-user"/></svg></div><div class="row-main"><div class="row-title">Мария Ким</div><div class="row-sub">PP8D1L · 5 точек</div></div><div class="row-sum">0 ₽</div></div>
       </div>
     </div>
 
     <div class="screen" data-screen="amb-training">
       <div class="list-card" style="padding:0;margin-top:14px">
-        <div class="row"><div class="row-icon">📘</div><div class="row-main"><div class="row-title">Как подключить точку</div><div class="row-sub">8 минут · 100%</div></div><div class="row-sum"><span class="status-pill ok">Пройден</span></div></div>
-        <div class="row"><div class="row-icon">📗</div><div class="row-main"><div class="row-title">Работа с возражениями</div><div class="row-sub">12 минут · 40%</div></div><div class="row-sum"><span class="status-pill wait">В процессе</span></div></div>
-        <div class="row"><div class="row-icon">📙</div><div class="row-main"><div class="row-title">Обучение представителей</div><div class="row-sub">15 минут</div></div><div class="row-sum"><span class="status-pill off">Не начат</span></div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-info"/></svg></div><div class="row-main"><div class="row-title">Как подключить точку</div><div class="row-sub">8 минут · 100%</div></div><div class="row-sum"><span class="status-pill ok">Пройден</span></div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-award"/></svg></div><div class="row-main"><div class="row-title">Работа с возражениями</div><div class="row-sub">12 минут · 40%</div></div><div class="row-sum"><span class="status-pill wait">В процессе</span></div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-flame"/></svg></div><div class="row-main"><div class="row-title">Обучение представителей</div><div class="row-sub">15 минут</div></div><div class="row-sum"><span class="status-pill off">Не начат</span></div></div>
       </div>
     </div>
 
@@ -404,17 +408,17 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
         </ol>
       </div>
       <div class="list-card">
-        <div class="row"><div class="row-icon">🧾</div><div class="row-main"><div class="row-title">Заказ №155 · 1 000 ₽</div><div class="row-sub">13.09 10:59 · завершён</div></div><div class="row-sum"><span class="status-pill brand">Новый</span></div></div>
-        <div class="row"><div class="row-icon">🧾</div><div class="row-main"><div class="row-title">Заказ №153 · 8 300 ₽</div><div class="row-sub">13.09 06:45 · ждёт принятия</div></div><div class="row-sum"><span class="status-pill brand">Новый</span></div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-bag"/></svg></div><div class="row-main"><div class="row-title">Заказ №155 · 1 000 ₽</div><div class="row-sub">13.09 10:59 · завершён</div></div><div class="row-sum"><span class="status-pill brand">Новый</span></div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-bag"/></svg></div><div class="row-main"><div class="row-title">Заказ №153 · 8 300 ₽</div><div class="row-sub">13.09 06:45 · ждёт принятия</div></div><div class="row-sum"><span class="status-pill brand">Новый</span></div></div>
       </div>
     </div>
 
     <div class="screen" data-screen="msp-orders">
       <div class="section" style="padding:12px 14px"><div class="chips"><span class="filter-chip">Новые</span><span class="filter-chip">В работе</span><span class="filter-chip">Готовы</span><span class="filter-chip">Завершены</span></div></div>
       <div class="list-card" style="padding:0;margin-top:14px">
-        <div class="row"><div class="row-icon">🧾</div><div class="row-main"><div class="row-title">№155 · 1 000 ₽</div><div class="row-sub">Пышка с корицей ×10 · самовывоз · 13.09 10:59</div></div><div class="row-sum"><span class="status-pill ok">Завершён</span></div></div>
-        <div class="row"><div class="row-icon">🧾</div><div class="row-main"><div class="row-title">№154 · 26 700 ₽</div><div class="row-sub">Семейный набор ×30 · доставка</div></div><div class="row-sum"><span class="status-pill wait">Готовим</span></div></div>
-        <div class="row"><div class="row-icon">🧾</div><div class="row-main"><div class="row-title">№153 · 8 300 ₽</div><div class="row-sub">Лилия и букет тюльпанов · самовывоз</div></div><div class="row-sum"><span class="status-pill ok">Завершён</span></div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-bag"/></svg></div><div class="row-main"><div class="row-title">№155 · 1 000 ₽</div><div class="row-sub">Пышка с корицей ×10 · самовывоз · 13.09 10:59</div></div><div class="row-sum"><span class="status-pill ok">Завершён</span></div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-bag"/></svg></div><div class="row-main"><div class="row-title">№154 · 26 700 ₽</div><div class="row-sub">Семейный набор ×30 · доставка</div></div><div class="row-sum"><span class="status-pill wait">Готовим</span></div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-bag"/></svg></div><div class="row-main"><div class="row-title">№153 · 8 300 ₽</div><div class="row-sub">Лилия и букет тюльпанов · самовывоз</div></div><div class="row-sum"><span class="status-pill ok">Завершён</span></div></div>
       </div>
       <div class="btn-row" style="padding:0 16px"><button class="cta-btn" data-action="status">Сменить статус</button><button class="ghost-btn" disabled>Отменить</button></div>
     </div>
@@ -429,9 +433,9 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
         <div class="btn-row"><button class="cta-btn" data-action="status">Принять заказ</button><button class="ghost-btn" data-action="reject-order">Отклонить</button></div>
       </div>
       <div class="list-card">
-        <div class="row"><div class="row-icon">🥐</div><div class="row-main"><div class="row-title">Лилия Азиатская оранжевая</div><div class="row-sub">2 шт · 450 ₽</div></div><div class="row-sum">900 ₽</div></div>
-        <div class="row"><div class="row-icon">🍞</div><div class="row-main"><div class="row-title">Букет Тюльпаны 15 шт</div><div class="row-sub">2 шт · 3 700 ₽</div></div><div class="row-sum">7 400 ₽</div></div>
-        <div class="row"><div class="row-icon">🎁</div><div class="row-main"><div class="row-title">Итого по заказу</div><div class="row-sub">позиций: 2</div></div><div class="row-sum">8 300 ₽</div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-choco"/></svg></div><div class="row-main"><div class="row-title">Лилия Азиатская оранжевая</div><div class="row-sub">2 шт · 450 ₽</div></div><div class="row-sum">900 ₽</div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-choco"/></svg></div><div class="row-main"><div class="row-title">Букет Тюльпаны 15 шт</div><div class="row-sub">2 шт · 3 700 ₽</div></div><div class="row-sum">7 400 ₽</div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-gift"/></svg></div><div class="row-main"><div class="row-title">Итого по заказу</div><div class="row-sub">позиций: 2</div></div><div class="row-sum">8 300 ₽</div></div>
       </div>
       <div class="section">
         <div class="cap">История статусов</div>
@@ -445,8 +449,8 @@ body.guides .phone::after { content:''; position:absolute; inset:0; pointer-even
 
     <div class="screen" data-screen="msp-products">
       <div class="list-card">
-        <div class="row"><div class="row-icon">🥐</div><div class="row-main"><div class="row-title">Семейный набор</div><div class="row-sub">890 ₽ · во всех филиалах</div></div><div class="row-sum"><span class="status-pill ok">Виден</span></div></div>
-        <div class="row"><div class="row-icon">🍞</div><div class="row-main"><div class="row-title">Медовик (кусочек)</div><div class="row-sub">160 ₽ · филиал «На Белы Куна»</div></div><div class="row-sum"><span class="status-pill off">Скрыт</span></div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-choco"/></svg></div><div class="row-main"><div class="row-title">Семейный набор</div><div class="row-sub">890 ₽ · во всех филиалах</div></div><div class="row-sum"><span class="status-pill ok">Виден</span></div></div>
+        <div class="row"><div class="row-icon"><svg class="ico" aria-hidden="true"><use href="icons.svg#i-choco"/></svg></div><div class="row-main"><div class="row-title">Медовик (кусочек)</div><div class="row-sub">160 ₽ · филиал «На Белы Куна»</div></div><div class="row-sum"><span class="status-pill off">Скрыт</span></div></div>
       </div>
       <div class="btn-row" style="padding:0 16px"><button class="cta-btn" data-action="product">Добавить товар</button></div>
       <div class="dash-note tone-dim">Загрузка фото — <code>POST /msp/uploads</code>; расширенная настройка каталога остаётся в кабинете b2b.</div>
