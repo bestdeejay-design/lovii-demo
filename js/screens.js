@@ -67,7 +67,7 @@ function storeCardHtml(s) {
   <div class="store-card-w">
     <button class="btn-card" data-go="store:${s.slug}" aria-label="Открыть ${esc(s.name)}">
       <div class="cover-20 ${tileBg(s.color)}">
-        <span class="em">${s.emoji}</span>
+        <span class="em">${icon('store')}</span>
         <span class="open-pill ${s.open ? 'on' : 'off'}"><span class="dot"></span>${s.open ? 'Открыто' : 'Закрыто'}</span>
       </div>
       <div class="store-body">
@@ -98,7 +98,7 @@ function productCardHtml(p) {
   return `
   <button class="product-card ${noStock ? 'disabled' : ''}" data-go="product:${p.slug}" ${noStock ? 'disabled' : ''}>
     <div class="cover-28 ${tileBg(p.storeColor || 'ink')}">
-      <span class="em">${p.emoji}</span>
+      <span class="em">${icon('store')}</span>
       ${badge ? `<span class="badge-pill ${badge.cls}">${badge.label}</span>` : ''}
       ${p.pointsCount > 0 && p.walkMinutes !== null ? `<span class="walk-mini">${icon('footprints')}${p.walkMinutes} мин</span>` : ''}
     </div>
@@ -129,7 +129,7 @@ function promoCardHtml(p) {
 function compactRowHtml(p) {
   return `
   <button class="compact-row" data-go="product:${p.slug}">
-    <span class="em-tile ${tileBg(p.storeColor || 'ink')}">${p.emoji}</span>
+    <span class="em-tile ${tileBg(p.storeColor || 'ink')}">${icon('store')}</span>
     <span class="mid">
       <span class="nm">${esc(p.name)}</span>
       <span class="sb">${p.isService ? 'Услуга · ' : ''}${esc(p.storeName || '')}${p.pointsCount > 1 ? ` · ещё в ${p.pointsCount - 1} рядом` : ''}</span>
@@ -207,7 +207,7 @@ function renderHome() {
         <div class="cats no-scrollbar" aria-label="Категории">
           ${CATS.map((c) => {
             const active = state.category === c.slug;
-            return `<button class="cat-chip ${active ? 'active' : ''}" data-action="category" data-val="${c.slug}"><span class="e">${c.emoji}</span>${c.label}</button>`;
+            return `<button class="cat-chip ${active ? 'active' : ''}" data-action="category" data-val="${c.slug}"><span class="e">${icon('message')}</span>${c.label}</button>`;
           }).join('')}
         </div>
       </div>
@@ -311,7 +311,7 @@ function renderStore(slug) {
   return `
   <div class="lv-enter" style="padding-bottom:16px">
     <div class="st-cover ${tileBg(s.color)}">
-      <span class="em">${s.emoji}</span>
+      <span class="em">${icon('store')}</span>
       <span class="open-pill ${s.open ? 'on' : 'off'}"><span class="dot ${s.open ? 'lv-dot' : ''}" style="${s.open ? '' : 'background:#bbb'}"></span>${s.open ? 'Открыто' : 'Закрыто'}</span>
     </div>
 
@@ -404,7 +404,7 @@ function renderProduct(slug) {
   return `
   <div class="lv-enter lv-narrow" style="padding-bottom:16px">
     <div class="pd-cover ${tileBg(coverColor)}">
-      <span class="em">${p.emoji}</span>
+      <span class="em">${icon('store')}</span>
       ${badge ? `<span class="badge-pill ${badge.cls}">${badge.label}</span>` : ''}
       <button class="fav-btn ${state.favorites.includes(p.slug) ? 'on' : ''}" data-action="fav" data-slug="${p.slug}" aria-label="В избранное">${icon('heart', '', 2, state.favorites.includes(p.slug))}</button>
     </div>
@@ -451,7 +451,7 @@ function searchListHtml() {
           .map(
             (s) => `
         <button class="compact-row" data-go="store:${s.slug}">
-          <span class="em-tile ${tileBg(s.color)}">${s.emoji}</span>
+          <span class="em-tile ${tileBg(s.color)}">${icon('store')}</span>
           <span class="mid">
             <span class="nm">${esc(s.name)}</span>
             <span class="sb">${esc(s.address)} · ${s.open ? 'открыто' : 'закрыто'}</span>
@@ -535,7 +535,7 @@ function renderCart() {
           .map(
             (item) => `
         <div class="cart-item">
-          <button class="em-tile tile-ink" data-go="product:${item.slug}">${item.emoji}</button>
+          <button class="em-tile tile-ink" data-go="product:${item.slug}">${icon('bag')}</button>
           <div class="mid">
             <div class="nm">${esc(item.name)}</div>
             <div class="pr">${priceFmt(item.price)} / ${esc(item.unit)}</div>
@@ -616,7 +616,7 @@ function renderOrders() {
             ${o.items
               .map(
                 (it, idx) => `
-            <span class="item-chip"><span>${it.emoji}</span>${esc(it.name)}<span class="q">×${it.qty}</span></span>`
+            <span class="item-chip"><span>${icon('bag')}</span>${esc(it.name)}<span class="q">×${it.qty}</span></span>`
               )
               .join('')}
           </div>

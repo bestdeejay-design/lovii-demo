@@ -246,7 +246,7 @@ function renderApply(role) {
   return `
   <div class="lv-enter lv-narrow" style="padding-bottom:16px">
     <div class="apply-head ${tileBg(m.color)}">
-      <span class="ah-emoji">${m.emoji}</span>
+      <span class="ah-emoji">${icon('store')}</span>
       <div class="ah-mid">
         <div class="kicker">${esc(m.title)}</div>
         <h1>${esc(titles[role])}</h1>
@@ -339,7 +339,7 @@ function renderStoreDash(tab) {
     const catalogChips = LOVII_DATA.products
       .filter((x) => !x.isService && !goods.some((g) => g.name === x.name))
       .slice(0, 10)
-      .map((x) => `<button class="cat-chip" data-action="add-good" data-slug="${x.slug}"><span class="e">${x.emoji}</span>${esc(x.name)}</button>`)
+      .map((x) => `<button class="cat-chip" data-action="add-good" data-slug="${x.slug}"><span class="e">${icon('bag')}</span>${esc(x.name)}</button>`)
       .join('');
     return `
     ${head}${tabs}${statusBlock}
@@ -351,7 +351,7 @@ function renderStoreDash(tab) {
               .map(
                 (g) => `
       <div class="row-item">
-        <span class="ri-emoji ${tileBg('sand')}">${g.emoji}</span>
+        <span class="ri-emoji ${tileBg('sand')}">${icon('bag')}</span>
         <div class="ri-mid">
           <div class="nm">${esc(g.name)}</div>
           <div class="sb">${priceFmt(g.price)} / ${esc(g.unit)} · остаток ${g.stock >= 99 ? '∞' : g.stock}</div>
@@ -491,7 +491,7 @@ function rankCardHtml(rank, tone = 'tiffany') {
   return `
   <div class="rank-card tone-${tone}">
     <div class="rank-top">
-      <span class="rank-emoji">${rank.emoji}</span>
+      <span class="rank-emoji">${icon('award')}</span>
       <div><div class="rank-kicker">Текущий статус</div><div class="rank-title">${esc(rank.title)}</div></div>
     </div>
     <div class="progress"><span style="width:${Math.max(6, Math.min(100, rank.progress))}%"></span></div>
@@ -546,7 +546,7 @@ function _repPtsListHtml(pts) {
   if (!filtered.length) return `<div class="list-card"><div style="text-align:center;padding:32px 16px;color:var(--lv-dim)"><div style="font-size:32px;margin-bottom:8px">🔍</div><div style="font-size:14px;font-weight:600">Нет точек по фильтру</div></div></div>`;
   return `<div class="list-card">${filtered.map((x) => `
       <div class="row-item">
-        <span class="ri-emoji ${tileBg(x.active ? 'tiffany' : 'sand')}">${x.emoji}</span>
+        <span class="ri-emoji ${tileBg(x.active ? 'tiffany' : 'sand')}">${icon('bag')}</span>
         <div class="ri-mid">
           <div class="nm">${esc(x.name)}${statusChip(x.status)}</div>
           <div class="sb">${esc(x.category)} · ${esc(x.tariff.label)}${x.walk != null ? ' · ' + icon('footprints') + ' ' + x.walk + ' мин' : ''}${x.rating ? ' · ★ ' + x.rating : ''}</div>
@@ -765,7 +765,7 @@ function renderAmbTree(reps, totalPoints, totalRev) {
       <div class="tree-kids">
         ${r.pointsNames.map((s) => `
         <div class="tree-row leaf">
-          <span class="t-emoji ${tileBg('sand')}">${s.emoji}</span>
+          <span class="t-emoji ${tileBg('sand')}">${icon('store')}</span>
           <div class="ri-mid"><div class="nm">${esc(s.name)}</div><div class="sb">${esc(catLabel(s.category))}</div></div>
           <button class="chev-btn" data-go="store:${s.slug}">${icon('chev-right')}</button>
         </div>`).join('')}
@@ -861,7 +861,7 @@ function renderAmbDash(tab) {
     <div class="list-card">
       ${lessons.map((l) => `
       <div class="row-item lesson-row">
-        <span class="ri-emoji ${tileBg('gold')}">${l.emoji}</span>
+        <span class="ri-emoji ${tileBg('gold')}">${icon('bag')}</span>
         <div class="ri-mid">
           <div class="nm">${esc(l.title)}</div>
           <div class="sb">Урок ${l.id} · ${esc(l.sub)}</div>
@@ -1079,7 +1079,7 @@ function renderOwnerDash(tab) {
       .map(
         (r) => `
     <div class="row-item">
-      <span class="ri-emoji ${tileBg('sand')}">${r.emoji}</span>
+      <span class="ri-emoji ${tileBg('sand')}">${icon('store')}</span>
       <div class="ri-mid"><div class="nm">${esc(r.name)}</div><div class="sb">${esc(r.region)}</div></div>
       <div class="ri-right"><div class="v">${moneyFmt(r.revenueWeek)}</div>${statusChip(r.status)}</div>
     </div>`
@@ -1119,7 +1119,7 @@ function renderInvestorDash(tab) {
         .map(
           (p) => `
       <button class="row-item as-btn" data-go="product:${p.slug}">
-        <span class="ri-emoji ${tileBg('pink')}">${p.emoji}</span>
+        <span class="ri-emoji ${tileBg('pink')}">${icon('store')}</span>
         <div class="ri-mid"><div class="nm">${esc(p.name)}</div><div class="sb">${priceFmt(p.price)} / ${esc(p.unit)}</div></div>
         ${icon('chev-right', 'chev')}
       </button>`
@@ -1193,7 +1193,7 @@ function chatListHtml(role, head, tabs, title) {
         const unread = chat.unread || 0;
         return `
       <button class="row-item as-btn" data-go="chat:${c.id}">
-        <span class="ri-emoji ${tileBg(role === 'rep' ? 'tiffany' : 'gold')}">${c.emoji}</span>
+        <span class="ri-emoji ${tileBg(role === 'rep' ? 'tiffany' : 'gold')}">${icon('message')}</span>
         <div class="ri-mid">
           <div class="nm">${esc(c.name)}${c.status && c.status !== 'active' ? statusChip(c.status) : ''}</div>
           <div class="sb">${last ? esc(last.text.slice(0, 42)) + (last.text.length > 42 ? '…' : '') : esc(c.sub)}</div>
@@ -1221,7 +1221,7 @@ function renderChat(id) {
   return `
   <div class="chat-screen">
     ${subHeaderHtml(desc.name)}
-    <div class="chat-sub">${desc.emoji} ${esc(desc.sub)}${desc.status && desc.status !== 'active' ? statusChip(desc.status) : ''}</div>
+    <div class="chat-sub">${icon('message')} ${esc(desc.sub)}${desc.status && desc.status !== 'active' ? statusChip(desc.status) : ''}</div>
     <div class="chat-body" id="chat-body">
       ${msgs
         .map(
@@ -1589,10 +1589,10 @@ function renderMspCabinet(tab = 'index') {
       return `${head}${tabs}${mspStepsHtml(status)}<div class="empty-state-card"><div class="big-emoji">🧺</div><h3>Каталог товаров пока закрыт</h3><p>Сейчас точка может быть видна в каталоге только как карточка района. Товары откроются после апрува, проверочного платежа и автоматического возврата.</p><button class="cta-btn brand-gradient" data-action="msp-tab" data-val="pay">Посмотреть следующий шаг</button></div>`;
     }
     const goods = lead.goods || [];
-    const chips = LOVII_DASH.storeGoodsSeed.slice(0, 6).filter((g) => !goods.some((x) => x.slug === g.slug)).map((g) => `<button class="cat-chip" data-action="add-msp-good" data-slug="${g.slug}"><span class="e">${g.emoji}</span>${esc(g.name)}</button>`).join('');
+    const chips = LOVII_DASH.storeGoodsSeed.slice(0, 6).filter((g) => !goods.some((x) => x.slug === g.slug)).map((g) => `<button class="cat-chip" data-action="add-msp-good" data-slug="${g.slug}"><span class="e">${icon('bag')}</span>${esc(g.name)}</button>`).join('');
     return `${head}${tabs}${mspStepsHtml(status)}
     <div class="section-head" style="margin-top:20px"><h2>Каталог товаров<span class="sub"> · ${goods.length}</span></h2></div>
-    <div class="list-card">${goods.length ? goods.map((g) => `<div class="row-item"><span class="ri-emoji ${tileBg('sand')}">${g.emoji}</span><div class="ri-mid"><div class="nm">${esc(g.name)}</div><div class="sb">${priceFmt(g.price)} / ${esc(g.unit)} · остаток ${g.stock}</div></div><span class="st-chip st-active">на витрине</span></div>`).join('') : '<div class="empty-cat"><div class="big-emoji">🛍️</div><div class="t">Добавьте первый товар</div><p class="d">После добавления он появится на витрине этой точки.</p></div>'}</div>
+    <div class="list-card">${goods.length ? goods.map((g) => `<div class="row-item"><span class="ri-emoji ${tileBg('sand')}">${icon('bag')}</span><div class="ri-mid"><div class="nm">${esc(g.name)}</div><div class="sb">${priceFmt(g.price)} / ${esc(g.unit)} · остаток ${g.stock}</div></div><span class="st-chip st-active">на витрине</span></div>`).join('') : '<div class="empty-cat"><div class="big-emoji">🛍️</div><div class="t">Добавьте первый товар</div><p class="d">После добавления он появится на витрине этой точки.</p></div>'}</div>
     ${chips ? `<div class="section-head" style="margin-top:20px"><h2>Добавить товары</h2></div><div class="cats no-scrollbar" style="padding:10px 16px 4px">${chips}</div>` : dashNote('Все товары уже опубликованы на витрине точки.', 'tiffany')}`;
   }
 
@@ -1641,7 +1641,7 @@ function renderMspCabinet(tab = 'index') {
   </div>
   ${p ? `
     <div class="list-card">
-      <div class="row-item"><span class="ri-emoji ${tileBg('tiffany')}">${p.emoji}</span><div class="ri-mid"><div class="nm">${esc(p.name)}${statusChip(p.status)}</div><div class="sb">${esc(p.address)} · ${esc(p.about)}</div></div>${mspPointVisible(p.status) ? `<button class="chev-btn" data-go="store:${p.slug}">${icon('chev-right')}</button>` : ''}</div>
+      <div class="row-item"><span class="ri-emoji ${tileBg('tiffany')}">${icon('store')}</span><div class="ri-mid"><div class="nm">${esc(p.name)}${statusChip(p.status)}</div><div class="sb">${esc(p.address)} · ${esc(p.about)}</div></div>${mspPointVisible(p.status) ? `<button class="chev-btn" data-go="store:${p.slug}">${icon('chev-right')}</button>` : ''}</div>
     </div>
   ` : ''}
   ${(!p || p.status === 'draft') ? `

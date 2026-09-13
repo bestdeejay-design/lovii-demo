@@ -121,7 +121,7 @@ function mspRowHtml(slug) {
   const privileged = payTier(LOVII_PAY_SEED.currentTier).id !== 'pay';
   return `
   <div class="row-item">
-    <span class="ri-emoji ${tileBg(st.color)}">${st.emoji}</span>
+    <span class="ri-emoji ${tileBg(st.color)}">${icon('store')}</span>
     <div class="ri-mid">
       <div class="nm">${esc(st.name)}</div>
       <div class="sb">${esc(catLabel(st.category))}${dist ? ' · ' + esc(dist.walkMinutes) + ' мин пешком' : ''}${privileged ? ' · спец-скидка' : ''}</div>
