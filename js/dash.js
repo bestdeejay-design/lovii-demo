@@ -114,6 +114,10 @@ function statusChip(status) {
     payment: ['Проверка платежа', 'st-wait'],
     ready: ['Готова к продажам', 'st-active'],
     offline: ['Offline', 'st-off'],
+    // статусы заказа — метки из ядра OrderStatus::toBadge
+    created: ['Создан', 'st-wait'], submitted: ['Отправлен', 'st-wait'], accepted: ['Принят', 'st-active'],
+    preparing: ['Готовится', 'st-mod'], handed_to_delivery: ['Передан курьеру', 'st-mod'],
+    on_the_way: ['В пути', 'st-mod'], completed: ['Доставлен', 'st-active'], cancelled: ['Отменён', 'st-off'], failed: ['Ошибка', 'st-off'],
   };
   const [label, cls] = map[status] || map.active;
   return `<span class="st-chip ${cls}">${status === 'active' ? '<span class="lv-dot" style="background:var(--lv-tiffany)"></span>' : ''}${label}</span>`;
@@ -1439,6 +1443,29 @@ function mspStatusText(status) {
   return map[status] || map.lead;
 }
 
+/* ---- МСП: заказы (статусы и переходы — из ядра OrderStatus) ---- */
+function mspOrderLabel(status) {
+  const m = { created:'Создан', submitted:'Отправлен', accepted:'Принят', preparing:'Готовится', ready:'Готов',
+              handed_to_delivery:'Передан курьеру', on_the_way:'В пути', completed:'Доставлен', cancelled:'Отменён', failed:'Ошибка' };
+  return m[status] || status;
+}
+function mspOrderNext(status) {
+  const t = { created:['submitted','Отправить'], submitted:['accepted','Принять'], accepted:['preparing','Готовить'],
+              preparing:['ready','Готов к выдаче'], ready:['completed','Выдать'], handed_to_delivery:['on_the_way','В пути'],
+              on_the_way:['completed','Доставлен'] };
+  return t[status] || null;
+}
+function orderChip(status) {
+  const cls = { created:'st-wait', submitted:'st-wait', accepted:'st-active', preparing:'st-mod', ready:'st-active',
+                handed_to_delivery:'st-mod', on_the_way:'st-mod', completed:'st-active', cancelled:'st-off', failed:'st-off' };
+  return `<span class="st-chip ${cls[status] || 'st-wait'}">${mspOrderLabel(status)}</span>`;
+}
+
+function ensureMspOrders() {
+  if (!state.mspOrders) state.mspOrders = (LOVII_DASH.mspOrders || []).map((o) => JSON.parse(JSON.stringify(o)));
+  return state.mspOrders;
+}
+
 function renderMspCabinet(tab = 'index') {
   const lead = ensureMspLead();
   if (!lead) return renderMspSignup(repInviteCode());
@@ -1446,14 +1473,45 @@ function renderMspCabinet(tab = 'index') {
   const status = p ? p.status : 'draft';
   const payCode = 'LOVII-' + lead.inn.slice(-4) + '-' + lead.repCode.slice(-3);
   const tabs = `<div class="seg dash-tabs msp-tabs" style="margin:14px 16px 0">
-    ${[['index','Заявка'], ['catalog','Каталог'], ['pay','Платёж'], ['help','Инструкция']].map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="msp-tab" data-val="${id}">${label}</button>`).join('')}
+    ${[['index','Заявка'], ['orders','Заказы'], ['catalog','Каталог'], ['pay','Платёж'], ['help','Инструкция']].map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="msp-tab" data-val="${id}">${label}</button>`).join('')}
   </div>`;
   const head = `
   <div class="dash-head">
-    <span class="dash-ava ${tileBg('tiffany')}">🏪</span>
+    <span class="dash-ava ${tileBg('tiffany')}">${icon('store')}</span>
     <div class="dash-title"><h1>Экран МСП</h1><div class="d">ИНН ${esc(lead.inn)} · ${esc(lead.repCode)}</div></div>
     <button class="ghost-btn sm" data-go="dash:connect">${icon('chev-left')}Представитель</button>
   </div>`;
+
+  if (tab === 'orders') {
+    const orders = ensureMspOrders();
+    const rows = orders.map((o) => `<button class="row-item as-btn" data-action="msp-order-open" data-id="${o.id}">
+      <span class="ri-emoji ${tileBg('sand')}">${icon('bag')}</span>
+      <div class="ri-mid"><div class="nm">Заказ №${o.no}${statusChip(o.status)}</div><div class="sb">${esc(o.at)} · ${esc(o.channel)} · ${o.items.length} поз.</div></div>
+      <div class="ri-right"><div class="v">${moneyFmt(o.total)}</div></div></button>`).join('');
+    return `${head}${tabs}
+      <div class="section-head" style="margin-top:20px"><h2>Заказы<span class="sub"> · ${orders.length}</span></h2></div>
+      <div class="list-card">${rows || '<div class="empty-cat"><div class="t">Заказов пока нет</div><p class="d">Они появятся здесь, когда покупатели оформят заказ.</p></div>'}</div>`;
+  }
+
+  if (tab === 'order') {
+    const orders = ensureMspOrders();
+    const o = orders.find((x) => String(x.id) === String(state.mspOrderId)) || orders[0];
+    if (!o) { return `${head}${tabs}${dashNote('Заказ не найден', 'dim')}`; }
+    const nx = mspOrderNext(o.status);
+    const items = o.items.map((i) => `<div class="row-item"><span class="ri-emoji ${tileBg('sand')}">${icon('package')}</span>
+      <div class="ri-mid"><div class="nm">${esc(i.name)}</div><div class="sb">${i.qty} × ${moneyFmt(i.price)}</div></div>
+      <div class="ri-right"><div class="v">${moneyFmt(i.qty * i.price)}</div></div></div>`).join('');
+    const fin = ['completed', 'cancelled', 'failed'].includes(o.status);
+    return `${head}${tabs}
+      <div class="section-head" style="margin-top:20px"><h2>Заказ №${o.no}${orderChip(o.status)}</h2></div>
+      <div class="list-card">${items}</div>
+      <div class="dash-note tone-dim">Итого ${moneyFmt(o.total)} · ${esc(o.channel)} · ${esc(o.at)}</div>
+      <div class="btn-row">
+        ${nx ? `<button class="cta-btn brand-gradient" data-action="msp-order-next" data-id="${o.id}">${icon('check')}${nx[1]}</button>` : ''}
+        ${fin ? '' : `<button class="ghost-btn" data-action="msp-order-cancel" data-id="${o.id}">${icon('x')}Отменить</button>`}
+        <button class="ghost-btn" data-action="msp-tab" data-val="orders">${icon('chev-left')}К списку</button>
+      </div>`;
+  }
 
   if (tab === 'catalog') {
     if (status !== 'ready') {
