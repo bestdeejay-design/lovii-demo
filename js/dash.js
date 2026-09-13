@@ -1728,7 +1728,7 @@ function renderMspCabinet(tab = 'index') {
   <div class="dash-head">
     <span class="dash-ava ${tileBg('tiffany')}">${icon('store')}</span>
     <div class="dash-title"><h1>Экран МСП</h1><div class="d">ИНН ${esc(lead.inn)} · ${esc(lead.repCode)}</div></div>
-    <button class="ghost-btn sm" data-go="dash:connect">${icon('chev-left')}Представитель</button>
+    <button class="ghost-btn" data-go="dash:connect">${icon('chev-left')}Представитель</button>
   </div>`;
 
   if (tab === 'orders') {
