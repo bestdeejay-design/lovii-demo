@@ -1048,3 +1048,34 @@ main#view { flex: 1; }
 
 /* Иконки внутри кнопок не должны сжиматься flex'ом (иначе размер уезжает со шкалы) */
 .cta-btn svg, .ghost-btn svg, .link-btn svg, .acct-btn svg, .tab-btn svg, .filter-chip svg, .pill-btn svg, .icon-btn svg { flex: none; }
+
+/* ============================================================================
+   КАНОННЫЙ ПРОХОД ПО ИКОНКАМ И ПЛАШКАМ (docs/09 §1)
+   Шкала иконок: 12 (чипы) · 16 (кнопки/хедер) · 17 (строка/плашка) · 22 (навигация)
+   · 26 (плитка/медаль/аватар) · 46 (обложка товара, stroke 1.8)
+   Плашки: 34 (иконка-строка) · 46 (аватар/медаль) · обложки — крупнее, иконка 46
+   ============================================================================ */
+:root { --plate-sm: 34px; --plate-md: 46px; }
+
+/* Плашки-строки: 34×34, иконка 17 */
+.ri-emoji, .pc-ico, .qa-icon, .tc-icon, .ri-emoji.md, .t-emoji, .ns-icon, .msp-fav, .hb-em,
+.install-step .n { width: var(--plate-sm); height: var(--plate-sm); border-radius: var(--lv-r-sm); }
+.ri-emoji svg, .pc-ico svg, .qa-icon svg, .tc-icon svg, .t-emoji svg, .ns-icon svg, .msp-fav svg,
+.hb-em svg, .install-step .n svg { width: 17px; height: 17px; }
+
+/* Аватары/медали: 46×46, иконка 26 */
+.dash-ava, .rank-emoji, .ah-emoji, .msp-mobile-head .mh-emoji { width: var(--plate-md); height: var(--plate-md); }
+.dash-ava svg, .rank-emoji svg, .ah-emoji svg, .msp-mobile-head .mh-emoji svg { width: 26px; height: 26px; }
+
+/* Кнопки-иконки: 36×36, иконка 16 (канон: кнопка/хедер) */
+.icon-btn, .back-btn, .fav-btn, .trash-btn, .tx-ico, .district-row .ic, .qty button, .chev-btn, .ns-arrow { border-radius: var(--lv-r-pill); }
+.icon-btn svg, .back-btn svg, .fav-btn svg, .trash-btn svg, .tx-ico svg, .district-row .ic svg,
+.qty button svg, .chev-btn svg, .ns-arrow svg { width: 16px; height: 16px; }
+
+/* Чипы и пилюли: иконка 12 (канон §чипы: 12–14px) */
+.glass-chip svg, .stat-pill svg, .walk-pill svg, .info-pill svg, .added-pill svg, .rating-pill svg,
+.promo-timer svg, .tp svg, .sec-link svg, .crumb svg, .delta svg, .cart-store-head svg, .order-meta svg,
+.order-foot .l svg { width: 12px; height: 12px; }
+
+/* Обложки товара: иконка 46px, stroke 1.8 (канон: cover) */
+.avail-emoji svg, .compact-row .em-tile svg, .cart-item .em-tile svg { width: 46px; height: 46px; stroke-width: 1.8; }
