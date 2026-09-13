@@ -1084,3 +1084,4 @@ main#view { flex: 1; }
 .st-chip.st-blue { background: rgba(58,120,220,.12); color:#2f5fae; }
 .st-chip.st-lime { background: rgba(120,190,60,.14); color:#4b7d16; }
 .st-chip.st-accent { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
+.status-flow-card .sf-store { margin: 8px 0 0; font-size: 12px; color: var(--lv-dim); }

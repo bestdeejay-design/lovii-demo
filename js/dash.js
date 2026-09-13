@@ -1354,7 +1354,35 @@ function repMspApplicationHtml() {
   </div>`;
 }
 
+/* Статусы заявки — по канону artifacts/roles-screens-spec.md §Статусы заявки (stepper).
+   Система: PartnerApplicationStatus (draft → submitted → awaiting_rep_approval →
+   invoice_issued → awaiting_payment → verifying → verified | failed | expired).
+   Каждый шаг: свой статус, подсказка «что дальше» и состояние витрины. */
+const MSP_APP_STEPS = [
+  { id: 'draft', label: 'ИНН и карточка', hint: 'Заполните ИНН и карточку точки', storefront: 'hidden' },
+  { id: 'submitted', label: 'Заявка отправлена', hint: 'Отправлено, ждём апрув представителя', storefront: 'hidden' },
+  { id: 'awaiting_rep_approval', label: 'Проверяет представитель', hint: 'Представитель проверяет карточку точки', storefront: 'hidden' },
+  { id: 'invoice_issued', label: 'Счёт выставлен', hint: 'Счёт 1 ₽, код VER-* — оплатите с расчётного счёта компании', storefront: 'teaser' },
+  { id: 'awaiting_payment', label: 'Ожидаем платёж', hint: 'Платёж по коду VER-* ещё не поступил', storefront: 'teaser' },
+  { id: 'verifying', label: 'Проверяем платёж', hint: 'Платёж получен, проверяем реквизиты', storefront: 'teaser' },
+  { id: 'verified', label: 'Продажи включены', hint: 'Готово — каталог и заказы открыты', storefront: 'active' },
+];
+
+// Внутренние статусы демки → канонный шаг заявки
+const MSP_STATUS_STEP = {
+  lead: 'draft', draft: 'submitted', moderation: 'awaiting_rep_approval', pending_rep: 'awaiting_rep_approval',
+  catalog: 'invoice_issued', payment: 'verifying', waiting: 'verifying', ready: 'verified', active: 'verified', offline: 'verified',
+};
+
 function mspStepsHtml(status, compact = false) {
+  if (status === 'failed' || status === 'expired') {
+    return `<div class="stepper ${compact ? 'compact' : ''} error"><div class="step current"><span>!</span><b>${status === 'expired' ? 'Срок заявки истёк' : 'Заявка не прошла проверку'}</b></div></div>`;
+  }
+  const idx = Math.max(0, MSP_APP_STEPS.findIndex((x) => x.id === (MSP_STATUS_STEP[status] || 'draft')));
+  return `<div class="stepper ${compact ? 'compact' : ''}">${MSP_APP_STEPS.map((x, i) => `<div class="step ${i <= idx ? 'done' : ''} ${i === idx ? 'current' : ''}"><span>${i + 1}</span><b>${esc(x.label)}</b></div>`).join('')}</div>`;
+}
+
+function mspOldStepsHtml(status, compact = false) {
   const order = ['draft', 'pending_rep', 'catalog', 'payment', 'ready'];
   const labels = {
     draft: 'ИНН и карточка',
@@ -1443,15 +1471,21 @@ function renderMspSignup(code) {
 }
 
 function mspStatusText(status) {
-  const map = {
-    lead: 'Введите ИНН и создайте заявку МСП',
-    draft: 'Заполните карточку точки для каталога района',
-    pending_rep: 'Заявка отправлена представителю на апрув',
-    catalog: 'Точка видна в каталоге. Следующий шаг — проверочный платёж',
-    payment: 'Платёж получен, автоматический возврат формируется',
-    ready: 'Точка готова принимать оплату и показывать товары',
-  };
-  return map[status] || map.lead;
+  // Подсказка «что дальше» и состояние витрины — по канонной таблице шагов заявки
+  if (status === 'failed' || status === 'expired') {
+    return status === 'expired'
+      ? 'Срок заявки истёк — создайте новую заявку, прогресс сохранится'
+      : 'Проверка не пройдена — исправьте карточку точки и отправьте снова';
+  }
+  const step = MSP_APP_STEPS.find((x) => x.id === (MSP_STATUS_STEP[status] || 'draft')) || MSP_APP_STEPS[0];
+  return step.hint;
+}
+
+function mspStorefrontText(status) {
+  if (status === 'failed' || status === 'expired') return { label: 'витрина: hidden', hint: 'точка не видна покупателям' };
+  const step = MSP_APP_STEPS.find((x) => x.id === (MSP_STATUS_STEP[status] || 'draft')) || MSP_APP_STEPS[0];
+  const map = { hidden: 'точка не видна покупателям', teaser: 'витрина в режиме teaser — карточка видна, заказы закрыты', active: 'витрина active — заказы открыты' };
+  return { label: 'витрина: ' + step.storefront, hint: map[step.storefront] };
 }
 
 /* ---- МСП: заказы (статусы и переходы — из ядра OrderStatus) ---- */
@@ -1598,6 +1632,7 @@ function renderMspCabinet(tab = 'index') {
   <div class="status-flow-card">
     <div class="kicker">Текущий этап</div>
     <h2>${esc(mspStatusText(status))}</h2>
+    <p class="sf-store">${esc(mspStorefrontText(status).label)} — ${esc(mspStorefrontText(status).hint)}</p>
     <p>${status === 'draft' ? 'Заполните только то, что нужно для появления в каталоге: юрлицо, канал связи, название, адрес, описание и фото.' : 'Система показывает, что уже сделано и какой один следующий шаг нужен сейчас.'}</p>
   </div>
   ${p ? `
