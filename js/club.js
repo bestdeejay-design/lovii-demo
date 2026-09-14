@@ -229,7 +229,7 @@ function renderPayProfile() {
       <span class="ri-emoji ${tileBg('tiffany')}">${icon('store')}</span>
       <div class="ri-mid">
         <div class="nm">Экран МСП<span class="demo-tag">демо</span></div>
-        <div class="sb">Заявка · Заказы · Каталог · Платёж · Инструкция</div>
+        <div class="sb">Заявка · Товары · Заказы · Настройки</div>
       </div>
       <button class="cta-btn plain" data-go="msp">Открыть</button>
     </div>`;
