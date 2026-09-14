@@ -689,13 +689,16 @@ function renderRepDash(tab) {
     </div>`;
   }
 
-  const pending = totals.pts.filter((x) => x.status !== 'active');
+  const queue = totals.pts.filter((x) => x.status === 'waiting');
+  const liveLead = ensureMspLead();
+  const livePending = !!(liveLead && (!liveLead.point || liveLead.point.status === 'pending_rep' || liveLead.point.status === 'draft'));
+  const pendingCount = queue.length + (livePending ? 1 : 0);
   const onVitrine = totals.activePts.length;
   const selling = totals.activePts.filter((x) => (x.goods || 0) > 0).length;
   const weekIncome = Math.round(totals.roleIncome / LOVII_MODEL.weeksInMonth);
   const dayIncome = Math.round(totals.roleIncome / 30);
   const unread = unreadTotal('rep');
-  const pendingRows = pending.map((x) => `
+  const pendingRows = queue.map((x) => `
     <div class="row-item"><span class="ri-emoji ${tileBg('gold')}">${icon('store')}</span>
       <div class="ri-mid"><div class="nm">${esc(x.name)}${statusChip(x.status)}</div><div class="sb">${esc(x.category)} · ${esc(x.address || 'адрес уточняется')}</div></div></div>`).join('');
   const guides = [
@@ -713,13 +716,13 @@ function renderRepDash(tab) {
   <div class="kpi-grid">
     ${kpiCard('Точек на витрине', `${onVitrine}`, { tone: 'tiffany' })}
     ${kpiCard('Активно продают', `${selling}`, { tone: 'tiffany' })}
-    ${kpiCard('На апруве', `${pending.length}`, { tone: 'gold' })}
+    ${kpiCard('На апруве', `${pendingCount}`, { tone: 'gold' })}
     ${kpiCard('Доход · сегодня', moneyFmt(dayIncome), { tone: 'pink' })}
     ${kpiCard('Доход · неделя', moneyFmt(weekIncome), { tone: 'pink' })}
     ${kpiCard('Доход · месяц', moneyFmt(totals.roleIncome), { accent: true, delta: 12 })}
   </div>
 
-  <div class="section-head" style="margin-top:20px"><h2>Точки на апрув<span class="sub"> · ${pending.length}</span></h2></div>
+  <div class="section-head" style="margin-top:20px"><h2>Точки на апрув<span class="sub"> · ${pendingCount}</span></h2></div>
   ${pendingRows ? `<div class="list-card">${pendingRows}</div>` : ''}
   ${repMspApplicationHtml()}
 
@@ -1381,62 +1384,36 @@ function qrGridHtml() {
 
 function repMspApplicationHtml() {
   const lead = ensureMspLead();
-  if (!lead) {
+  const p = lead && lead.point;
+  const pending = !!(lead && (!p || p.status === 'pending_rep' || p.status === 'draft'));
+  if (!pending) {
     return `<div class="empty-state-card">
       <div class="empty-ico">${icon('store')}</div>
       <h3>Очередь заявок пуста</h3>
-      <p>Покажите QR владельцу точки. После ввода ИНН и карточки точки заявка появится здесь.</p>
+      <p>Покажите QR владельцу точки — заявка появится здесь, и её нужно будет одобрить.</p>
       <button class="cta-btn brand-gradient" data-go="msp-signup:${repInviteCode()}">Смоделировать скан QR</button>
     </div>`;
   }
-  const p = lead.point;
-  const hasPoint = !!p;
+  const fill = p && p.status === 'pending_rep';
   return `
   <div class="approval-card">
     <div class="approval-head">
-      <span class="ri-emoji ${tileBg(hasPoint && p.status !== 'pending_rep' ? 'tiffany' : 'gold')}">${icon('store')}</span>
+      <span class="ri-emoji ${tileBg(fill ? 'gold' : 'tiffany')}">${icon('store')}</span>
       <div class="ri-mid">
-        <div class="nm">${hasPoint ? esc(p.name) : 'МСП зарегистрировано'}${statusChip(hasPoint ? p.status : 'lead')}</div>
+        <div class="nm">${p ? esc(p.name || 'Новая точка') : 'МСП зарегистрировано'}<span class="st-chip ${fill ? 'st-mod' : 'st-off'}">${fill ? 'на апруве' : 'заполняет карточку'}</span></div>
         <div class="sb">ИНН ${esc(lead.inn)} · код ${esc(lead.repCode)}</div>
       </div>
     </div>
     <div class="review-grid">
       <div><span>Юрлицо</span><b>${esc(lead.legalName || 'будет уточнено в заявке')}</b></div>
       <div><span>Канал</span><b>${esc(lead.channel || 'ещё не выбран')}</b></div>
-      <div><span>Адрес</span><b>${hasPoint ? esc(p.address) : 'точка ещё не добавлена'}</b></div>
-      <div><span>Описание</span><b>${hasPoint ? esc(p.about) : 'ждём карточку точки'}</b></div>
+      <div><span>Адрес</span><b>${p ? esc(p.address || '—') : 'точка ещё не добавлена'}</b></div>
+      <div><span>Описание</span><b>${p ? esc(p.about || '—') : 'ждём карточку точки'}</b></div>
     </div>
-    ${hasPoint && p.status === 'pending_rep' ? `<div class="approval-actions"><button class="cta-btn brand-gradient" data-action="approve-msp-point">Апрув: показать в каталоге</button><button class="ghost-btn" data-action="return-msp-point">Вернуть на правку</button></div>` : `<div class="approval-actions"><button class="ghost-btn" data-go="msp">Открыть экран МСП</button></div>`}
+    ${fill
+      ? `<div class="approval-actions"><button class="cta-btn brand-gradient" data-action="approve-msp-point">Апрув: показать в каталоге</button><button class="ghost-btn" data-action="return-msp-point">Вернуть на правку</button></div>`
+      : `<div class="approval-actions"><span class="ap-hint">Владелец заполняет карточку точки — ждём отправку заявки.</span></div>`}
   </div>`;
-}
-
-/* Статусы заявки — по канону artifacts/roles-screens-spec.md §Статусы заявки (stepper).
-   Система: PartnerApplicationStatus (draft → submitted → awaiting_rep_approval →
-   invoice_issued → awaiting_payment → verifying → verified | failed | expired).
-   Каждый шаг: свой статус, подсказка «что дальше» и состояние витрины. */
-const MSP_APP_STEPS = [
-  { id: 'draft', label: 'ИНН и карточка', hint: 'Заполните ИНН и карточку точки', storefront: 'hidden' },
-  { id: 'submitted', label: 'Заявка отправлена', hint: 'Отправлено, ждём апрув представителя', storefront: 'hidden' },
-  { id: 'awaiting_rep_approval', label: 'Проверяет представитель', hint: 'Представитель проверяет карточку точки', storefront: 'hidden' },
-  { id: 'invoice_issued', label: 'Счёт выставлен', hint: 'Счёт 1 ₽, код VER-* — оплатите с расчётного счёта компании', storefront: 'teaser' },
-  { id: 'awaiting_payment', label: 'Ожидаем платёж', hint: 'Платёж по коду VER-* ещё не поступил', storefront: 'teaser' },
-  { id: 'verifying', label: 'Проверяем платёж', hint: 'Платёж получен, проверяем реквизиты', storefront: 'teaser' },
-  { id: 'verified', label: 'Продажи включены', hint: 'Готово — каталог и заказы открыты', storefront: 'active' },
-];
-
-// Внутренние статусы демки → канонный шаг заявки
-const MSP_STATUS_STEP = {
-  lead: 'draft', draft: 'draft', moderation: 'awaiting_rep_approval', pending_rep: 'awaiting_rep_approval',
-  catalog: 'invoice_issued', payment: 'verifying', waiting: 'verifying', ready: 'verified', active: 'verified', offline: 'verified',
-};
-
-function mspStepsHtml(status, compact = false) {
-  const app = mspAppStatus(status);
-  if (app === 'failed' || app === 'expired') {
-    return `<div class="stepper ${compact ? 'compact' : ''} error"><div class="step current"><span>!</span><b>${app === 'expired' ? 'Срок заявки истёк' : 'Заявка не прошла проверку'}</b></div></div>`;
-  }
-  const idx = Math.max(0, MSP_APP_STEPS.findIndex((x) => x.id === app));
-  return `<div class="stepper ${compact ? 'compact' : ''}">${MSP_APP_STEPS.map((x, i) => `<div class="step ${i <= idx ? 'done' : ''} ${i === idx ? 'current' : ''}"><span>${i + 1}</span><b>${esc(x.label)}</b></div>`).join('')}</div>`;
 }
 
 function trustCuesHtml() {
@@ -1465,8 +1442,6 @@ function renderConnectScriptHtml() {
 
 function renderRepConnectDash(head, tabs) {
   const code = repInviteCode();
-  const lead = ensureMspLead();
-  const status = lead && lead.point ? lead.point.status : lead ? 'draft' : 'draft';
   return `
   ${head}${tabs}
   <div class="connect-hero ink-gradient">
@@ -1485,7 +1460,6 @@ function renderRepConnectDash(head, tabs) {
     <code>${esc(location.origin + location.pathname + '#/msp-signup/' + code)}</code>
     <button class="ghost-btn sm" data-action="copy-code" data-code="${esc(code)}">${icon('download')}Код</button>
   </div>
-  ${lead ? mspStepsHtml(status) : ''}
   <div class="btn-row">
     <button class="cta-btn brand-gradient" data-go="msp-signup:${code}">Смоделировать скан QR</button>
     <button class="ghost-btn" data-action="reset-msp-demo">Сбросить сценарий</button>
@@ -1512,12 +1486,6 @@ function renderMspSignup(code) {
       <div class="dash-note tone-gold" style="margin-top:14px">Демо не отправляет данные наружу. На следующем экране владелец добавит карточку точки: адрес, описание и фото.</div>
     </form>
   </div>`;
-}
-
-function mspAppStatus(status) {
-  const lead = state.mspLead;
-  if (lead && lead.appStatus) return lead.appStatus;
-  return MSP_STATUS_STEP[status] || 'draft';
 }
 
 /* ---- МСП: заказы (статусы и переходы — из ядра OrderStatus) ---- */
