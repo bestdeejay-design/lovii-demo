@@ -262,13 +262,36 @@ function renderApply(role) {
 
 /* ================= Дашборд: роутер ================= */
 
+// Гейт кабинетов: если роль не активна — предлагаем выбрать/получить роль прямо здесь.
+function renderRoleGate() {
+  const row = (role) => {
+    const m = roleMeta(role);
+    const demo = ['owner', 'investor'].includes(role);
+    const has = demo || !!state.roles[role];
+    const btn = has
+      ? `<button class="cta-btn brand-gradient" data-action="enter-role" data-role="${role}">Войти</button>`
+      : `<button class="cta-btn brand-gradient" data-go="apply:${role}">Стать</button>`;
+    return `<div class="row-item"><span class="ri-emoji ${tileBg(m.color)}">${icon(m.icon || 'user')}</span>
+      <div class="ri-mid"><div class="nm">${esc(m.title)}${demo ? '<span class="demo-tag">демо</span>' : ''}</div><div class="sb">${esc(m.desc)}</div></div>${btn}</div>`;
+  };
+  return `
+  <div class="lv-enter" style="padding-bottom:16px">
+    <div class="dash-head">
+      <span class="dash-ava ${tileBg('pink')}">${icon('user')}</span>
+      <div class="dash-title"><h1>Кабинеты ролей</h1><div class="d">Выберите роль — откроется её кабинет</div></div>
+    </div>
+    <div class="section-head" style="margin-top:20px"><h2>Роли</h2></div>
+    <div class="list-card">${['store', 'rep', 'amb'].map(row).join('')}</div>
+    <div class="section-head" style="margin-top:20px"><h2>Демо-доступ</h2></div>
+    <div class="list-card">${['owner', 'investor'].map(row).join('')}</div>
+    <div class="dash-note tone-dim" style="margin-top:14px">Эти же роли есть в профиле: Роли → «Стать» → «Войти».</div>
+  </div>`;
+}
+
 function renderDash(tab) {
   const role = state.activeRole;
   const ok = role && (['owner', 'investor'].includes(role) || state.roles[role]);
-  if (!ok) {
-    toast('Роль ещё не получена', 'Оформите заявку в профиле');
-    return renderProfile();
-  }
+  if (!ok) return renderRoleGate();
   const t = tab || 'index';
   const body = {
     store: () => renderStoreDash(t),
