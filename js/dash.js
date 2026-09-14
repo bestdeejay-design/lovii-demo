@@ -83,7 +83,7 @@ function dashHeadHtml(role, sub) {
       <h1>${esc(m.title)}</h1>
       <div class="d">${esc(sub || m.desc)}</div>
     </div>
-    <button class="ghost-btn sm" data-action="exit-role">${icon('logout')}Клиент</button>
+    <button class="ghost-btn" data-action="exit-role">${icon('logout')}Клиент</button>
   </div>`;
 }
 
@@ -666,50 +666,50 @@ function renderRepDash(tab) {
     </div>`;
   }
 
-  const pendingCount = totals.pts.filter((x) => x.status !== 'active').length;
-  const toMayor = Math.max(0, 30 - totals.activePts.length);
+  const pending = totals.pts.filter((x) => x.status !== 'active');
+  const onVitrine = totals.activePts.length;
+  const selling = totals.activePts.filter((x) => (x.goods || 0) > 0).length;
+  const weekIncome = Math.round(totals.roleIncome / LOVII_MODEL.weeksInMonth);
+  const dayIncome = Math.round(totals.roleIncome / 30);
+  const unread = unreadTotal('rep');
+  const pendingRows = pending.map((x) => `
+    <div class="row-item"><span class="ri-emoji ${tileBg('gold')}">${icon('store')}</span>
+      <div class="ri-mid"><div class="nm">${esc(x.name)}${statusChip(x.status)}</div><div class="sb">${esc(x.category)} · ${esc(x.address || 'адрес уточняется')}</div></div></div>`).join('');
+  const guides = [
+    [icon('qr'), 'Как подключить точку', 'QR → ИНН → карточка точки → апрув → платёж 1 ₽ → каталог'],
+    [icon('message'), 'Скрипт встречи с владельцем', 'Что показать и какие возражения закрыть на первой встрече'],
+    [icon('wallet'), 'Как считается доход', 'Сплит пула 40/40/20 · комиссия по тарифу точки · выплаты по расписанию'],
+    [icon('footprints'), 'План на неделю', 'Лиды · презентации · подключения · сопровождение запуска'],
+  ].map(([ic, t, sub2]) => `<div class="row-item"><span class="ri-emoji ${tileBg('sand')}">${ic}</span>
+    <div class="ri-mid"><div class="nm">${t}</div><div class="sb">${sub2}</div></div></div>`).join('');
+
   return `
   ${head}${tabs}
   ${rankCardHtml(rank, 'tiffany')}
+
   <div class="kpi-grid">
-    ${kpiCard('Доход · месяц', moneyFmt(totals.roleIncome), { delta: 12, accent: true })}
-    ${kpiCard('Активные точки', `${totals.activePts.length} / ${totals.pts.length}`, { spark: sparkSvg(seededSeries('rep-kpi', 7, 3, 5), 'tiffany') })}
-    ${kpiCard('Конверсия заказов', totals.conv.toFixed(1) + '%', { delta: 0.8, tone: 'gold' })}
-    ${kpiCard('GMV сети · месяц', moneyFmt(totals.monthRevenue), { delta: 9, tone: 'pink' })}
+    ${kpiCard('Точек на витрине', `${onVitrine}`, { tone: 'tiffany' })}
+    ${kpiCard('Активно продают', `${selling}`, { tone: 'tiffany' })}
+    ${kpiCard('На апруве', `${pending.length}`, { tone: 'gold' })}
+    ${kpiCard('Доход · сегодня', moneyFmt(dayIncome), { tone: 'pink' })}
+    ${kpiCard('Доход · неделя', moneyFmt(weekIncome), { tone: 'pink' })}
+    ${kpiCard('Доход · месяц', moneyFmt(totals.roleIncome), { accent: true, delta: 12 })}
   </div>
-  <div class="next-step-card" data-action="dash-tab" data-val="connect" role="button" tabindex="0">
-    <span class="ns-icon">${pendingCount > 0 ? '🔔' : '🚀'}</span>
-    <div class="ns-body">
-      <div class="ns-title">${pendingCount > 0 ? `${pendingCount} ${pendingCount === 1 ? 'заявка' : 'заявки'} в очереди — апрувь их сейчас` : `Покажи QR ещё ${toMayor} ${toMayor === 1 ? 'точке' : 'точкам'} до статуса «Мэр»`}</div>
-      <div class="ns-desc">${pendingCount > 0 ? 'Подтверждение заявок ускорит рост сети' : 'Каждая подключённая точка приближает к новому статусу'}</div>
-    </div>
-    <span class="ns-arrow">${icon('chev-right')}</span>
-  </div>
-  ${chartCard('Выручка точек по дням', 'неделя, ₽', barsChart({ data: seededSeries('rep-week', 7, 18000, 96000), labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'], tone: 'tiffany', height: 130 }))}
-  <div class="section-head" style="margin-top:20px"><h2>Топ точек по GMV</h2></div>
-  <div class="chart-card" style="margin-top:10px">${hbarsHtml(top, { emojiKey: true })}</div>
-  <div class="quick-actions-grid">
-    <button class="quick-action-card" data-action="dash-tab" data-val="connect">
-      <span class="qa-icon">${icon('smartphone')}</span>
-      <span class="qa-title">QR-подключение</span>
-      <span class="qa-desc">Подключить новую точку</span>
-    </button>
-    <button class="quick-action-card" data-action="dash-tab" data-val="points">
-      <span class="qa-icon">${icon('store')}</span>
-      <span class="qa-title">Точки</span>
-      <span class="qa-desc">Управлять ${totals.pts.length} ${totals.pts.length === 1 ? 'точкой' : 'точками'}</span>
-    </button>
-    <button class="quick-action-card" data-action="dash-tab" data-val="income">
-      <span class="qa-icon">${icon('wallet')}</span>
-      <span class="qa-title">Доход</span>
-      <span class="qa-desc">${moneyFmt(totals.roleIncome)} в этом месяце</span>
-    </button>
-    <button class="quick-action-card" data-action="dash-tab" data-val="chats">
-      <span class="qa-icon">${icon('message')}</span>
-      <span class="qa-title">Чаты${unreadTotal('rep') ? ` <span class="qa-badge">${unreadTotal('rep')}</span>` : ''}</span>
-      <span class="qa-desc">${unreadTotal('rep') ? `${unreadTotal('rep')} непрочитанных` : 'Все прочитаны'}</span>
-    </button>
-  </div>`;
+
+  <div class="section-head" style="margin-top:20px"><h2>Точки на апрув<span class="sub"> · ${pending.length}</span></h2></div>
+  ${pendingRows ? `<div class="list-card">${pendingRows}</div>` : ''}
+  ${repMspApplicationHtml()}
+
+  <div class="section-head" style="margin-top:20px"><h2>Инструкции</h2></div>
+  <div class="list-card">${guides}</div>
+
+  <div class="section-head" style="margin-top:20px"><h2>Чат с точками</h2></div>
+  <button class="row-item as-btn" data-action="dash-tab" data-val="chats">
+    <span class="ri-emoji ${tileBg('tiffany')}">${icon('message')}</span>
+    <div class="ri-mid"><div class="nm">Чаты с точками${unread ? ` <span class="st-chip st-mod">${unread}</span>` : ''}</div>
+      <div class="sb">${unread ? unread + ' непрочитанных' : 'Все сообщения прочитаны'}</div></div>
+    <span class="ri-chev">${icon('chev-right')}</span>
+  </button>`;
 }
 
 /* ================= Дашборд: Амбассадор ================= */

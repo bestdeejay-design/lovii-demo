@@ -136,11 +136,11 @@ const LOVII_DASH = {
 
   // ---- Представитель: подключённые точки (статусы: active / waiting / offline) ----
   repPoints: [
-    { slug: 'daily',   status: 'active',  revenueWeek: 242800, orders: 341, views: 2540 },
-    { slug: 'sloyka',  status: 'active',  revenueWeek: 186400, orders: 214, views: 1980 },
-    { slug: 'flowers', status: 'active',  revenueWeek: 158300, orders: 96,  views: 1210 },
-    { slug: 'master',  status: 'offline', revenueWeek: 42300,  orders: 51,  views: 640 },
-    { slug: 'forno',   status: 'waiting', revenueWeek: 0,      orders: 0,   views: 0 },
+    { slug: 'daily',   status: 'active',  revenueWeek: 242800, orders: 341, views: 2540, goods: 42 },
+    { slug: 'sloyka',  status: 'active',  revenueWeek: 186400, orders: 214, views: 1980, goods: 28 },
+    { slug: 'flowers', status: 'active',  revenueWeek: 158300, orders: 96,  views: 1210, goods: 0 },
+    { slug: 'master',  status: 'offline', revenueWeek: 42300,  orders: 51,  views: 640,  goods: 12 },
+    { slug: 'forno',   status: 'waiting', revenueWeek: 0,      orders: 0,   views: 0,    goods: 0 },
   ],
 
   // ---- Амбасадор: представители и их точки ----
