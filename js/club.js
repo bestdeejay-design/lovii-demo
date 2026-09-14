@@ -201,7 +201,7 @@ function renderPayProfile() {
         <div class="sb">${esc(m.desc)}</div>
       </div>
       ${
-        has
+        has || role !== 'store'
           ? `<button class="cta-btn ${active ? 'brand-gradient' : 'plain'}" data-action="enter-role" data-role="${role}">${active ? 'Открыто' : 'Войти как ' + esc(m.short || m.title)}</button>`
           : `<button class="cta-btn brand-gradient" data-go="apply:${role}">Стать</button>`
       }

@@ -267,8 +267,8 @@ function renderRoleGate() {
   const row = (role) => {
     const m = roleMeta(role);
     const demo = ['owner', 'investor'].includes(role);
-    const has = demo || !!state.roles[role];
-    const btn = has
+    const canEnter = demo || !!state.roles[role] || role !== 'store';
+    const btn = canEnter
       ? `<button class="cta-btn brand-gradient" data-action="enter-role" data-role="${role}">Войти</button>`
       : `<button class="cta-btn brand-gradient" data-go="apply:${role}">Стать</button>`;
     return `<div class="row-item"><span class="ri-emoji ${tileBg(m.color)}">${icon(m.icon || 'user')}</span>
@@ -2046,7 +2046,11 @@ function handleCardSave(form) {
 }
 
 function enterRole(role) {
-  if (ROLE_LIST.includes(role) && !state.roles[role]) return;
+  if (ROLE_LIST.includes(role) && !state.roles[role]) {
+    if (role === 'store') return; // магазин открывается через заявку на точку
+    // представитель и амбассадор — демо-вход в один тап
+    state.roles[role] = { appliedAt: Date.now(), name: LOVII_DASH.user.name, city: state.district || 'Тверской' };
+  }
   state.activeRole = role;
   persist();
   go('dash', 'index');
