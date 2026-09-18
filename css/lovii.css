@@ -3683,3 +3683,18 @@ body.cabinet-mode #view { padding-bottom: 0; }
 .role-next__title { color: var(--content-normal-primary); font-size: 13.5px; font-weight: 700; line-height: 1.4; }
 .role-next__desc { color: var(--content-normal-tertiary); font-size: 11.5px; line-height: 1.45; }
 .role-next__arrow svg { width: 16px; height: 16px; color: var(--lv-dim); }
+
+/* ---------- Кабинеты: единый ритм ширины и двухколоночная система ----------
+   Все блоки вкладок — cabinet-screen: ширина 100%, одинаковый вертикальный
+   шаг 12px; ≥640px блоки раскладываются в две колонки (как профиль),
+   KPI-полоса идёт поверх колонок на всю ширину в 4 карточки. */
+.cabinet-screen > * { width: 100%; box-sizing: border-box; margin: 0 0 12px; }
+.cabinet-screen > *:last-child { margin-bottom: 0; }
+.cabinet-screen > .role-card,
+.cabinet-screen > .msp-overview__kpi { margin: 0 0 12px; }
+@media (min-width: 640px) {
+  .cabinet-screen { columns: 2; column-gap: 16px; }
+  .cabinet-screen > * { break-inside: avoid; }
+  .msp-overview__kpi { column-span: all; grid-template-columns: repeat(4, 1fr); }
+  .msp-overview__kpi > .role-kpi__value { font-size: 22px; }
+}

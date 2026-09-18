@@ -129,7 +129,7 @@ function mspOverview() {
   const orders = mspOrdersOf();
   const active = orders.filter((o) => o.status !== 'done').length;
   return `
-    <div class="msp-overview">
+    <div class="msp-overview cabinet-screen">
       <section class="msp-overview__kpi">
         <div class="role-kpi role-kpi_accent">
           <span class="role-kpi__label">Товары точки</span>
@@ -179,7 +179,7 @@ function mspOverview() {
 function mspProducts() {
   const goods = sfStoreGoods('coffee-daily');
   return `
-    <div class="msp-products">
+    <div class="msp-products cabinet-screen">
       ${Object.entries(goods.items).map(([catId, items]) => {
         const cat = goods.cats.find((c) => c.id === catId);
         return `
@@ -210,7 +210,7 @@ function mspProducts() {
 function mspOrders() {
   const orders = mspOrdersOf();
   return `
-    <div class="msp-orders">
+    <div class="msp-orders cabinet-screen">
       <div class="msp-orders__list">
         ${orders.map((o) => `
           <div class="msp-order-row">
@@ -229,7 +229,7 @@ function mspOrders() {
 
 function mspTeam() {
   return `
-    <div class="msp-team">
+    <div class="msp-team cabinet-screen">
       <section class="role-card">
         <div class="role-section-head"><h2>Команда точки</h2><span class="role-section-head__sub">${MSP_MIRROR.team.length}</span></div>
         <div class="msp-team__list">
@@ -255,7 +255,7 @@ function mspTeam() {
 function mspSettings() {
   const b = MSP_MIRROR.branch;
   return `
-    <div class="msp-settings">
+    <div class="msp-settings cabinet-screen">
       <section class="role-card">
         <div class="role-section-head"><h2>Настройки точки</h2><span class="role-section-head__sub">${mEsc2(b.name)}</span></div>
         <div class="sf-info-rows" style="padding:0 16px 16px">
