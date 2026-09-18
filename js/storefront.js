@@ -466,12 +466,13 @@ function renderStoreMirror(slug) {
   }
 
   const catId = storeMirrorUi.category && goods.cats.some((c) => c.id === storeMirrorUi.category)
-    ? storeMirrorUi.category : goods.cats[0].id;
-  const cat = goods.cats.find((c) => c.id === catId);
+    ? storeMirrorUi.category : null;
+  const cat = catId ? goods.cats.find((c) => c.id === catId) : null;
   const q = storeMirrorUi.search.trim().toLowerCase();
+  const all = Object.values(goods.items).flat();
   const items = q
-    ? Object.values(goods.items).flat().filter((p) => p.t.toLowerCase().includes(q))
-    : goods.items[catId] || [];
+    ? all.filter((p) => p.t.toLowerCase().includes(q))
+    : catId ? goods.items[catId] || [] : all;
 
   return `
     <main class="place container">
@@ -497,7 +498,7 @@ function renderStoreMirror(slug) {
         </section>` : ''}
 
       <div class="place-catalog">
-        <h3>${q ? 'Результаты поиска' : sfEsc(cat.name)}</h3>
+        <h3>${q ? 'Результаты поиска' : cat ? sfEsc(cat.name) : 'Популярное'}</h3>
         <div class="place-catalog__list">
           ${items.map((p) => sfProductCard(p, store.id)).join('') || '<p class="stores__noresult">В этой категории пока нет товаров</p>'}
         </div>
@@ -571,7 +572,8 @@ document.addEventListener('click', (e) => {
   const action = el.dataset.action;
 
   if (action === 'sf-cat') {
-    storeMirrorUi.category = el.dataset.value;
+    // Клик по активной категории снимает выбор (все товары, «Популярное»)
+    storeMirrorUi.category = storeMirrorUi.category === el.dataset.value ? null : el.dataset.value;
     storeMirrorUi.search = '';
     renderViewPreserveScroll();
     return;
@@ -628,17 +630,44 @@ document.addEventListener('input', (e) => {
   const catalog = document.querySelector('.place-catalog');
   if (!goods || !catalog) return;
   const q = storeMirrorUi.search.trim().toLowerCase();
+  const all = Object.values(goods.items).flat();
+  const catId = storeMirrorUi.category && goods.cats.some((c) => c.id === storeMirrorUi.category)
+    ? storeMirrorUi.category : null;
   const items = q
-    ? Object.values(goods.items).flat().filter((p) => p.t.toLowerCase().includes(q))
-    : goods.items[storeMirrorUi.category || goods.cats[0].id] || [];
+    ? all.filter((p) => p.t.toLowerCase().includes(q))
+    : catId ? goods.items[catId] || [] : all;
   const listEl = catalog.querySelector('.place-catalog__list');
   if (listEl) {
     listEl.innerHTML = items.map((p) => sfProductCard(p, slug)).join('')
       || '<p class="stores__noresult">В этой категории пока нет товаров</p>';
   }
   const title = catalog.querySelector('h3');
-  if (title) title.textContent = q ? 'Результаты поиска' : (goods.cats.find((c) => c.id === (storeMirrorUi.category || goods.cats[0].id))?.name || '');
+  const cat = catId ? goods.cats.find((c) => c.id === catId) : null;
+  if (title) title.textContent = q ? 'Результаты поиска' : (cat ? cat.name : 'Популярное');
 });
+
+/* ---------- Смена темы в шапке (просьба владельца 19.09) ---------- */
+
+function sfSyncThemeIcon() {
+  const btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  btn.innerHTML = icon(dark ? 'sun' : 'moon');
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#theme-toggle')) return;
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if (typeof setThemeChoice === 'function') setThemeChoice(dark ? 'light' : 'dark');
+  sfSyncThemeIcon();
+  toast(dark ? 'Тёмная тема' : 'Светлая тема');
+});
+
+new MutationObserver(sfSyncThemeIcon).observe(document.documentElement, {
+  attributes: true,
+  attributeFilter: ['data-theme'],
+});
+sfSyncThemeIcon();
 
 /* ---------- Регистрация экранов ---------- */
 // «Популярное» (PopularView) на старте зеркала сведено к каталогу точек.

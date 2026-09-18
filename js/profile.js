@@ -21,11 +21,17 @@ const PROFILE_MIRROR_SEED = {
   // Рублёвый контур баллов: сумма в копейках (как в API).
   wallet: { balance: 125_000 },
   // Счета → карты карусели. kind: personal | company | nominal.
+  // Для витрины скинов в демо добавлены все накопленные карты: PAY/PASS/VIP —
+  // личные (по канону «счёт один», номер от account_id, баланс общий),
+  // BUSINESS — карта МСП, OPERATOR — номинальный счёт платформы (SZ-043).
   // balance личного на рублёвом контуре — 0 (у клиента рублёвых проводок нет),
   // на карте и в баллах показывается wallet.balance.
   accounts: [
-    { kind: 'personal', account_id: 401, title: 'Aleksandra Lovii', balance: 0 },
-    { kind: 'company', account_id: 512, title: 'АТМОСФЕРА', inn: '7842216839', balance: 0 },
+    { kind: 'personal', account_id: 401, title: 'Aleksandra Lovii', balance: 0, skin: 'pay', tag: 'LOVII PAY' },
+    { kind: 'personal', account_id: 402, title: 'Aleksandra Lovii', balance: 0, skin: 'pass', tag: 'LOVII PASS' },
+    { kind: 'personal', account_id: 403, title: 'Aleksandra Lovii', balance: 0, skin: 'vip', tag: 'LOVII VIP' },
+    { kind: 'company', account_id: 512, title: 'АТМОСФЕРА', inn: '7842216839', balance: 0, skin: 'biz', tag: 'LOVII BUSINESS' },
+    { kind: 'nominal', account_id: 900, title: 'LOVII · Оператор', balance: 0, skin: 'nominal', tag: 'LOVII OPERATOR' },
   ],
   // Проводки баллового контура (копейки, знак — у adjustment).
   transactions: [
@@ -223,18 +229,21 @@ function mPayCard(account, slideCls = 'profile__slide') {
   const num = cardNumberFor(account);
   // Личная карта показывает баланс кошелька (баллы), как на стейдже.
   const bal = account.kind === 'personal' ? PROFILE_MIRROR_SEED.wallet.balance : account.balance;
+  // Явный скин из сида (витрина всех карт демо) или канон по типу счёта.
+  const skin = account.skin || cardSkinFor(account);
+  const tag = account.tag || cardTagFor(account);
   return `
     <div class="${slideCls}">
       <div class="pay-stage">
         <div class="pay-tilt">
-          <button type="button" class="paycard skin-${cardSkinFor(account)}" data-action="pay-flip"
+          <button type="button" class="paycard skin-${skin}" data-action="pay-flip"
             aria-label="Карта LOVII PAY — нажмите, чтобы перевернуть" data-mir-card-num="${mEsc(num)}">
             <span class="pay-face pay-front">
               <span class="pay-sheen" aria-hidden="true"></span>
               <span class="pay-glare" aria-hidden="true"></span>
               <span class="pay-sweep" aria-hidden="true"></span>
               <span class="pay-top">
-                <span class="pay-brand">${cardTagFor(account)}</span>
+                <span class="pay-brand">${tag}</span>
                 <span class="pay-chip" aria-hidden="true"></span>
               </span>
               <span class="pay-num">${mEsc(num)}</span>
@@ -407,6 +416,10 @@ function renderProfileMirror() {
         <span class="tier__fill" style="width:${tier.progress}%"></span>
       </div>
       <p class="tier__next">${tier.hintBefore}${tier.hintAccent ? `<b>${tier.hintAccent}</b>` : ''}${tier.hintAfter}</p>
+      <button type="button" class="tier__cta" data-action="mir-subscribe">
+        Оформить подписку · 599 ₽/мес
+      </button>
+      <p class="tier__cta-note">С промокодом Амбассадора — 199 ₽/мес · оплата с внутреннего счёта: LOVII Business, затем LOVII PAY</p>
       ${perks.length ? `<div class="tier__perks" data-testid="profile-tier-perks">${perks.map((perk) => `<span class="tier__perk">${icon('check')} ${mEsc(perk)}</span>`).join('')}</div>` : ''}
       <div class="tier__privs">
         <p class="block-cap">Привилегии статуса<span class="block-cap__sub">всё для VIP</span></p>
@@ -563,6 +576,11 @@ document.addEventListener('click', (e) => {
     } else {
       done();
     }
+    return;
+  }
+
+  if (action === 'mir-subscribe') {
+    toast('Демо: подключение подписки', 'На стенде списание идёт с LOVII Business, затем с LOVII PAY');
     return;
   }
 

@@ -3351,3 +3351,56 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 .sf-info-rows > div:first-child { border-top: 0; }
 .sf-info-rows > div > span { color: var(--content-normal-tertiary); }
 .sf-info-rows > div > b { color: var(--content-normal-primary); font-weight: 600; text-align: right; }
+
+/* ---------- ЗЕРКАЛО: скин OPERATOR (номинальный счёт, SZ-043) ----------
+   Порт .skin-nominal из PayCard.vue@staging: серебро без золота, тонкая
+   диагональная штриховка — техническая карта единого счёта платформы. */
+.paycard.skin-nominal .pay-face {
+  background-image:
+    repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 9px),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.03) 52%, rgba(0, 0, 0, 0.3) 100%),
+    var(--lv-gradient-ink);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+}
+.paycard.skin-nominal .pay-brand {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.45) 55%, rgba(255, 255, 255, 0.25) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-size: 14px;
+}
+.paycard.skin-nominal .pay-chip {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.35) 60%, rgba(255, 255, 255, 0.18));
+}
+.paycard.skin-nominal .pay-sheen {
+  background: radial-gradient(120% 90% at 88% -8%, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 34%, transparent 62%);
+}
+.paycard.skin-nominal .pay-glare {
+  background: radial-gradient(300px 300px at var(--gx, 70%) var(--gy, 15%), rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 40%, transparent 65%);
+}
+.paycard.skin-nominal .pay-sweep {
+  background: linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, 0.16) 48%, rgba(255, 255, 255, 0.05) 52%, transparent 60%);
+}
+
+/* Кнопка «Оформить подписку» в блоке статуса (SZ-056) */
+.tier__cta {
+  width: 100%;
+  margin-top: 12px;
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--lv-pink);
+  color: var(--lv-on-brand, #fff);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+.tier__cta:hover { background: var(--lv-pink-dark); }
+.tier__cta-note {
+  margin: 6px 0 0;
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--content-normal-secondary);
+}
