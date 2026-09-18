@@ -3692,9 +3692,14 @@ body.cabinet-mode #view { padding-bottom: 0; }
 .cabinet-screen > *:last-child { margin-bottom: 0; }
 .cabinet-screen > .role-card,
 .cabinet-screen > .msp-overview__kpi { margin: 0 0 12px; }
+/* Две колонки — только там, где им есть место (фолд ≥900): на 640–899
+   колонки по ~300px ломали заголовки и делали блоки «уже чем ниже» */
 @media (min-width: 640px) {
+  .msp-overview__kpi { grid-template-columns: repeat(4, 1fr); }
+  .msp-overview__kpi > .role-kpi__value { font-size: 22px; }
+}
+@media (min-width: 900px) {
   .cabinet-screen { columns: 2; column-gap: 16px; }
   .cabinet-screen > * { break-inside: avoid; }
-  .msp-overview__kpi { column-span: all; grid-template-columns: repeat(4, 1fr); }
-  .msp-overview__kpi > .role-kpi__value { font-size: 22px; }
+  .msp-overview__kpi { column-span: all; }
 }
