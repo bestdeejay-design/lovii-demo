@@ -12,29 +12,24 @@
 /* ---------- Сид витрины ---------- */
 
 const VITRINA_MIRROR = {
-  // Типы мерчантов (SZ-005 §8.3: явные чипи, без скрытого фильтра).
-  merchantTypes: [
-    { value: 'store', label: 'Сети-ритейл' },
-    { value: 'restaurant', label: 'Общепит' },
-    { value: 'services', label: 'Услуги' },
-    { value: 'club', label: 'Клубы' },
-  ],
+  // Чипы типов мерчантов (SZ-005) убраны с главной и из «Поиска» —
+  // решение владельца 19.09: впереди динамические категории по тегам.
   stores: [
-    { id: 'coffee-daily', name: 'Кофейня «Daily»', type: 'restaurant', emoji: '☕', logoBg: '#f4e9dd', open: true, distanceKm: 0.1, minOrder: 0, popular: true,
+    { id: 'coffee-daily', name: 'Кофейня «Daily»', emoji: '☕', logoBg: '#f4e9dd', open: true, distanceKm: 0.1, minOrder: 0, popular: true,
       products: [{ e: '☕', bg: '#f4e9dd' }, { e: '🥐', bg: '#fdf3d8' }, { e: '🍰', bg: '#ffe9f2' }, { e: '🧃', bg: '#e8f4f4' }] },
-    { id: 'pyshki', name: 'Пекарня «Слойка»', type: 'restaurant', emoji: '🥐', logoBg: '#fdf3d8', open: false, distanceKm: 0.17, minOrder: 300, popular: true,
+    { id: 'pyshki', name: 'Пекарня «Слойка»', emoji: '🥐', logoBg: '#fdf3d8', open: false, distanceKm: 0.17, minOrder: 300, popular: true,
       products: [{ e: '🥐', bg: '#fdf3d8' }, { e: '🥯', bg: '#ffe9f2' }, { e: '🍞', bg: '#f4e9dd' }, { e: '🧁', bg: '#e8f4f4' }] },
-    { id: 'krasota', name: 'Салон «Красота»', type: 'services', emoji: '💅', logoBg: '#ffe9f2', open: false, distanceKm: 0.16, minOrder: 0, popular: false,
+    { id: 'krasota', name: 'Салон «Красота»', emoji: '💅', logoBg: '#ffe9f2', open: false, distanceKm: 0.16, minOrder: 0, popular: false,
       products: [{ e: '💅', bg: '#ffe9f2' }, { e: '💄', bg: '#f4e9dd' }, { e: '🧖', bg: '#e8f4f4' }] },
-    { id: 'u-doma', name: 'Продукты «У дома»', type: 'store', emoji: '🛒', logoBg: '#e8f4f4', open: true, distanceKm: 0.2, minOrder: 0, popular: true,
+    { id: 'u-doma', name: 'Продукты «У дома»', emoji: '🛒', logoBg: '#e8f4f4', open: true, distanceKm: 0.2, minOrder: 0, popular: true,
       products: [{ e: '🥛', bg: '#e8f4f4' }, { e: '🍎', bg: '#ffe8e0' }, { e: '🧀', bg: '#fdf3d8' }, { e: '🍫', bg: '#f4e9dd' }] },
-    { id: 'grill', name: 'Бургерная «Гриль»', type: 'restaurant', emoji: '🍔', logoBg: '#ffe8e0', open: true, distanceKm: 0.3, minOrder: 500, popular: true,
+    { id: 'grill', name: 'Бургерная «Гриль»', emoji: '🍔', logoBg: '#ffe8e0', open: true, distanceKm: 0.3, minOrder: 500, popular: true,
       products: [{ e: '🍔', bg: '#ffe8e0' }, { e: '🍟', bg: '#fdf3d8' }, { e: '🥤', bg: '#e8f4f4' }] },
-    { id: 'zdorovie', name: 'Аптека «Здоровье»', type: 'store', emoji: '💊', logoBg: '#eaf7ee', open: true, distanceKm: 0.28, minOrder: 0, popular: false,
+    { id: 'zdorovie', name: 'Аптека «Здоровье»', emoji: '💊', logoBg: '#eaf7ee', open: true, distanceKm: 0.28, minOrder: 0, popular: false,
       products: [{ e: '💊', bg: '#eaf7ee' }, { e: '🧴', bg: '#e8f4f4' }, { e: '🌡️', bg: '#f4e9dd' }] },
-    { id: 'cvety', name: 'Цветы «Бутон»', type: 'store', emoji: '🌸', logoBg: '#f3ecfb', open: true, distanceKm: 0.35, minOrder: 0, popular: false, isTeaser: true,
+    { id: 'cvety', name: 'Цветы «Бутон»', emoji: '🌸', logoBg: '#f3ecfb', open: true, distanceKm: 0.35, minOrder: 0, popular: false, isTeaser: true,
       products: [{ e: '🌸', bg: '#f3ecfb' }, { e: '💐', bg: '#ffe9f2' }, { e: '🪴', bg: '#eaf7ee' }] },
-    { id: 'fitness', name: 'Клуб «Сила»', type: 'club', emoji: '🏋️', logoBg: '#e8eefb', open: true, distanceKm: 0.5, minOrder: 0, popular: false,
+    { id: 'fitness', name: 'Клуб «Сила»', emoji: '🏋️', logoBg: '#e8eefb', open: true, distanceKm: 0.5, minOrder: 0, popular: false,
       products: [{ e: '🏋️', bg: '#e8eefb' }, { e: '🥊', bg: '#ffe8e0' }, { e: '🧘', bg: '#e8f4f4' }] },
   ],
   // Баннеры «Реклама»: демо-слайды на градиентах канона (без фотостока).
@@ -48,8 +43,6 @@ const VITRINA_MIRROR = {
 /* ---------- Состояние вида ---------- */
 const storefrontUi = {
   heroOpen: localStorage.getItem('lovii_hero') !== '0',
-  homeTypes: [],
-  catalogTypes: [],
   catalogSearch: '',
   bannerIndex: 0,
 };
@@ -104,19 +97,10 @@ function sfHero() {
 }
 
 function sfPopular() {
-  const types = storefrontUi.homeTypes;
-  const popular = VITRINA_MIRROR.stores.filter(
-    (s) => s.popular && (!types.length || types.includes(s.type)),
-  );
-  const visible = popular.slice(0, 8);
+  const visible = VITRINA_MIRROR.stores.filter((s) => s.popular).slice(0, 8);
   return `
     <section class="home-popular">
       <h3>Популярные заведения</h3>
-      <div class="home-popular__types">
-        ${VITRINA_MIRROR.merchantTypes.map((opt) => `
-          <button type="button" class="app-chip${types.includes(opt.value) ? ' active' : ''}"
-            data-action="sf-home-type" data-value="${opt.value}">${opt.label}</button>`).join('')}
-      </div>
       <div class="home-popular__list">
         ${visible.map((s) => `
           <a href="#/store/${sfEsc(s.id)}" class="popular-store">
@@ -214,13 +198,8 @@ function sfCatalogRow(s) {
 
 function renderStoresMirror() {
   const q = storefrontUi.catalogSearch.trim().toLowerCase();
-  const types = storefrontUi.catalogTypes;
-  const filtered = VITRINA_MIRROR.stores.filter((s) => {
-    const byType = !types.length || types.includes(s.type);
-    const byName = !q || s.name.toLowerCase().includes(q);
-    return byType && byName;
-  });
-  const title = q ? 'Результаты поиска' : types.length ? 'Найденные заведения' : 'Все заведения';
+  const filtered = VITRINA_MIRROR.stores.filter((s) => !q || s.name.toLowerCase().includes(q));
+  const title = q ? 'Результаты поиска' : 'Все заведения';
 
   return `
     <main class="stores container">
@@ -230,17 +209,9 @@ function renderStoresMirror() {
           <input type="text" placeholder="Магазин или товар" value="${sfEsc(storefrontUi.catalogSearch)}" data-action="sf-search">
         </div>
         <button type="button" class="sf-filter-btn" aria-label="Фильтры">
-          ${types.length ? `<span class="filters-indicator">${types.length}</span>` : ''}
           ${icon('sliders')}
         </button>
       </section>
-
-      ${!q ? `
-        <section class="stores__types">
-          ${VITRINA_MIRROR.merchantTypes.map((opt) => `
-            <button type="button" class="app-chip${types.includes(opt.value) ? ' active' : ''}"
-              data-action="sf-catalog-type" data-value="${opt.value}">${opt.label}</button>`).join('')}
-        </section>` : ''}
 
       <section class="stores__catalog">
         <h4>${title}</h4>
@@ -267,16 +238,6 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  if (action === 'sf-home-type' || action === 'sf-catalog-type') {
-    const key = action === 'sf-home-type' ? 'homeTypes' : 'catalogTypes';
-    const list = storefrontUi[key];
-    const value = el.dataset.value;
-    const i = list.indexOf(value);
-    if (i >= 0) list.splice(i, 1);
-    else list.push(value);
-    renderViewPreserveScroll();
-    return;
-  }
 });
 
 document.addEventListener('input', (e) => {
