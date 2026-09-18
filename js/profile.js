@@ -503,13 +503,6 @@ function renderProfileMirror() {
               ${mNavRow({ icon: 'users', tile: 't-tiffany', label: 'Пригласить друга', badge: 'Скоро' })}
             </section>
           </div>
-
-          <div class="profile__nav">
-            <section>
-              ${mNavRow({ icon: 'bell', tile: 't-pink', label: 'Push-уведомления', sub: 'Статусы заказов на этом устройстве', switchOn: pushOn, switchKey: 'master' })}
-              ${mNavRow({ icon: 'send', tile: 't-tiffany', label: 'Письма о новостях', sub: 'Акции и новинки партнёров — на email', switchOn: emailOn, switchKey: 'email' })}
-            </section>
-          </div>
         </div>
       </div>
 
