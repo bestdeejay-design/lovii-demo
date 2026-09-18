@@ -55,11 +55,11 @@ const PROFILE_MIRROR_SEED = {
   ],
   // Кабинеты ролей (канон прод-консолидации 2026-09-14).
   cabinets: [
-    { key: 'msp', title: 'МСП · точка', note: 'Заявка · Товары · Заказы · Настройки', tag: 'В работе', tone: 'work', icon: 'store', tile: 't-tiffany', href: '#/msp' },
-    { key: 'representative', title: 'Представитель', note: 'Обзор · Подключение · Точки · Доход', tag: 'В работе', tone: 'work', icon: 'users', tile: 't-gold', href: '#/dash/rep' },
-    { key: 'ambassador', title: 'Амбассадор', note: 'Обзор · Представители · Обучение', tag: 'Доработка', tone: 'todo', icon: 'sparkles', tile: 't-pink', href: '#/dash/amb' },
-    { key: 'owner', title: 'Владелец', note: 'Обзор · Финансы · Структура', tag: 'Есть решения', tone: 'ready', icon: 'crown', tile: 't-gold', href: null },
-    { key: 'investor', title: 'Инвестор', note: 'Рост · Продажи · Доходность', tag: 'Есть решения', tone: 'ready', icon: 'trending-up', tile: 't-tiffany', href: null },
+    { key: 'msp', title: 'МСП · точка', note: 'Заявка · Товары · Заказы · Настройки', icon: 'store', tile: 't-tiffany', href: '#/msp' },
+    { key: 'representative', title: 'Представитель', note: 'Обзор · Подключение · Точки · Доход', icon: 'users', tile: 't-gold', href: '#/dash/rep' },
+    { key: 'ambassador', title: 'Амбассадор', note: 'Обзор · Представители · Обучение', icon: 'sparkles', tile: 't-pink', href: '#/dash/amb' },
+    { key: 'owner', title: 'Владелец', note: 'Обзор · Финансы · Структура', icon: 'crown', tile: 't-gold', href: null },
+    { key: 'investor', title: 'Инвестор', note: 'Рост · Продажи · Доходность', icon: 'trending-up', tile: 't-tiffany', href: null },
   ],
   documents: [
     { label: 'Публичная оферта', href: 'https://axiiom-ru.github.io/lovii/docs/Публичная_оферта.html' },
@@ -491,7 +491,7 @@ function renderProfileMirror() {
           ${mCollapse({ title: 'Статус LOVII PAY', subtitle: tier.tier.name, testid: 'profile-collapse-tier', inner: tierHtml })}
           ${mCollapse({ title: 'Избранные МСП', subtitle: String(S.favorites.length), testid: 'profile-collapse-favorites', inner: `${favorites}
             <a href="#/stores" class="ops-link" data-testid="profile-favorites-stores"><span>Открыть витрину района</span>${icon('chev-right')}</a>` })}
-          ${mCollapse({ title: 'Кабинеты', subtitle: `${S.cabinets.length} доступно`, open: true, noChev: true, testid: 'profile-collapse-cabinets', inner: cabinets })}
+          ${mCollapse({ title: 'Кабинеты', subtitle: `${S.cabinets.length} доступно`, open: true, testid: 'profile-collapse-cabinets', inner: cabinets })}
 
           <div class="profile__nav">
             <section aria-label="Адреса">

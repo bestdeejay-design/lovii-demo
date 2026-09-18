@@ -3705,9 +3705,3 @@ body.cabinet-mode #view { padding-bottom: 0; }
   .cabinet-screen { columns: 2; column-gap: 16px; }
   .cabinet-screen > * { break-inside: avoid; }
 }
-
-/* Кабинеты: статичная карточка без шеврона (всегда открыта, строки сами
-   говорят «Открыть») */
-.collapse_static .collapse__head { cursor: default; }
-.collapse_static .collapse__body { grid-template-rows: 1fr; }
-.collapse_static.collapse_open .collapse__body { grid-template-rows: 1fr; }
