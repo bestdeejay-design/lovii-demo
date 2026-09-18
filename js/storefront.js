@@ -630,10 +630,22 @@ new MutationObserver(sfSyncThemeIcon).observe(document.documentElement, {
 });
 sfSyncThemeIcon();
 
+/* ---------- Экран «Настройки» (5-я вкладка навигации) ---------- */
+/* Контейнер со слотом: содержимое рисует settings.js (renderSettingsHtml)
+   через MutationObserver — тема, район, установка, пуши, PIN, выход. */
+function renderSettingsMirror() {
+  return `<main class="container settings-page"><div id="settings-slot"></div></main>`;
+}
+
 /* ---------- Регистрация экранов ---------- */
 // «Популярное» (PopularView) на старте зеркала сведено к каталогу точек.
 // renderStore/renderProduct — function-декларации screens.js, переопределяем
 // глобально: currentScreenHtml вызывает их напрямую с параметром-слагом.
-Object.assign(SCREENS, { home: renderHomeMirror, stores: renderStoresMirror, popular: renderStoresMirror });
+Object.assign(SCREENS, {
+  home: renderHomeMirror,
+  stores: renderStoresMirror,
+  popular: renderStoresMirror,
+  settings: renderSettingsMirror,
+});
 window.renderStore = renderStoreMirror;
 window.renderProduct = renderProductMirror;

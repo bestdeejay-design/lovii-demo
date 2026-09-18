@@ -534,6 +534,8 @@ document.addEventListener('click', (e) => {
 (function initSettings() {
   ensureSettings();
   applyTheme(resolvedTheme(ensureSettings().theme));
+  // холодный старт сразу на #/settings: слот уже в DOM до наблюдателя
+  fillSettingsSlot();
   // доступность Face ID — один запрос на сессию (платформа без
   // WebAuthn: строка скрыта, карточка SCR-PROFILE §7)
   faceAvailable().then((ok) => {

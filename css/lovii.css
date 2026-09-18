@@ -3404,3 +3404,9 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   line-height: 1.45;
   color: var(--content-normal-secondary);
 }
+
+/* ---------- Экран «Настройки» (вкладка навигации) ---------- */
+.settings-page {
+  min-height: calc(100dvh - 56px);
+  padding: 0 0 calc(var(--lv-navbar-offset) + 16px);
+}

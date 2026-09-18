@@ -221,7 +221,7 @@ function parseHash() {
     }
     return { name: 'home', param: null };
   }
-  const known = ['home', 'store', 'product', 'search', 'cart', 'orders', 'profile', 'wallet', 'stores', 'popular', 'apply', 'dash', 'chat', 'msp-signup', 'msp'];
+  const known = ['home', 'store', 'product', 'search', 'cart', 'orders', 'profile', 'wallet', 'stores', 'popular', 'settings', 'apply', 'dash', 'chat', 'msp-signup', 'msp'];
   return { name: known.includes(name) ? name : 'home', param: param || null };
 }
 
@@ -314,7 +314,7 @@ function updateChrome() {
 
   // активная кнопка навигации (роли подсвечивают «Профиль»)
   const navName = state.view.name;
-  const roleScreens = ['profile', 'apply', 'dash', 'chat', 'msp'];
+  const roleScreens = ['profile', 'wallet', 'apply', 'dash', 'chat', 'msp'];
   document.querySelectorAll('.nav-btn').forEach((btn) => {
     const isActive = btn.dataset.nav === 'profile' ? roleScreens.includes(navName) : btn.dataset.nav === navName;
     btn.classList.toggle('active', isActive);

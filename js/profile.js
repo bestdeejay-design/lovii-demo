@@ -515,7 +515,7 @@ function renderProfileMirror() {
 
           <div class="profile__nav">
             <section>
-              ${mNavRow({ icon: 'settings', tile: 't-gold', label: 'Все настройки' })}
+              ${mNavRow({ icon: 'settings', tile: 't-gold', label: 'Все настройки', href: '#/settings' })}
             </section>
           </div>
         </div>
