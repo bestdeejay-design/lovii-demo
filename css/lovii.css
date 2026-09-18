@@ -3668,3 +3668,24 @@ body.cabinet-mode #view { padding-bottom: 0; }
 .msp-product-row__name { font-size: 13px; font-weight: 700; color: var(--content-normal-primary); }
 .msp-product-row__meta { margin-top: 2px; font-size: 11.5px; color: var(--lv-dim); }
 .msp-team__list { padding: 12px 0 0; }
+
+/* ---------- Кабинеты представителя и амбассадора (акценты ролей) ---------- */
+.rep-cabinet .cabinet__ava { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
+.amb-cabinet .cabinet__ava { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
+.rep-cabinet .cabinet__bar-link--active { color: var(--lv-gold-text); }
+.rep-cabinet .cabinet__bar-link--active .cabinet__bar-ind { background: var(--lv-gold); }
+.amb-cabinet .cabinet__bar-link--active { color: var(--lv-tiffany-text); }
+.amb-cabinet .cabinet__bar-link--active .cabinet__bar-ind { background: var(--lv-tiffany); }
+
+/* Карточка «следующий шаг» (role-next) */
+.role-next {
+  display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center;
+  margin: 12px 0 0; padding: 14px 16px; border-radius: 16px;
+  background: var(--background-normal-surface); text-decoration: none; cursor: default;
+}
+.role-next__icon { width: 40px; height: 40px; border-radius: 12px; background: var(--lv-soft-gold); color: var(--lv-gold-text); display: inline-flex; align-items: center; justify-content: center; }
+.role-next__icon svg { width: 20px; height: 20px; }
+.role-next__body { display: flex; flex-flow: column; gap: 2px; min-width: 0; }
+.role-next__title { color: var(--content-normal-primary); font-size: 13.5px; font-weight: 700; line-height: 1.4; }
+.role-next__desc { color: var(--content-normal-tertiary); font-size: 11.5px; line-height: 1.45; }
+.role-next__arrow svg { width: 16px; height: 16px; color: var(--lv-dim); }

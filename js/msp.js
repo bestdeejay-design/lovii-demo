@@ -59,8 +59,8 @@ function mspOrdersOf(branchName) {
 
 const MSP_TABS = [
   { id: 'overview', label: 'Обзор', icon: 'bar-chart' },
-  { id: 'products', label: 'Товары', icon: 'package' },
   { id: 'orders', label: 'Заказы', icon: 'bag' },
+  { id: 'products', label: 'Товары', icon: 'package' },
   { id: 'team', label: 'Команда', icon: 'users' },
   { id: 'settings', label: 'Точка', icon: 'settings' },
 ];
@@ -310,7 +310,7 @@ document.addEventListener('click', (e) => {
 
 /* перерисовка витринных экранов снимает режим кабинета */
 const _mspObserver = new MutationObserver(() => {
-  if (!document.querySelector('.msp-cabinet')) document.body.classList.remove('cabinet-mode');
+  if (!document.querySelector('.msp-cabinet, .rep-cabinet, .amb-cabinet')) document.body.classList.remove('cabinet-mode');
 });
 _mspObserver.observe(document.getElementById('view'), { childList: true, subtree: false });
 
