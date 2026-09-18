@@ -1989,10 +1989,10 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 /* ---------- Юридический блок (ProfileFooter) ---------- */
 .profile-footer { width: 100%; }
 .legal-card {
-  border: 1px solid var(--lv-line);
-  border-radius: var(--lv-r-lg);
-  background: var(--lv-card);
-  box-shadow: var(--lv-shadow-soft);
+  border: 0;
+  border-radius: 16px;
+  background: var(--background-normal-surface);
+  box-shadow: none;
   overflow: hidden;
 }
 .legal-card__cap {
