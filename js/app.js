@@ -221,7 +221,7 @@ function parseHash() {
     }
     return { name: 'home', param: null };
   }
-  const known = ['home', 'store', 'product', 'search', 'cart', 'orders', 'profile', 'apply', 'dash', 'chat', 'msp-signup', 'msp'];
+  const known = ['home', 'store', 'product', 'search', 'cart', 'orders', 'profile', 'wallet', 'apply', 'dash', 'chat', 'msp-signup', 'msp'];
   return { name: known.includes(name) ? name : 'home', param: param || null };
 }
 
@@ -256,6 +256,8 @@ function renderView(keepScroll) {
     sub = subHeaderHtml(p ? p.name : 'Товар');
   } else if (name === 'apply' && param) {
     sub = subHeaderHtml('Заявка на роль');
+  } else if (name === 'wallet') {
+    sub = subHeaderHtml('Счёт и операции');
   }
   if (sub) {
     html = sub + `<div>${html}</div>`;
