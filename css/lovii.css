@@ -3708,3 +3708,36 @@ body.cabinet-mode #view { padding-bottom: 0; }
   .cabinet-screen { columns: 2; column-gap: 16px; }
   .cabinet-screen > * { break-inside: avoid; }
 }
+
+/* ---------- МСП: счёт верификации и настройки точки ---------- */
+.role-empty__icon {
+  width: 52px; height: 52px; border-radius: 16px; margin-bottom: 8px;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.role-empty__icon svg { width: 24px; height: 24px; }
+.role-empty__title { font-size: 15px; font-weight: 800; color: var(--content-normal-primary); }
+.role-empty__text { margin: 6px 0 0; color: var(--content-normal-secondary); font-size: 13px; line-height: 1.55; }
+.role-field__label { display: block; margin: 10px 0 4px; color: var(--content-normal-tertiary); font-size: 11px; font-weight: 600; }
+.msp-payment__amount { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; color: var(--content-normal-primary); }
+.msp-payment__code {
+  display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px;
+  border: 1px dashed var(--lv-line-strong); border-radius: 12px; background: var(--lv-surface);
+  color: var(--content-normal-primary); font: inherit; font-size: 15px; font-weight: 800;
+  letter-spacing: 0.06em; cursor: pointer;
+}
+.msp-payment__code svg { width: 16px; height: 16px; }
+.role-pulse {
+  flex-shrink: 0; width: 10px; height: 10px; border-radius: 50%;
+  background: var(--lv-tiffany); animation: role-pulse 1.4s ease-in-out infinite;
+}
+@keyframes role-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+.msp-days { display: flex; flex-wrap: wrap; gap: 6px; }
+.msp-times { display: flex; gap: 12px; color: var(--content-normal-secondary); font-size: 13px; }
+.msp-time { display: inline-flex; align-items: center; gap: 6px; }
+.msp-time input {
+  border: 1px solid var(--border-normal-subtle); border-radius: 8px; background: var(--background-normal-surface);
+  color: var(--content-normal-primary); font: inherit; font-size: 13px; padding: 6px 8px;
+}

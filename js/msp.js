@@ -32,7 +32,28 @@ const MSP_MIRROR = {
   ],
 };
 
-const mspUi = { tab: 'overview', partner: 0, onSale: {} };
+const mspUi = { tab: 'overview', partner: 0, onSale: {}, payment: 'await' };
+let cacheConfirm = null;
+
+/* Настройки точки — персист в localStorage (lv_msp_mirror) */
+function mspSettingsState() {
+  if (!mspUi.set) {
+    let saved = {};
+    try { saved = JSON.parse(localStorage.getItem('lv_msp_mirror') || '{}'); } catch { /* приватный режим */ }
+    mspUi.set = {
+      open: saved.open !== false,
+      days: Object.assign({ пн: 1, вт: 1, ср: 1, чт: 1, пт: 1, сб: 1, вс: 0 }, saved.days || {}),
+      from: saved.from || '09:00',
+      to: saved.to || '22:00',
+      minOrder: saved.minOrder ?? MSP_MIRROR.branch.minOrder,
+      address: saved.address || MSP_MIRROR.branch.address,
+    };
+  }
+  return mspUi.set;
+}
+function mspSaveSettings() {
+  try { localStorage.setItem('lv_msp_mirror', JSON.stringify(mspUi.set)); } catch { /* приватный режим */ }
+}
 
 /* ---------- Хелперы ---------- */
 
@@ -128,8 +149,19 @@ function mspStarter() {
 function mspOverview() {
   const orders = mspOrdersOf();
   const active = orders.filter((o) => o.status !== 'done').length;
+  const payLabel = mspUi.payment === 'done' ? 'Оплачен' : mspUi.payment === 'verifying' ? 'Идёт комплаенс' : 'Ждёт оплаты';
   return `
     <div class="msp-overview cabinet-screen">
+      <section class="role-card" style="padding:12px 16px 12px">
+        <div class="msp-order-row" data-action="msp-payment" role="button" style="border:0;padding:0">
+          <span class="msp-order-row__ico">${icon('banknote')}</span>
+          <div class="msp-order-row__mid">
+            <div class="msp-order-row__name">Счёт верификации · 1 ₽</div>
+            <div class="msp-order-row__meta">Проверочный платёж с расчётного счёта компании</div>
+          </div>
+          <span class="role-tag">${payLabel}</span>
+        </div>
+      </section>
       <section class="msp-overview__kpi">
         <div class="role-kpi role-kpi_accent">
           <span class="role-kpi__label">Товары точки</span>
@@ -143,12 +175,12 @@ function mspOverview() {
         </div>
         <div class="role-kpi">
           <span class="role-kpi__label">Расписание</span>
-          <span class="role-kpi__value">${mEsc2(MSP_MIRROR.branch.hours)}</span>
+          <span class="role-kpi__value">${mEsc2(mspSettingsState().from)}–${mEsc2(mspSettingsState().to)}</span>
           <span class="role-kpi__sub">регулярное расписание</span>
         </div>
         <div class="role-kpi">
           <span class="role-kpi__label">Мин. сумма</span>
-          <span class="role-kpi__value">${MSP_MIRROR.branch.minOrder}&nbsp;₽</span>
+          <span class="role-kpi__value">${mspSettingsState().minOrder || 0}&nbsp;₽</span>
           <span class="role-kpi__sub">на заказ доставке</span>
         </div>
       </section>
@@ -253,19 +285,107 @@ function mspTeam() {
 /* ---------- Настройки точки (MspBranchSettings, v1 — чтение) ---------- */
 
 function mspSettings() {
-  const b = MSP_MIRROR.branch;
+  const st = mspSettingsState();
+  const days = Object.keys(st.days);
   return `
     <div class="msp-settings cabinet-screen">
       <section class="role-card">
-        <div class="role-section-head"><h2>Настройки точки</h2><span class="role-section-head__sub">${mEsc2(b.name)}</span></div>
-        <div class="sf-info-rows" style="padding:0 16px 16px">
-          <div><span>Адрес</span><b>${mEsc2(b.address)}</b></div>
-          <div><span>Часы работы</span><b>${mEsc2(b.hours)}</b></div>
-          <div><span>Минимальная сумма заказа</span><b>${b.minOrder}&nbsp;₽</b></div>
-          <div><span>Товаров в каталоге</span><b>${b.offers}</b></div>
-          <div><span>Статус точки</span><b>Активна</b></div>
+        <div class="role-section-head"><h2>Магазин</h2><span class="role-section-head__sub">видно клиентам</span></div>
+        <div style="padding:12px 16px 16px">
+          <div class="msp-order-row" style="border:0;padding:0">
+            <span class="msp-order-row__ico" style="background:var(--lv-soft-tiffany);color:var(--lv-tiffany-text)">${icon('store')}</span>
+            <div class="msp-order-row__mid">
+              <div class="msp-order-row__name">Магазин открыт</div>
+              <div class="msp-order-row__meta">Выключишь — точка скроется с витрины</div>
+            </div>
+            <button type="button" class="app-switch${st.open ? ' on' : ''}" data-action="msp-shop"><span class="app-switch__knob"></span></button>
+          </div>
         </div>
       </section>
+
+      <section class="role-card">
+        <div class="role-section-head"><h2>Точка</h2><span class="role-section-head__sub">${mEsc2(MSP_MIRROR.branch.name)}</span></div>
+        <div style="padding:12px 16px 16px;display:grid;gap:10px">
+          <label class="sf-search"><input type="text" placeholder="Адрес" value="${mEsc2(st.address)}" data-action="msp-addr"></label>
+          <div class="msp-days">
+            ${days.map((d) => `<button type="button" class="app-chip${st.days[d] ? ' active' : ''}" data-action="msp-day" data-day="${d}">${d}</button>`).join('')}
+          </div>
+          <div class="msp-times">
+            <label class="msp-time">с <input type="time" value="${st.from}" data-action="msp-time-from"></label>
+            <label class="msp-time">до <input type="time" value="${st.to}" data-action="msp-time-to"></label>
+          </div>
+        </div>
+      </section>
+
+      <section class="role-card">
+        <div class="role-section-head"><h2>Минимальная сумма заказа</h2></div>
+        <div style="padding:12px 16px 16px">
+          <div class="sf-search"><input type="number" min="0" placeholder="Рекомендованный минимум — 500 ₽" value="${st.minOrder || ''}" data-action="msp-min"></div>
+          <p class="tier__cta-note">Пусто — работает рекомендованный минимальный чек (500 ₽)</p>
+        </div>
+      </section>
+
+      <section class="role-card" style="padding:12px 16px 16px">
+        <button type="button" class="acct__btn acct__btn_brand" data-action="msp-save">${icon('check')} Сохранить</button>
+      </section>
+    </div>`;
+}
+
+/* ---------- Счёт верификации (MspPayment, FINANCIAL_CONTOUR §2) ---------- */
+
+function mspPayment() {
+  const st = mspUi.payment;
+  if (st === 'done') {
+    return `
+      <div class="msp-payment cabinet-screen">
+        <section class="role-card" style="padding:16px">
+          <span class="role-empty__icon" style="background:var(--lv-soft-tiffany);color:var(--lv-tiffany-text)">${icon('check-circle')}</span>
+          <span class="role-empty__title">Ваша точка на витрине</span>
+          <p class="role-empty__text">Платёж подтверждён — добавляйте товары и принимайте заказы.</p>
+          <button type="button" class="acct__btn acct__btn_brand" data-action="msp-tab" data-tab="overview" style="margin-top:12px">Перейти в магазин</button>
+        </section>
+      </div>`;
+  }
+  const verifying = st === 'verifying';
+  return `
+    <div class="msp-payment cabinet-screen">
+      <section class="role-card" style="padding:16px">
+        <div class="role-section-head" style="padding:0">
+          <h2>Счёт верификации</h2>
+          <span class="role-tag">${verifying ? 'Идёт комплаенс' : 'Ждёт оплаты'}</span>
+        </div>
+        <p class="tier__cta-note" style="margin-top:8px">Проверочный платёж на 1 ₽ с расчётного счёта компании: банк подтверждает, что счёт принадлежит вашей организации, и сумма возвращается на те же реквизиты.</p>
+      </section>
+
+      ${verifying ? `
+      <section class="role-card" style="padding:16px">
+        <div class="msp-order-row" style="border:0;padding:0">
+          <span class="role-pulse" aria-hidden="true"></span>
+          <div class="msp-order-row__mid">
+            <div class="msp-order-row__name">Идёт комплаенс — банк подтверждает платёж</div>
+            <div class="msp-order-row__meta">Экран обновится сам, точка станет активной</div>
+          </div>
+        </div>
+      </section>` : `
+      <section class="role-card" style="padding:16px">
+        <span class="role-field__label">Сумма</span>
+        <div class="msp-payment__amount">1 ₽</div>
+        <span class="role-field__label">Код назначения платежа</span>
+        <button type="button" class="msp-payment__code" data-action="msp-copy-code">
+          VER-1042-77 ${icon('copy')}
+        </button>
+        <p class="tier__cta-note">Нажмите на код, чтобы скопировать</p>
+        <div class="sf-info-rows" style="margin-top:10px">
+          <div><span>Получатель</span><b>ООО «АКСИОМА»</b></div>
+          <div><span>Банк</span><b>Т-Банк · МР-08.26</b></div>
+          <div><span>Назначение</span><b>Верификация VER-1042-77</b></div>
+        </div>
+      </section>
+
+      <section class="role-card" style="padding:16px">
+        <button type="button" class="acct__btn acct__btn_brand" data-action="msp-paid">Я оплатил, проверьте</button>
+        <p class="tier__cta-note">Нажимайте после отправки платежа — дальше ждём подтверждение банка</p>
+      </section>`}
     </div>`;
 }
 
@@ -273,7 +393,8 @@ function mspSettings() {
 
 function renderMspMirror() {
   document.body.classList.add('cabinet-mode');
-  const inner = mspUi.tab === 'products' ? mspProducts()
+  const inner = mspUi.tab === 'payment' ? mspPayment()
+    : mspUi.tab === 'products' ? mspProducts()
     : mspUi.tab === 'orders' ? mspOrders()
     : mspUi.tab === 'team' ? mspTeam()
     : mspUi.tab === 'settings' ? mspSettings()
@@ -302,7 +423,68 @@ document.addEventListener('click', (e) => {
 
   if (action === 'msp-invite') {
     toast('Демо: приглашение по телефону', 'Роль выбирается при приглашении — SZ-047');
+    return;
   }
+
+  if (action === 'msp-payment') {
+    mspUi.tab = 'payment';
+    renderViewPreserveScroll();
+    return;
+  }
+
+  if (action === 'msp-copy-code') {
+    const code = 'VER-1042-77';
+    if (navigator.clipboard?.writeText) navigator.clipboard.writeText(code).catch(() => {});
+    toast('Код скопирован', code);
+    return;
+  }
+
+  if (action === 'msp-paid') {
+    mspUi.payment = 'verifying';
+    renderViewPreserveScroll();
+    setTimeout(() => {
+      mspUi.payment = 'done';
+      mspSaveSettings();
+      if (location.hash === '#/msp') {
+        toast('Платёж подтверждён', 'Ваша точка на витрине');
+        renderViewPreserveScroll();
+      }
+    }, 4000);
+    return;
+  }
+
+  if (action === 'msp-shop') {
+    const st = mspSettingsState();
+    st.open = !st.open;
+    mspSaveSettings();
+    el.classList.toggle('on', st.open);
+    toast(st.open ? 'Магазин открыт' : 'Магазин скрыт с витрины');
+    return;
+  }
+
+  if (action === 'msp-day') {
+    const st = mspSettingsState();
+    st.days[el.dataset.day] = st.days[el.dataset.day] ? 0 : 1;
+    el.classList.toggle('active', !!st.days[el.dataset.day]);
+    return;
+  }
+
+  if (action === 'msp-save') {
+    mspSaveSettings();
+    toast('Настройки точки сохранены');
+  }
+});
+
+document.addEventListener('input', (e) => {
+  const el = e.target.closest('[data-action^="msp-"]');
+  if (!el) return;
+  const st = mspSettingsState();
+  const a = el.dataset.action;
+  if (a === 'msp-addr') st.address = el.value;
+  if (a === 'msp-min') st.minOrder = Number(el.value) || 0;
+  if (a === 'msp-time-from') st.from = el.value;
+  if (a === 'msp-time-to') st.to = el.value;
+  mspSaveSettings();
 });
 
 /* перерисовка витринных экранов снимает режим кабинета */
