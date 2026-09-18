@@ -351,6 +351,7 @@ window.renderDash = function (param) {
   if (param === 'amb') return renderAmbMirror();
   if (param === 'owner' || param === 'investor') {
     if (!state.roles[param]) state.roles[param] = { since: 'демо' };
+    state.activeRole = param; // старый рендер идёт по activeRole
     persist();
     return _oldRenderDash(param);
   }
