@@ -342,11 +342,18 @@ new MutationObserver(() => {
   }
 }).observe(document.getElementById('view'), { childList: true });
 
-/* renderDash — function-декларация dash.js: rep/amb забираем в зеркала */
+/* renderDash — function-декларация dash.js: rep/amb забираем в зеркала;
+   owner/investor — старые дашборды демо, им проставляем демо-роль,
+   чтобы прямой заход открывал кабинет, а не экран «Роли» */
 const _oldRenderDash = window.renderDash;
 window.renderDash = function (param) {
   if (param === 'rep') return renderRepMirror();
   if (param === 'amb') return renderAmbMirror();
+  if (param === 'owner' || param === 'investor') {
+    if (!state.roles[param]) state.roles[param] = { since: 'демо' };
+    persist();
+    return _oldRenderDash(param);
+  }
   if (typeof _oldRenderDash === 'function') return _oldRenderDash(param);
   return renderProfileMirror();
 };
