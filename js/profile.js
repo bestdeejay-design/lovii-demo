@@ -461,10 +461,7 @@ function renderProfileMirror() {
           ${row.href ? `<a href="${row.href}" class="cabinets__row" data-testid="profile-${row.key}-entry">` : `<div class="cabinets__row" data-testid="profile-${row.key}-entry">`}
             <span class="cabinets__ico ${row.tile}">${icon(row.icon)}</span>
             <div class="cabinets__mid">
-              <div class="cabinets__name">
-                <span>${row.title}</span>
-                <span class="cabinets__tag cabinets__tag_${row.tone}">${row.tag}</span>
-              </div>
+              <div class="cabinets__name"><span>${row.title}</span></div>
               <div class="cabinets__note">${row.note}</div>
             </div>
             ${row.href ? '<span class="cabinets__action">Открыть</span>' : ''}
