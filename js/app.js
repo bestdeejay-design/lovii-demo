@@ -221,7 +221,7 @@ function parseHash() {
     }
     return { name: 'home', param: null };
   }
-  const known = ['home', 'store', 'product', 'search', 'cart', 'orders', 'profile', 'wallet', 'stores', 'popular', 'settings', 'apply', 'dash', 'chat', 'msp-signup', 'msp'];
+  const known = ['home', 'store', 'product', 'search', 'cart', 'orders', 'order', 'profile', 'wallet', 'stores', 'popular', 'settings', 'checkout', 'apply', 'dash', 'chat', 'msp-signup', 'msp'];
   return { name: known.includes(name) ? name : 'home', param: param || null };
 }
 
@@ -258,6 +258,10 @@ function renderView(keepScroll) {
     sub = subHeaderHtml('Заявка на роль');
   } else if (name === 'wallet') {
     sub = subHeaderHtml('Счёт и операции');
+  } else if (name === 'checkout') {
+    sub = subHeaderHtml('Оформление заказа');
+  } else if (name === 'order' && param) {
+    sub = subHeaderHtml(`Заказ №${param}`);
   }
   if (sub) {
     html = sub + `<div>${html}</div>`;
