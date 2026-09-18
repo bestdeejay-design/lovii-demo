@@ -335,12 +335,12 @@ function mHistoryList(transactions, limit = 0) {
   return `<div class="history">${html || '<div class="history__empty">По этой категории пока нет операций</div>'}</div>`;
 }
 
-function mNavRow({ icon: ico, tile, label, sub, href, badge, switchOn }) {
+function mNavRow({ icon: ico, tile, label, sub, href, badge, switchOn, switchKey }) {
   const mid = sub
     ? `<span class="profile__nav-stack"><span>${label}</span><span class="profile__nav-subtitle">${mEsc(sub)}</span></span>`
     : label;
   const tail = switchOn !== undefined
-    ? `<button type="button" class="app-switch${switchOn ? ' on' : ''}" data-action="mir-switch" aria-label="${mEsc(label)}"><span class="app-switch__knob"></span></button>`
+    ? `<button type="button" class="app-switch${switchOn ? ' on' : ''}" data-action="mir-switch"${switchKey ? ` data-key="${switchKey}"` : ''} aria-label="${mEsc(label)}"><span class="app-switch__knob"></span></button>`
     : badge
       ? `<span class="app-badge app-badge_tertiary app-badge_s">${badge}</span>`
       : icon('chev-right', 'icon');
@@ -358,6 +358,13 @@ function mNavRow({ icon: ico, tile, label, sub, href, badge, switchOn }) {
 
 function renderProfileMirror() {
   const S = PROFILE_MIRROR_SEED;
+  // Оповещения — тот же источник, что и «Настройки»: state.settings
+  // (до загрузки settings.js на холодном старте — дефолт «вкл»)
+  const sState = typeof ensureSettings === 'function'
+    ? ensureSettings()
+    : { push: { master: true }, consents: { email: true } };
+  const pushOn = !!sState.push.master;
+  const emailOn = (sState.consents || {}).email !== false;
   const tier = mirrorTierStatus(S.tierState);
   const perks = mirrorTierPerks(tier.tier);
   const monthEarned = S.transactions
@@ -508,8 +515,8 @@ function renderProfileMirror() {
 
           <div class="profile__nav">
             <section>
-              ${mNavRow({ icon: 'bell', tile: 't-pink', label: 'Push-уведомления', sub: 'Статусы заказов на этом устройстве', switchOn: true })}
-              ${mNavRow({ icon: 'send', tile: 't-tiffany', label: 'Письма о новостях', sub: 'Акции и новинки партнёров — на email', switchOn: true })}
+              ${mNavRow({ icon: 'bell', tile: 't-pink', label: 'Push-уведомления', sub: 'Статусы заказов на этом устройстве', switchOn: pushOn, switchKey: 'master' })}
+              ${mNavRow({ icon: 'send', tile: 't-tiffany', label: 'Письма о новостях', sub: 'Акции и новинки партнёров — на email', switchOn: emailOn, switchKey: 'email' })}
             </section>
           </div>
 
@@ -557,7 +564,19 @@ document.addEventListener('click', (e) => {
   }
 
   if (action === 'mir-switch') {
-    el.classList.toggle('on');
+    // Переключаем НАСТРОЙКУ, а не класс: один источник истины с «Настройками»
+    const key = el.dataset.key;
+    const on = !el.classList.contains('on');
+    el.classList.toggle('on', on);
+    if (key === 'master' && typeof togglePush === 'function') {
+      togglePush('master').then(() => renderViewPreserveScroll());
+    } else if (key === 'email' && typeof ensureSettings === 'function') {
+      const st = ensureSettings();
+      st.consents = st.consents || {};
+      st.consents.email = on;
+      if (typeof saveSettings === 'function') saveSettings();
+      toast(on ? 'Согласие дано' : 'Согласие отозвано');
+    }
     return;
   }
 
