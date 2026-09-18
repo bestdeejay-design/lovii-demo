@@ -40,6 +40,8 @@ input { font-family: inherit; }
 .lv-float { animation: lv-float 5s ease-in-out infinite; }
 
 /* ---------- Каркас приложения ---------- */
+/* Адаптивная ширина: телефон — 480, широкий экран (ПК/фолд) — 720 */
+@media (min-width: 900px) { .app { max-width: 720px; } }
 .app { max-width: 480px; margin: 0 auto; min-height: 100dvh; background: var(--lv-card); display: flex; flex-direction: column; box-shadow: 0 0 60px rgba(26, 26, 26, .08); }
 main#view { flex: 1; }
 
@@ -1123,3 +1125,97 @@ main#view { flex: 1; }
 .st-chip.st-blue { background: rgba(58,120,220,.12); color:#2f5fae; }
 .st-chip.st-lime { background: rgba(120,190,60,.14); color:#4b7d16; }
 .st-chip.st-accent { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
+
+
+/* ---------- Мультикарта: личная (скины по статусу) + бизнес (тиффани) ---------- */
+/* Канон стейджинга PayCard.vue: счёт и номер одни — меняется только оформление. */
+.pay-carousel { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 2px 16px 6px; margin-top: 12px; }
+.pay-carousel::-webkit-scrollbar { display: none; }
+.pay-slide { flex: 0 0 100%; min-width: 0; scroll-snap-align: center; }
+.paycard.skin-pay .pay-face {
+  background-image: linear-gradient(135deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,.04) 52%, rgba(255,255,255,.02) 100%), var(--lv-gradient-ink);
+  box-shadow: inset 0 0 0 1px var(--lv-hairline);
+}
+.paycard.skin-pay .pay-brand { background: linear-gradient(90deg, rgba(255,255,255,.95) 0%, rgba(255,255,255,.55) 55%, rgba(255,255,255,.3) 100%); -webkit-background-clip: text; background-clip: text; }
+.paycard.skin-pay .pay-chip { background: linear-gradient(135deg, rgba(255,255,255,.88), rgba(255,255,255,.5) 60%, rgba(255,255,255,.28)); }
+.paycard.skin-pay .pay-bal .val { color: var(--lv-on-brand); }
+.paycard.skin-pass .pay-face { box-shadow: inset 0 0 0 1px rgba(246,74,138,.28), inset 0 0 44px rgba(246,74,138,.10); }
+.paycard.skin-pass .pay-brand { background: linear-gradient(90deg, rgba(255,215,230,.95) 0%, var(--lv-pink) 55%, var(--lv-gold) 100%); -webkit-background-clip: text; background-clip: text; }
+.paycard.skin-vip .pay-face { background-image: linear-gradient(135deg, rgba(212,168,84,.32) 0%, rgba(212,168,84,.12) 45%, rgba(0,0,0,.42) 100%), var(--lv-gradient-ink); box-shadow: inset 0 0 0 1px rgba(212,168,84,.5), inset 0 0 44px rgba(212,168,84,.12); }
+.paycard.skin-vip .pay-num { color: var(--lv-gold); }
+.paycard.skin-biz .pay-face { background-image: linear-gradient(135deg, rgba(10,186,181,.26) 0%, rgba(10,186,181,.10) 48%, rgba(0,0,0,.32) 100%), var(--lv-gradient-ink); box-shadow: inset 0 0 0 1px rgba(10,186,181,.35); }
+.paycard.skin-biz .pay-brand { background: linear-gradient(90deg, rgba(214,255,249,.95) 0%, var(--lv-tiffany) 55%, var(--lv-tiffany) 100%); -webkit-background-clip: text; background-clip: text; font-size: 15px; }
+.paycard.skin-biz .pay-chip { background: linear-gradient(135deg, rgba(214,255,249,.9), var(--lv-tiffany) 60%, #077d78); }
+.paycard.skin-biz .pay-bal .val { color: var(--lv-tiffany); }
+.paycard.skin-biz .pay-sheen { background: radial-gradient(120% 90% at 88% -8%, rgba(10,186,181,.30) 0%, rgba(10,186,181,.08) 34%, transparent 62%), radial-gradient(90% 70% at -6% 108%, rgba(255,255,255,.12) 0%, transparent 55%); }
+
+
+/* ---------- Блоки профиля с раскрытием на месте ----------
+   Карточка = шапка + тело. Тело всегда в DOM, раскрывается вниз переходом
+   grid-template-rows (0fr → 1fr) — без перерисовки вида и рывков. */
+.collapse-card {
+  display: block; margin: 10px 16px 0;
+  background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg);
+  box-shadow: var(--lv-shadow-soft); overflow: hidden;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.collapse-card.is-open { box-shadow: var(--lv-shadow-lift); }
+/* В колонках профиля карточки не имеют боковых отступов — как .acct-card и .tx-list */
+.pay-cols .collapse-card { margin-left: 0; margin-right: 0; }
+.cc-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  width: 100%; padding: 13px 14px; text-align: left; cursor: pointer; background: none;
+  font: inherit; color: inherit;
+}
+.cc-head:active { background: var(--lv-surface); }
+.cc-head:focus-visible { box-shadow: var(--lv-ring-field); }
+.cc-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.cc-title { font-size: 15px; font-weight: 800; letter-spacing: -.01em; color: var(--lv-ink); }
+.cc-sub { font-size: 11.5px; font-weight: 600; color: var(--lv-dim); }
+.cc-chev {
+  flex-shrink: 0; width: 30px; height: 30px; border-radius: 999px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--lv-surface); color: var(--lv-dim);
+  transition: transform .28s ease, background .15s ease, color .15s ease;
+}
+.cc-chev svg { width: 16px; height: 16px; }
+.cc-head:hover .cc-chev { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
+.collapse-card.is-open .cc-chev { transform: rotate(90deg); background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
+.collapse-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+.collapse-card.is-open .collapse-body { grid-template-rows: 1fr; }
+.collapse-body > * { overflow: hidden; min-height: 0; }
+.cc-inner { padding: 2px 14px 14px; }
+.collapse-card.is-open .cc-inner { border-top: 1px solid var(--lv-line-2); padding-top: 12px; }
+/* вложенные блоки внутри раскрытия — без своих рамок и отступов */
+.cc-inner .acct-card, .cc-inner .tier-card { margin: 0; border: 0; box-shadow: none; padding: 0; }
+.cc-inner .list-card { margin: 0; border: 0; box-shadow: none; }
+.cc-inner .tx-list { padding: 0; }
+.cc-inner .hscroll { margin: 0; padding: 0; }
+@media (prefers-reduced-motion: reduce) { .collapse-body { transition: none; } }
+
+
+/* ---------- Низ профиля: документы и поддержка (канон стейджинга ProfileFooter) ---------- */
+.prof-legal { margin-top: 18px; padding: 0 16px calc(10px + env(safe-area-inset-bottom, 0px)); border-top: 0; text-align: left; }
+.legal-card { border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); background: var(--lv-card); box-shadow: var(--lv-shadow-soft); overflow: hidden; }
+.lc-cap { padding: 12px 16px 7px; font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--lv-dim); }
+.lc-cap ~ .lc-cap { margin-top: 2px; border-top: 1px solid var(--lv-line-2); }
+.lc-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 13px 16px; border-top: 1px solid var(--lv-line-2); font-size: 13.5px; font-weight: 600; color: var(--lv-ink); text-decoration: none; }
+.lc-row:active { background: var(--lv-surface); }
+.lc-row:focus-visible { box-shadow: inset var(--lv-ring-field); }
+.lc-row svg { width: 16px; height: 16px; color: var(--lv-dim); flex: none; }
+.legal-note { margin: 12px 0 0; text-align: center; color: var(--lv-dim); font-size: 11.5px; line-height: 1.55; }
+
+/* ---------- Карусель карт: мягкий край и подсказки под картой ---------- */
+/* Правый край подсказывает, что карты листаются (работает в обеих темах) */
+.pay-carousel {
+  -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 30px), transparent 100%);
+  mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 30px), transparent 100%);
+}
+.pay-hints {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 10px 16px 0; margin: 0;
+}
+.pay-hints .pay-hint { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--lv-dim); }
+.pay-hint-ico { width: 30px; height: 30px; justify-content: center; border-radius: 999px; background: var(--lv-surface); color: var(--lv-dim); flex: none; }
+.pay-hint-ico svg { width: 16px; height: 16px; }
+.pay-cols .pay-hints { padding-left: 0; padding-right: 0; }

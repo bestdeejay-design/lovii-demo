@@ -8,6 +8,8 @@
 /* ================= Роли: доступ к состоянию ================= */
 
 const ROLE_LIST = ['store', 'rep', 'amb'];
+/* Роли, доступные в демо без промокода (включая сотрудника точки) */
+const DEMO_ROLES = ['owner', 'investor', 'staff'];
 
 /* ================= Фильтры «Мои точки» (представитель) ================= */
 let _repPtsFilter = 'all';   // 'all' | 'waiting' | 'active' | 'rejected'
@@ -89,7 +91,7 @@ function dashHeadHtml(role, sub) {
 
 function dashTabsHtml(role, active) {
   const tabs = {
-    store: [['index', 'Обзор'], ['goods', 'Товары'], ['card', 'Точка']],
+    store: [['index', 'Обзор'], ['staff', 'Сотрудники'], ['goods', 'Товары'], ['card', 'Точка']],
     rep: [['index', 'Обзор'], ['connect', 'Подключение'], ['points', 'Точки'], ['income', 'Доход'], ['profile', 'Профиль'], ['chats', 'Чаты']],
     amb: [['index', 'Обзор'], ['reps', 'Представители'], ['income', 'Доход'], ['training', 'Обучение'], ['chats', 'Чаты']],
     owner: [['index', 'Обзор'], ['finance', 'Финансы'], ['structure', 'Структура']],
@@ -228,13 +230,14 @@ function renderProfile() {
 function renderApply(role) {
   if (!ROLE_LIST.includes(role)) return renderProfile();
   const m = roleMeta(role);
-  const titles = { store: 'Стать точкой', rep: 'Стать представителем', amb: 'Стать амбасадором' };
+  const titles = { store: 'Добавить торговую точку', rep: 'Стать представителем', amb: 'Стать амбассадором' };
   const field = (name, label, ph, val = '', req = true) =>
     `<label class="f-field"><span class="lb">${esc(label)}</span><input name="${name}" placeholder="${esc(ph)}" value="${esc(val)}" ${req ? 'required' : ''}></label>`;
 
   const fields =
     role === 'store'
-      ? field('name', 'Название точки', 'Кофейня «У дома»') +
+      ? `<label class="f-field"><span class="lb">ИНН юрлица или ИП</span><input name="inn" inputmode="numeric" pattern="[0-9]{10,12}" placeholder="Например, 7801234567" required></label>` +
+        field('name', 'Название точки', 'Кофейня «У дома»') +
         field('address', 'Адрес', 'ул. Тверская, 15') +
         field('hours', 'Часы работы', '09:00-21:00', '09:00-21:00', false) +
         `<label class="f-field"><span class="lb">Описание</span><textarea name="about" placeholder="Что продаёте, чем полезна точка району…"></textarea></label>`
@@ -266,11 +269,11 @@ function renderApply(role) {
 function renderRoleGate() {
   const row = (role) => {
     const m = roleMeta(role);
-    const demo = ['owner', 'investor'].includes(role);
+    const demo = DEMO_ROLES.includes(role);
     const canEnter = demo || !!state.roles[role] || role !== 'store';
     const btn = canEnter
       ? `<button class="cta-btn brand-gradient" data-action="enter-role" data-role="${role}">Войти</button>`
-      : `<button class="cta-btn brand-gradient" data-go="apply:${role}">Стать</button>`;
+      : `<button class="cta-btn brand-gradient" data-go="apply:${role}">${role === 'store' ? 'Добавить точку' : 'Стать'}</button>`;
     return `<div class="row-item"><span class="ri-emoji ${tileBg(m.color)}">${icon(m.icon || 'user')}</span>
       <div class="ri-mid"><div class="nm">${esc(m.title)}${demo ? '<span class="demo-tag">демо</span>' : ''}</div><div class="sb">${esc(m.desc)}</div></div>${btn}</div>`;
   };
@@ -283,14 +286,14 @@ function renderRoleGate() {
     <div class="section-head" style="margin-top:20px"><h2>Роли</h2></div>
     <div class="list-card">${['store', 'rep', 'amb'].map(row).join('')}</div>
     <div class="section-head" style="margin-top:20px"><h2>Демо-доступ</h2></div>
-    <div class="list-card">${['owner', 'investor'].map(row).join('')}</div>
-    <div class="dash-note tone-dim" style="margin-top:14px">Эти же роли есть в профиле: Роли → «Стать» → «Войти».</div>
+    <div class="list-card">${DEMO_ROLES.map(row).join('')}</div>
+    <div class="dash-note tone-dim" style="margin-top:14px">Эти же роли есть в профиле: Кабинеты → «Добавить точку» → вход.</div>
   </div>`;
 }
 
 function renderDash(tab) {
   const role = state.activeRole;
-  const ok = role && (['owner', 'investor'].includes(role) || state.roles[role]);
+  const ok = role && (DEMO_ROLES.includes(role) || state.roles[role]);
   if (!ok) return renderRoleGate();
   const t = tab || 'index';
   const body = {
@@ -299,6 +302,7 @@ function renderDash(tab) {
     amb: () => renderAmbDash(t),
     owner: () => renderOwnerDash(t),
     investor: () => renderInvestorDash(t),
+    staff: () => renderStaffDash(t),
   }[role]();
   return `<div class="lv-enter" style="padding-bottom:16px">${body}</div>`;
 }
@@ -357,6 +361,10 @@ function renderStoreDash(tab) {
   </div>
   `;
 
+  if (tab === 'staff') {
+    return renderMspStaffTab(head, tabs, statusBlock);
+  }
+
   if (tab === 'goods') {
     const goods = r.goods || [];
     const catalogChips = LOVII_DATA.products
@@ -395,6 +403,7 @@ function renderStoreDash(tab) {
     return `
     ${head}${tabs}${statusBlock}
     <form id="card-form" style="padding-bottom:8px">
+      <label class="f-field"><span class="lb">ИНН</span><input value="${esc(state.roles.store.inn || '—')}" readonly aria-readonly="true"></label>
       <label class="f-field"><span class="lb">Название</span><input name="name" required value="${esc(p.name)}"></label>
       <label class="f-field"><span class="lb">Адрес</span><input name="address" required value="${esc(p.address)}"></label>
       <label class="f-field"><span class="lb">Часы работы</span><input name="hours" value="${esc(p.hours)}"></label>
@@ -433,6 +442,62 @@ function renderStoreDash(tab) {
     <button class="ghost-btn" data-action="dash-tab" data-val="goods">${icon('package')}Товары</button>
     <button class="ghost-btn" data-action="dash-tab" data-val="card">${icon('edit')}Карточка</button>
   </div>`;
+}
+
+/* ================= МСП: сотрудники точки (вкладка «Сотрудники») =================
+   Партнёру-точке не хватало возможности добавить сотрудника, который ведёт товары
+   и принимает заказы. Роли совпадают с моделью кандидатов b2b (owner/manager/
+   operator/catalog_editor), доступ ограничен точками юрлица. */
+
+let _mspStaff = null;
+function ensureMspStaff() {
+  if (_mspStaff) return _mspStaff;
+  _mspStaff = [
+    { id: 'mb1', name: 'Ольга', roleLabel: 'Владелец', scope: 'все точки юрлица', status: 'active' },
+    { id: 'mb2', name: 'Пётр', roleLabel: 'Менеджер', scope: 'заказы и товары · все точки', status: 'active' },
+    { id: 'mb3', name: 'Мария', roleLabel: 'Оператор', scope: 'заказы · «На Садовой»', status: 'active' },
+    { id: 'mb4', name: 'Приглашение', roleLabel: 'Каталог', scope: 'цены и наличие · ждёт ответа', status: 'invited' },
+  ];
+  return _mspStaff;
+}
+
+function staffChip(status) {
+  return status === 'active'
+    ? '<span class="st-chip st-active"><span class="lv-dot" style="background:var(--lv-tiffany)"></span>Активен</span>'
+    : '<span class="st-chip st-wait">Ждёт ответа</span>';
+}
+
+function renderMspStaffTab(head, tabs, statusBlock) {
+  const staff = ensureMspStaff();
+  const roleRow = (ic, nm, sb) =>
+    `<div class="row-item"><span class="ri-emoji ${tileBg('sand')}">${icon(ic)}</span><div class="ri-mid"><div class="nm">${esc(nm)}</div><div class="sb">${esc(sb)}</div></div></div>`;
+  return `
+  ${head}${tabs}${statusBlock}
+  <div class="section-head" style="margin-top:20px"><h2>Команда точки<span class="sub"> · ${staff.length}</span></h2></div>
+  <div class="list-card">
+    ${staff
+      .map(
+        (s) => `
+    <div class="row-item">
+      <span class="ri-emoji ${tileBg(s.status === 'active' ? 'tiffany' : 'sand')}">${icon('user')}</span>
+      <div class="ri-mid"><div class="nm">${esc(s.name)} · ${esc(s.roleLabel)}</div><div class="sb">${esc(s.scope)}</div></div>
+      <div class="ri-right">${staffChip(s.status)}${
+          s.status === 'active'
+            ? ''
+            : `<button class="trash-btn" data-action="staff-remove" data-id="${s.id}" aria-label="Отозвать приглашение">${icon('trash')}</button>`
+        }</div>
+    </div>`
+      )
+      .join('')}
+  </div>
+  <div style="padding:14px 16px 0"><button class="cta-btn brand-gradient big" data-action="staff-invite">${icon('plus')}Пригласить сотрудника</button></div>
+  <div class="section-head" style="margin-top:20px"><h2>Что может сотрудник</h2></div>
+  <div class="list-card" style="margin-top:10px">
+    ${roleRow('package', 'Следить за списком товаров', 'роль «Каталог» — цены и наличие')}
+    ${roleRow('bag', 'Принимать и вести заказы', 'роль «Оператор» — статусы и отмена с причиной')}
+    ${roleRow('store', 'Управлять точками и командой', 'роль «Владелец» — доступ ко всем точкам юрлица')}
+  </div>
+  ${dashNote('Сотрудник видит только назначенные точки; чужие юрлица недоступны.', 'dim')}`;
 }
 
 /* ================= Дашборды: Представитель и Амбассадор ================= */
@@ -1114,6 +1179,118 @@ function renderOwnerDash(tab) {
   </div>`;
 }
 
+/* ================= Дашборд: Сотрудник точки =================
+   Отдельный кабинет для сотрудников точки. Две роли доступа:
+   · Администратор — заказы и товары
+   · Сотрудник      — только заказы
+   Владелец выдаёт доступ; чужие точки и юрлица не видны. */
+
+function renderStaffDash(tab) {
+  const admin = state.staffRole !== 'employee';
+  const pt = activeMspPoint();
+  const pointName = (pt && pt.name) || 'Пекарня на Садовой';
+  const roleTitle = admin ? 'Администратор' : 'Сотрудник';
+  const head = dashHeadHtml('staff', roleTitle + ' · ' + pointName);
+
+  const roleSeg = `<div class="seg dash-tabs" style="margin:14px 16px 0" role="group" aria-label="Доступ сотрудника">
+    <button class="${admin ? 'active' : ''}" data-action="staff-role" data-val="admin">Администратор</button>
+    <button class="${admin ? '' : 'active'}" data-action="staff-role" data-val="employee">Сотрудник</button>
+  </div>`;
+
+  const tabDefs = [['index', 'Обзор'], ['orders', 'Заказы']].concat(admin ? [['goods', 'Товары']] : []);
+  const tabs = `<div class="seg dash-tabs" style="margin:10px 16px 0">${tabDefs
+    .map(([id, l]) => `<button class="${tab === id ? 'active' : ''}" data-action="dash-tab" data-val="${id}">${l}</button>`)
+    .join('')}</div>`;
+
+  /* Администратор может вести несколько точек — переключатель точек */
+  const pts = ensureMspPoints();
+  const ptBar = pts.length > 1
+    ? `<div class="chips-row no-scrollbar" style="margin-top:10px">${pts
+        .map((x) => `<button class="tab-btn ${x.id === state.mspPointId ? 'active' : ''}" data-action="msp-point-pick" data-id="${esc(x.id)}">${esc(x.name || 'Точка')}</button>`)
+        .join('')}</div>`
+    : '';
+
+  /* Заказы берём из рабочего состояния (ensureMspOrders) — иначе смена статуса
+     меняет копию, а список перерисовывается из статического сида и «не обновляется» */
+  const orders = ensureMspOrders();
+  const active = orders.filter((o) => !['completed', 'cancelled', 'failed'].includes(o.status));
+  const row = (o) => `
+    <button class="row-item as-btn" data-action="staff-order-open" data-id="${o.id}">
+      <span class="ri-emoji ${tileBg('sand')}">${icon('bag')}</span>
+      <div class="ri-mid"><div class="nm">Заказ №${o.no}${orderChip(o.status, o)}</div><div class="sb">${esc(o.at)} · ${esc(o.channel)} · ${o.items.length} поз.</div></div>
+      <div class="ri-right"><div class="v">${moneyFmt(o.total)}</div><span class="ri-chev">${icon('chev-right')}</span></div>
+    </button>`;
+
+  if (tab === 'orders') {
+    return `${head}${roleSeg}${tabs}${ptBar}
+    <div class="section-head" style="margin-top:20px"><h2>Заказы точки<span class="sub"> · ${orders.length}</span></h2></div>
+    <div class="list-card">${orders.map(row).join('') || '<div class="empty-cat"><div class="t">Заказов пока нет</div></div>'}</div>
+    ${dashNote(admin ? 'Администратор ведёт заказы и товары точки.' : 'Сотрудник ведёт только заказы — товары недоступны.', admin ? 'tiffany' : 'gold')}`;
+  }
+
+  if (tab === 'order') {
+    const o = orders.find((x) => String(x.id) === String(state.mspOrderId)) || orders[0];
+    if (!o) return `${head}${roleSeg}${tabs}${ptBar}${dashNote('Заказ не найден', 'dim')}`;
+    const opts = mspOrderOptions(o);
+    const items = o.items.map((i) => `
+      <div class="row-item">
+        <span class="ri-emoji ${tileBg('sand')}">${icon('package')}</span>
+        <div class="ri-mid"><div class="nm">${esc(i.name)}</div><div class="sb">${i.qty} × ${moneyFmt(i.price)}</div></div>
+        <div class="ri-right"><div class="v">${moneyFmt(i.qty * i.price)}</div></div>
+      </div>`).join('');
+    const canCancel = ['created', 'submitted', 'accepted', 'preparing', 'ready'].includes(o.status);
+    return `${head}${roleSeg}${tabs}${ptBar}
+    <div class="section-head" style="margin-top:20px"><h2>Заказ №${o.no}${orderChip(o.status, o)}</h2></div>
+    <div class="list-card">${items}</div>
+    <div class="dash-note tone-dim">Итого ${moneyFmt(o.total)} · ${esc(o.channel)} · ${esc(o.at)}</div>
+    <div class="btn-row">
+      ${opts.map(([to, label], i) => `<button class="${i === 0 ? 'cta-btn brand-gradient' : 'ghost-btn'}" data-action="msp-order-set" data-id="${o.id}" data-to="${to}">${icon(i === 0 ? 'check' : 'chev-right')}${label}</button>`).join('')}
+      ${canCancel ? `<button class="ghost-btn" data-action="msp-order-cancel" data-id="${o.id}">${icon('x')}Отменить</button>` : ''}
+      <button class="ghost-btn" data-action="dash-tab" data-val="orders">${icon('chev-left')}К списку</button>
+    </div>
+    ${dashNote(admin ? 'Администратор ведёт статусы заказов точки.' : 'Сотрудник ведёт статусы заказов точки.', admin ? 'tiffany' : 'gold')}`;
+  }
+
+  if (tab === 'goods') {
+    if (!admin) {
+      return `${head}${roleSeg}${tabs}${ptBar}${dashNote('Товары доступны администратору точки.', 'gold')}`;
+    }
+    const goods = (pt && pt.goods) || [];
+    const rows = goods.length
+      ? goods.map((g, i) => `
+        <div class="row-item">
+          <span class="ri-emoji ${tileBg('sand')}">${icon('package')}</span>
+          <div class="ri-mid"><div class="nm">${esc(g.name)}</div><div class="sb">${priceFmt(g.price)} / ${esc(g.unit)} · остаток ${g.stock}</div></div>
+          <button class="ri-del" data-action="msp-good-del" data-i="${i}" aria-label="Удалить товар">${icon('trash')}</button>
+        </div>`).join('')
+      : `<div class="empty-cat"><div class="empty-ico">${icon('bag')}</div><div class="t">Товаров пока нет</div><p class="d">Добавьте первый товар — он появится на витрине точки.</p></div>`;
+    return `${head}${roleSeg}${tabs}${ptBar}
+    <div class="section-head" style="margin-top:20px"><h2>Каталог товаров<span class="sub"> · ${goods.length}</span></h2></div>
+    <form id="msp-good-form" class="msp-apply-form">
+      <label class="f-field"><span class="lb">Название товара</span><input name="name" placeholder="Например, Багет классический" required></label>
+      <label class="f-field"><span class="lb">Цена, ₽</span><input name="price" type="number" inputmode="decimal" placeholder="120" required></label>
+      <div class="form-row2">
+        <label class="f-field"><span class="lb">Единица</span><input name="unit" value="шт"></label>
+        <label class="f-field"><span class="lb">Остаток</span><input name="stock" type="number" value="10"></label>
+      </div>
+      <div style="padding:16px 16px 0"><button class="cta-btn brand-gradient big" type="submit">${icon('plus')}Добавить товар</button></div>
+    </form>
+    <div class="list-card">${rows}</div>
+    ${dashNote('Цены и наличие правит администратор точки.', 'tiffany')}`;
+  }
+
+  return `${head}${roleSeg}${tabs}${ptBar}
+  <div class="kpi-grid">
+    ${kpiCard('Заказы в работе', String(active.length), { accent: true })}
+    ${kpiCard('Всего заказов', String(orders.length), { tone: 'tiffany' })}
+    ${kpiCard('Готовятся', String(orders.filter((o) => o.status === 'preparing').length), { tone: 'gold' })}
+    ${kpiCard('Точка', esc(pointName), {})}
+  </div>
+  <div class="section-head" style="margin-top:20px"><h2>Требуют внимания</h2></div>
+  <div class="list-card">${active.slice(0, 3).map(row).join('') || '<div class="empty-cat"><div class="t">Новых заказов нет</div></div>'}</div>
+  ${dashNote(admin ? 'Доступ: заказы и товары точки.' : 'Доступ: только заказы точки.', admin ? 'tiffany' : 'gold')}`;
+}
+
 /* ================= Дашборд: Инвестор ================= */
 
 function renderInvestorDash(tab) {
@@ -1278,7 +1455,7 @@ function ensureMspLead() {
   state.mspLead = {
     repCode: 'PP7K2A',
     inn: '7705123456',
-    legalName: 'ООО «НОВЫЙ ВКУС»',
+    legalName: 'ООО «Атмосфера»',
     channel: 'Telegram',
     createdAt: Date.now(),
     point: null, setup: null, goods: [],
@@ -1539,6 +1716,7 @@ function ensureMspOrders() {
 // ---- МСП: сценарий заявки на #/msp/index (форма → проверка → каталог → счёт) ----
 function mspApplyStage(lead) {
   if (lead.approving) return 'approving';
+  if (lead.appStatus === 'checking') return 'checking';
   const st = lead.point && lead.point.status;
   if (st === 'ready') return 'done';
   if (st === 'catalog' || st === 'payment') return 'invoice';
@@ -1583,10 +1761,12 @@ function downloadInvoice() {
 function mspInvoiceSend() {
   const lead = ensureMspLead();
   if (!lead) return;
-  lead.appStatus = 'verifying';
+  lead.appStatus = 'checking';
   persist();
-  toast('Оплата отправлена', 'Проверяем платёж и возврат');
-  renderViewPreserveScroll();
+  renderView(true);
+  /* Демо-пауза «идёт комплаенс». На самом деле: приходит платёж с назначением,
+     система сопоставляет ИНН и спецкод из назначения, привязывает счёт к МСП,
+     и только после подтверждения банком открывает следующий экран. */
   setTimeout(() => {
     if (!state.mspLead) return;
     state.mspLead.appStatus = 'verified';
@@ -1594,8 +1774,8 @@ function mspInvoiceSend() {
     syncMspStore();
     persist();
     go('msp', 'settings');
-    toast('Точка активна', 'Открыта базовая настройка точки');
-  }, 2200);
+    toast('Точка активна', 'Банк подтвердил платёж — кабинет открыт');
+  }, 5000);
 }
 
 // ---- МСП: базовая настройка точки (#/msp/catalog после верификации) ----
@@ -1822,7 +2002,17 @@ function renderMspCabinet(tab = 'index') {
     </div>`;
   }
 
-  // 3) Точка одобрена → инструкция по счёту + «Отправить»
+  // 2б) Комплаенс: ждём подтверждения банка (демо — спиннер ~5 сек)
+  if (stage === 'checking') {
+    return `${head}${tabs}
+    <div class="msp-approving">
+      <div class="lv-spinner" role="status" aria-label="Идёт комплаенс"></div>
+      <h2>Идёт комплаенс</h2>
+      <p>Банк подтверждает поступление по коду в назначении платежа. Обычно это занимает несколько секунд.</p>
+    </div>`;
+  }
+
+  // 3) Точка одобрена → инструкция по счёту + «Я оплатил, проверьте»
   if (stage === 'invoice') {
     const code = mspPayCode(lead);
     return `${head}${tabs}
@@ -1832,24 +2022,26 @@ function renderMspCabinet(tab = 'index') {
         <span class="ri-emoji ${tileBg('tiffany')}">${icon('store')}</span>
         <div class="ri-mid">
           <div class="nm">${esc(p ? p.name : 'Точка')}<span class="st-chip st-active">в каталоге</span></div>
+          <div class="sb">ИНН ${esc(lead.inn || '—')}</div>
           <div class="sb">${esc(p ? p.address : '')}</div>
           <div class="sb">${esc(p ? p.about : '')}</div>
         </div>
       </div>
     </div>
-    <div class="section-head" style="margin-top:20px"><h2>Оплатите верификационный платёж</h2></div>
+    <div class="section-head" style="margin-top:20px"><h2>Инструкция по комплаенсу</h2></div>
     <div class="pay-card">
       <div class="kicker">Верификация точки</div>
       <h2>Счёт на 1 ₽</h2>
       <div class="pay-row"><span>Сумма</span><b>1 ₽</b></div>
       <div class="pay-row"><span>Код платежа</span><b>${esc(code)}</b></div>
       <div class="pay-row"><span>Плательщик</span><b>${esc(lead.legalName || 'юрлицо из заявки')}</b></div>
-      <p>Оплатите строго с расчётного счёта компании из заявки. После проверки вернём 1 ₽ на реквизиты компании.</p>
+      <div class="pay-row"><span>ИНН плательщика</span><b class="mono">${esc(lead.inn || '—')}</b></div>
+      <p>1. Скачайте счёт или скопируйте назначение платежа.<br>2. Оплатите 1 ₽ через мобильный банк строго с расчётного счёта компании.<br>3. Нажмите «Я оплатил, проверьте» — банк подтвердит платёж по коду.</p>
       <div class="btn-row" style="padding:14px 0 0">
         <button class="ghost-btn" data-action="invoice-download">${icon('download')}Скачать счёт</button>
         <button class="ghost-btn" data-action="invoice-copy" data-code="${esc(mspInvoiceText(lead))}">${icon('copy')}Скопировать данные</button>
       </div>
-      <button class="cta-btn brand-gradient big" style="margin-top:14px" data-action="msp-invoice-send">${icon('send')}Отправить</button>
+      <button class="cta-btn brand-gradient big" style="margin-top:14px" data-action="msp-invoice-send">${icon('send')}Я оплатил, проверьте</button>
       <button class="ghost-btn" style="margin-top:8px" data-action="reset-msp-demo">${icon('rotate')}Пройти сценарий заново</button>
     </div>`;
   }
@@ -1975,6 +2167,7 @@ function handleApply(form) {
   if (role === 'store') {
     const name = val('name').trim() || 'Моя точка';
     state.roles.store = {
+      inn: val('inn').replace(/\D/g, ''),
       point: {
         slug: 'my-point',
         name,

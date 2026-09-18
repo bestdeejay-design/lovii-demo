@@ -69,7 +69,14 @@ const state = {
   sheetOpen: false,
   dashPeriod: 'week',
   ownerRegion: 'Все',
+  staffRole: 'admin', // доступ сотрудника точки: admin | employee (сессия)
 };
+
+/* Демо: промокод активен изначально — в кабинет МСП (и другие роли) можно
+   зайти с любого экрана, без прохождения заявки. */
+['store', 'rep', 'amb'].forEach((r) => {
+  if (!state.roles[r]) state.roles[r] = { appliedAt: 0, name: 'Александра LOVII', city: state.district || 'Тверской', demo: true };
+});
 
 function persist() {
   try {
@@ -205,7 +212,7 @@ function back() {
 function parseHash() {
   const h = location.hash.replace(/^#\/?/, '');
   const [name, param] = h.split('/');
-  const known = ['home', 'store', 'product', 'search', 'cart', 'orders', 'profile', 'apply', 'dash', 'chat', 'msp-signup', 'msp'];
+  const known = ['home', 'store', 'product', 'search', 'cart', 'orders', 'profile', 'apply', 'dash', 'chat', 'msp-signup', 'msp', 'tx'];
   return { name: known.includes(name) ? name : 'home', param: param || null };
 }
 
@@ -218,6 +225,7 @@ function currentScreenHtml() {
   if (name === 'apply' && param) return renderApply(param);
   if (name === 'dash') return renderDash(param || 'index');
   if (name === 'chat' && param) return renderChat(param);
+  if (name === 'tx') return renderAllTx();
   if (name === 'msp-signup') return renderMspSignup(param);
   if (name === 'msp') return renderMspCabinet(param || 'index');
   return (SCREENS[name] || renderHome)();
@@ -240,6 +248,8 @@ function renderView(keepScroll) {
     sub = subHeaderHtml(p ? p.name : 'Товар');
   } else if (name === 'apply' && param) {
     sub = subHeaderHtml('Заявка на роль');
+  } else if (name === 'tx') {
+    sub = subHeaderHtml('Все операции');
   }
   if (sub) {
     html = sub + `<div>${html}</div>`;
@@ -559,6 +569,33 @@ document.addEventListener('click', (e) => {
 
     case 'exit-role':
       exitRole();
+      break;
+
+    case 'staff-invite': {
+      const list = ensureMspStaff();
+      const n = list.filter((s) => s.status === 'invited').length + 1;
+      list.push({ id: 'mb' + Date.now(), name: 'Новый сотрудник ' + n, roleLabel: 'Каталог', scope: 'цены и наличие · приглашён', status: 'invited' });
+      toast('Приглашение отправлено', 'Сотрудник войдёт по номеру телефона');
+      renderView(true);
+      break;
+    }
+
+    case 'staff-remove': {
+      const list = ensureMspStaff();
+      const i = list.findIndex((s) => s.id === actEl.dataset.id);
+      if (i > -1) { const s = list.splice(i, 1)[0]; toast('Приглашение отозвано', s.name + ' · доступ снят'); }
+      renderView(true);
+      break;
+    }
+
+    case 'staff-role':
+      state.staffRole = actEl.dataset.val === 'employee' ? 'employee' : 'admin';
+      renderViewPreserveScroll();
+      break;
+
+    case 'staff-order-open':
+      state.mspOrderId = actEl.dataset.id;
+      go('dash', 'order');
       break;
 
     case 'dash-tab':

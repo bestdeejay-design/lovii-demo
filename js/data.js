@@ -111,11 +111,12 @@ const LOVII_DASH = {
 
   // Карточки ролей: заголовок, описание, эмодзи, цвет плитки
   roleMeta: {
-    store:    { title: 'Торговая точка', short: 'точку',          desc: 'Своя витрина в приложении',      icon: 'store',  color: 'pink' },
-    rep:      { title: 'Представитель',  short: 'представителя',  desc: 'Точки района на связи',          icon: 'users',  color: 'tiffany' },
-    amb:      { title: 'Амбассадор',     short: 'амбассадора',    desc: 'Структура представителей',       icon: 'network',color: 'gold' },
-    owner:    { title: 'Владелец',       short: 'владельца',      desc: 'Платформа целиком',              icon: 'crown',  color: 'sand' },
-    investor: { title: 'Инвестор',       short: 'инвестора',      desc: 'Рост и доходность',              icon: 'pie',    color: 'tiffany' },
+    store:    { title: 'Торговая точка', short: 'точку',          desc: 'Своя витрина в приложении',      icon: 'store',       color: 'tiffany' },
+    rep:      { title: 'Представитель',  short: 'представителя',  desc: 'Точки района на связи',          icon: 'users',       color: 'gold' },
+    amb:      { title: 'Амбассадор',     short: 'амбассадора',    desc: 'Структура представителей',       icon: 'sparkles',    color: 'pink' },
+    owner:    { title: 'Владелец',       short: 'владельца',      desc: 'Платформа целиком',              icon: 'crown',       color: 'gold' },
+    investor: { title: 'Инвестор',       short: 'инвестора',      desc: 'Рост и доходность',              icon: 'trending-up', color: 'tiffany' },
+    staff:    { title: 'Сотрудник точки', short: 'сотрудника',    desc: 'Заказы и товары точки',          icon: 'bag',         color: 'pink' },
   },
 
   // ---- МСП: заказы точки (вкладка «Заказы»). Суммы в копейках, как в API ----

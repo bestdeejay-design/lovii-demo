@@ -34,7 +34,9 @@ function proximityLabel(minutes) {
 
 /** Открыта ли точка сейчас (учитываем переход через полночь, напр. 11:00-00:00) */
 function isOpenNow(hours, now = new Date()) {
-  const [from, to] = hours.split('-');
+  if (!hours) return true; // без графика не показываем «закрыто»
+  // нормализуем тире (–/—) к дефису: данные соседних экранов смешивают форматы
+  const [from, to] = String(hours).replace(/[–—]/g, '-').split('-');
   const [fh, fm] = from.split(':').map(Number);
   const [th, tm] = to.split(':').map(Number);
   const mins = now.getHours() * 60 + now.getMinutes();
