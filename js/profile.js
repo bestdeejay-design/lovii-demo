@@ -506,20 +506,8 @@ function renderProfileMirror() {
 
           <div class="profile__nav">
             <section>
-              ${mNavRow({ icon: 'lock', tile: 't-gold', label: 'Быстрый вход', sub: 'Face ID или ПИН-код' })}
-            </section>
-          </div>
-
-          <div class="profile__nav">
-            <section>
               ${mNavRow({ icon: 'bell', tile: 't-pink', label: 'Push-уведомления', sub: 'Статусы заказов на этом устройстве', switchOn: pushOn, switchKey: 'master' })}
               ${mNavRow({ icon: 'send', tile: 't-tiffany', label: 'Письма о новостях', sub: 'Акции и новинки партнёров — на email', switchOn: emailOn, switchKey: 'email' })}
-            </section>
-          </div>
-
-          <div class="profile__nav">
-            <section>
-              ${mNavRow({ icon: 'settings', tile: 't-gold', label: 'Все настройки', href: '#/settings' })}
             </section>
           </div>
         </div>
