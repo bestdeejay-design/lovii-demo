@@ -2968,3 +2968,386 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 .catalog-store__status { font-size: 12px; font-weight: 600; line-height: 1.5; }
 .catalog-store__status.is-open { color: var(--feedback-positive-solid); }
 .catalog-store__status.is-closed { color: var(--feedback-negative-solid); }
+
+/* ============================================================
+   ЗЕРКАЛО СТЕЙДЖА · СТРАНИЦА МАГАЗИНА И ТОВАРА
+   Порт StoreModule.vue (StoreCard/StoreProducts/StoreCategories) и
+   StoreProduct.vue (ProductPreview) из lovii-app (origin/staging 1fc7a27).
+   ============================================================ */
+.place {
+  min-height: calc(100dvh - 104px);
+  padding: 0 0 calc(var(--lv-navbar-offset) + 8px);
+}
+
+/* Шапка точки (StoreCard) */
+.place-card {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+}
+.place-card > span {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+.place-card__info { display: flex; flex-flow: column; justify-content: flex-start; align-items: flex-start; gap: 4px; min-width: 0; }
+.place-card__info > h3 {
+  margin: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--content-normal-primary);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+.place-card__info > h3 > span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.place-card__info > p { margin: 0; color: var(--content-normal-tertiary); font-size: 12px; font-weight: 400; line-height: 1.5; }
+.place-card__info > p > span { color: var(--lv-line-strong); }
+.place-card__tools { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.place-card__tools > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--content-normal-tertiary);
+  cursor: pointer;
+}
+.place-card__tools > button > svg { width: 20px; height: 20px; }
+/* Плавающее избранное — канон .fav-btn: пилюля на мягкой розовой */
+.place-card__tools .fav-pill { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
+.place-card__tools .fav-pill.active svg { fill: currentColor; }
+
+/* Тизер точки (SZ-035) */
+.place__teaser {
+  margin: 16px 0 0;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--background-normal-surface);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.place__teaser p { margin: 0; color: var(--content-normal-secondary); font-size: 13px; line-height: 1.55; }
+.app-badge_brand { color: var(--lv-on-brand, #fff); background-image: var(--lv-gradient-brand); }
+
+/* Поиск в заведении */
+.place-search { padding: 0 16px; margin: 4px 0 0; }
+.place-search .sf-search { height: 40px; border-radius: 10px; }
+
+/* Категории товаров (StoreCategories) */
+.store-categories { padding: 0 16px; margin: 16px 0 0; display: flex; flex-flow: column; justify-content: flex-start; align-items: flex-start; }
+.store-categories > h4 { margin: 0; color: var(--content-normal-primary); font-size: 16px; font-weight: 800; line-height: 1.35; }
+.store-categories__list {
+  width: 100%;
+  margin: 16px 0 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 16px;
+  overflow: auto;
+  text-align: center;
+  scrollbar-width: none;
+}
+.store-categories__list::-webkit-scrollbar { display: none; }
+.store-categories__list > button {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 86px;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--content-normal-primary);
+  font: inherit;
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.store-categories__list > button > span {
+  width: 86px;
+  height: 86px;
+  border-radius: 8px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sf-emoji-sm { font-size: 36px; }
+.sf-cat-check {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--lv-pink);
+  color: var(--lv-on-brand, #fff);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.sf-cat-check svg { width: 14px; height: 14px; }
+
+/* Каталог позиции (StoreProducts) */
+.place-catalog { margin: 24px 0 0; padding: 0 16px; }
+.place-catalog > h3 { margin: 0; color: var(--content-normal-primary); font-size: 16px; font-weight: 800; line-height: 1.35; }
+.place-catalog__list {
+  margin: 16px 0 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+@media (width < 768px) {
+  .place-catalog__list { grid-template-columns: repeat(3, 1fr); }
+}
+@media (width < 540px) {
+  .place-catalog__list { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Карточка позиции (ProductPreview) */
+.product-preview {
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--background-normal-surface);
+  box-shadow: 0 2px 12px 0 rgba(13, 17, 27, 0.04);
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 142px 1fr;
+  text-decoration: none;
+}
+.product-preview > span {
+  width: 100%;
+  height: 142px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.product-preview__info {
+  padding: 10px 8px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto auto auto;
+}
+.product-preview__info > h4 {
+  margin: 0;
+  color: var(--content-normal-secondary);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-height: calc(3 * 1.45em);
+}
+.product-preview__info > span { margin: 2px 0 0; color: var(--content-normal-tertiary); font-size: 10.5px; font-weight: 400; line-height: 1.4; }
+.product-preview__info > p {
+  margin: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 8px;
+  color: var(--content-normal-primary);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.product-preview__info > p > del { color: var(--content-normal-primary); font-size: 13px; font-weight: 600; text-decoration: line-through; }
+.product-preview__info > button {
+  width: 100%;
+  margin: 16px 0 0;
+  border: 0;
+  border-radius: 10px;
+  background: var(--lv-pink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  height: 36px;
+  color: var(--lv-on-brand, #fff);
+  cursor: pointer;
+}
+.product-preview__info > button > svg { width: 20px; height: 20px; }
+.product-preview__counter {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  width: 100%;
+  margin: 16px 0 0;
+  border-radius: 10px;
+  background: var(--lv-pink);
+  height: 36px;
+}
+.product-preview__counter > span { text-align: center; color: var(--lv-on-brand, #fff); font-size: 13px; font-weight: 600; }
+.product-preview__counter > button {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lv-on-brand, #fff);
+  cursor: pointer;
+}
+.product-preview__counter > button > svg { width: 20px; height: 20px; }
+
+/* ---------- Экран товара (StoreProduct) ---------- */
+.product { padding: 0 0 136px; }
+.product__image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 380px;
+  background-color: var(--lv-grey-soft);
+  position: relative;
+}
+.sf-emoji-xl { font-size: 120px; font-style: normal; }
+.sf-back {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--lv-card);
+  box-shadow: var(--lv-shadow-soft);
+  color: var(--content-normal-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.sf-back svg { width: 20px; height: 20px; }
+.product__info { margin: 40px 0 0; padding: 0 16px; }
+.product__info > h3 { margin: 0; color: var(--content-normal-primary); font-size: 16px; font-weight: 800; line-height: 1.35; }
+.product__description { width: 100%; margin: 24px 0 0; padding: 0 16px; }
+.product__description > button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 12px;
+  border: 0;
+  border-bottom: 1px solid var(--content-normal-tertiary);
+  background: none;
+  color: var(--content-normal-secondary);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.product__description > button > svg { width: 24px; height: 24px; transition: all 0.3s ease-out; }
+.product__description > button.active > svg { transform: rotate(-90deg); }
+.product__description > article { padding: 12px 4px; color: var(--content-normal-primary); font-size: 13px; line-height: 1.55; }
+.more-products { margin: 24px 0 0; padding: 0 16px; }
+.more-products > h4 { margin: 0; color: var(--content-normal-primary); font-size: 16px; font-weight: 800; line-height: 1.35; }
+.more-products__list {
+  margin: 16px 0 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+@media (width < 768px) {
+  .more-products__list { grid-template-columns: repeat(3, 1fr); }
+}
+@media (width < 540px) {
+  .more-products__list { grid-template-columns: repeat(2, 1fr); }
+}
+.product__action {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: var(--lv-navbar-height, 56px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  z-index: 2;
+}
+.product__action::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--lv-glass, rgba(255, 255, 255, 0.85));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--border-normal-subtle);
+}
+.product__action > button {
+  width: 100%;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--lv-pink);
+  box-shadow: 0 4px 20px 0 rgba(13, 17, 27, 0.08);
+  color: var(--lv-on-brand, #fff);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.product__action > button > svg { width: 20px; height: 20px; }
+.product__counter {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  width: 100%;
+  border-radius: 12px;
+  background: var(--lv-pink);
+  height: 44px;
+}
+.product__counter > span { text-align: center; color: var(--lv-on-brand, #fff); font-size: 14px; font-weight: 700; }
+.product__counter > button {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lv-on-brand, #fff);
+  cursor: pointer;
+}
+.product__counter > button > svg { width: 20px; height: 20px; }
+
+/* Инфо-лист точки (StoreInfoSheet) */
+.sf-info-rows { display: grid; grid-template-columns: 1fr; gap: 2px; }
+.sf-info-rows > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 0;
+  border-top: 1px solid var(--lv-line-2);
+  font-size: 13px;
+}
+.sf-info-rows > div:first-child { border-top: 0; }
+.sf-info-rows > div > span { color: var(--content-normal-tertiary); }
+.sf-info-rows > div > b { color: var(--content-normal-primary); font-weight: 600; text-align: right; }
