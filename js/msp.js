@@ -75,9 +75,6 @@ function mspShell(inner) {
           <h1 class="cabinet__title">МСП · точка</h1>
           <p class="cabinet__note">${mEsc2(partner.name)} · ИНН ${partner.inn}</p>
         </div>
-        <a class="cabinet__exit" href="#/profile" aria-label="Выйти в профиль клиента" data-testid="cabinet-exit">
-          ${icon('logout')}<span>Профиль</span>
-        </a>
       </header>
 
       <main class="cabinet__body container">${inner}</main>

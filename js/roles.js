@@ -32,7 +32,6 @@ function rolesShell(role, inner) {
           <h1 class="cabinet__title">${cfg.title}</h1>
           <p class="cabinet__note">${mEsc2(cfg.note)}</p>
         </div>
-        <a class="cabinet__exit" href="#/profile" aria-label="Выйти в профиль клиента">${icon('logout')}<span>Профиль</span></a>
       </header>
 
       <main class="cabinet__body container">${inner}</main>
