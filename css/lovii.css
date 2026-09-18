@@ -3410,3 +3410,15 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   min-height: calc(100dvh - 56px);
   padding: 0 0 calc(var(--lv-navbar-offset) + 16px);
 }
+
+/* ---------- Настройки: масштаб текста и анимации (перенос из app) ---------- */
+/* Масштаб: множитель на контент экрана (в app — по-текстово через --font-scale) */
+#view { zoom: var(--font-scale, 1); }
+/* Анимации: гейт SZ-030 — «off» гасит движение, «system» решает media-query */
+html[data-motion='off'] *,
+html[data-motion='off'] *::before,
+html[data-motion='off'] *::after {
+  transition-duration: 0.01ms !important;
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+}

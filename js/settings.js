@@ -28,7 +28,10 @@
 
 const SETTINGS_DEFAULTS = {
   theme: 'system', // system | light | dark (канон SCR-PROFILE-v1: решение №3)
+  fontScale: 'normal', // small | normal | large | huge (font-scale.ts@staging)
+  motion: 'system', // system | on | off (SZ-030: доступность)
   push: { master: false, orders: true, points: true, promos: true, news: false },
+  consents: { email: true, push: true }, // рассылки (SettingsSheet@staging)
   security: { pinHash: null, salt: null, faceId: null },
 };
 
@@ -42,6 +45,7 @@ function ensureSettings() {
     if (wasLegacyTheme === 'light' || wasLegacyTheme === 'dark') state.settings.theme = wasLegacyTheme;
   } else {
     state.settings.push = { ...SETTINGS_DEFAULTS.push, ...(state.settings.push || {}) };
+    state.settings.consents = { ...SETTINGS_DEFAULTS.consents, ...(state.settings.consents || {}) };
     state.settings.security = { ...SETTINGS_DEFAULTS.security, ...(state.settings.security || {}) };
   }
   return state.settings;
@@ -74,6 +78,37 @@ function setThemeChoice(choice) {
   applyTheme(resolvedTheme(choice));
   saveSettings();
 }
+
+/* ============ Масштаб текста и анимации (перенос из app) ============ */
+
+const FONT_SCALE_OPTIONS = [
+  ['small', 'Мелкий', 0.9], ['normal', 'Обычный', 1], ['large', 'Крупный', 1.1], ['huge', 'Большой', 1.2],
+];
+const MOTION_OPTIONS = [['system', 'Системные'], ['on', 'Включены'], ['off', 'Выключены']];
+
+function applyFontScale(id) {
+  const opt = FONT_SCALE_OPTIONS.find(([k]) => k === id) || FONT_SCALE_OPTIONS[1];
+  document.documentElement.style.setProperty('--font-scale', String(opt[2]));
+}
+
+function reducedMotion() {
+  try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return false; }
+}
+
+function applyMotion(id) {
+  const off = id === 'off' || (id === 'system' && reducedMotion());
+  document.documentElement.setAttribute('data-motion', off ? 'off' : 'on');
+}
+
+function setFontScale(id) { ensureSettings().fontScale = id; saveSettings(); applyFontScale(id); }
+function setMotion(id) { ensureSettings().motion = id; saveSettings(); applyMotion(id); }
+
+// «Системные» анимации живут за prefers-reduced-motion на лету
+try {
+  window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', () => {
+    if (ensureSettings().motion === 'system') applyMotion('system');
+  });
+} catch { /* старые браузеры */ }
 
 /* ================= Безопасность: PIN ================= */
 
@@ -369,7 +404,7 @@ async function togglePush(key) {
 
 /* ================= Разметка секции «Настройки» ================= */
 
-function switchRow({ ico, icoCls, title, sub, key, on, disabled }) {
+function switchRow({ ico, icoCls, title, sub, key, on, disabled, action }) {
   return `
   <div class="row-item switch-row">
     <span class="sr-ico ${icoCls || ''}">${icon(ico)}</span>
@@ -377,20 +412,22 @@ function switchRow({ ico, icoCls, title, sub, key, on, disabled }) {
       <div class="nm">${esc(title)}</div>
       ${sub ? `<div class="sb">${esc(sub)}</div>` : ''}
     </div>
-    <span class="lv-switch${on ? ' on' : ''}${disabled ? ' disabled' : ''}" role="switch" aria-checked="${on ? 'true' : 'false'}" ${disabled ? '' : `data-action="set-push" data-key="${key}"`}></span>
+    <span class="lv-switch${on ? ' on' : ''}${disabled ? ' disabled' : ''}" role="switch" aria-checked="${on ? 'true' : 'false'}" ${disabled ? '' : `data-action="${action || 'set-push'}" data-key="${key}"`}></span>
   </div>`;
 }
 
+function seg(options, current, action, aria) {
+  return `<div class="seg" role="radiogroup" aria-label="${esc(aria)}">${options.map(([v, l]) =>
+    `<button type="button" class="${current === v ? 'active' : ''}" data-action="${action}" data-val="${v}" aria-pressed="${current === v}">${l}</button>`).join('')}</div>`;
+}
 function segTheme() {
-  const cur = ensureSettings().theme;
-  const opts = [['system', 'Системная'], ['light', 'Светлая'], ['dark', 'Тёмная']];
-  return `<div class="seg" role="radiogroup" aria-label="Тема приложения">${opts.map(([v, l]) =>
-    `<button type="button" class="${cur === v ? 'active' : ''}" data-action="set-theme" data-val="${v}" aria-pressed="${cur === v}">${l}</button>`).join('')}</div>`;
+  return seg([['system', 'Системная'], ['light', 'Светлая'], ['dark', 'Тёмная']], ensureSettings().theme, 'set-theme', 'Тема приложения');
 }
 
 /* Секция настроек вставляется асинхронно: slot в разметке профиля,
    заполнение — через MutationObserver (см. конец файла). */
 let _faceOk = false;
+let cacheConfirm = false;
 
 async function fillSettingsSlot() {
   const slot = document.getElementById('settings-slot');
@@ -413,13 +450,27 @@ async function renderSettingsHtml() {
   return `
   <div class="section-head" style="margin-top:20px"><h2>Настройки</h2><span class="sub">приложение · уведомления · безопасность</span></div>
 
-  <div class="set-sub">Приложение</div>
+  <div class="set-sub">Экран</div>
   <div class="list-card">
     <div class="row-item switch-row">
       <span class="sr-ico t-pink">${icon('sun')}</span>
       <div class="ri-mid"><div class="nm">Тема</div><div class="sb">Системная следует настройкам устройства</div></div>
     </div>
     <div class="seg-row">${segTheme()}</div>
+    <div class="row-item switch-row">
+      <span class="sr-ico t-tiffany">${icon('smartphone')}</span>
+      <div class="ri-mid"><div class="nm">Размер текста</div><div class="sb">Крупный — канон стейджа по умолчанию</div></div>
+    </div>
+    <div class="seg-row">${seg(FONT_SCALE_OPTIONS.map(([v, l]) => [v, l]), s.fontScale || 'normal', 'set-font', 'Размер текста')}</div>
+    <div class="row-item switch-row">
+      <span class="sr-ico t-gold">${icon('sparkles')}</span>
+      <div class="ri-mid"><div class="nm">Анимации</div><div class="sb">Выключите, если движение некомфортно (SZ-030)</div></div>
+    </div>
+    <div class="seg-row">${seg(MOTION_OPTIONS, s.motion || 'system', 'set-motion', 'Анимации')}</div>
+  </div>
+
+  <div class="set-sub">Приложение</div>
+  <div class="list-card">
     <button class="row-item switch-row" data-action="open-sheet">
       <span class="sr-ico t-tiffany">${icon('pin')}</span>
       <div class="ri-mid"><div class="nm">Город и район</div><div class="sb">${esc(state.district)} · влияет на витрину и шаговую доступность</div></div>
@@ -428,6 +479,11 @@ async function renderSettingsHtml() {
     <button class="row-item switch-row" data-action="install-app">
       <span class="sr-ico t-gold">${icon('smartphone')}</span>
       <div class="ri-mid"><div class="nm">Установить приложение</div><div class="sb">Иконка Лови на главном экране устройства</div></div>
+      <span class="chev">${icon('chev-right', '', 2, true)}</span>
+    </button>
+    <button class="row-item switch-row" data-action="clear-cache">
+      <span class="sr-ico t-tiffany">${icon('rotate')}</span>
+      <div class="ri-mid"><div class="nm">${cacheConfirm ? 'Точно очистить?' : 'Очистить кэш и обновить'}</div><div class="sb">Если приложение работает странно или не обновилось · вход, тема и настройки останутся</div></div>
       <span class="chev">${icon('chev-right', '', 2, true)}</span>
     </button>
     <div class="row-item switch-row">
@@ -445,6 +501,12 @@ async function renderSettingsHtml() {
     ${switchRow({ ico: 'percent', icoCls: 't-pink', title: 'Акции и Flash Deals', sub: 'Скидки твоего района', key: 'promos', on: s.push.promos })}
     ${switchRow({ ico: 'heart', icoCls: 't-tiffany', title: 'Новости моих МСП', sub: 'Избранные точки рядом', key: 'news', on: s.push.news })}
     ` : ''}
+  </div>
+
+  <div class="set-sub">Рассылки и акции</div>
+  <div class="list-card">
+    ${switchRow({ ico: 'send', icoCls: 't-tiffany', title: 'E-mail — акции и новости', sub: 'Только по вашему согласию · отключить можно здесь же', key: 'email', action: 'set-consent', on: (s.consents || {}).email !== false })}
+    ${switchRow({ ico: 'bell', icoCls: 't-gold', title: 'Push — акции и новости', sub: 'Промо-пуши вашего района', key: 'push', action: 'set-consent', on: (s.consents || {}).push !== false })}
   </div>
 
   <div class="set-sub">Безопасность</div>
@@ -483,6 +545,29 @@ document.addEventListener('click', (e) => {
   }
 
   if (a === 'set-push') { togglePush(el.dataset.key); return; }
+
+  if (a === 'set-font') { setFontScale(el.dataset.val); renderViewPreserveScroll(); return; }
+  if (a === 'set-motion') { setMotion(el.dataset.val); renderViewPreserveScroll(); return; }
+  if (a === 'set-consent') {
+    const key = el.dataset.key;
+    const s2 = ensureSettings();
+    s2.consents = s2.consents || {};
+    s2.consents[key] = s2.consents[key] === false;
+    saveSettings();
+    toast(s2.consents[key] ? 'Согласие дано' : 'Согласие отозвано');
+    renderViewPreserveScroll();
+    return;
+  }
+  if (a === 'clear-cache') {
+    if (!cacheConfirm) { cacheConfirm = true; renderViewPreserveScroll(); setTimeout(() => { cacheConfirm = false; renderViewPreserveScroll(); }, 2600); return; }
+    const wipe = (async () => {
+      try { if (window.caches) { const keys = await caches.keys(); await Promise.all(keys.map((k) => caches.delete(k))); } } catch { /* нет SW */ }
+      try { const regs = await navigator.serviceWorker?.getRegistrations?.(); await Promise.all((regs || []).map((r) => r.unregister())); } catch { /* нет SW */ }
+      location.reload();
+    })();
+    void wipe;
+    return;
+  }
 
   if (a === 'set-pin') {
     if (pinIsSet()) openPinOverlay('verify', () => openPinOverlay('setup1'));
@@ -534,6 +619,8 @@ document.addEventListener('click', (e) => {
 (function initSettings() {
   ensureSettings();
   applyTheme(resolvedTheme(ensureSettings().theme));
+  applyFontScale(ensureSettings().fontScale || 'normal');
+  applyMotion(ensureSettings().motion || 'system');
   // холодный старт сразу на #/settings: слот уже в DOM до наблюдателя
   fillSettingsSlot();
   // доступность Face ID — один запрос на сессию (платформа без
