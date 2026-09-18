@@ -33,7 +33,6 @@ const MSP_MIRROR = {
 };
 
 const mspUi = { tab: 'overview', partner: 0, onSale: {}, payment: 'await' };
-let cacheConfirm = null;
 
 /* Настройки точки — персист в localStorage (lv_msp_mirror) */
 function mspSettingsState() {
