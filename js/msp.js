@@ -120,7 +120,7 @@ function mspStarter() {
     { id: 'showcase', label: 'Витрина опубликована', done: true },
     { id: 'offers', label: 'Товары загружены', done: MSP_MIRROR.branch.offers > 0, hint: `${MSP_MIRROR.branch.offers} позиций в каталоге` },
     { id: 'schedule', label: 'Расписание заполнено', done: true, hint: MSP_MIRROR.branch.hours },
-    { id: 'min-order', label: 'Минимальная сумма заказа', done: MSP_MIRROR.branch.minOrder > 0, hint: `${MSP_MIRROR.branch.minOrder} ₽` },
+    { id: 'min-order', label: 'Минимальная сумма заказа', done: (mspSettingsState().minOrder || 0) > 0, hint: `${mspSettingsState().minOrder || 500} ₽` },
   ];
   const doneCount = steps.filter((s) => s.done).length;
   const percent = Math.round((doneCount / steps.length) * 100);
