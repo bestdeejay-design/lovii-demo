@@ -1542,11 +1542,14 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 }
 .profile__nav > section {
   width: 100%;
-  border-radius: 16px;
-  background: var(--background-normal-surface);
+  border: 1px solid var(--lv-line);
+  border-radius: var(--lv-r-lg);
+  background: var(--lv-card);
+  box-shadow: var(--lv-shadow-soft);
   padding: 8px 16px;
   display: grid;
   grid-template-columns: 1fr;
+  box-sizing: border-box;
 }
 .profile__nav > section > a,
 .profile__nav > section > .profile__soon-row,
@@ -1989,10 +1992,10 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 /* ---------- Юридический блок (ProfileFooter) ---------- */
 .profile-footer { width: 100%; }
 .legal-card {
-  border: 0;
-  border-radius: 16px;
-  background: var(--background-normal-surface);
-  box-shadow: none;
+  border: 1px solid var(--lv-line);
+  border-radius: var(--lv-r-lg);
+  background: var(--lv-card);
+  box-shadow: var(--lv-shadow-soft);
   overflow: hidden;
 }
 .legal-card__cap {
