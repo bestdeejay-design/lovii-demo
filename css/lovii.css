@@ -3556,3 +3556,115 @@ html[data-motion='off'] *::after {
 .app-badge_xs { gap: 3px; height: 16px; padding: 0 4px; font-size: 11px; font-weight: 400; }
 .app-badge_brand { color: var(--lv-on-brand, #fff); background-image: var(--lv-gradient-brand); }
 .app-badge_gold { color: var(--lv-gold-text); background: var(--lv-soft-gold); }
+
+/* ============================================================
+   ЗЕРКАЛО СТЕЙДЖА · КАБИНЕТ МСП (CabinetLayout + роли, v1)
+   ============================================================ */
+/* Режим кабинета: витринные хедер/навигация скрыты — у кабинета свои */
+body.cabinet-mode .app-header,
+body.cabinet-mode .app-nav { display: none; }
+body.cabinet-mode #view { padding-bottom: 0; }
+
+.msp-cabinet { min-height: 100dvh; display: flex; flex-flow: column; }
+
+/* Ролевой хедер (канон .dash-head) */
+.cabinet__head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 16px 12px; margin-top: 12px;
+}
+.cabinet__ava {
+  flex-shrink: 0; width: 52px; height: 52px; border-radius: 16px;
+  background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text);
+  display: flex; align-items: center; justify-content: center;
+}
+.cabinet__ava svg { width: 24px; height: 24px; }
+.cabinet__titles { min-width: 0; flex: 1; }
+.cabinet__title { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.01em; color: var(--content-normal-primary); }
+.cabinet__note { margin: 2px 0 0; color: var(--content-normal-tertiary); font-size: 12px; line-height: 1.5; }
+.cabinet__exit {
+  flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 12px; border-radius: 999px; border: 1px solid var(--lv-line);
+  background: var(--background-normal-surface); color: var(--content-normal-secondary);
+  font-size: 12px; font-weight: 700; text-decoration: none;
+}
+.cabinet__exit svg { width: 14px; height: 14px; }
+
+.cabinet__body { flex: 1; width: 100%; padding: 0 16px calc(var(--lv-navbar-offset) + 16px); max-width: 924px; margin-inline: auto; }
+
+/* Нижний бар разделов (Material 3 Navigation bar, родственник NavBar) */
+.cabinet__bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+  border-top: 1px solid var(--lv-line);
+  background: var(--lv-glass, rgba(255, 255, 255, 0.85));
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+}
+.cabinet__bar-in {
+  max-width: 480px; margin: 0 auto; height: var(--lv-navbar-height, 56px);
+  display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
+}
+.cabinet__bar-link {
+  border: 0; background: none; display: flex; flex-flow: column; align-items: center;
+  justify-content: center; gap: 2px; color: var(--content-normal-tertiary); cursor: pointer;
+  position: relative; padding: 0;
+}
+.cabinet__bar-ico svg { width: 20px; height: 20px; }
+.cabinet__bar-ind { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 32px; height: 3px; border-radius: 0 0 3px 3px; background: transparent; }
+.cabinet__bar-link--active { color: var(--lv-pink-dark); }
+.cabinet__bar-link--active .cabinet__bar-ind { background: var(--lv-pink); }
+.cabinet__bar-label { font-size: 10px; font-weight: 600; line-height: 1.2; }
+
+/* KPI (role-kpi) */
+.msp-overview__kpi { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 4px 0 0; }
+.role-kpi {
+  padding: 12px; border-radius: 16px; background: var(--background-normal-surface);
+  display: flex; flex-flow: column; gap: 2px;
+}
+.role-kpi__label { color: var(--content-normal-tertiary); font-size: 10.5px; font-weight: 600; }
+.role-kpi__value { color: var(--content-normal-primary); font-size: 20px; font-weight: 800; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.role-kpi__sub { color: var(--content-normal-tertiary); font-size: 10.5px; line-height: 1.35; }
+.role-kpi_accent { background: var(--lv-gradient-brand); }
+.role-kpi_accent .role-kpi__label,
+.role-kpi_accent .role-kpi__sub { color: var(--lv-on-brand, #fff); opacity: 0.8; }
+.role-kpi_accent .role-kpi__value { color: var(--lv-on-brand, #fff); }
+
+/* Карточки и заголовки разделов (role-card / role-section-head) */
+.role-card { margin: 12px 0 0; padding: 16px 0 0; border-radius: 16px; background: var(--background-normal-surface); overflow: hidden; }
+.role-section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 0 16px; }
+.role-section-head h2 { margin: 0; color: var(--content-normal-primary); font-size: 15px; font-weight: 800; line-height: 1.35; }
+.role-section-head__sub { color: var(--content-normal-tertiary); font-size: 11.5px; font-weight: 600; }
+.role-link { border: 0; background: none; padding: 0; color: var(--lv-pink); font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; }
+
+/* Чек-лист запуска (MspStarter) */
+.msp-starter__progress { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 12px 16px 0; }
+.msp-starter__progress-label { color: var(--content-normal-secondary); font-size: 12px; font-weight: 600; }
+.msp-starter__meter { flex: 1; max-width: 140px; height: 8px; border-radius: 999px; background: var(--background-other-soft-neutral); overflow: hidden; display: block; }
+.msp-starter__meter-fill { display: block; height: 100%; border-radius: 999px; background-image: var(--lv-gradient-brand); }
+.msp-starter__steps { margin: 12px 0 0; padding: 0 16px 16px; list-style: none; display: grid; gap: 8px; }
+.msp-starter__step { display: flex; align-items: center; gap: 10px; color: var(--content-normal-secondary); font-size: 13px; }
+.msp-starter__step b { font-weight: 700; color: var(--content-normal-primary); }
+.msp-starter__step-check {
+  flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+  border: 1.5px solid var(--lv-line-strong); display: inline-flex; align-items: center; justify-content: center;
+  color: var(--lv-on-brand, #fff);
+}
+.msp-starter__step-check svg { width: 12px; height: 12px; }
+.msp-starter__step[data-done='true'] .msp-starter__step-check { background: var(--lv-tiffany); border-color: var(--lv-tiffany); }
+.msp-starter__step[data-done='true'] { color: var(--content-normal-primary); }
+
+/* Заказы точки */
+.msp-orders__list { padding: 12px 16px 16px; display: grid; gap: 10px; }
+.msp-order-row { display: grid; grid-template-columns: 36px 1fr auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--lv-line); }
+.msp-order-row__ico { width: 36px; height: 36px; border-radius: 12px; background: var(--lv-soft-gold); color: var(--lv-gold-text); display: inline-flex; align-items: center; justify-content: center; }
+.msp-order-row__ico svg { width: 17px; height: 17px; }
+.msp-order-row__mid { min-width: 0; }
+.msp-order-row__name { font-size: 13px; font-weight: 700; color: var(--content-normal-primary); }
+.msp-order-row__meta { margin-top: 2px; font-size: 11.5px; color: var(--lv-dim); }
+.role-tag { flex: none; padding: 3px 10px; border-radius: 999px; background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); font-size: 10.5px; font-weight: 800; white-space: nowrap; }
+
+/* Товары точки */
+.msp-products__list { padding: 12px 16px 16px; display: grid; gap: 10px; }
+.msp-product-row { display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; align-items: center; }
+.msp-product-row__thumb { width: 44px; height: 44px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; }
+.msp-product-row__name { font-size: 13px; font-weight: 700; color: var(--content-normal-primary); }
+.msp-product-row__meta { margin-top: 2px; font-size: 11.5px; color: var(--lv-dim); }
+.msp-team__list { padding: 12px 0 0; }
