@@ -221,7 +221,7 @@ function parseHash() {
     }
     return { name: 'home', param: null };
   }
-  const known = ['home', 'store', 'product', 'search', 'cart', 'orders', 'profile', 'wallet', 'apply', 'dash', 'chat', 'msp-signup', 'msp'];
+  const known = ['home', 'store', 'product', 'search', 'cart', 'orders', 'profile', 'wallet', 'stores', 'popular', 'apply', 'dash', 'chat', 'msp-signup', 'msp'];
   return { name: known.includes(name) ? name : 'home', param: param || null };
 }
 

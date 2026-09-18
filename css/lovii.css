@@ -2441,3 +2441,530 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 .tx-meta { margin-top: 1px; font-size: 11px; color: var(--lv-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .tx-sum { flex-shrink: 0; font-size: 13.5px; font-weight: 800; color: var(--lv-ink); font-variant-numeric: tabular-nums; }
 .tx-sum.plus { color: var(--lv-tiffany-text); }
+
+/* ============================================================
+   ЗЕРКАЛО СТЕЙДЖА · ВИТРИНА: ГЛАВНАЯ + «ПОИСК»
+   Порт HomeModule.vue (HomeHero/HomePopular/HomeBanner/HomeNearbyPlaces/
+   NearbyStore) и StoresCatalog.vue (CatalogStore/AppChip) из lovii-app
+   (origin/staging 1fc7a27). Картинки → эмодзи-плитки (.sf-emoji).
+   ============================================================ */
+:root,
+[data-theme="light"] {
+  --background-normal-soft-accent: var(--lv-soft-pink);
+  --feedback-info-solid: #4797ff;
+  --feedback-positive-solid: var(--lv-tiffany);
+}
+
+/* ---------- Каркас главной (HomeModule) ---------- */
+.home { padding: 0 0 64px; }
+@media (min-width: 900px) {
+  .home { padding: 0 0 96px; }
+}
+.home-top { padding: 0 0 16px; }
+.home-top__banner { margin: 16px 0 0; width: 100%; padding: 0 16px; }
+
+/* ---------- Герой (HomeHero) ---------- */
+.home-hero {
+  padding: 12px 16px 4px;
+  background: linear-gradient(180deg, var(--lv-hero-top) 0%, var(--background-normal-surface) 100%);
+  transition: padding 0.3s ease;
+}
+.home-hero__tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  padding: 9px 12px;
+  border-radius: var(--lv-r-md);
+  background: var(--background-normal-surface);
+  border: 1px solid var(--border-normal-subtle);
+  box-shadow: var(--lv-shadow-soft);
+  color: var(--content-normal-primary);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.home-hero__tab-ico { display: flex; flex-shrink: 0; width: 16px; height: 16px; color: var(--lv-pink); }
+.home-hero__tab-ico svg { width: 100%; height: 100%; }
+.home-hero__tab-lbl {
+  flex: 1;
+  min-width: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+.home-hero__tab-chev {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--lv-r-pill);
+  background: var(--background-normal-soft-accent);
+  color: var(--lv-pink);
+  transition: transform 0.3s ease;
+}
+.home-hero__tab-chev svg { width: 14px; height: 14px; }
+.home-hero:not(.collapsed) .home-hero__tab-chev { transform: rotate(180deg); }
+.home-hero__body { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.32s ease; }
+.home-hero__body-in { min-height: 0; overflow: hidden; }
+.home-hero__body-in h1 {
+  margin: 12px 0 0;
+  color: var(--content-normal-primary);
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+}
+@media (min-width: 640px) {
+  .home-hero__body-in h1 { font-size: 32px; }
+}
+.home-hero__body-in h1 .accent { color: var(--lv-pink); }
+.home-hero__body-in .lead {
+  margin: 6px 0 0;
+  color: var(--content-normal-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+.home-hero__body-in .lead b { color: var(--content-normal-primary); font-weight: 600; }
+.home-hero.collapsed { padding-bottom: 4px; }
+.home-hero.collapsed .home-hero__body { grid-template-rows: 0fr; }
+.home-hero__stats { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.home-hero__search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+  margin-top: 16px;
+  border: 0;
+  border-radius: var(--lv-r-pill);
+  background: var(--background-normal-secondary);
+  color: var(--content-normal-tertiary);
+  text-align: left;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  cursor: pointer;
+  transition: background 0.2s ease-out;
+  box-sizing: border-box;
+}
+.home-hero__search > .ico { width: 16px; height: 16px; flex-shrink: 0; }
+.home-hero__search > .ico svg { width: 100%; height: 100%; }
+.stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: var(--lv-r-pill);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.stat-pill .ico { width: 14px; height: 14px; display: inline-flex; }
+.stat-pill .ico svg { width: 100%; height: 100%; }
+.stat-pill.pink { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
+.stat-pill.tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
+.stat-pill.gold { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
+
+/* ---------- Популярные заведения (HomePopular) ---------- */
+.home-popular {
+  width: 100%;
+  margin: 16px 0 0;
+  padding: 0 0 0 16px;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.home-popular > h3 { margin: 0; color: var(--content-normal-primary); font-size: 16px; font-weight: 800; line-height: 1.35; }
+.home-popular__types {
+  width: 100%;
+  overflow: auto;
+  margin: 12px 0 0;
+  padding: 0 16px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  scrollbar-width: none;
+}
+.home-popular__types::-webkit-scrollbar { display: none; }
+.home-popular__list {
+  width: 100%;
+  overflow: auto;
+  margin: 16px 0 0;
+  padding: 0 16px 0 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 12px;
+  scrollbar-width: none;
+}
+.home-popular__list::-webkit-scrollbar { display: none; }
+.home-popular__list > a {
+  width: 100px;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+.home-popular__list > a:last-of-type {
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+  text-align: center;
+  gap: 4px;
+  border-radius: 16px;
+  background: var(--background-normal-surface);
+  color: var(--content-normal-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+.home-popular__list > a:last-of-type > .icon,
+.home-popular__list > a:last-of-type > svg { width: 32px; height: 32px; }
+.popular-store {
+  padding: 12px;
+  border-radius: 16px;
+  background: var(--background-normal-surface);
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 8px;
+  box-sizing: border-box;
+}
+.popular-store > span {
+  height: 85px;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.popular-store > h5 {
+  margin: 0;
+  color: var(--content-normal-primary);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.45;
+  text-align: center;
+}
+
+/* Чип типов мерчантов (AppChip) */
+.app-chip {
+  flex-shrink: 0;
+  text-align: center;
+  border-radius: 100px;
+  border: 1px solid var(--border-normal-subtle);
+  padding: 6px 12px;
+  background: none;
+  color: var(--content-normal-primary);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  transition: all 0.3s ease-out;
+  cursor: pointer;
+}
+.app-chip.active {
+  border-color: var(--lv-accent, var(--lv-pink));
+  background: var(--lv-accent-soft, var(--lv-soft-pink));
+  color: var(--lv-accent-text, var(--lv-pink-dark));
+}
+
+/* ---------- Баннер «Реклама» (HomeBanner) ---------- */
+.home-banner { position: relative; overflow: hidden; border-radius: 16px; }
+.home-banner__track { display: flex; transition: transform 0.5s ease-out; }
+.home-banner__slide { min-width: 100%; flex-shrink: 0; position: relative; }
+.home-banner__demo {
+  width: 100%;
+  height: 140px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: #fff;
+  text-align: center;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+.home-banner__demo b { font-size: 17px; font-weight: 800; letter-spacing: -0.01em; }
+.home-banner__demo span { font-size: 12.5px; opacity: 0.85; }
+.home-banner__ad {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 6px;
+  border-radius: 100px;
+  background: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+  font-size: 9px;
+  line-height: 13px;
+  font-weight: 400;
+}
+.home-banner__ad > svg { flex-shrink: 0; width: 10px; height: 10px; color: rgba(255, 255, 255, 0.7); }
+.home-banner__dots {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.home-banner__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease-out;
+}
+.home-banner__dot.active { width: 16px; border-radius: 3px; background: #fff; }
+
+/* ---------- Возле вас (HomeNearbyPlaces + NearbyStore) ---------- */
+.nearby-stores { margin: 24px 0 0; padding: 0 16px; }
+.nearby-stores > h3 { margin: 0; color: var(--content-normal-primary); font-size: 16px; font-weight: 800; line-height: 1.35; }
+.nearby-stores__list {
+  margin: 16px 0 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (width < 540px) {
+  .nearby-stores__list { grid-template-columns: 1fr; }
+}
+.nearby-store {
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 8px;
+  border-radius: 16px;
+  background: var(--background-normal-surface);
+  width: 100%;
+  overflow: hidden;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+.nearby-store__products {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  overflow: auto;
+  gap: 12px;
+  height: 133px;
+  scrollbar-width: none;
+}
+.nearby-store__products::-webkit-scrollbar { display: none; }
+.nearby-store__products > span {
+  flex-shrink: 0;
+  aspect-ratio: 1;
+  height: 100%;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nearby-store__info {
+  width: 100%;
+  margin: 8px 0 0;
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  align-items: start;
+  gap: 12px;
+}
+.nearby-store__info > span {
+  border-radius: 4px;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+.nearby-store__description {
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+}
+.nearby-store__description > h4 {
+  margin: 0;
+  color: var(--content-normal-primary);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.nearby-store__description > p { margin: 0; font-size: 11px; font-weight: 400; line-height: 1.45; }
+.nearby-store__description > p.open { color: var(--feedback-info-solid); }
+.nearby-store__description > p.close { color: var(--feedback-negative-solid); }
+.nearby-store__description > span { color: var(--content-normal-primary); font-size: 11px; line-height: 1.45; }
+
+/* Эмодзи-плитка вместо фото (демо без фотостока) */
+.sf-emoji { font-style: normal; font-size: 34px; line-height: 1; }
+.sf-emoji-lg { font-size: 30px; }
+
+/* ---------- «Поиск»: каталог точек (StoresCatalog) ---------- */
+.stores {
+  min-height: calc(100dvh - 56px);
+  padding: 0 0 calc(var(--lv-navbar-offset) + 8px);
+}
+.stores__header {
+  margin: 16px 0 0;
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px;
+}
+.sf-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--border-normal-subtle);
+  border-radius: 12px;
+  background: var(--background-normal-surface);
+  color: var(--content-normal-tertiary);
+}
+.sf-search svg { width: 16px; height: 16px; flex-shrink: 0; }
+.sf-search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 14px;
+  color: var(--content-normal-primary);
+  outline: none;
+}
+.sf-search input::placeholder { color: var(--content-normal-tertiary); }
+.sf-filter-btn {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border-normal-subtle);
+  border-radius: 12px;
+  background: var(--background-normal-surface);
+  color: var(--content-normal-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.sf-filter-btn svg { width: 18px; height: 18px; }
+.filters-indicator {
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  background-color: var(--lv-pink);
+  color: var(--lv-on-brand, #fff);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+  border-radius: 999px;
+  right: -4px;
+  top: -4px;
+  display: block;
+  position: absolute;
+}
+.stores__types {
+  margin: 12px 0 0;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.stores__types::-webkit-scrollbar { display: none; }
+.stores__catalog { margin: 24px 0 0; padding: 0 16px; }
+.stores__catalog > h4 { margin: 0; color: var(--content-normal-primary); font-size: 16px; font-weight: 800; line-height: 1.35; }
+.stores__list {
+  margin: 16px 0 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+.stores__noresult { margin: 0; padding: 16px 0; color: var(--content-normal-secondary); font-size: 13px; line-height: 1.55; }
+
+/* Карточка точки каталога (CatalogStore) */
+.catalog-store {
+  border-radius: var(--lv-r-sm);
+  background: var(--background-normal-surface);
+  padding: 8px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4px;
+}
+.catalog-store__link {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+  text-decoration: none;
+}
+.catalog-store__logo {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--lv-r-sm);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+.catalog-store__logo .sf-emoji { font-size: 24px; }
+.catalog-store__info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.catalog-store__name {
+  margin: 0;
+  color: var(--content-normal-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.catalog-store__meta {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px;
+  color: var(--content-normal-secondary);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+.catalog-store__sep { color: var(--content-normal-tertiary); }
+.catalog-store__status { font-size: 12px; font-weight: 600; line-height: 1.5; }
+.catalog-store__status.is-open { color: var(--feedback-positive-solid); }
+.catalog-store__status.is-closed { color: var(--feedback-negative-solid); }
