@@ -278,15 +278,15 @@ function mPayCard(account, slideCls = 'profile__slide') {
     </div>`;
 }
 
-function mCollapse({ title, subtitle = '', open = false, testid = '', inner }) {
+function mCollapse({ title, subtitle = '', open = false, testid = '', noChev = false, inner }) {
   return `
-    <section class="collapse${open ? ' collapse_open' : ''}"${testid ? ` data-testid="${testid}"` : ''}>
-      <button type="button" class="collapse__head" aria-expanded="${open}" data-action="mir-collapse">
+    <section class="collapse${open ? ' collapse_open' : ''}${noChev ? ' collapse_static' : ''}"${testid ? ` data-testid="${testid}"` : ''}>
+      <button type="button" class="collapse__head" aria-expanded="${open}" data-action="mir-collapse"${noChev ? ' tabindex="-1"' : ''}>
         <span class="collapse__text">
           <span class="collapse__title">${title}</span>
           ${subtitle ? `<span class="collapse__sub">${mEsc(subtitle)}</span>` : ''}
         </span>
-        <span class="collapse__chev" aria-hidden="true">${icon('chev-right')}</span>
+        ${noChev ? '' : `<span class="collapse__chev" aria-hidden="true">${icon('chev-right')}</span>`}
       </button>
       <div class="collapse__body">
         <div>
@@ -491,7 +491,7 @@ function renderProfileMirror() {
           ${mCollapse({ title: 'Статус LOVII PAY', subtitle: tier.tier.name, testid: 'profile-collapse-tier', inner: tierHtml })}
           ${mCollapse({ title: 'Избранные МСП', subtitle: String(S.favorites.length), testid: 'profile-collapse-favorites', inner: `${favorites}
             <a href="#/stores" class="ops-link" data-testid="profile-favorites-stores"><span>Открыть витрину района</span>${icon('chev-right')}</a>` })}
-          ${mCollapse({ title: 'Кабинеты', subtitle: `${S.cabinets.length} доступно`, open: true, testid: 'profile-collapse-cabinets', inner: cabinets })}
+          ${mCollapse({ title: 'Кабинеты', subtitle: `${S.cabinets.length} доступно`, open: true, noChev: true, testid: 'profile-collapse-cabinets', inner: cabinets })}
 
           <div class="profile__nav">
             <section aria-label="Адреса">
