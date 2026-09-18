@@ -31,7 +31,7 @@ const SETTINGS_DEFAULTS = {
   fontScale: 'normal', // small | normal | large | huge (font-scale.ts@staging)
   motion: 'system', // system | on | off (SZ-030: доступность)
   push: { master: false, orders: true, points: true, promos: true, news: false },
-  consents: { email: true, push: true }, // рассылки (SettingsSheet@staging)
+  consents: { email: true }, // согласие на e-mail-рассылку (промо-пуш = push.promos)
   security: { pinHash: null, salt: null, faceId: null },
 };
 
@@ -498,15 +498,10 @@ async function renderSettingsHtml() {
     ${pushOn ? `
     ${switchRow({ ico: 'bag', icoCls: 't-tiffany', title: 'Заказы', sub: 'Статусы: готовится, в пути, готов', key: 'orders', on: s.push.orders })}
     ${switchRow({ ico: 'coins', icoCls: 't-gold', title: 'Начисления баллов', sub: 'Кэшбек и бонусы по карте', key: 'points', on: s.push.points })}
-    ${switchRow({ ico: 'percent', icoCls: 't-pink', title: 'Акции и Flash Deals', sub: 'Скидки твоего района', key: 'promos', on: s.push.promos })}
-    ${switchRow({ ico: 'heart', icoCls: 't-tiffany', title: 'Новости моих МСП', sub: 'Избранные точки рядом', key: 'news', on: s.push.news })}
+    ${switchRow({ ico: 'percent', icoCls: 't-pink', title: 'Акции и новости', sub: 'Промо-пуши и ваши избранные МСП · по согласию', key: 'promos', on: s.push.promos })}
     ` : ''}
-  </div>
-
-  <div class="set-sub">Рассылки и акции</div>
-  <div class="list-card">
-    ${switchRow({ ico: 'send', icoCls: 't-tiffany', title: 'E-mail — акции и новости', sub: 'Только по вашему согласию · отключить можно здесь же', key: 'email', action: 'set-consent', on: (s.consents || {}).email !== false })}
-    ${switchRow({ ico: 'bell', icoCls: 't-gold', title: 'Push — акции и новости', sub: 'Промо-пуши вашего района', key: 'push', action: 'set-consent', on: (s.consents || {}).push !== false })}
+    ${switchRow({ ico: 'send', icoCls: 't-tiffany', title: 'E-mail — акции и новости', sub: 'Письма приходят только с согласия · отключить можно здесь же', key: 'email', action: 'set-consent', on: (s.consents || {}).email !== false })}
+    <p class="set-hint">Промо-пуши и письма приходят только с согласия — галочка одна, дублирования нет.</p>
   </div>
 
   <div class="set-sub">Безопасность</div>

@@ -3422,3 +3422,6 @@ html[data-motion='off'] *::after {
   animation-duration: 0.01ms !important;
   animation-iteration-count: 1 !important;
 }
+
+/* Подсказка-примечание в карточке настроек */
+.set-hint { margin: 4px 0 2px; padding: 0 16px 10px; color: var(--lv-dim); font-size: 11.5px; line-height: 1.45; }
