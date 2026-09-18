@@ -58,8 +58,8 @@ const PROFILE_MIRROR_SEED = {
     { key: 'msp', title: 'МСП · точка', note: 'Заявка · Товары · Заказы · Настройки', icon: 'store', tile: 't-tiffany', href: '#/msp' },
     { key: 'representative', title: 'Представитель', note: 'Обзор · Подключение · Точки · Доход', icon: 'users', tile: 't-gold', href: '#/dash/rep' },
     { key: 'ambassador', title: 'Амбассадор', note: 'Обзор · Представители · Обучение', icon: 'sparkles', tile: 't-pink', href: '#/dash/amb' },
-    { key: 'owner', title: 'Владелец', note: 'Обзор · Финансы · Структура', icon: 'crown', tile: 't-gold', href: null },
-    { key: 'investor', title: 'Инвестор', note: 'Рост · Продажи · Доходность', icon: 'trending-up', tile: 't-tiffany', href: null },
+    { key: 'owner', title: 'Владелец', note: 'Обзор · Финансы · Структура', icon: 'crown', tile: 't-gold', href: '#/dash/owner' },
+    { key: 'investor', title: 'Инвестор', note: 'Рост · Продажи · Доходность', icon: 'trending-up', tile: 't-tiffany', href: '#/dash/investor' },
   ],
   documents: [
     { label: 'Публичная оферта', href: 'https://axiiom-ru.github.io/lovii/docs/Публичная_оферта.html' },
