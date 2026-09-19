@@ -141,11 +141,9 @@ function renderWalletMirror() {
 
           ${pointsAvailable ? `
             <section aria-label="Контур счёта" data-testid="wallet-contour">
-              <div class="segment-control segment-control_accent">
-                <div class="segment-control__area">
-                  <label><input type="radio" name="mir-contour" value="money" ${!isPoints ? 'checked' : ''} data-action="mir-contour">Деньги</label>
-                  <label><input type="radio" name="mir-contour" value="points" ${isPoints ? 'checked' : ''} data-action="mir-contour">Баллы</label>
-                </div>
+              <div class="seg" role="radiogroup" aria-label="Контур счёта">
+                <button type="button" class="${!isPoints ? 'active' : ''}" data-action="mir-contour" data-value="money">Деньги</button>
+                <button type="button" class="${isPoints ? 'active' : ''}" data-action="mir-contour" data-value="points">Баллы</button>
               </div>
             </section>` : ''}
 
@@ -177,7 +175,7 @@ function renderWalletMirror() {
 
             <div class="wallet__tabs" role="tablist" aria-label="Фильтр операций">
               ${WALLET_FILTERS_MIRROR.map((tab) => `
-                <button type="button" class="wallet__tab${walletMirrorUi.filter === tab.value ? ' wallet__tab_active' : ''}"
+                <button type="button" class="app-chip${walletMirrorUi.filter === tab.value ? ' active' : ''}"
                   role="tab" aria-selected="${walletMirrorUi.filter === tab.value}"
                   data-action="mir-filter" data-value="${tab.value}" data-testid="wallet-tab-${tab.value}">${tab.label}</button>`).join('')}
             </div>
