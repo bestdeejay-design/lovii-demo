@@ -493,8 +493,8 @@ function mspSettings() {
             ${Object.entries(sched).map(([d, row]) => `
               <div class="msp-sched__row">
                 <span class="msp-sched__day">${d}</span>
-                <label class="msp-time">с <input type="time" value="${row.from}" data-action="msp-sched-from" data-day="${d}"></label>
-                <label class="msp-time">до <input type="time" value="${row.to}" data-action="msp-sched-to" data-day="${d}"></label>
+                <label class="msp-time">с <input type="text" inputmode="numeric" maxlength="5" value="${row.from}" data-action="msp-sched-from" data-day="${d}"></label>
+                <label class="msp-time">до <input type="text" inputmode="numeric" maxlength="5" value="${row.to}" data-action="msp-sched-to" data-day="${d}"></label>
                 <button type="button" class="app-switch${row.on ? ' on' : ''}" aria-label="Рабочий день" data-action="msp-sched-day" data-day="${d}"><span class="app-switch__knob"></span></button>
               </div>`).join('')}
           </div>
@@ -785,23 +785,38 @@ document.addEventListener('click', (e) => {
   }
 });
 
+/* Маска времени 24ч: цифры → ЧЧ:ММ, часы ≤23, минуты ≤59.
+   Native time-input не используем: браузер навязывает AM/PM по локали. */
+function mspTimeMask(value) {
+  const d = String(value || '').replace(/\D/g, '').slice(0, 4);
+  if (!d) return '';
+  let hh = Math.min(parseInt(d.slice(0, 2) || '0', 10), 23);
+  let out = String(hh).padStart(2, '0');
+  if (d.length > 2) {
+    let mm = Math.min(parseInt(d.slice(2) || '0', 10), 59);
+    out += ':' + String(mm).padStart(2, '0');
+  }
+  return out;
+}
+
 document.addEventListener('input', (e) => {
   const el = e.target.closest('[data-action="msp-addr"], [data-action="msp-min"], [data-action^="msp-sched-"]');
   if (!el) return;
   const point = mspActivePoint();
   if (!point) return;
   const a = el.dataset.action;
-  if (a === 'msp-addr') point.address = el.value;
-  if (a === 'msp-min') point.minOrder = Number(el.value) || 0;
+  if (a === 'msp-addr') { point.address = el.value; mspPersist(); return; }
+  if (a === 'msp-min') { point.minOrder = Number(el.value) || 0; mspPersist(); return; }
   if (a.startsWith('msp-sched-')) {
+    el.value = mspTimeMask(el.value);
     const sched = mspSchedule(point.id);
     const day = sched[el.dataset.day];
     if (day) {
       if (a === 'msp-sched-from') day.from = el.value;
       if (a === 'msp-sched-to') day.to = el.value;
     }
+    mspPersist();
   }
-  mspPersist();
 });
 
 /* витринные экраны снимают режим кабинета */

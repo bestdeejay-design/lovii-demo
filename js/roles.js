@@ -334,18 +334,6 @@ function rolesBars(values, labels, accent) {
     </div>`;
 }
 
-function rolesHBars(rows, fmt) {
-  const max = Math.max(...rows.map((r) => r.value));
-  return `
-    <div class="roles-hbars">
-      ${rows.map((r) => `
-        <div class="roles-hbars__row">
-          <span class="roles-hbars__label">${mEsc2(r.label)}</span>
-          <span class="roles-hbars__track"><i style="width:${Math.round((r.value / max) * 100)}%"></i></span>
-          <span class="roles-hbars__val">${fmt(r.value)}</span>
-        </div>`).join('')}
-    </div>`;
-}
 
 /* Периоды владельца/инвестора: 30 дней по умолчанию (решение владельца 19.09) */
 const ROLES_PERIODS = [
@@ -532,10 +520,6 @@ function investorSales() {
   return `
     <div class="msp-overview cabinet-screen">
       ${rolesPeriodChipRow('investor')}
-      <section class="role-card" style="padding:16px">
-        <div class="role-section-head" style="padding:0"><h2>Выручка по категориям</h2><span class="role-section-head__sub">доля</span></div>
-        ${rolesHBars(inv.categories.map((c) => ({ label: c.label, value: c.share })), (v) => v + '%')}
-      </section>
       <section class="role-card">
         <div class="role-section-head"><h2>Топ точки · месяц</h2></div>
         <div class="msp-orders__list">
