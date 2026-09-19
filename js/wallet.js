@@ -78,7 +78,7 @@ function walletMirrorPass() {
     <section class="pass" data-testid="pass-subscription" aria-label="Подписка LOVII PASS">
       <div class="pass__head">
         <h2 class="pass__brand">LOVII PASS</h2>
-        <span class="pass__state" data-testid="pass-state">${icon('crown')} активна</span>
+        <span class="pass__state" data-testid="pass-state"><svg viewBox="0 0 24 24" style="width:12px;height:12px" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.735H5.81a1 1 0 0 1-.957-.735L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/><path d="M5 21h14"/></svg> активна</span>
       </div>
       <p class="pass__line">Подписка Представителя — до ${ends}</p>
       <p class="pass__meta">${fmtKop(sub.price_kopecks)} ₽/мес · продление — с внутреннего счёта: LOVII Business, затем LOVII PAY</p>
@@ -181,9 +181,9 @@ function renderWalletMirror() {
               </div>
             </div>
 
-            <div class="wallet__period" role="group" aria-label="Период операций">
+            <div class="seg" role="group" aria-label="Период операций">
               ${WALLET_PERIODS_MIRROR.map((p) => `
-                <button type="button" class="wallet__period-chip${walletMirrorUi.period === p.id ? ' wallet__period-chip_active' : ''}"
+                <button type="button" class="${walletMirrorUi.period === p.id ? 'active' : ''}"
                   aria-pressed="${walletMirrorUi.period === p.id}"
                   data-action="mir-period" data-value="${p.id}" data-testid="wallet-period-${p.id}">${p.label}</button>`).join('')}
             </div>

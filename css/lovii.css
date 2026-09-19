@@ -2268,23 +2268,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 /* Лента операций */
 .wallet__tabs { display: grid; margin: 10px 0 2px; }
 .wallet__tabs .seg { width: 100%; }
-.wallet__period { display: flex; gap: 8px; margin-top: 8px; overflow-x: auto; scrollbar-width: none; }
-.wallet__period::-webkit-scrollbar { display: none; }
-.wallet__period-chip {
-  flex: none;
-  padding: 6px 12px;
-  border: 0;
-  border-radius: 999px;
-  background: none;
-  font: inherit;
-  font-size: 12px;
-  font-weight: 600;
-  white-space: nowrap;
-  color: var(--content-normal-tertiary);
-  transition: background 0.15s, color 0.15s;
-  cursor: pointer;
-}
-.wallet__period-chip_active { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
+.wallet__period { display: grid; margin-top: 8px; }
 .wallet__list { padding: 2px 14px; border-radius: 16px; background-color: var(--background-other-soft-neutral); }
 .wallet__day {
   margin: 0;
