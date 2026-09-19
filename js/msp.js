@@ -790,10 +790,11 @@ document.addEventListener('click', (e) => {
 function mspTimeMask(value) {
   const d = String(value || '').replace(/\D/g, '').slice(0, 4);
   if (!d) return '';
-  let hh = Math.min(parseInt(d.slice(0, 2) || '0', 10), 23);
+  if (d.length === 1) return d;
+  const hh = Math.min(parseInt(d.slice(0, 2), 10), 23);
   let out = String(hh).padStart(2, '0');
   if (d.length > 2) {
-    let mm = Math.min(parseInt(d.slice(2) || '0', 10), 59);
+    const mm = Math.min(parseInt(d.slice(2), 10) || 0, 59);
     out += ':' + String(mm).padStart(2, '0');
   }
   return out;
