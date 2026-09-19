@@ -3831,3 +3831,6 @@ body.cabinet-mode-auth .app-header { display: none; }
   background: var(--background-normal-surface); box-sizing: border-box;
 }
 .auth-code-input:focus { outline: none; border-color: var(--lv-pink); }
+.auth-channel-ico_max { background: #33cc66; color: #fff; }
+.auth-channel-ico_vkontakte { background: #0077ff; color: #fff; }
+.auth-channel-ico_telegram { background: var(--lv-surface); }

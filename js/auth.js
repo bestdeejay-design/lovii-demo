@@ -59,7 +59,7 @@ function aStepChannel() {
         ${AUTH_CHANNELS.map((c) => `
           <button type="button" class="acct__btn auth-channel${c.live ? '' : ' is-soon'}" data-testid="auth-otp-method"
             data-action="${c.live ? 'auth-channel' : ''}" data-channel="${c.id}" ${c.live ? '' : 'disabled'}>
-            <span class="auth-channel-ico">${c.id === 'max' ? 'MAX' : c.id === 'telegram' ? icon('send') : c.id === 'vkontakte' ? 'VK' : icon('phone')}</span>
+            <span class="auth-channel-ico auth-channel-ico_${c.id}">${c.id === 'telegram' ? icon('send') : c.id === 'call' ? icon('phone') : c.id === 'vkontakte' ? 'VK' : ''}</span>
             ${c.label}${c.live ? '' : '<span class="soon-badge">Скоро</span>'}
           </button>`).join('')}
       </div>
