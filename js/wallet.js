@@ -190,18 +190,24 @@ function renderWalletMirror() {
 
             ${isPoints && pointsRows.length ? mHistoryList(pointsRows) : ''}
 
-            ${!isPoints && moneyRows.length ? `
-              <div class="wallet__list">
-                ${moneyRows.map((tx) => `
+            ${!isPoints && moneyRows.length ? (() => {
+              let html = '';
+              let lastDay = null;
+              for (const tx of moneyRows) {
+                const day = dayLabel(new Date(tx.created_at).getTime());
+                if (day !== lastDay) { html += `<p class="wallet__day">${day}</p>`; lastDay = day; }
+                html += `
                   <div class="tx-row">
-                    <span class="tx-ico ${isIncomeTx(tx) ? 'in' : 'out'}">${isIncomeTx(tx) ? icon('arrow-down-left') : icon('wallet')}</span>
+                    <span class="tx-ico ${tx.dir === 'in' ? 'in' : 'out'}">${icon(tx.dir === 'in' ? 'arrow-down-left' : 'cart')}</span>
                     <div class="tx-mid">
                       <div class="tx-name">${mEsc(tx.title)}</div>
                       <div class="tx-meta">${new Date(tx.created_at).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}</div>
                     </div>
-                    <div class="tx-sum${isIncomeTx(tx) ? ' plus' : ''}">${isIncomeTx(tx) ? '+' : '−'}${fmtKop(tx.amount)} ₽</div>
-                  </div>`).join('')}
-              </div>` : ''}
+                    <div class="tx-sum${tx.dir === 'in' ? ' plus' : ''}">${tx.dir === 'in' ? '+' : '−'}${fmtKop(tx.amount)} ₽</div>
+                  </div>`;
+              }
+              return `<div class="wallet__list">${html}</div>`;
+            })() : ''}
 
             ${historyCount ? '' : `
               <div class="wallet__empty">

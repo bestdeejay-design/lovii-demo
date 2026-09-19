@@ -44,7 +44,47 @@ const MSP_MIRROR = {
         },
       ],
     },
-    { name: 'АКСИОМА', inn: '7842223709', brands: [] },
+    {
+      name: 'АКСИОМА', inn: '7842223709',
+      brands: [
+        {
+          name: 'AXIIOM Coffee', emoji: '🥤', bg: '#e8f4f4',
+          points: [
+            {
+              id: 'ax1', name: 'AXIIOM · Невский', address: 'пр. Невский, 20',
+              minOrder: 400, open: true,
+              products: [
+                { id: 'ax11', name: 'Раф «АКСИОМА»', emoji: '🥤', bg: '#e8f4f4', price: 260, unit: '0,3 л', on: true },
+                { id: 'ax12', name: 'Капучино на овсяном', emoji: '☕', bg: '#fdf3d8', price: 250, unit: '0,3 л', on: true },
+                { id: 'ax13', name: 'Сэндвич', emoji: '🥪', bg: '#ffe8e0', price: 310, unit: '1 шт', on: true },
+              ],
+            },
+            {
+              id: 'ax2', name: 'AXIIOM · Московская', address: 'пр. Московский, 5',
+              minOrder: 0, open: true,
+              products: [
+                { id: 'ax21', name: 'Раф «АКСИОМА»', emoji: '🥤', bg: '#e8f4f4', price: 260, unit: '0,3 л', on: true },
+                { id: 'ax22', name: 'Круассан', emoji: '🥐', bg: '#fdf3d8', price: 150, unit: '1 шт', on: false },
+              ],
+            },
+          ],
+        },
+        {
+          name: 'АКСИОМА Маркет', emoji: '🛒', bg: '#eaf7ee',
+          points: [
+            {
+              id: 'axm1', name: 'АКСИОМА Маркет · Центр', address: 'ул. Садовая, 10',
+              minOrder: 0, open: true,
+              products: [
+                { id: 'axm1', name: 'Молоко 2,5%', emoji: '🥛', bg: '#e8f4f4', price: 89, unit: '1 л', on: true },
+                { id: 'axm2', name: 'Яблоки Гала', emoji: '🍎', bg: '#ffe8e0', price: 149, unit: '1 кг', on: true },
+                { id: 'axm3', name: 'Сыр Гауда', emoji: '🧀', bg: '#fdf3d8', price: 259, unit: '300 г', on: true },
+              ],
+            },
+          ],
+        },
+      ],
+    },
     {
       name: 'Grand', inn: '7841000000',
       brands: [

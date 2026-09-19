@@ -11,6 +11,16 @@
 /* ---------- Сид истории заказов (витрина выглядит живой) ---------- */
 
 const ORDERS_MIRROR_SEED = [
+    {
+      id: 'L9M4X7', createdAt: Date.now() - 1 * 86_400_000, status: 'ready',
+      deliveryType: 'pickup', address: '',
+      merchant: { name: 'AXIIOM Coffee', emoji: '🥤', bg: '#e8f4f4' },
+      items: [
+        { slug: 'ax11', name: 'Раф «АКСИОМА»', emoji: '🥤', bg: '#e8f4f4', price: 260, qty: 1 },
+        { slug: 'ax13', name: 'Сэндвич', emoji: '🥪', bg: '#ffe8e0', price: 310, qty: 1 },
+      ],
+      subtotal: 570, total: 570,
+    },
   {
     id: 'L8K2M4',
     createdAt: Date.now() - 3 * 86_400_000,
