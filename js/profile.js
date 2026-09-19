@@ -478,7 +478,7 @@ function renderProfileMirror() {
             <p class="profile__member-name">${mEsc(S.user.name)}</p>
             <p class="profile__member-phone">${mEsc(S.user.phone)}</p>
           </div>
-          <button type="button" class="profile__member-edit" aria-label="Редактировать профиль">${icon('edit')}</button>
+          <button type="button" class="profile__member-edit" aria-label="Редактировать профиль" data-go="profile-edit">${icon('edit')}</button>
         </header>
 
         <div class="profile__blocks">

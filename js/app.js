@@ -221,7 +221,7 @@ function parseHash() {
     }
     return { name: 'home', param: null };
   }
-  const known = ['home', 'store', 'product', 'search', 'cart', 'orders', 'order', 'profile', 'wallet', 'stores', 'popular', 'settings', 'checkout', 'apply', 'dash', 'chat', 'msp-signup', 'msp'];
+  const known = ['home', 'store', 'product', 'search', 'cart', 'orders', 'order', 'profile', 'wallet', 'stores', 'popular', 'settings', 'checkout', 'addresses', 'address', 'profile-edit', 'apply', 'dash', 'chat', 'msp-signup', 'msp'];
   return { name: known.includes(name) ? name : 'home', param: param || null };
 }
 
@@ -260,6 +260,12 @@ function renderView(keepScroll) {
     sub = subHeaderHtml('Счёт и операции');
   } else if (name === 'checkout') {
     sub = subHeaderHtml('Оформление заказа');
+  } else if (name === 'addresses') {
+    sub = subHeaderHtml('Мои адреса');
+  } else if (name === 'address') {
+    sub = subHeaderHtml(param === 'new' ? 'Добавление адреса' : 'Изменение адреса');
+  } else if (name === 'profile-edit') {
+    sub = subHeaderHtml('Редактирование профиля');
   } else if (name === 'order' && param) {
     sub = subHeaderHtml(`Заказ №${param}`);
   }
