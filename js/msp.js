@@ -436,12 +436,12 @@ function mspPayment() {
 /* Статусная машина заказа точки (order-status.ts): подписи переходов */
 const MSP_FLOW = ['created', 'submitted', 'accepted', 'preparing', 'ready', 'handed'];
 const MSP_FLOW_LABEL = {
-  created: 'Оформлен', submitted: 'Отправлен', accepted: 'Принят',
-  preparing: 'Готовится', ready: 'Готов', handed: 'Выдан клиенту',
+  created: 'Клиент оформил заказ', submitted: 'Оплатил и отправил', accepted: 'Точка приняла',
+  preparing: 'Готовится', ready: 'Приготовлен', handed: 'Выдан клиенту',
 };
 
 function mspOrderIdx(status) {
-  return { created: 0, submitted: 1, accepted: 2, cooking: 3, preparing: 3, ready: 4, done: 5, handed: 5 }[status] ?? 0;
+  return { created: 0, submitted: 1, accepted: 2, cooking: 3, preparing: 3, ready: 4, done: 6, handed: 6 }[status] ?? 0;
 }
 
 function renderMspOrderDetail(id) {
