@@ -15,9 +15,11 @@
 
 const MSP_MIRROR = {
   partners: [
-    { name: 'АТМОСФЕРА', inn: '7842216839' },
-    { name: 'АКСИОМА', inn: '7842223709' },
-    { name: 'Grand', inn: '7841000000' },
+    { name: 'АТМОСФЕРА', inn: '7842216839', slug: 'coffee-daily',
+      branch: { name: 'Кофейня «Daily» · Тверская', offers: 7, minOrder: 500, address: 'ул. Тверская, 12' } },
+    { name: 'АКСИОМА', inn: '7842223709', branch: null },
+    { name: 'Grand', inn: '7841000000', slug: null,
+      branch: { name: 'Grand Burger · Арбат', offers: 0, minOrder: 300, address: 'ул. Арбат, 38' } },
   ],
   branch: {
     name: 'Кофейня «Daily» · Тверская',
@@ -41,9 +43,12 @@ function mspSettingsState() {
     try { saved = JSON.parse(localStorage.getItem('lv_msp_mirror') || '{}'); } catch { /* приватный режим */ }
     mspUi.set = {
       open: saved.open !== false,
-      days: Object.assign({ пн: 1, вт: 1, ср: 1, чт: 1, пт: 1, сб: 1, вс: 0 }, saved.days || {}),
-      from: saved.from || '09:00',
-      to: saved.to || '22:00',
+      sched: saved.sched || {
+        пн: { on: true, from: '09:00', to: '22:00' }, вт: { on: true, from: '09:00', to: '22:00' },
+        ср: { on: true, from: '09:00', to: '22:00' }, чт: { on: true, from: '09:00', to: '22:00' },
+        пт: { on: true, from: '09:00', to: '22:00' }, сб: { on: true, from: '10:00', to: '22:00' },
+        вс: { on: false, from: '10:00', to: '20:00' },
+      },
       minOrder: saved.minOrder ?? MSP_MIRROR.branch.minOrder,
       address: saved.address || MSP_MIRROR.branch.address,
     };
@@ -52,6 +57,17 @@ function mspSettingsState() {
 }
 function mspSaveSettings() {
   try { localStorage.setItem('lv_msp_mirror', JSON.stringify(mspUi.set)); } catch { /* приватный режим */ }
+}
+
+function mspActivePartner() {
+  return MSP_MIRROR.partners[mspUi.partner] || MSP_MIRROR.partners[0];
+}
+
+/* Первый рабочий день недели → подпись «09:00–22:00» для KPI */
+function mspScheduleLabel() {
+  const sched = mspSettingsState().sched;
+  const first = Object.values(sched).find((d) => d.on);
+  return first ? `${first.from}–${first.to}` : 'выходной';
 }
 
 /* ---------- Хелперы ---------- */
@@ -93,7 +109,9 @@ function mspShell(inner) {
         <span class="cabinet__ava" aria-hidden="true">${icon('store')}</span>
         <div class="cabinet__titles">
           <h1 class="cabinet__title">МСП · точка</h1>
-          <p class="cabinet__note">${mEsc2(partner.name)} · ИНН ${partner.inn}</p>
+          <button type="button" class="cabinet__partner" data-action="msp-partner" aria-label="Сменить юрлицо">
+            ${mEsc2(partner.name)} · ИНН ${partner.inn} ${icon('chev-down')}
+          </button>
         </div>
       </header>
 
@@ -146,9 +164,23 @@ function mspStarter() {
 /* ---------- Обзор (MspOverview) ---------- */
 
 function mspOverview() {
+  const partner = mspActivePartner();
   const orders = mspOrdersOf();
   const active = orders.filter((o) => o.status !== 'done').length;
   const payLabel = mspUi.payment === 'done' ? 'Оплачен' : mspUi.payment === 'verifying' ? 'Идёт комплаенс' : 'Ждёт оплаты';
+
+  /* SZ-050: пустые состояния юрлица — честно, без выдуманных цифр */
+  if (!partner.branch) {
+    return `
+      <div class="msp-overview cabinet-screen">
+        <section class="role-card" style="padding:16px">
+          <span class="role-empty__icon" style="background:var(--lv-soft-tiffany);color:var(--lv-tiffany-text)">${icon('store')}</span>
+          <span class="role-empty__title">Брендов пока нет</span>
+          <p class="role-empty__text">Это юрлицо подтверждено, но в нём ещё нет брендов и торговых точек. Здесь появится первый бренд — вместе с ним в кабинете откроются точки, товары и команда этого юрлица.</p>
+          <button type="button" class="acct__btn acct__btn_brand" data-action="msp-invite" style="margin-top:12px">Добавить бренд</button>
+        </section>
+      </div>`;
+  }
   return `
     <div class="msp-overview cabinet-screen">
       <section class="role-card" style="padding:12px 16px 12px">
@@ -164,7 +196,7 @@ function mspOverview() {
       <section class="msp-overview__kpi">
         <div class="role-kpi role-kpi_accent">
           <span class="role-kpi__label">Товары точки</span>
-          <span class="role-kpi__value">${MSP_MIRROR.branch.offers}</span>
+          <span class="role-kpi__value">${partner.branch.offers}</span>
           <span class="role-kpi__sub">позиций в каталоге</span>
         </div>
         <div class="role-kpi">
@@ -174,7 +206,7 @@ function mspOverview() {
         </div>
         <div class="role-kpi">
           <span class="role-kpi__label">Расписание</span>
-          <span class="role-kpi__value">${mEsc2(mspSettingsState().from)}–${mEsc2(mspSettingsState().to)}</span>
+          <span class="role-kpi__value">${mEsc2(mspScheduleLabel())}</span>
           <span class="role-kpi__sub">регулярное расписание</span>
         </div>
         <div class="role-kpi">
@@ -208,7 +240,11 @@ function mspOverview() {
 /* ---------- Товары (MspProducts) ---------- */
 
 function mspProducts() {
-  const goods = sfStoreGoods('coffee-daily');
+  const partner = mspActivePartner();
+  if (!partner.branch || !partner.slug) {
+    return `<div class="msp-products cabinet-screen"><section class="role-card" style="padding:16px"><p class="role-empty__text" style="margin:0">У этого юрлица пока нет товаров — добавьте первый в каталог точки.</p></section></div>`;
+  }
+  const goods = sfStoreGoods(partner.slug);
   return `
     <div class="msp-products cabinet-screen">
       ${Object.entries(goods.items).map(([catId, items]) => {
@@ -285,7 +321,7 @@ function mspTeam() {
 
 function mspSettings() {
   const st = mspSettingsState();
-  const days = Object.keys(st.days);
+  const days = Object.keys(st.sched);
   return `
     <div class="msp-settings cabinet-screen">
       <section class="role-card">
@@ -306,13 +342,20 @@ function mspSettings() {
         <div class="role-section-head"><h2>Точка</h2><span class="role-section-head__sub">${mEsc2(MSP_MIRROR.branch.name)}</span></div>
         <div style="padding:12px 16px 16px;display:grid;gap:10px">
           <label class="sf-search"><input type="text" placeholder="Адрес" value="${mEsc2(st.address)}" data-action="msp-addr"></label>
-          <div class="msp-days">
-            ${days.map((d) => `<button type="button" class="app-chip${st.days[d] ? ' active' : ''}" data-action="msp-day" data-day="${d}">${d}</button>`).join('')}
+          <p class="tier__cta-note" style="margin:0">Часы работы по дням · выключенный день = выходной</p>
+          <div class="msp-sched">
+            ${days.map((d) => {
+              const row = st.sched[d];
+              return `
+                <div class="msp-sched__row">
+                  <span class="msp-sched__day">${d}</span>
+                  <label class="msp-time">с <input type="time" value="${row.from}" data-action="msp-sched-from" data-day="${d}"></label>
+                  <label class="msp-time">до <input type="time" value="${row.to}" data-action="msp-sched-to" data-day="${d}"></label>
+                  <button type="button" class="app-switch${row.on ? ' on' : ''}" aria-label="Рабочий день" data-action="msp-sched-day" data-day="${d}"><span class="app-switch__knob"></span></button>
+                </div>`;
+            }).join('')}
           </div>
-          <div class="msp-times">
-            <label class="msp-time">с <input type="time" value="${st.from}" data-action="msp-time-from"></label>
-            <label class="msp-time">до <input type="time" value="${st.to}" data-action="msp-time-to"></label>
-          </div>
+          <button type="button" class="role-link" data-action="msp-sched-copyall">Применить понедельник ко всем дням</button>
         </div>
       </section>
 
@@ -471,7 +514,62 @@ document.addEventListener('click', (e) => {
   if (action === 'msp-save') {
     mspSaveSettings();
     toast('Настройки точки сохранены');
+    return;
   }
+
+  if (action === 'msp-partner') {
+    const title = document.getElementById('action-title');
+    const sub = document.getElementById('action-sub');
+    const body = document.getElementById('action-body');
+    if (title) title.textContent = 'Юрлицо';
+    if (sub) sub.textContent = 'Кабинет показывает данные выбранного юрлица';
+    if (body) {
+      body.innerHTML = MSP_MIRROR.partners.map((p, i) => `
+        <button type="button" class="partner-row${i === mspUi.partner ? ' active' : ''}" data-action="msp-partner-pick" data-i="${i}">
+          <span class="partner-row__name">${mEsc2(p.name)}<small>ИНН ${p.inn}</small></span>
+          <span class="partner-row__state">${p.branch ? '1 точка' : 'нет брендов'}</span>
+        </button>`).join('');
+    }
+    document.getElementById('action-overlay').classList.add('open');
+    document.getElementById('action-sheet').classList.add('open');
+    return;
+  }
+
+  if (action === 'msp-partner-pick') {
+    mspUi.partner = Number(el.dataset.i) || 0;
+    closeActionSheet();
+    renderViewPreserveScroll();
+    toast('Юрлицо: ' + (mspActivePartner().name));
+    return;
+  }
+
+  if (action === 'msp-sched-day') {
+    const st = mspSettingsState();
+    st.sched[el.dataset.day].on = !st.sched[el.dataset.day].on;
+    el.classList.toggle('on', st.sched[el.dataset.day].on);
+    mspSaveSettings();
+    return;
+  }
+
+  if (action === 'msp-sched-copyall') {
+    const st = mspSettingsState();
+    const mon = st.sched['пн'];
+    Object.keys(st.sched).forEach((d) => { st.sched[d] = { ...mon }; });
+    mspSaveSettings();
+    renderViewPreserveScroll();
+    toast('Расписание понедельника применено ко всем дням');
+  }
+});
+
+document.addEventListener('input', (e) => {
+  const el = e.target.closest('[data-action^="msp-sched-"]');
+  if (!el) return;
+  const st = mspSettingsState();
+  const day = st.sched[el.dataset.day];
+  if (!day) return;
+  if (el.dataset.action === 'msp-sched-from') day.from = el.value;
+  if (el.dataset.action === 'msp-sched-to') day.to = el.value;
+  mspSaveSettings();
 });
 
 document.addEventListener('input', (e) => {

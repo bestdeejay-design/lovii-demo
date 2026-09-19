@@ -14,6 +14,12 @@
 const VITRINA_MIRROR = {
   // Чипы типов мерчантов (SZ-005) убраны с главной и из «Поиска» —
   // решение владельца 19.09: впереди динамические категории по тегам.
+  promos: [
+    { title: 'Слойка с вишней −30%', sub: 'ежедневно до 20:00', deadline: 'до закрытия 2 ч', store: 'Пекарня «Слойка»', grad: 'linear-gradient(135deg, #3a2430 0%, #241a20 100%)', accent: '#f2a33c' },
+    { title: 'Пицца 2×1 по выходным', sub: 'при заказе от двух', deadline: 'сб–вс', store: 'Пиццерия «Forno»', grad: 'linear-gradient(135deg, #2a3550 0%, #1a2130 100%)', accent: '#4797ff' },
+    { title: '−15% на сеты до полуночи', sub: 'промокод МИЯ15', deadline: 'до 23:00', store: 'Суши «Мия»', grad: 'linear-gradient(135deg, #23404a 0%, #16272d 100%)', accent: '#35b6b6' },
+    { title: 'Баллы 1:1 у всех точек', sub: 'кэшбэк баллами с каждого чека', deadline: 'всегда', store: 'Все точки района', grad: 'linear-gradient(135deg, #402435 0%, #2a1622 100%)', accent: '#f64a8a' },
+  ],
   stores: [
     { id: 'coffee-daily', name: 'Кофейня «Daily»', emoji: '☕', logoBg: '#f4e9dd', open: true, distanceKm: 0.1, minOrder: 0, popular: true,
       products: [{ e: '☕', bg: '#f4e9dd' }, { e: '🥐', bg: '#fdf3d8' }, { e: '🍰', bg: '#ffe9f2' }, { e: '🧃', bg: '#e8f4f4' }] },
@@ -96,6 +102,25 @@ function sfHero() {
     </section>`;
 }
 
+function sfPromos() {
+  return `
+    <section class="home-promos">
+      <h3>Акции рядом</h3>
+      <div class="home-promos__list">
+        ${VITRINA_MIRROR.promos.map((p) => `
+          <a href="#/stores" class="promo-card" style="background:${p.grad}">
+            <span class="promo-card__badge">Акция</span>
+            <b class="promo-card__title">${mEsc2(p.title)}</b>
+            <span class="promo-card__sub">${mEsc2(p.sub)}</span>
+            <span class="promo-card__foot">
+              <span class="promo-card__dl" style="color:${p.accent}">${mEsc2(p.deadline)}</span>
+              <span class="promo-card__store">${mEsc2(p.store)}</span>
+            </span>
+          </a>`).join('')}
+      </div>
+    </section>`;
+}
+
 function sfPopular() {
   const visible = VITRINA_MIRROR.stores.filter((s) => s.popular).slice(0, 8);
   return `
@@ -168,6 +193,7 @@ function renderHomeMirror() {
     <main class="home container">
       <div class="home-top">
         ${sfHero()}
+        ${sfPromos()}
         ${sfPopular()}
         <div class="home-top__banner">${sfBanner()}</div>
       </div>
