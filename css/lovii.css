@@ -65,6 +65,9 @@ main#view { flex: 1; }
 .icon-btn { position: relative; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 999px; background: var(--lv-surface); transition: background .2s; }
 .icon-btn:hover { background: var(--lv-soft-pink); }
 .icon-btn svg { width: 18px; height: 18px; }
+/* Базовый размер иконки icon(name, 'icon'): без него SVG без width/height
+   схлопывается в 0×0 в Chrome и раздувается за пределы строки в Safari (iOS) */
+.icon { width: 16px; height: 16px; flex-shrink: 0; }
 .count-badge { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 999px; color: var(--lv-on-brand); font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
 
 /* ---------- Подшапка (назад) ---------- */
