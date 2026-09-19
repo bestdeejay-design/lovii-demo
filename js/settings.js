@@ -511,6 +511,12 @@ async function renderSettingsHtml() {
       <div class="ri-mid"><div class="nm">PIN-код</div><div class="sb">${pinSet ? 'Установлен · запрашивается при входе' : 'Не установлен · 4 цифры, хранится только на устройстве'}</div></div>
       <span class="chev">${icon('chev-right', '', 2, true)}</span>
     </button>
+    ${pinSet ? `
+    <button class="row-item switch-row" data-action="set-pin-off">
+      <span class="sr-ico t-pink">${icon('x')}</span>
+      <div class="ri-mid"><div class="nm">Отключить PIN-код</div><div class="sb">Подтвердите текущим кодом — вход останется по Face ID</div></div>
+      <span class="chev">${icon('chev-right', '', 2, true)}</span>
+    </button>` : ''}
     ${face ? `
     <button class="row-item switch-row" data-action="set-face" ${pinSet ? '' : 'disabled'}>
       <span class="sr-ico t-tiffany">${icon('scan-face')}</span>
@@ -561,6 +567,19 @@ document.addEventListener('click', (e) => {
       location.reload();
     })();
     void wipe;
+    return;
+  }
+
+  if (a === 'set-pin-off') {
+    if (!pinIsSet()) { toast('PIN-код не установлен'); return; }
+    openPinOverlay('verify', async () => {
+      const s = ensureSettings();
+      s.security = { pinHash: null, salt: null, faceId: null };
+      saveSettings();
+      closePinOverlay();
+      toast('PIN-код отключён', 'Быстрый вход по коду выключен');
+      renderViewPreserveScroll();
+    });
     return;
   }
 
