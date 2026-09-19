@@ -38,11 +38,13 @@ const VITRINA_MIRROR = {
     { id: 'fitness', name: 'Клуб «Сила»', emoji: '🏋️', logoBg: '#e8eefb', open: true, distanceKm: 0.5, minOrder: 0, popular: false,
       products: [{ e: '🏋️', bg: '#e8eefb' }, { e: '🥊', bg: '#ffe8e0' }, { e: '🧘', bg: '#e8f4f4' }] },
   ],
-  // Баннеры «Реклама»: демо-слайды на градиентах канона (без фотостока).
+  // Баннеры «Реклама»: внутренние (платформа) и внешние (рекламодатели).
+  // Формат фиксированный: карточка 320×140, не растягивается на весь экран.
   banners: [
-    { grad: 'linear-gradient(120deg, #f64a8a 0%, #b0326b 100%)', title: 'День района · суббота', sub: 'Скидки у 14 точек рядом' },
-    { grad: 'linear-gradient(120deg, #35b6b6 0%, #1d7f7f 100%)', title: 'Баллы 1:1 за каждый чек', sub: 'Плати баллами как рублями' },
-    { grad: 'linear-gradient(120deg, #f2a33c 0%, #c77b17 100%)', title: 'Приведи МСП — получи 5 000 б.', sub: 'Программа представителей' },
+    { type: 'internal', grad: 'linear-gradient(120deg, #f64a8a 0%, #b0326b 100%)', title: 'День района · суббота', sub: 'Скидки у 14 точек рядом', href: '#/stores' },
+    { type: 'external', grad: 'linear-gradient(120deg, #2a3550 0%, #16202e 100%)', title: 'Кинотеатр «Луна» · премьера', sub: 'Билеты −20% по карте LOVII', href: '#/stores' },
+    { type: 'internal', grad: 'linear-gradient(120deg, #35b6b6 0%, #1d7f7f 100%)', title: 'Баллы 1:1 за каждый чек', sub: 'Плати баллами как рублями', href: '#/wallet' },
+    { type: 'external', grad: 'linear-gradient(120deg, #f2a33c 0%, #c77b17 100%)', title: 'Приведи МСП — получи 5 000 б.', sub: 'Программа представителей', href: '#/dash/rep' },
   ],
 };
 
@@ -147,10 +149,11 @@ function sfBanner() {
       <div class="home-banner__track" style="transform:translateX(-${i * 100}%)">
         ${VITRINA_MIRROR.banners.map((b) => `
           <div class="home-banner__slide">
-            <div class="home-banner__demo" style="background:${b.grad}">
-              <b>${sfEsc(b.title)}</b>
-              <span>${sfEsc(b.sub)}</span>
-            </div>
+            <a href="${b.href}" class="promo-banner" style="background:${b.grad}">
+              <b class="promo-banner__title">${sfEsc(b.title)}</b>
+              <span class="promo-banner__sub">${sfEsc(b.sub)}</span>
+              <span class="promo-banner__cta">Перейти ${icon('arrow-right')}</span>
+            </a>
           </div>`).join('')}
       </div>
       <span class="home-banner__ad">
