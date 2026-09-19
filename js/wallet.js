@@ -174,10 +174,11 @@ function renderWalletMirror() {
             </div>
 
             <div class="wallet__tabs" role="tablist" aria-label="Фильтр операций">
-              ${WALLET_FILTERS_MIRROR.map((tab) => `
-                <button type="button" class="app-chip${walletMirrorUi.filter === tab.value ? ' active' : ''}"
-                  role="tab" aria-selected="${walletMirrorUi.filter === tab.value}"
-                  data-action="mir-filter" data-value="${tab.value}" data-testid="wallet-tab-${tab.value}">${tab.label}</button>`).join('')}
+              <div class="seg" role="radiogroup" aria-label="Фильтр операций">
+                ${WALLET_FILTERS_MIRROR.map((tab) => `
+                  <button type="button" class="${walletMirrorUi.filter === tab.value ? 'active' : ''}"
+                    data-action="mir-filter" data-value="${tab.value}" data-testid="wallet-tab-${tab.value}">${tab.label}</button>`).join('')}
+              </div>
             </div>
 
             <div class="wallet__period" role="group" aria-label="Период операций">

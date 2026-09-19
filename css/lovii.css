@@ -2266,13 +2266,8 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 .wallet__stat-l { display: block; margin-top: 2px; font-size: 9.5px; font-weight: 600; color: var(--content-normal-secondary); }
 
 /* Лента операций */
-.wallet__tabs { display: flex; gap: 8px; margin: 10px 0 2px; }
-.wallet__tabs .app-chip { flex: 1; text-align: center; }
-.wallet__tabs .app-chip.active {
-  background: var(--lv-soft-tiffany);
-  color: var(--lv-tiffany-text);
-  border-color: var(--lv-tiffany-text);
-}
+.wallet__tabs { display: grid; margin: 10px 0 2px; }
+.wallet__tabs .seg { width: 100%; }
 .wallet__period { display: flex; gap: 8px; margin-top: 8px; overflow-x: auto; scrollbar-width: none; }
 .wallet__period::-webkit-scrollbar { display: none; }
 .wallet__period-chip {
