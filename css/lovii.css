@@ -3879,3 +3879,10 @@ body.cabinet-mode-auth .app-header { display: none; }
 .roles-hbars__track { height: 10px; border-radius: 999px; background: var(--lv-surface); overflow: hidden; display: block; }
 .roles-hbars__track i { display: block; height: 100%; border-radius: 999px; background: var(--lv-gradient-brand); }
 .roles-hbars__val { color: var(--content-normal-primary); font-size: 11.5px; font-weight: 700; text-align: right; }
+
+/* Настройки точки: строка расписания не растягивает экран на телефонах
+   (нативные time-инпуты широкие — разрешаем колонкам сжиматься) */
+.msp-sched__row { grid-template-columns: 30px minmax(0, 1fr) minmax(0, 1fr) auto; }
+.msp-sched__row .msp-time { min-width: 0; }
+.msp-sched__row .msp-time input { width: 100%; min-width: 0; padding: 5px 2px; font-size: 11px; }
+.msp-sched__row .app-switch { transform: scale(0.88); }
