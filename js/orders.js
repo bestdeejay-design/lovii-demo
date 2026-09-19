@@ -257,20 +257,36 @@ function oPlaceOrder(slug, total, deliveryType) {
   return order;
 }
 
+function oReceipt(order) {
+  return `
+    <section class="order-receipt" data-testid="order-receipt">
+      <header class="order-receipt__head"><h5>Квитанция</h5><p>№ ${oEsc(order.id)}</p></header>
+      <dl class="order-receipt__rows">
+        <div><dt>Принят</dt><dd>${oDate(order.createdAt)}</dd></div>
+        <div><dt>Точка выдачи</dt><dd>${mEsc2(order.merchant.name)}</dd></div>
+        <div><dt>Получение</dt><dd>${order.deliveryType === 'delivery' ? `Доставка · ${mEsc2(order.address)}` : 'Самовывоз'}</dd></div>
+        ${order.items.map((it) => `<div><dt>${mEsc2(it.name)} × ${it.qty}</dt><dd>${oFmt(it.price * it.qty)}&nbsp;₽</dd></div>`).join('')}
+        <div><dt>Итого</dt><dd>${oFmt(order.total)}&nbsp;₽</dd></div>
+      </dl>
+      <p class="order-receipt__disc">Квитанция не является фискальным документом и подтверждает только приём заказа. Чек будет доступен после оплаты и подтверждения расчёта.</p>
+    </section>`;
+}
+
 function renderOrderSuccess(order) {
   return `
     <main class="container">
-      <section class="cart-empty">
+      <section class="cart-empty" style="padding:28px 16px 20px">
         <div class="cart-empty__content">
           <span>${icon('bag')}</span>
           <h4>Заказ создан успешно</h4>
           <p>Вы можете следить за статусом заказа во вкладке «История заказов» в профиле</p>
         </div>
-        <div class="cart-empty__action" style="display:grid;gap:8px">
-          <a href="#/orders" class="acct__btn acct__btn_brand" style="min-width:220px">История заказов</a>
-          <a href="#/home" class="acct__btn" style="min-width:220px">На главную</a>
-        </div>
       </section>
+      ${oReceipt(order)}
+      <div class="cart-empty__action" style="display:grid;gap:8px;padding:16px">
+        <a href="#/orders" class="acct__btn acct__btn_brand">История заказов</a>
+        <a href="#/home" class="acct__btn">На главную</a>
+      </div>
     </main>`;
 }
 

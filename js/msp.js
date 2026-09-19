@@ -78,7 +78,7 @@ function mEsc2(s) {
 
 // Статусы заказа МСП (order-status.ts@staging): подписи машинных кодов.
 const MSP_STATUS = {
-  created: 'Оформлен', submitted: 'Отправлен', accepted: 'Принят', preparing: 'Готовится',
+  created: 'Оформлен', submitted: 'Отправлен', accepted: 'Принят', preparing: 'Готовится', cooking: 'Готовится',
   ready: 'Готов', delivered: 'Доставлен', handed: 'Выдан клиенту', completed: 'Выполнен', canceled: 'Отменён',
 };
 
@@ -224,7 +224,7 @@ function mspOverview() {
         </div>
         <div class="msp-orders__list">
           ${orders.slice(0, 3).map((o) => `
-            <div class="msp-order-row">
+            <div class="msp-order-row is-link" role="button" tabindex="0" data-action="msp-order" data-id="${o.id}">
               <span class="msp-order-row__ico">${icon('bag')}</span>
               <div class="msp-order-row__mid">
                 <div class="msp-order-row__name">Заказ №${oEsc(o.id)} · ${oFmt(o.total)}&nbsp;₽</div>
@@ -280,7 +280,7 @@ function mspOrders() {
     <div class="msp-orders cabinet-screen">
       <div class="msp-orders__list">
         ${orders.map((o) => `
-          <div class="msp-order-row">
+          <div class="msp-order-row is-link" role="button" tabindex="0" data-action="msp-order" data-id="${o.id}">
             <span class="msp-order-row__ico">${icon('bag')}</span>
             <div class="msp-order-row__mid">
               <div class="msp-order-row__name">Заказ №${oEsc(o.id)} · ${oFmt(o.total)}&nbsp;₽</div>
@@ -433,9 +433,64 @@ function mspPayment() {
 
 /* ---------- Экран ---------- */
 
+/* Статусная машина заказа точки (order-status.ts): подписи переходов */
+const MSP_FLOW = ['created', 'submitted', 'accepted', 'preparing', 'ready', 'handed'];
+const MSP_FLOW_LABEL = {
+  created: 'Оформлен', submitted: 'Отправлен', accepted: 'Принят',
+  preparing: 'Готовится', ready: 'Готов', handed: 'Выдан клиенту',
+};
+
+function mspOrderIdx(status) {
+  return { created: 0, submitted: 1, accepted: 2, cooking: 3, preparing: 3, ready: 4, done: 5, handed: 5 }[status] ?? 0;
+}
+
+function renderMspOrderDetail(id) {
+  const order = mspOrdersOf().find((o) => o.id === id);
+  if (!order) { mspUi.tab = 'orders'; return mspOrders(); }
+  const idx = mspOrderIdx(order.status);
+  const nextAction = order.status === 'cooking'
+    ? { label: 'Заказ готов', next: 'ready' }
+    : order.status === 'ready'
+      ? { label: 'Выдан клиенту', next: 'done' }
+      : null;
+
+  return `
+    <div class="msp-od cabinet-screen">
+      <section class="role-card" style="padding:16px">
+        <div class="role-section-head" style="padding:0">
+          <h2>Заказ №${mEsc2(order.id)}</h2>
+          <span class="role-tag">${mspOrderStatus(order)}</span>
+        </div>
+        <p class="msp-od__meta">${oDate(order.createdAt)} · ${order.deliveryType === 'delivery' ? `Доставка · ${mEsc2(order.address || '')}` : 'Самовывоз'}</p>
+
+        <p class="block-cap" style="margin-top:14px">Статус</p>
+        <div class="msp-od__flow">
+          ${MSP_FLOW.map((st, i) => `
+            <div class="msp-od__step ${i < idx ? 'done' : i === idx ? 'cur' : 'todo'}">
+              <span class="msp-od__dot">${i < idx ? icon('check') : i === idx ? icon('clock') : ''}</span>
+              <span class="msp-od__step-lbl">${MSP_FLOW_LABEL[st]}</span>
+            </div>`).join('')}
+        </div>
+
+        <p class="block-cap" style="margin-top:16px">Позиции</p>
+        <div class="msp-od__items">
+          ${order.items.map((it) => `
+            <div class="msp-od__item"><span>${mEsc2(it.name)} × ${it.qty}</span><b>${oFmt(it.price * it.qty)}&nbsp;₽</b></div>`).join('')}
+        </div>
+        <div class="msp-od__total"><span>Итого</span><b>${oFmt(order.total)}&nbsp;₽</b></div>
+
+        ${nextAction ? `
+          <button type="button" class="acct__btn acct__btn_brand" style="width:100%;margin-top:14px"
+            data-action="msp-advance" data-id="${mEsc2(order.id)}" data-next="${nextAction.next}">${nextAction.label}</button>` : ''}
+        <button type="button" class="role-link" style="margin-top:10px" data-action="msp-tab" data-tab="orders">← Все заказы</button>
+      </section>
+    </div>`;
+}
+
 function renderMspMirror() {
   document.body.classList.add('cabinet-mode');
-  const inner = mspUi.tab === 'payment' ? mspPayment()
+  const inner = mspUi.tab === 'order' ? renderMspOrderDetail(mspUi.order)
+    : mspUi.tab === 'payment' ? mspPayment()
     : mspUi.tab === 'products' ? mspProducts()
     : mspUi.tab === 'orders' ? mspOrders()
     : mspUi.tab === 'team' ? mspTeam()
@@ -460,6 +515,24 @@ document.addEventListener('click', (e) => {
     mspUi.onSale[el.dataset.slug] = mspUi.onSale[el.dataset.slug] === false ? true : false;
     el.classList.toggle('on');
     toast(mspUi.onSale[el.dataset.slug] === false ? 'Снят с продажи' : 'В продаже');
+    return;
+  }
+
+  if (action === 'msp-order') {
+    mspUi.order = el.dataset.id;
+    mspUi.tab = 'order';
+    renderViewPreserveScroll();
+    return;
+  }
+
+  if (action === 'msp-advance') {
+    const target = (state.orders || []).find((o) => o.id === el.dataset.id) || ORDERS_MIRROR_SEED.find((o) => o.id === el.dataset.id);
+    if (target) {
+      target.status = el.dataset.next;
+      persist();
+      toast('Статус: ' + (MSP_FLOW_LABEL[el.dataset.next] || el.dataset.next));
+    }
+    renderViewPreserveScroll();
     return;
   }
 

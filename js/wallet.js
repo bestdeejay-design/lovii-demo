@@ -140,7 +140,7 @@ function renderWalletMirror() {
           </div>
 
           ${pointsAvailable ? `
-            <section aria-label="Контур счёта" data-testid="wallet-contour">
+            <section class="wallet__contour" aria-label="Контур счёта" data-testid="wallet-contour">
               <div class="seg" role="radiogroup" aria-label="Контур счёта">
                 <button type="button" class="${!isPoints ? 'active' : ''}" data-action="mir-contour" data-value="money">Деньги</button>
                 <button type="button" class="${isPoints ? 'active' : ''}" data-action="mir-contour" data-value="points">Баллы</button>

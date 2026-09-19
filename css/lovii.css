@@ -3805,3 +3805,52 @@ body.cabinet-mode-auth .app-header { display: none; }
 }
 .promo-card__dl { color: var(--lv-gold-text); }
 .promo-card__store { color: rgba(255, 255, 255, 0.55); font-weight: 400; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---------- МСП: детальный заказ (статусная машина,MspOrderDetail) ---------- */
+.msp-order-row.is-link { cursor: pointer; transition: background 0.15s; }
+.msp-order-row.is-link:hover { background: var(--lv-surface); }
+.msp-od__meta { margin: 8px 0 0; color: var(--content-normal-tertiary); font-size: 12px; line-height: 1.5; }
+.msp-od__flow { display: grid; gap: 6px; }
+.msp-od__step { display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--content-normal-tertiary); }
+.msp-od__dot {
+  flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+  border: 1.5px solid var(--lv-line-strong);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--lv-on-brand, #fff);
+}
+.msp-od__dot svg { width: 11px; height: 11px; }
+.msp-od__step.done { color: var(--content-normal-secondary); }
+.msp-od__step.done .msp-od__dot { background: var(--lv-tiffany); border-color: var(--lv-tiffany); }
+.msp-od__step.cur { color: var(--content-normal-primary); font-weight: 700; }
+.msp-od__step.cur .msp-od__dot { background: var(--lv-pink); border-color: var(--lv-pink); }
+.msp-od__items { display: grid; gap: 6px; }
+.msp-od__item { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; color: var(--content-normal-primary); padding: 7px 0; border-top: 1px solid var(--lv-line-2); }
+.msp-od__item:first-child { border-top: 0; }
+.msp-od__item b { flex: none; font-weight: 700; }
+.msp-od__total {
+  display: flex; justify-content: space-between; margin-top: 8px; padding-top: 10px;
+  border-top: 1px solid var(--lv-line-2); color: var(--content-normal-primary);
+  font-size: 15px; font-weight: 800;
+}
+
+/* ---------- Квитанция заказа (SZ-017, OrderReceipt) ---------- */
+.order-receipt {
+  margin: 0 16px; padding: 16px; border-radius: 16px;
+  background: var(--lv-card); border: 1px solid var(--lv-line);
+  box-shadow: var(--lv-shadow-soft); box-sizing: border-box;
+}
+.order-receipt__head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--lv-line-2);
+}
+.order-receipt__head h5 { margin: 0; font-size: 15px; font-weight: 800; color: var(--content-normal-primary); }
+.order-receipt__head p { margin: 0; color: var(--content-normal-secondary); font-size: 12.5px; font-weight: 600; }
+.order-receipt__rows { margin: 0; display: grid; gap: 8px; }
+.order-receipt__rows > div { display: flex; justify-content: space-between; gap: 12px; font-size: 12.5px; }
+.order-receipt__rows dt { color: var(--content-normal-tertiary); }
+.order-receipt__rows dd { margin: 0; color: var(--content-normal-primary); font-weight: 600; text-align: right; }
+.order-receipt__rows > div > div:first-child, .order-receipt__rows dt { white-space: nowrap; }
+.order-receipt__disc { margin: 12px 0 0; padding-top: 10px; border-top: 1px solid var(--lv-line-2); color: var(--lv-dim); font-size: 10.5px; line-height: 1.5; }
+
+/* Контур счёта: сегмент на всю ширину колонки (как фильтры в ленте) */
+.wallet__contour .seg { width: 100%; }
