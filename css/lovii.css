@@ -3854,3 +3854,28 @@ body.cabinet-mode-auth .app-header { display: none; }
 
 /* Контур счёта: сегмент на всю ширину колонки (как фильтры в ленте) */
 .wallet__contour .seg { width: 100%; }
+
+/* ---------- Кабинеты владельца и инвестора (акценты + графики) ---------- */
+.owner-cabinet .cabinet__ava { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
+.investor-cabinet .cabinet__ava { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
+.owner-cabinet .cabinet__bar-link--active { color: var(--lv-gold-text); }
+.owner-cabinet .cabinet__bar-link--active .cabinet__bar-ind { background: var(--lv-gold); }
+.investor-cabinet .cabinet__bar-link--active { color: var(--lv-tiffany-text); }
+.investor-cabinet .cabinet__bar-link--active .cabinet__bar-ind { background: var(--lv-tiffany); }
+
+/* Столбчатый график (CSS-бары) */
+.roles-bars { display: flex; align-items: flex-end; justify-content: space-between; gap: 6px; height: 120px; margin-top: 12px; }
+.roles-bars__col {
+  flex: 1; height: 100%; display: flex; flex-flow: column; justify-content: flex-end;
+  align-items: center; gap: 5px; min-width: 0;
+}
+.roles-bars__col i { display: block; width: 70%; max-width: 34px; border-radius: 6px 6px 2px 2px; }
+.roles-bars__col span { font-size: 9.5px; color: var(--content-normal-tertiary); white-space: nowrap; }
+
+/* Горизонтальные бары (доли, топы) */
+.roles-hbars { display: grid; gap: 10px; }
+.roles-hbars__row { display: grid; grid-template-columns: 110px 1fr 48px; gap: 10px; align-items: center; }
+.roles-hbars__label { color: var(--content-normal-secondary); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.roles-hbars__track { height: 10px; border-radius: 999px; background: var(--lv-surface); overflow: hidden; display: block; }
+.roles-hbars__track i { display: block; height: 100%; border-radius: 999px; background: var(--lv-gradient-brand); }
+.roles-hbars__val { color: var(--content-normal-primary); font-size: 11.5px; font-weight: 700; text-align: right; }

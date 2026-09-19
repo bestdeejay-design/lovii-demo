@@ -14,15 +14,23 @@ const rolesUi = { rep: 'overview', amb: 'overview' };
 /* ---------- Общий каркас (как у МСП, акцент роли) ---------- */
 
 function rolesShell(role, inner) {
-  const cfg = role === 'rep'
-    ? { title: 'Представитель', note: 'Развитие сети представителей · промокод AA2222', icon: 'sparkles', cls: 'rep-cabinet' }
-    : { title: 'Амбассадор', note: 'Развитие района · обучение представителей', icon: 'sparkles', cls: 'amb-cabinet' };
+  const CFG = {
+    rep: { title: 'Представитель', note: 'Развитие сети представителей · промокод AA2222', icon: 'sparkles', cls: 'rep-cabinet' },
+    amb: { title: 'Амбассадор', note: 'Развитие района · обучение представителей', icon: 'sparkles', cls: 'amb-cabinet' },
+    owner: { title: 'Владелец', note: 'Платформа целиком · LOVII', icon: 'crown', cls: 'owner-cabinet' },
+    investor: { title: 'Инвестор', note: 'Рост и доходность платформы', icon: 'trending-up', cls: 'investor-cabinet' },
+  };
+  const cfg = CFG[role];
   document.body.classList.add('cabinet-mode');
 
-  const tabs = role === 'rep'
-    ? [['overview', 'Обзор', 'bar-chart'], ['points', 'Точки', 'store'], ['approvals', 'Заявки', 'check-circle'], ['income', 'Доход', 'wallet'], ['profile', 'Профиль', 'user']]
-    : [['overview', 'Обзор', 'bar-chart'], ['reps', 'Структура', 'users'], ['training', 'Обучение', 'star'], ['income', 'Доход', 'wallet']];
-  const cur = role === 'rep' ? rolesUi.rep : rolesUi.amb;
+  const TABS = {
+    rep: [['overview', 'Обзор', 'bar-chart'], ['points', 'Точки', 'store'], ['approvals', 'Заявки', 'check-circle'], ['income', 'Доход', 'wallet'], ['profile', 'Профиль', 'user']],
+    amb: [['overview', 'Обзор', 'bar-chart'], ['reps', 'Структура', 'users'], ['training', 'Обучение', 'star'], ['income', 'Доход', 'wallet']],
+    owner: [['overview', 'Обзор', 'bar-chart'], ['finance', 'Финансы', 'banknote'], ['structure', 'Структура', 'network']],
+    investor: [['growth', 'Рост', 'trending-up'], ['sales', 'Продажи', 'bag'], ['money', 'Доходность', 'wallet']],
+  };
+  const tabs = TABS[role];
+  const cur = rolesUi[role];
 
   return `
     <div class="msp-cabinet ${cfg.cls}">
@@ -308,6 +316,242 @@ function ambIncome() {
 
 /* ---------- Рендер и события ---------- */
 
+/* ---------- Владелец: платформа целиком (данные LOVII_DASH) ---------- */
+
+function rolesMoney(n) {
+  return Math.round(n).toLocaleString('ru-RU') + ' ₽';
+}
+
+function rolesBars(values, labels, accent) {
+  const max = Math.max(...values);
+  return `
+    <div class="roles-bars">
+      ${values.map((v, i) => `
+        <div class="roles-bars__col">
+          <i style="height:${Math.max(6, Math.round((v / max) * 100))}%;background:${accent}"></i>
+          <span>${labels ? labels[i] || '' : ''}</span>
+        </div>`).join('')}
+    </div>`;
+}
+
+function rolesHBars(rows, fmt) {
+  const max = Math.max(...rows.map((r) => r.value));
+  return `
+    <div class="roles-hbars">
+      ${rows.map((r) => `
+        <div class="roles-hbars__row">
+          <span class="roles-hbars__label">${mEsc2(r.label)}</span>
+          <span class="roles-hbars__track"><i style="width:${Math.round((r.value / max) * 100)}%"></i></span>
+          <span class="roles-hbars__val">${fmt(r.value)}</span>
+        </div>`).join('')}
+    </div>`;
+}
+
+function ownerFinanceRows() {
+  const inv = LOVII_DASH.investor;
+  const fin = LOVII_DASH.finance;
+  const gmv = inv.gmv[inv.gmv.length - 1] * 1000;
+  const commission = gmv * fin.commissionRate;
+  const subs = inv.points[inv.points.length - 1] * fin.subPerPoint;
+  const payouts = gmv * fin.repPayoutRate;
+  const profit = commission + subs - payouts - fin.opexMonth;
+  return { gmv, commission, subs, payouts, opex: fin.opexMonth, profit, points: inv.points[inv.points.length - 1] };
+}
+
+function ownerOverview() {
+  const f = ownerFinanceRows();
+  const inv = LOVII_DASH.investor;
+  const top = accLoadAddresses ? LOVII_DATA.stores.slice(0, 5) : [];
+  return `
+    <div class="msp-overview cabinet-screen">
+      <section class="msp-overview__kpi">
+        <div class="role-kpi role-kpi_accent">
+          <span class="role-kpi__label">GMV · месяц</span>
+          <span class="role-kpi__value">${rolesMoney(f.gmv)}</span>
+          <span class="role-kpi__sub">оборот всех точек</span>
+        </div>
+        <div class="role-kpi">
+          <span class="role-kpi__label">Комиссия · 10%</span>
+          <span class="role-kpi__value">${rolesMoney(f.commission)}</span>
+          <span class="role-kpi__sub">платформа</span>
+        </div>
+        <div class="role-kpi">
+          <span class="role-kpi__label">Подписки точек</span>
+          <span class="role-kpi__value">${f.points}</span>
+          <span class="role-kpi__sub">× ${rolesMoney(LOVII_DASH.finance.subPerPoint)}/мес</span>
+        </div>
+        <div class="role-kpi">
+          <span class="role-kpi__label">Прибыль · месяц</span>
+          <span class="role-kpi__value">${rolesMoney(f.profit)}</span>
+          <span class="role-kpi__sub">после выплат и OPEX</span>
+        </div>
+      </section>
+      <section class="role-card" style="padding:16px">
+        <div class="role-section-head" style="padding:0"><h2>GMV по месяцам</h2><span class="role-section-head__sub">тыс ₽</span></div>
+        ${rolesBars(inv.gmv.slice(-8), inv.monthLabels.slice(-8), 'var(--lv-pink)')}
+      </section>
+      <section class="role-card">
+        <div class="role-section-head"><h2>Топ точек · неделя</h2>
+          <button type="button" class="role-link" data-action="roles-tab" data-role="owner" data-tab="structure">Все точки</button>
+        </div>
+        <div class="msp-orders__list">
+          ${LOVII_DATA.stores.slice(0, 4).map((s) => `
+            <div class="msp-order-row">
+              <span class="msp-order-row__ico">${s.emoji}</span>
+              <div class="msp-order-row__mid">
+                <div class="msp-order-row__name">${mEsc2(s.name)}</div>
+                <div class="msp-order-row__meta">${mEsc2(s.category || 'Тверской')}</div>
+              </div>
+              <span class="role-tag">Активна</span>
+            </div>`).join('')}
+        </div>
+      </section>
+    </div>`;
+}
+
+function ownerFinance() {
+  const f = ownerFinanceRows();
+  const inv = LOVII_DASH.investor;
+  const fin = LOVII_DASH.finance;
+  const series = inv.gmv.map((g, i) => Math.round((g * 1000 * fin.commissionRate + inv.points[i] * fin.subPerPoint) / 1000));
+  const row = (l, v, tone) => `
+    <div class="msp-od__item"${tone ? ` style="color:${tone}"` : ''}><span>${l}</span><b>${v}</b></div>`;
+  return `
+    <div class="msp-overview cabinet-screen">
+      <section class="role-card" style="padding:16px">
+        <div class="role-section-head" style="padding:0"><h2>Финансы месяца</h2><span class="role-section-head__sub">${inv.monthLabels[inv.gmv.length - 1]}</span></div>
+        <div style="margin-top:10px">
+          ${row('Выручка по точкам (GMV)', rolesMoney(f.gmv))}
+          ${row('Комиссия платформы · 10%', '+ ' + rolesMoney(f.commission), 'var(--lv-tiffany-text)')}
+          ${row(`Подписки точек · ${f.points} × ${rolesMoney(fin.subPerPoint)}`, '+ ' + rolesMoney(f.subs), 'var(--lv-tiffany-text)')}
+          ${row('Выплаты представителям · 4%', '− ' + rolesMoney(f.payouts), 'var(--lv-pink-dark)')}
+          ${row('OPEX · команда и маркетинг', '− ' + rolesMoney(f.opex), 'var(--lv-pink-dark)')}
+        </div>
+        <div class="msp-od__total"><span>Прибыль за месяц</span><b>${rolesMoney(f.profit)}</b></div>
+      </section>
+      <section class="role-card" style="padding:16px">
+        <div class="role-section-head" style="padding:0"><h2>Прибыль платформы по месяцам</h2><span class="role-section-head__sub">тыс ₽</span></div>
+        ${rolesBars(series.slice(-8), inv.monthLabels.slice(-8), 'var(--lv-gold)')}
+      </section>
+    </div>`;
+}
+
+function ownerStructure() {
+  const rows = LOVII_DATA.stores.map((s) => ({
+    name: s.name, emoji: s.emoji, region: 'Тверской', status: s.slug === 'master' ? 'offline' : 'active',
+  }));
+  return `
+    <div class="msp-overview cabinet-screen">
+      <section class="role-card">
+        <div class="role-section-head"><h2>Точки платформы</h2><span class="role-section-head__sub">${rows.length}</span></div>
+        <div class="msp-orders__list">
+          ${rows.map((r) => `
+            <div class="msp-order-row">
+              <span class="msp-order-row__ico">${r.emoji}</span>
+              <div class="msp-order-row__mid">
+                <div class="msp-order-row__name">${mEsc2(r.name)}</div>
+                <div class="msp-order-row__meta">${mEsc2(r.region)}</div>
+              </div>
+              <span class="role-tag" style="${r.status === 'offline' ? 'background:var(--lv-surface);color:var(--lv-dim)' : ''}">${r.status === 'offline' ? 'Оффлайн' : 'Активна'}</span>
+            </div>`).join('')}
+        </div>
+      </section>
+    </div>`;
+}
+
+/* ---------- Инвестор: рост и доходность ---------- */
+
+function investorGrowth() {
+  const inv = LOVII_DASH.investor;
+  return `
+    <div class="msp-overview cabinet-screen">
+      <section class="msp-overview__kpi">
+        <div class="role-kpi role-kpi_accent">
+          <span class="role-kpi__label">Пользователи</span>
+          <span class="role-kpi__value">${inv.users[inv.users.length - 1].toLocaleString('ru-RU')}</span>
+          <span class="role-kpi__sub">за 12 месяцев · ×9</span>
+        </div>
+        <div class="role-kpi">
+          <span class="role-kpi__label">Точки</span>
+          <span class="role-kpi__value">${inv.points[inv.points.length - 1]}</span>
+          <span class="role-kpi__sub">на витрине платформы</span>
+        </div>
+        <div class="role-kpi">
+          <span class="role-kpi__label">GMV · месяц</span>
+          <span class="role-kpi__value">${rolesMoney(inv.gmv[inv.gmv.length - 1] * 1000)}</span>
+          <span class="role-kpi__sub">оборот всех точек</span>
+        </div>
+        <div class="role-kpi">
+          <span class="role-kpi__label">Средний чек</span>
+          <span class="role-kpi__value">${rolesMoney(inv.avgCheck)}</span>
+          <span class="role-kpi__sub">конверсия ${inv.conversion}%</span>
+        </div>
+      </section>
+      <section class="role-card" style="padding:16px">
+        <div class="role-section-head" style="padding:0"><h2>Пользователи по месяцам</h2></div>
+        ${rolesBars(inv.users.slice(-8), inv.monthLabels.slice(-8), 'var(--lv-pink)')}
+      </section>
+    </div>`;
+}
+
+function investorSales() {
+  const inv = LOVII_DASH.investor;
+  return `
+    <div class="msp-overview cabinet-screen">
+      <section class="role-card" style="padding:16px">
+        <div class="role-section-head" style="padding:0"><h2>Выручка по категориям</h2><span class="role-section-head__sub">доля</span></div>
+        ${rolesHBars(inv.categories.map((c) => ({ label: c.label, value: c.share })), (v) => v + '%')}
+      </section>
+      <section class="role-card">
+        <div class="role-section-head"><h2>Топ точки · месяц</h2></div>
+        <div class="msp-orders__list">
+          ${LOVII_DATA.stores.slice(0, 3).map((s) => `
+            <div class="msp-order-row">
+              <span class="msp-order-row__ico">${s.emoji}</span>
+              <div class="msp-order-row__mid">
+                <div class="msp-order-row__name">${mEsc2(s.name)}</div>
+                <div class="msp-order-row__meta">выручка месяца</div>
+              </div>
+              <span class="role-tag">Активна</span>
+            </div>`).join('')}
+        </div>
+      </section>
+    </div>`;
+}
+
+function investorMoney() {
+  const f = ownerFinanceRows();
+  const share = 0.15;
+  return `
+    <div class="msp-overview cabinet-screen">
+      <section class="role-card" style="padding:16px">
+        <div class="role-section-head" style="padding:0"><h2>Доходность · месяц</h2></div>
+        <div style="margin-top:10px">
+          <div class="msp-od__item"><span>Прибыль платформы</span><b>${rolesMoney(f.profit)}</b></div>
+          <div class="msp-od__item"><span>Доля инвестора · 15%</span><b>${rolesMoney(f.profit * share)}</b></div>
+          <div class="msp-od__item"><span>CAPEX платформы</span><b>${rolesMoney(LOVII_DASH.finance.capexTotal)}</b></div>
+        </div>
+        <div class="msp-od__total"><span>Дивиденды к выплате</span><b>${rolesMoney(f.profit * share)}</b></div>
+      </section>
+    </div>`;
+}
+
+function renderOwnerMirror() {
+  document.body.classList.add('cabinet-mode');
+  const inner = rolesUi.owner === 'finance' ? ownerFinance()
+    : rolesUi.owner === 'structure' ? ownerStructure()
+    : ownerOverview();
+  return rolesShell('owner', inner);
+}
+
+function renderInvestorMirror() {
+  document.body.classList.add('cabinet-mode');
+  const inner = rolesUi.investor === 'sales' ? investorSales()
+    : rolesUi.investor === 'money' ? investorMoney()
+    : investorGrowth();
+  return rolesShell('investor', inner);
+}
+
 function renderRepMirror() {
   document.body.classList.add('cabinet-mode');
   const inner = rolesUi.rep === 'points' ? repPoints()
@@ -330,8 +574,7 @@ function renderAmbMirror() {
 document.addEventListener('click', (e) => {
   const el = e.target.closest('[data-action="roles-tab"]');
   if (!el) return;
-  if (el.dataset.role === 'rep') rolesUi.rep = el.dataset.tab;
-  else rolesUi.amb = el.dataset.tab;
+  rolesUi[el.dataset.role] = el.dataset.tab;
   renderViewPreserveScroll();
 });
 
@@ -349,12 +592,8 @@ const _oldRenderDash = window.renderDash;
 window.renderDash = function (param) {
   if (param === 'rep') return renderRepMirror();
   if (param === 'amb') return renderAmbMirror();
-  if (param === 'owner' || param === 'investor') {
-    if (!state.roles[param]) state.roles[param] = { since: 'демо' };
-    state.activeRole = param; // старый рендер идёт по activeRole
-    persist();
-    return _oldRenderDash(param);
-  }
+  if (param === 'owner') { if (!state.roles.owner) state.roles.owner = { since: 'демо' }; return renderOwnerMirror(); }
+  if (param === 'investor') { if (!state.roles.investor) state.roles.investor = { since: 'демо' }; return renderInvestorMirror(); }
   if (typeof _oldRenderDash === 'function') return _oldRenderDash(param);
   return renderProfileMirror();
 };
