@@ -171,3 +171,12 @@ document.addEventListener('input', (e) => {
 });
 
 Object.assign(SCREENS, { auth: renderAuthMirror });
+
+/* витринные экраны снимают режим авторизации (общий паттерн с msp.js/roles.js):
+   иначе body.cabinet-mode-auth прилипает после визита на #/auth
+   и прячет шапку (.app-header) на всех последующих экранах до перезагрузки */
+new MutationObserver(() => {
+  if (!document.querySelector('.auth-screen')) {
+    document.body.classList.remove('cabinet-mode-auth');
+  }
+}).observe(document.getElementById('view'), { childList: true });
