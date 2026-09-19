@@ -3899,3 +3899,11 @@ body.cabinet-mode-auth .app-header { display: none; }
   .app-header .logo-img { width: 92px; }
   .pill-btn .lbl { display: none; }
 }
+
+/* ---------- Периоды владельца/инвестора (лента чипов) ---------- */
+.roles-periods {
+  display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
+  margin: 0 0 12px; padding: 2px 0;
+}
+.roles-periods::-webkit-scrollbar { display: none; }
+.roles-periods .app-chip { flex-shrink: 0; }

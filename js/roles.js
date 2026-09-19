@@ -9,7 +9,7 @@
  * Источник: origin/staging 1fc7a27, 2026-09-19. v1.
  * ============================================================ */
 
-const rolesUi = { rep: 'overview', amb: 'overview' };
+const rolesUi = { rep: 'overview', amb: 'overview', owner: 'overview', investor: 'growth', ownerPeriod: '30d', investorPeriod: '30d' };
 
 /* ---------- Общий каркас (как у МСП, акцент роли) ---------- */
 
@@ -347,26 +347,57 @@ function rolesHBars(rows, fmt) {
     </div>`;
 }
 
-function ownerFinanceRows() {
-  const inv = LOVII_DASH.investor;
-  const fin = LOVII_DASH.finance;
-  const gmv = inv.gmv[inv.gmv.length - 1] * 1000;
-  const commission = gmv * fin.commissionRate;
-  const subs = inv.points[inv.points.length - 1] * fin.subPerPoint;
-  const payouts = gmv * fin.repPayoutRate;
-  const profit = commission + subs - payouts - fin.opexMonth;
-  return { gmv, commission, subs, payouts, opex: fin.opexMonth, profit, points: inv.points[inv.points.length - 1] };
+/* Периоды владельца/инвестора: 30 дней по умолчанию (решение владельца 19.09) */
+const ROLES_PERIODS = [
+  { id: '30d', label: '30 дней', k: 1 },
+  { id: 'week', label: 'Неделя', k: 0.25 },
+  { id: 'month', label: 'Текущий месяц', k: 0.9 },
+  { id: 'prev', label: 'Прошлый месяц', k: 1.05 },
+  { id: 'quarter', label: 'Квартал', k: 2.9 },
+  { id: 'all', label: 'За весь период', k: 12.4 },
+];
+
+/* Подписок точек нет — есть только LOVII PASS (599/199, цена плавает):
+   в финмодель входит СУММА СПИСАНИЙ ЗА ПОДПИСКУ за выбранный период */
+const ROLES_PASS_MONTHLY = 191680; // ~320 подписчиков × 599 ₽
+const ROLES_GMV_MONTHLY = [
+  { name: 'АТМОСФЕРА', gmv: 2800000 },
+  { name: 'Grand', gmv: 1820000 },
+  { name: 'АКСИОМА', gmv: 0 },
+];
+
+function rolesPeriodChipRow(role) {
+  const cur = rolesUi[role + 'Period'];
+  return `
+    <div class="roles-periods">
+      ${ROLES_PERIODS.map((p) => `
+        <button type="button" class="app-chip${cur === p.id ? ' active' : ''}"
+          data-action="roles-period" data-role="${role}" data-period="${p.id}">${p.label}</button>`).join('')}
+    </div>`;
+}
+
+function rolesFin(role) {
+  const period = role === 'owner' ? rolesUi.ownerPeriod : rolesUi.investorPeriod;
+  const k = (ROLES_PERIODS.find((p) => p.id === period) || ROLES_PERIODS[0]).k;
+  const legals = ROLES_GMV_MONTHLY.map((l) => ({ name: l.name, gmv: Math.round(l.gmv * k) }));
+  const gmv = legals.reduce((s, l) => s + l.gmv, 0);
+  const commission = Math.round(gmv * 0.1);
+  const pass = Math.round(ROLES_PASS_MONTHLY * k);
+  const payouts = Math.round(gmv * 0.04);
+  const opex = Math.round(LOVII_DASH.finance.opexMonth * k);
+  const profit = commission + pass - payouts - opex;
+  return { k, legals, gmv, commission, pass, payouts, opex, profit };
 }
 
 function ownerOverview() {
-  const f = ownerFinanceRows();
+  const f = rolesFin('owner');
   const inv = LOVII_DASH.investor;
-  const top = accLoadAddresses ? LOVII_DATA.stores.slice(0, 5) : [];
   return `
     <div class="msp-overview cabinet-screen">
+      ${rolesPeriodChipRow('owner')}
       <section class="msp-overview__kpi">
         <div class="role-kpi role-kpi_accent">
-          <span class="role-kpi__label">GMV · месяц</span>
+          <span class="role-kpi__label">GMV · период</span>
           <span class="role-kpi__value">${rolesMoney(f.gmv)}</span>
           <span class="role-kpi__sub">оборот всех точек</span>
         </div>
@@ -376,33 +407,33 @@ function ownerOverview() {
           <span class="role-kpi__sub">платформа</span>
         </div>
         <div class="role-kpi">
-          <span class="role-kpi__label">Подписки точек</span>
-          <span class="role-kpi__value">${f.points}</span>
-          <span class="role-kpi__sub">× ${rolesMoney(LOVII_DASH.finance.subPerPoint)}/мес</span>
+          <span class="role-kpi__label">LOVII PASS</span>
+          <span class="role-kpi__value">${rolesMoney(f.pass)}</span>
+          <span class="role-kpi__sub">списания за подписку</span>
         </div>
         <div class="role-kpi">
-          <span class="role-kpi__label">Прибыль · месяц</span>
+          <span class="role-kpi__label">Прибыль · период</span>
           <span class="role-kpi__value">${rolesMoney(f.profit)}</span>
           <span class="role-kpi__sub">после выплат и OPEX</span>
         </div>
       </section>
       <section class="role-card" style="padding:16px">
-        <div class="role-section-head" style="padding:0"><h2>GMV по месяцам</h2><span class="role-section-head__sub">тыс ₽</span></div>
+        <div class="role-section-head" style="padding:0"><h2>GMV по месяцам</h2><span class="role-section-head__sub">тыс ₽ · справка</span></div>
         ${rolesBars(inv.gmv.slice(-8), inv.monthLabels.slice(-8), 'var(--lv-pink)')}
       </section>
       <section class="role-card">
-        <div class="role-section-head"><h2>Топ точек · неделя</h2>
-          <button type="button" class="role-link" data-action="roles-tab" data-role="owner" data-tab="structure">Все точки</button>
+        <div class="role-section-head"><h2>Юрлица · выручка за период</h2>
+          <button type="button" class="role-link" data-action="roles-tab" data-role="owner" data-tab="structure">Структура</button>
         </div>
         <div class="msp-orders__list">
-          ${LOVII_DATA.stores.slice(0, 4).map((s) => `
+          ${f.legals.map((l) => `
             <div class="msp-order-row">
-              <span class="msp-order-row__ico">${s.emoji}</span>
+              <span class="msp-order-row__ico">${icon('building')}</span>
               <div class="msp-order-row__mid">
-                <div class="msp-order-row__name">${mEsc2(s.name)}</div>
-                <div class="msp-order-row__meta">${mEsc2(s.category || 'Тверской')}</div>
+                <div class="msp-order-row__name">${mEsc2(l.name)}</div>
+                <div class="msp-order-row__meta">суммарная выручка точек</div>
               </div>
-              <span class="role-tag">Активна</span>
+              <span class="role-tag">${rolesMoney(l.gmv)}</span>
             </div>`).join('')}
         </div>
       </section>
@@ -410,27 +441,27 @@ function ownerOverview() {
 }
 
 function ownerFinance() {
-  const f = ownerFinanceRows();
+  const f = rolesFin('owner');
   const inv = LOVII_DASH.investor;
-  const fin = LOVII_DASH.finance;
-  const series = inv.gmv.map((g, i) => Math.round((g * 1000 * fin.commissionRate + inv.points[i] * fin.subPerPoint) / 1000));
+  const series = inv.gmv.map((g, i) => Math.round((g * 1000 * 0.1 + inv.points[i] * LOVII_DASH.finance.subPerPoint) / 1000));
   const row = (l, v, tone) => `
     <div class="msp-od__item"${tone ? ` style="color:${tone}"` : ''}><span>${l}</span><b>${v}</b></div>`;
   return `
     <div class="msp-overview cabinet-screen">
+      ${rolesPeriodChipRow('owner')}
       <section class="role-card" style="padding:16px">
-        <div class="role-section-head" style="padding:0"><h2>Финансы месяца</h2><span class="role-section-head__sub">${inv.monthLabels[inv.gmv.length - 1]}</span></div>
+        <div class="role-section-head" style="padding:0"><h2>Финансы периода</h2><span class="role-section-head__sub">${(ROLES_PERIODS.find((p) => p.id === rolesUi.ownerPeriod) || ROLES_PERIODS[0]).label}</span></div>
         <div style="margin-top:10px">
           ${row('Выручка по точкам (GMV)', rolesMoney(f.gmv))}
           ${row('Комиссия платформы · 10%', '+ ' + rolesMoney(f.commission), 'var(--lv-tiffany-text)')}
-          ${row(`Подписки точек · ${f.points} × ${rolesMoney(fin.subPerPoint)}`, '+ ' + rolesMoney(f.subs), 'var(--lv-tiffany-text)')}
+          ${row('Списания за подписку LOVII PASS', '+ ' + rolesMoney(f.pass), 'var(--lv-tiffany-text)')}
           ${row('Выплаты представителям · 4%', '− ' + rolesMoney(f.payouts), 'var(--lv-pink-dark)')}
           ${row('OPEX · команда и маркетинг', '− ' + rolesMoney(f.opex), 'var(--lv-pink-dark)')}
         </div>
-        <div class="msp-od__total"><span>Прибыль за месяц</span><b>${rolesMoney(f.profit)}</b></div>
+        <div class="msp-od__total"><span>Прибыль за период</span><b>${rolesMoney(f.profit)}</b></div>
       </section>
       <section class="role-card" style="padding:16px">
-        <div class="role-section-head" style="padding:0"><h2>Прибыль платформы по месяцам</h2><span class="role-section-head__sub">тыс ₽</span></div>
+        <div class="role-section-head" style="padding:0"><h2>Прибыль платформы по месяцам</h2><span class="role-section-head__sub">тыс ₽ · справка</span></div>
         ${rolesBars(series.slice(-8), inv.monthLabels.slice(-8), 'var(--lv-gold)')}
       </section>
     </div>`;
@@ -463,23 +494,25 @@ function ownerStructure() {
 
 function investorGrowth() {
   const inv = LOVII_DASH.investor;
+  const f = rolesFin('investor');
   return `
     <div class="msp-overview cabinet-screen">
+      ${rolesPeriodChipRow('investor')}
       <section class="msp-overview__kpi">
         <div class="role-kpi role-kpi_accent">
+          <span class="role-kpi__label">GMV · период</span>
+          <span class="role-kpi__value">${rolesMoney(f.gmv)}</span>
+          <span class="role-kpi__sub">оборот всех точек</span>
+        </div>
+        <div class="role-kpi">
           <span class="role-kpi__label">Пользователи</span>
           <span class="role-kpi__value">${inv.users[inv.users.length - 1].toLocaleString('ru-RU')}</span>
-          <span class="role-kpi__sub">за 12 месяцев · ×9</span>
+          <span class="role-kpi__sub">всего на платформе</span>
         </div>
         <div class="role-kpi">
           <span class="role-kpi__label">Точки</span>
           <span class="role-kpi__value">${inv.points[inv.points.length - 1]}</span>
           <span class="role-kpi__sub">на витрине платформы</span>
-        </div>
-        <div class="role-kpi">
-          <span class="role-kpi__label">GMV · месяц</span>
-          <span class="role-kpi__value">${rolesMoney(inv.gmv[inv.gmv.length - 1] * 1000)}</span>
-          <span class="role-kpi__sub">оборот всех точек</span>
         </div>
         <div class="role-kpi">
           <span class="role-kpi__label">Средний чек</span>
@@ -498,6 +531,7 @@ function investorSales() {
   const inv = LOVII_DASH.investor;
   return `
     <div class="msp-overview cabinet-screen">
+      ${rolesPeriodChipRow('investor')}
       <section class="role-card" style="padding:16px">
         <div class="role-section-head" style="padding:0"><h2>Выручка по категориям</h2><span class="role-section-head__sub">доля</span></div>
         ${rolesHBars(inv.categories.map((c) => ({ label: c.label, value: c.share })), (v) => v + '%')}
@@ -520,12 +554,13 @@ function investorSales() {
 }
 
 function investorMoney() {
-  const f = ownerFinanceRows();
+  const f = rolesFin('investor');
   const share = 0.15;
   return `
     <div class="msp-overview cabinet-screen">
+      ${rolesPeriodChipRow('investor')}
       <section class="role-card" style="padding:16px">
-        <div class="role-section-head" style="padding:0"><h2>Доходность · месяц</h2></div>
+        <div class="role-section-head" style="padding:0"><h2>Доходность · период</h2><span class="role-section-head__sub">${(ROLES_PERIODS.find((p) => p.id === rolesUi.investorPeriod) || ROLES_PERIODS[0]).label}</span></div>
         <div style="margin-top:10px">
           <div class="msp-od__item"><span>Прибыль платформы</span><b>${rolesMoney(f.profit)}</b></div>
           <div class="msp-od__item"><span>Доля инвестора · 15%</span><b>${rolesMoney(f.profit * share)}</b></div>
@@ -572,10 +607,17 @@ function renderAmbMirror() {
 }
 
 document.addEventListener('click', (e) => {
-  const el = e.target.closest('[data-action="roles-tab"]');
-  if (!el) return;
-  rolesUi[el.dataset.role] = el.dataset.tab;
-  renderViewPreserveScroll();
+  const tabEl = e.target.closest('[data-action="roles-tab"]');
+  if (tabEl) {
+    rolesUi[tabEl.dataset.role] = tabEl.dataset.tab;
+    renderViewPreserveScroll();
+    return;
+  }
+  const per = e.target.closest('[data-action="roles-period"]');
+  if (per) {
+    rolesUi[per.dataset.role + 'Period'] = per.dataset.period;
+    renderViewPreserveScroll();
+  }
 });
 
 /* витринные экраны снимают режим кабинета (общая проверка с msp.js) */
