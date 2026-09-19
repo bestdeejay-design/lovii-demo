@@ -221,7 +221,7 @@ function parseHash() {
     }
     return { name: 'home', param: null };
   }
-  const known = ['home', 'store', 'product', 'search', 'cart', 'orders', 'profile', 'apply', 'dash', 'chat', 'msp-signup', 'msp'];
+  const known = ['home', 'store', 'product', 'search', 'cart', 'orders', 'order', 'profile', 'wallet', 'stores', 'popular', 'settings', 'checkout', 'addresses', 'address', 'profile-edit', 'auth', 'apply', 'dash', 'chat', 'msp-signup', 'msp'];
   return { name: known.includes(name) ? name : 'home', param: param || null };
 }
 
@@ -256,6 +256,18 @@ function renderView(keepScroll) {
     sub = subHeaderHtml(p ? p.name : 'Товар');
   } else if (name === 'apply' && param) {
     sub = subHeaderHtml('Заявка на роль');
+  } else if (name === 'wallet') {
+    sub = subHeaderHtml('Счёт и операции');
+  } else if (name === 'checkout') {
+    sub = subHeaderHtml('Оформление заказа');
+  } else if (name === 'addresses') {
+    sub = subHeaderHtml('Мои адреса');
+  } else if (name === 'address') {
+    sub = subHeaderHtml(param === 'new' ? 'Добавление адреса' : 'Изменение адреса');
+  } else if (name === 'profile-edit') {
+    sub = subHeaderHtml('Редактирование профиля');
+  } else if (name === 'order' && param) {
+    sub = subHeaderHtml(`Заказ №${param}`);
   }
   if (sub) {
     html = sub + `<div>${html}</div>`;
@@ -312,7 +324,7 @@ function updateChrome() {
 
   // активная кнопка навигации (роли подсвечивают «Профиль»)
   const navName = state.view.name;
-  const roleScreens = ['profile', 'apply', 'dash', 'chat', 'msp'];
+  const roleScreens = ['profile', 'wallet', 'apply', 'dash', 'chat', 'msp'];
   document.querySelectorAll('.nav-btn').forEach((btn) => {
     const isActive = btn.dataset.nav === 'profile' ? roleScreens.includes(navName) : btn.dataset.nav === navName;
     btn.classList.toggle('active', isActive);
