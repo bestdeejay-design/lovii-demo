@@ -795,7 +795,8 @@ function mspTimeMask(value) {
   let out = String(hh).padStart(2, '0');
   if (d.length > 2) {
     const mm = Math.min(parseInt(d.slice(2), 10) || 0, 59);
-    out += ':' + String(mm).padStart(2, '0');
+    // во время набора минуту не добиваем нулём — допишется на blur
+    out += ':' + mm;
   }
   return out;
 }
@@ -818,6 +819,13 @@ document.addEventListener('input', (e) => {
     }
     mspPersist();
   }
+});
+
+/* уход с поля времени — добиваем минуты до ЧЧ:ММ */
+document.addEventListener('focusout', (e) => {
+  const el = e.target.closest('[data-action^="msp-sched-"]');
+  if (!el) return;
+  el.value = mspTimeMask(el.value + '0').slice(0, 5);
 });
 
 /* витринные экраны снимают режим кабинета */
