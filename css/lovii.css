@@ -3893,3 +3893,9 @@ body.cabinet-mode-auth .app-header { display: none; }
   .app-header .logo-img { width: 118px; }
   .pill-btn .lbl { max-width: 84px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 }
+
+/* Супер-узкие (≤340): логотип короче, адрес — иконкой */
+@media (max-width: 340px) {
+  .app-header .logo-img { width: 92px; }
+  .pill-btn .lbl { display: none; }
+}
