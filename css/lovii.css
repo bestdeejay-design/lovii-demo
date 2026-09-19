@@ -3882,7 +3882,14 @@ body.cabinet-mode-auth .app-header { display: none; }
 
 /* Настройки точки: строка расписания не растягивает экран на телефонах
    (нативные time-инпуты широкие — разрешаем колонкам сжиматься) */
-.msp-sched__row { grid-template-columns: 30px minmax(0, 1fr) minmax(0, 1fr) auto; }
+.msp-sched__row { grid-template-columns: 26px minmax(0, 1fr) minmax(0, 1fr) auto; gap: 6px; }
 .msp-sched__row .msp-time { min-width: 0; }
-.msp-sched__row .msp-time input { width: 100%; min-width: 0; padding: 5px 2px; font-size: 11px; }
+.msp-sched__row .msp-time input { width: 100%; min-width: 0; padding: 5px 2px; font-size: 11px; text-align: center; }
 .msp-sched__row .app-switch { transform: scale(0.88); }
+
+/* Шапка на узких экранах (≤360): логотип и пилюля адреса сжимаются */
+@media (max-width: 360px) {
+  .app-header-in { gap: 8px; padding: 0 10px; }
+  .app-header .logo-img { width: 118px; }
+  .pill-btn .lbl { max-width: 84px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
