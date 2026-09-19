@@ -10,7 +10,7 @@
 /* ---------- Хранилище адресов ---------- */
 
 const ADDRESSES_DEFAULT = [
-  { id: 1, label: 'Дом', street: 'ул. Тверская', house: '12', entrance: '2', floor: '3', apartment: '45', comment: '' },
+  { id: 1, label: 'Дом', street: 'ул. Тверская', house: '12', entrance: '2', floor: '3', apartment: '45', comment: '', current: true },
   { id: 2, label: 'Работа', street: 'Столешников пер.', house: '7', entrance: '', floor: '', apartment: '', comment: '' },
 ];
 
