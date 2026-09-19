@@ -7,6 +7,13 @@
  * Источник: origin/staging 938fe42, 2026-09-18.
  * ============================================================ */
 
+function addDaysLocal(dayShift, hours, minutes) {
+  const d = new Date();
+  d.setDate(d.getDate() + dayShift);
+  d.setHours(hours, minutes, 0, 0);
+  return d.toISOString();
+}
+
 /* Сид подписки LOVII PASS (SZ-056): действующая → карточка статуса. */
 const WALLET_MIRROR = {
   subscription: {
@@ -15,7 +22,14 @@ const WALLET_MIRROR = {
     period_end: (() => { const d = new Date(); d.setDate(d.getDate() + 21); return d.toISOString(); })(),
   },
   // Рублёвый контур демо-клиента: проводок нет (честное пустое состояние).
-  ledgerEntries: [],
+  ledgerEntries: [
+    { id: 'lm1', title: 'Пополнение кошелька · Т-Банк', dir: 'in', amount: 5000, created_at: addDaysLocal(0, 11, 20) },
+    { id: 'lm2', title: 'Оплата покупки · Кофейня «Daily»', dir: 'out', amount: 240, created_at: addDaysLocal(-1, 18, 45) },
+    { id: 'lm3', title: 'Пополнение · наличными у кассира', dir: 'in', amount: 3000, created_at: addDaysLocal(-2, 13, 10) },
+    { id: 'lm4', title: 'Оплата покупки · Пекарня «Слойка»', dir: 'out', amount: 344, created_at: addDaysLocal(-4, 9, 5) },
+    { id: 'lm5', title: 'Пополнение кошелька · СБП', dir: 'in', amount: 2000, created_at: addDaysLocal(-6, 20, 40) },
+    { id: 'lm6', title: 'Оплата покупки · Бургерная «Гриль»', dir: 'out', amount: 940, created_at: addDaysLocal(-8, 19, 15) },
+  ],
 };
 
 /* Локальное состояние вида: контур, фильтры, период. */
@@ -38,7 +52,7 @@ function walletMirrorFeed(list) {
   const now = new Date();
   let rows = list;
   if (walletMirrorUi.filter !== 'all') {
-    rows = rows.filter((tx) => walletDirection(tx) === walletMirrorUi.filter);
+    rows = rows.filter((tx) => (tx.dir || walletDirection(tx)) === walletMirrorUi.filter);
   }
   if (walletMirrorUi.period === 'month') {
     rows = rows.filter((tx) => new Date(tx.created_at).getMonth() === now.getMonth()
