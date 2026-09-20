@@ -2643,10 +2643,6 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   transition: box-shadow .2s, transform .2s, border-color .2s;
 }
 .nearby-store:hover { box-shadow: var(--lv-shadow-lift); border-color: var(--lv-pink); transform: translateY(-2px); }
-.nearby-store__products > span { border: 1px solid var(--lv-line-2); }
-.nearby-store__info > span { border: 1px solid var(--lv-line-2); border-radius: 10px; }
-.nearby-store__description > h4 { font-weight: 700; }
-.nearby-store__description > span { color: var(--lv-pink); font-weight: 600; }
 .nearby-store__products {
   width: 100%;
   display: flex;
@@ -2665,8 +2661,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   border-radius: 8px;
   display: flex;
   align-items: center;
-  justify-content: center;
-}
+  justify-content: center; border: 1px solid var(--lv-line-2); }
 .nearby-store__info {
   width: 100%;
   margin: 8px 0 0;
@@ -2676,14 +2671,13 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   gap: 12px;
 }
 .nearby-store__info > span {
-  border-radius: 4px;
+  border-radius: 10px;
   width: 52px;
   height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
-}
+  padding: 4px; border: 1px solid var(--lv-line-2); }
 .nearby-store__description {
   display: flex;
   flex-flow: column;
@@ -2697,12 +2691,11 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   color: var(--content-normal-primary);
   font-size: 13px;
   font-weight: 600;
-  line-height: 1.5;
-}
+  line-height: 1.5; }
 .nearby-store__description > p { margin: 0; font-size: 11px; font-weight: 400; line-height: 1.45; }
 .nearby-store__description > p.open { color: var(--feedback-info-solid); }
 .nearby-store__description > p.close { color: var(--feedback-negative-solid); }
-.nearby-store__description > span { color: var(--content-normal-primary); font-size: 11px; line-height: 1.45; }
+.nearby-store__description > span { color: var(--lv-pink); font-size: 11px; line-height: 1.45; font-weight: 600; }
 
 /* Эмодзи-плитка вместо фото (демо без фотостока) */
 .sf-emoji { font-style: normal; font-size: 34px; line-height: 1; }
