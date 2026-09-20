@@ -3717,7 +3717,10 @@ body.cabinet-mode #view{ padding-bottom: 0; }
 .acc-card{ padding: 16px; display: grid; gap: 10px; }/* ---------- ЗЕРКАЛО СТЕЙДЖА · АВТОРИЗАЦИЯ (AuthModule) ---------- */ body.cabinet-mode-auth .app-header, .home-promos__list::-webkit-scrollbar{ display: none; }
 .auth-screen{ min-height: 100dvh; padding: 12px 16px 32px; }
 .auth-head{ display: flex; margin: 8px 0 8px; max-width: 420px; margin-inline: auto; }
-.auth-step{ display: grid; gap: 12px; margin: 8vh auto 0; max-width: 420px; }
+.auth-logo{ display: flex; justify-content: center; margin: 4px 0 0; max-width: 420px; margin-inline: auto; }
+.auth-logo img{ display: none; height: 30px; width: auto; }
+[data-theme="dark"] .auth-logo img.i-dark, [data-theme="light"] .auth-logo img.i-light{ display: block; }
+.auth-step{ display: grid; gap: 12px; margin: 4vh auto 0; max-width: 420px; }
 .auth-step h3{ margin: 0; color: var(--lv-ink); font-size: 20px; font-weight: 800; line-height: 1.25; letter-spacing: -0.01em; }
 .auth-note{ margin: 0; color: var(--lv-dim); font-size: 12px; line-height: 1.5; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
 .auth-note a{ color: var(--lv-pink); }

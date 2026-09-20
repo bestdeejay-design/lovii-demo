@@ -180,6 +180,11 @@ function renderAuthMirror() {
           ${icon(backable ? 'chev-left' : 'x')}
         </button>
       </header>
+      <!-- Логотип Лови: своя версия под каждую тему (пары как в шапке и на экране блокировки) -->
+      <div class="auth-logo">
+        <img class="i-light" src="assets/lovii-logo-light.svg" alt="LOVII" width="140" height="30">
+        <img class="i-dark" src="assets/logo-dark.svg" alt="LOVII" width="140" height="30">
+      </div>
       ${step}
     </div>`;
 }
