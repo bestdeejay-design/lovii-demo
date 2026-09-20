@@ -18,6 +18,14 @@ const AUTH_CHANNELS = [
   { id: 'call', label: 'Звонок', live: false },
 ];
 
+/* Короткие подписи для системной строки (.ri-mid .sb) */
+const AUTH_CHANNEL_SUB = {
+  max: 'Бот «Лови» в MAX',
+  telegram: 'Бот «Лови» в Telegram',
+  vkontakte: 'Сообщество «Лови»',
+  call: 'Позвонит автоинформатор',
+};
+
 const AUTH_CHANNEL_HINT = {
   max: 'Код отправлен в бот «Лови» в MAX — откройте чат с ботом и найдите последнее сообщение',
   telegram: 'Код отправлен в бот «Лови» в Telegram',
@@ -64,15 +72,21 @@ function aStepChannel() {
     <section class="auth-step">
       <h3>Выберите вариант для отправки кода&nbsp;подтверждения</h3>
       <p class="auth-phone-line">Код придёт на ${aEsc(aPhonePretty(authUi.phone))}</p>
-      <div class="auth-channels">
-        ${AUTH_CHANNELS.map((c) => `
-          <button type="button" class="acct__btn auth-channel${c.live ? '' : ' is-soon'}" data-testid="auth-otp-method"
-            data-action="${c.live ? 'auth-channel' : ''}" data-channel="${c.id}" ${c.live ? '' : 'disabled'}>
-            <span class="auth-channel-ico${AUTH_CHANNEL_LOGO[c.id] ? ' auth-channel-ico_logo' : ''}">${AUTH_CHANNEL_LOGO[c.id]
-              ? `<img src="${AUTH_CHANNEL_LOGO[c.id]}" alt="" width="24" height="24" decoding="async">`
+      <!-- Список собран из системных строк: .list-card → .row-item → .sr-ico + .ri-mid + .chev -->
+      <div class="list-card">
+        ${AUTH_CHANNELS.map((c) => (c.live ? `
+          <button type="button" class="row-item as-btn" data-testid="auth-otp-method" data-action="auth-channel" data-channel="${c.id}">
+            <span class="sr-ico">${AUTH_CHANNEL_LOGO[c.id]
+              ? `<img src="${AUTH_CHANNEL_LOGO[c.id]}" alt="" width="20" height="20" decoding="async">`
               : icon('phone')}</span>
-            ${c.label}${c.live ? '' : '<span class="soon-badge">Скоро</span>'}
-          </button>`).join('')}
+            <div class="ri-mid"><div class="nm">${c.label}</div><div class="sb">${mEsc2(AUTH_CHANNEL_SUB[c.id] || '')}</div></div>
+            <span class="chev">${icon('chev-right', '', 2, true)}</span>
+          </button>` : `
+          <div class="row-item">
+            <span class="sr-ico">${icon('phone')}</span>
+            <div class="ri-mid"><div class="nm">${c.label}</div><div class="sb">${mEsc2(AUTH_CHANNEL_SUB[c.id] || '')}</div></div>
+            <span class="app-badge app-badge_tertiary app-badge_s">Скоро</span>
+          </div>`)).join('')}
       </div>
     </section>`;
 }
