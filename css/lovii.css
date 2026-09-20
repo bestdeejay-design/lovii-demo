@@ -212,7 +212,7 @@ main#view{ flex: 1; }
 .stat-pill { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 12px; border-radius: var(--lv-r-pill); font-size: 12px; font-weight: 600; }
 }
 .stat-pill.pink, .status-pink{ background: var(--lv-soft-pink); color: var(--lv-pink-dark); }.stat-pill.tiffany, .info-pill.tiffany, .status-tiffany{ background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
-.stat-pill.gold{ background: var(--lv-soft-gold); color: var(--lv-gold-text); }.stat-pill.grey, .open-pill.off, .stock-out{ background: var(--lv-grey-soft); color: #999; }
+.stat-pill.gold{ background: var(--lv-soft-gold); color: var(--lv-gold-text); }.stat-pill.grey, .open-pill.off, .stock-out{ background: var(--lv-grey-soft); color: var(--lv-dim); }
 .search-trigger{ display: flex; align-items: center; gap: 10px; width: 100%; height: 44px; padding: 0 16px; margin-top: 16px; border-radius: var(--lv-r-pill); background: var(--lv-surface); color: var(--lv-dim); font-size: 14px; text-align: left; transition: background .2s; }
 
 /* ---------- Категории ---------- */
@@ -390,7 +390,7 @@ main#view{ flex: 1; }
 }
 
 .avail-right{ flex-shrink: 0; text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }.avail-price, .cart-store-total .v{ font-size: 14px; font-weight: 800; }
-.out-note{ font-size: 11px; color: #999; }
+.out-note{ font-size: 11px; color: var(--lv-dim); }
 @layer primitives{
 
 .cta-btn { height: 36px; padding: 0 16px; border-radius: var(--lv-r-pill); color: var(--lv-on-brand); font-size: 12px; font-weight: 700; transition: all .2s; display: inline-flex; align-items: center; justify-content: center; }
@@ -422,7 +422,7 @@ main#view{ flex: 1; }
 .rating-pill { display: flex; align-items: center; gap: 4px; height: 28px; padding: 0 10px; border-radius: var(--lv-r-pill); background: var(--lv-soft-gold); font-size: 12px; font-weight: 700; color: var(--lv-gold-text); flex-shrink: 0; }
 }
 
-.rating-pill .rev{ color: #b09662; font-weight: 500; }
+.rating-pill .rev{ color: var(--lv-gold-text); font-weight: 500; }
 .st-chips{ display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 @layer primitives{
 
@@ -513,7 +513,7 @@ main#view{ flex: 1; }
 .status-pill { height: 24px; padding: 0 10px; border-radius: var(--lv-r-pill); font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; }
 }
 
-.status-dim{ background: var(--lv-grey-soft); color: #888; }
+.status-dim{ background: var(--lv-grey-soft); color: var(--lv-dim); }
 .order-meta{ display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 12px; color: var(--lv-dim); flex-wrap: wrap; }.order-meta svg, .district-row .ic svg{ width: 16px; height: 16px; color: var(--lv-pink); }
 .item-chips{ display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
 .item-chip{ display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 10px; border-radius: var(--lv-r-pill); background: var(--lv-surface); font-size: 12px; font-weight: 500; }
@@ -647,7 +647,7 @@ main#view{ flex: 1; }
 }
 
 .st-chip .lv-dot{ width: 5px; height: 5px; }.st-active, .dash-note.tone-tiffany{ background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }.st-mod, .st-wait, .dash-note.tone-gold{ background: var(--lv-soft-gold); color: var(--lv-gold-text); }
-.st-off{ background: var(--lv-grey-soft); color: #999; }
+.st-off{ background: var(--lv-grey-soft); color: var(--lv-dim); }
 
 /* ---------- Шапка дашборда, табы ---------- */
 .dash-head{ display: flex; align-items: center; gap: 12px; padding: 16px 16px 0; }
@@ -683,7 +683,7 @@ main#view{ flex: 1; }
 .kpi .l{ font-size: 11px; font-weight: 700; color: var(--lv-dim); text-transform: uppercase; letter-spacing: .04em; }
 .kpi .v{ margin-top: 5px; font-size: 19px; font-weight: 800; letter-spacing: -.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .kpi .d{ margin-top: 5px; min-height: 22px; display: flex; align-items: center; gap: 8px; }
-.kpi.accent{ background-image: linear-gradient(150deg, var(--lv-kpi-soft), var(--lv-card)); border-color: rgba(246, 74, 138, .25); }.kpi.accent .v, .delta-down, .fin-row.neg .v{ color: var(--lv-pink-dark); }
+.kpi.accent{ background-image: linear-gradient(150deg, var(--lv-kpi-soft), var(--lv-card)); border-color: color-mix(in srgb, var(--lv-pink) 25%, transparent); }.kpi.accent .v, .delta-down, .fin-row.neg .v{ color: var(--lv-pink-dark); }
 .delta{ display: inline-flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; }.delta-up, .fin-row.ok .v{ color: var(--lv-tiffany-text); }
 @layer primitives{
 
@@ -854,8 +854,8 @@ main#view{ flex: 1; }
   box-shadow: var(--lv-shadow-soft);
 }
 .rank-card{ padding: 16px; background: var(--lv-card); }
-.rank-card.tone-tiffany{ background: linear-gradient(150deg, var(--lv-soft-tiffany), var(--lv-card)); border-color: rgba(10, 186, 181, .26); }
-.rank-card.tone-gold{ background: linear-gradient(150deg, var(--lv-soft-gold), var(--lv-card)); border-color: rgba(212, 168, 84, .28); }
+.rank-card.tone-tiffany{ background: linear-gradient(150deg, var(--lv-soft-tiffany), var(--lv-card)); border-color: color-mix(in srgb, var(--lv-tiffany) 26%, transparent); }
+.rank-card.tone-gold{ background: linear-gradient(150deg, var(--lv-soft-gold), var(--lv-card)); border-color: color-mix(in srgb, var(--lv-gold) 28%, transparent); }
 .rank-top{ display: flex; align-items: center; gap: 12px; }
 .rank-emoji{ width: 46px; height: 46px; border-radius: var(--lv-r-md); display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,.62); font-size: 24px; }
 .rank-kicker{ font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--lv-dim); }
@@ -945,7 +945,7 @@ main#view{ flex: 1; }
 .step{ position: relative; min-width: 0; padding: 8px 6px; border-radius: var(--lv-r-md); background: var(--lv-surface); border: 1px solid var(--lv-line); text-align: center; color: var(--lv-dim); }
 .step span{ display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: var(--lv-r-pill); background: var(--lv-card); border: 1px solid var(--lv-line); font-size: 11px; font-weight: 900; }
 .step b{ display: block; margin-top: 5px; font-size: 10px; line-height: 1.2; font-weight: 800; }
-.step.done{ background: var(--lv-soft-tiffany); border-color: rgba(10,186,181,.24); color: var(--lv-tiffany-text); }
+.step.done{ background: var(--lv-soft-tiffany); border-color: color-mix(in srgb, var(--lv-tiffany) 24%, transparent); color: var(--lv-tiffany-text); }
 .step.done span{ background-image: linear-gradient(135deg, var(--lv-tiffany), #078d89); color: var(--lv-on-brand); border-color: transparent; }
 .step.current{ box-shadow: 0 0 0 2px rgba(246,74,138,.16); }
 .approval-card, .empty-state-card, .checklist-card{ margin: 10px 16px 0; padding: 12px; border-radius: 18px; background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
