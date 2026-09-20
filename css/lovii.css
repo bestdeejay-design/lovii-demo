@@ -582,6 +582,16 @@ main#view { flex: 1; }
   /* шапка «назад» — по ширине контента; на узких экранах (чат, заявка) остаётся узкой */
   .subheader-in { max-width: var(--lv-content-max, 924px); }
   #view:has(.lv-narrow) .subheader-in { max-width: var(--lv-container-narrow, 760px); }
+  /* Верхняя полоса живёт в капсуле контента: логотип и контролы — по линии контента,
+     а не по краям окна. Иначе на широких экранах их приходится искать по сторонам.
+     Каждому типу экрана — своя капсула, та же, что у его контента. */
+  .app-header-in { max-width: var(--lv-content-max, 924px); }
+  /* Главная — широкий экран: шапка идёт по краям её контента */
+  .app:has(#view > .home) .app-header-in { max-width: none; }
+  /* Кабинеты ролей (дашборды) — своя широкая капсула */
+  .app:has(#view > .lv-enter) .app-header-in { max-width: var(--lv-container-wide, 1120px); }
+  /* Узкие экраны — чат и заявка */
+  .app:has(#view .lv-narrow) .app-header-in { max-width: var(--lv-container-narrow, 760px); }
 }
 
 @media (min-width: 640px) {
