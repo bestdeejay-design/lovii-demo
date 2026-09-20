@@ -56,6 +56,12 @@ body {
 @layer base{
 
 button { font-family: inherit; border: 0; background: none; padding: 0; cursor: pointer; color: inherit; font-size: inherit; }
+/* Тач-поведение: быстрые тапы по элементам управления не должны запускать двойной тап-зум браузера
+   (на iOS он и увеличивал масштаб, из-за чего часть витрины уходила за края). Пинч-зум при этом сохраняется. */
+button, a, label, input, select, textarea, [role="button"], [role="tab"] { touch-action: manipulation; }
+button, [role="button"], [role="tab"] { -webkit-tap-highlight-color: transparent; -webkit-user-select: none; user-select: none; }
+/* Счётчики количества: быстрые серии тапов без выделения текста и случайных зумов */
+.cart-product__counter > button, .product-preview__counter > button, .product__counter > button, .qty button { touch-action: manipulation; user-select: none; }
 }
 
 @layer base{
