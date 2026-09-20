@@ -574,7 +574,7 @@ document.addEventListener('click', (e) => {
     const label = el.querySelector('[data-mir-copy-label]');
     const done = () => {
       if (label) label.textContent = 'Номер скопирован';
-      toast('Номер карты скопирован', num);
+      toast('Номер карты скопирован', num, 'positive');
       setTimeout(() => { if (label) label.textContent = 'Скопировать номер'; }, 2000);
     };
     if (navigator.clipboard?.writeText) {
@@ -586,7 +586,7 @@ document.addEventListener('click', (e) => {
   }
 
   if (action === 'mir-subscribe') {
-    toast('Демо: подключение подписки', 'На стенде списание идёт с LOVII Business, затем с LOVII PAY');
+    toast('Демо: подключение подписки', 'На стенде списание идёт с LOVII Business, затем с LOVII PAY', 'financial');
     return;
   }
 

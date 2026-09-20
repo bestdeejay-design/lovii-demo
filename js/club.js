@@ -574,7 +574,7 @@ document.addEventListener('click', (e) => {
   }
 
   if (a === 'pay-biz-payout') {
-    toast('Демо: выплата на расчётный счёт', 'Регистрация · завтра в 10:00');
+    toast('Демо: выплата на расчётный счёт', 'Регистрация · завтра в 10:00', 'financial');
     return;
   }
 
@@ -584,7 +584,7 @@ document.addEventListener('click', (e) => {
       ? LOVII_PAY_SEED.biz.card.bin + ' ' + LOVII_PAY_SEED.biz.card.tail
       : payCardNumber();
     if (navigator.clipboard) navigator.clipboard.writeText(num).catch(() => {});
-    toast('Номер карты скопирован', num);
+    toast('Номер карты скопирован', num, 'positive');
     return;
   }
 
@@ -608,9 +608,9 @@ document.addEventListener('click', (e) => {
     // Канон владельца (2026-09-12): PASS и выше — вывод на карту
     // без комиссий от 3 000 ₽; для базового PAY правила не заданы (беклог).
     if (LOVII_PAY_SEED.currentTier === 'pay') {
-      toast('Демо: вывод через СБП', '1 балл = 1 ₽ · правила вывода — задача владельца');
+      toast('Демо: вывод через СБП', '1 балл = 1 ₽ · правила вывода — задача владельца', 'financial');
     } else {
-      toast('Демо: вывод на карту', 'LOVII ' + LOVII_PAY_SEED.currentTier.toUpperCase() + ' · без комиссии от 3 000 ₽');
+      toast('Демо: вывод на карту', 'LOVII ' + LOVII_PAY_SEED.currentTier.toUpperCase() + ' · без комиссии от 3 000 ₽', 'financial');
     }
     return;
   }

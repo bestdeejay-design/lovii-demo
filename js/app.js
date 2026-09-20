@@ -333,10 +333,14 @@ function updateChrome() {
 
 /* ================= Тосты ================= */
 
-function toast(msg, desc) {
+/* Тон уведомления: 'positive' | 'important' | 'negative' | 'error' | 'financial'
+   (без тона — нейтральный тёмный). См. стили .toast_t-* в css/lovii.css */
+function toast(msg, desc, tone) {
   const wrap = document.getElementById('toast-wrap');
   const el = document.createElement('div');
-  el.className = 'toast';
+  el.className = 'toast' + (tone ? ` toast_t-${tone}` : '');
+  if (tone) el.dataset.tone = tone;
+  el.setAttribute('role', tone === 'error' || tone === 'negative' ? 'alert' : 'status');
   el.innerHTML = esc(msg) + (desc ? `<div class="d">${esc(desc)}</div>` : '');
   wrap.appendChild(el);
   setTimeout(() => {
@@ -541,7 +545,7 @@ document.addEventListener('click', (e) => {
     case 'checkout': {
       if (state.cart.length === 0) break;
       const order = checkout();
-      toast(`Заказ ${order.id} оформлен`, `${order.pickupStore} · ${priceFmt(order.total)}`);
+      toast(`Заказ ${order.id} оформлен`, `${order.pickupStore} · ${priceFmt(order.total)}`, 'financial');
       go('orders');
       break;
     }
@@ -582,7 +586,7 @@ document.addEventListener('click', (e) => {
 
     case 'copy-code':
       if (navigator.clipboard && actEl.dataset.code) navigator.clipboard.writeText(actEl.dataset.code).catch(() => {});
-      toast('Код скопирован', actEl.dataset.code || '');
+      toast('Код скопирован', actEl.dataset.code || '', 'positive');
       break;
 
     case 'demo-pay':
@@ -622,7 +626,7 @@ document.addEventListener('click', (e) => {
       syncUserStore();
       persist();
       renderViewPreserveScroll();
-      toast('Товар добавлен', 'Появится на витрине после одобрения точки');
+      toast('Товар добавлен', 'Появится на витрине после одобрения точки', 'positive');
       break;
     }
 
@@ -692,7 +696,7 @@ document.addEventListener('click', (e) => {
       break;
 
     case 'sub-renew':
-      toast('Продление подписки', 'Лови PASS · 599 ₽/мес — в демо оплата не проводится');
+      toast('Продление подписки', 'Лови PASS · 599 ₽/мес — в демо оплата не проводится', 'financial');
       break;
 
     case 'pay-refresh':
@@ -706,7 +710,7 @@ document.addEventListener('click', (e) => {
 
     case 'copy-link':
       if (navigator.clipboard && actEl.dataset.link) navigator.clipboard.writeText(actEl.dataset.link).catch(() => {});
-      toast('Ссылка скопирована', 'Отправь владельцу точки');
+      toast('Ссылка скопирована', 'Отправь владельцу точки', 'positive');
       break;
   }
 });
@@ -807,7 +811,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 
 window.addEventListener('appinstalled', () => {
   closeInstallSheet();
-  toast('Лови установлен', 'Ищи иконку на главном экране');
+  toast('Лови установлен', 'Ищи иконку на главном экране', 'positive');
 });
 
 async function startInstall() {
@@ -819,7 +823,7 @@ async function startInstall() {
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
     deferredPrompt = null;
-    if (outcome === 'accepted') toast('Готово!', 'Иконка Лови появится на главном экране');
+    if (outcome === 'accepted') toast('Готово!', 'Иконка Лови появится на главном экране', 'positive');
     else closeInstallSheet();
     return;
   }

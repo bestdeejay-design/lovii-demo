@@ -402,14 +402,14 @@ document.addEventListener('click', (e) => {
     const order = oPlaceOrder(el.dataset.store, Number(el.dataset.total), el.dataset.delivery);
     if (order) {
       checkoutUi.placed = { ...order, slug: el.dataset.store };
-      toast('Заказ оформлен', `№${order.id} · ${oFmt(order.total)} ₽`);
+      toast('Заказ оформлен', `№${order.id} · ${oFmt(order.total)} ₽`, 'financial');
       renderViewPreserveScroll();
     }
     return;
   }
 
   if (action === 'o-min-blocked') {
-    toast('Минимум заказа не набран', 'Добавьте ещё товаров — сумма подскажет, сколько не хватает');
+    toast('Минимум заказа не набран', 'Добавьте ещё товаров — сумма подскажет, сколько не хватает', 'important');
   }
 });
 

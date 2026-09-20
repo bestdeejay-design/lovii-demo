@@ -131,7 +131,7 @@ document.addEventListener('click', (e) => {
   if (action === 'auth-phone-next') {
     const digits = (authUi.phone || '').replace(/\D/g, '');
     if (digits.length !== 11) {
-      toast('Введите номер полностью', '+7 ### ###-##-##');
+      toast('Введите номер полностью', '+7 ### ###-##-##', 'important');
       return;
     }
     authUi.step = 'channel';
@@ -149,7 +149,7 @@ document.addEventListener('click', (e) => {
 
   if (action === 'auth-promo-skip') {
     go('profile');
-    toast('Вы вошли', 'Демо: вход без бекенда');
+    toast('Вы вошли', 'Демо: вход без бекенда', 'positive');
   }
 });
 

@@ -270,7 +270,7 @@ async function pinCommit() {
       pinBuffer = '';
       pinMode = 'setup1';
       pinFirst = '';
-      setTimeout(() => { renderLock(); toast('Коды не совпали — начните заново'); }, 60);
+      setTimeout(() => { renderLock(); toast('Коды не совпали — начните заново', 'error'); }, 60);
     }
   }
 }
@@ -289,7 +289,7 @@ async function pinSave() {
   saveSettings();
   closePinOverlay();
   renderViewPreserveScroll(); // обновить строки безопасности (статусы)
-  toast('PIN-код установлен', 'Теперь он запрашивается при входе в демо');
+  toast('PIN-код установлен', 'Теперь он запрашивается при входе в демо', 'positive');
 }
 
 /* ---- Face ID (WebAuthn platform authenticator) ---- */
@@ -340,9 +340,9 @@ async function faceRegister() {
     s.security.faceId = b64url(cred.rawId);
     saveSettings();
     renderViewPreserveScroll();
-    toast('Face ID подключён', 'Вход по биометрии с этого устройства');
+    toast('Face ID подключён', 'Вход по биометрии с этого устройства', 'positive');
   } catch (e) {
-    toast('Не удалось подключить Face ID', 'Попробуй ещё раз');
+    toast('Не удалось подключить Face ID', 'Попробуй ещё раз', 'error');
   }
 }
 
@@ -360,10 +360,10 @@ async function faceUnlock() {
     });
     const done = pinOnDone;
     closePinOverlay();
-    toast('Вход по Face ID выполнен');
+    toast('Вход по Face ID выполнен', 'positive');
     if (typeof done === 'function') done();
   } catch (e) {
-    toast('Face ID не подтвердился', 'Введи PIN-код');
+    toast('Face ID не подтвердился', 'Введи PIN-код', 'error');
   }
 }
 
@@ -381,11 +381,11 @@ async function togglePush(key) {
   const s = ensureSettings();
   if (key === 'master') {
     if (!s.push.master) {
-      if (!pushSupported()) { toast('Пуши недоступны', 'Браузер не поддерживает уведомления'); return; }
+      if (!pushSupported()) { toast('Пуши недоступны', 'Браузер не поддерживает уведомления', 'important'); return; }
       let perm = Notification.permission;
       if (perm === 'default') perm = await Notification.requestPermission();
       if (perm !== 'granted') {
-        toast('Пуши запрещены', 'Разреши уведомления в настройках браузера');
+        toast('Пуши запрещены', 'Разреши уведомления в настройках браузера', 'important');
         return;
       }
       s.push.master = true;
@@ -571,7 +571,7 @@ document.addEventListener('click', (e) => {
   }
 
   if (a === 'set-pin-off') {
-    if (!pinIsSet()) { toast('PIN-код не установлен'); return; }
+    if (!pinIsSet()) { toast('PIN-код не установлен', 'important'); return; }
     openPinOverlay('verify', async () => {
       const s = ensureSettings();
       s.security = { pinHash: null, salt: null, faceId: null };
@@ -590,7 +590,7 @@ document.addEventListener('click', (e) => {
   }
 
   if (a === 'set-face') {
-    if (!pinIsSet()) { toast('Сначала установи PIN-код', 'Face ID работает вместе с PIN'); return; }
+    if (!pinIsSet()) { toast('Сначала установи PIN-код', 'Face ID работает вместе с PIN', 'important'); return; }
     if (faceIdSet()) {
       const s = ensureSettings();
       s.security.faceId = null;

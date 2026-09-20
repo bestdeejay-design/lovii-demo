@@ -195,7 +195,7 @@ function returnMspPoint(reason) {
   lead.point.status = 'draft';
   lead.point.returnReason = (reason || '').trim() || null;
   persist();
-  toast('Заявка возвращена', lead.point.returnReason ? `Причина: ${lead.point.returnReason}` : 'Владелец может поправить карточку точки');
+  toast('Заявка возвращена', lead.point.returnReason ? `Причина: ${lead.point.returnReason}` : 'Владелец может поправить карточку точки', 'negative');
   renderViewPreserveScroll();
 }
 
@@ -309,7 +309,7 @@ function orderTransition(id, to) {
   const flow = ORDER_FLOW[o.delivery];
   const next = flow.next[o.status];
   if (!next || next[0] !== to) {
-    toast('Такой статус сейчас недоступен', 'Актуальное действие подсвечено в карточке заказа'); // канон честных ошибок (hotfix 421fd0e)
+    toast('Такой статус сейчас недоступен', 'Актуальное действие подсвечено в карточке заказа', 'negative'); // канон честных ошибок (hotfix 421fd0e)
     return;
   }
   o.status = to;
@@ -343,7 +343,7 @@ function cancelOrder(id, reason) {
   o.cancelReason = (reason || '').trim() || 'Причина не указана';
   closeActionSheet();
   renderViewPreserveScroll();
-  toast(`Заказ ${o.id} отменён`, o.cancelReason);
+  toast(`Заказ ${o.id} отменён`, o.cancelReason, 'negative');
 }
 
 /* ================= МСП: свитчер юрлица/филиала ================= */

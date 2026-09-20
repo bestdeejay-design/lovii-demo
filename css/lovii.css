@@ -544,8 +544,20 @@ main#view { flex: 1; }
 
 /* ---------- Тосты ---------- */
 .toast-wrap { position: fixed; left: 0; right: 0; bottom: 84px; z-index: 60; display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; padding: 0 16px; }
-.toast { max-width: 100%; background: var(--lv-ink); color: var(--lv-card); border-radius: var(--lv-r-lg); padding: 10px 16px; font-size: 13px; font-weight: 600; box-shadow: var(--lv-shadow-toast); animation: toast-in .25s ease-out; }
-.toast .d { font-size: 11px; color: var(--lv-toast-d); font-weight: 400; margin-top: 2px; }
+/* Уведомление: ширина по содержимому с потолком узкой капсулы (--lv-container, 480px),
+   иначе длинный текст растягивался на всё окно. Тоны — на семантике канона. */
+.toast { width: max-content; max-width: min(100%, var(--lv-container, 480px)); display: flex; flex-flow: column; gap: 2px; background: var(--lv-ink); color: var(--lv-card); border: 1px solid transparent; border-radius: var(--lv-r-lg); padding: 12px 16px; font-size: 13px; font-weight: 600; line-height: 1.35; text-align: center; box-shadow: var(--lv-shadow-toast); animation: toast-in .25s ease-out; }
+.toast .d { font-size: 11px; color: var(--lv-toast-d); font-weight: 400; }
+.toast_t-positive  { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); border-color: var(--lv-tiffany-text); }
+.toast_t-positive .d { color: var(--lv-tiffany-text); opacity: .85; }
+.toast_t-important { background: var(--lv-soft-gold); color: var(--lv-gold-text); border-color: var(--lv-gold-text); }
+.toast_t-important .d { color: var(--lv-gold-text); opacity: .85; }
+.toast_t-negative  { background: var(--lv-negative-soft); color: var(--lv-negative); border-color: var(--lv-negative); }
+.toast_t-negative .d { color: var(--lv-negative); opacity: .85; }
+.toast_t-error     { background: var(--lv-negative); color: var(--lv-white, #fff); border-color: var(--lv-negative); }
+.toast_t-error .d { color: var(--lv-white, #fff); opacity: .85; }
+.toast_t-financial { background: var(--lv-soft-pink); color: var(--lv-pink-dark); border-color: var(--lv-pink-dark); }
+.toast_t-financial .d { color: var(--lv-pink-dark); opacity: .85; font-variant-numeric: tabular-nums; }
 @layer base {
 
 @keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }

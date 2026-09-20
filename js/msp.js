@@ -752,7 +752,7 @@ document.addEventListener('click', (e) => {
         const twin = pt.products.find((x) => x.id === pid);
         if (twin) twin.on = target.on;
       }
-      toast('Применено ко всем точкам бренда', target.name);
+      toast('Применено ко всем точкам бренда', target.name, 'positive');
     } else {
       target.on = !target.on;
       void targetPoint;
@@ -785,7 +785,7 @@ document.addEventListener('click', (e) => {
     const mon = sched['пн'];
     Object.keys(sched).forEach((d) => { sched[d] = { ...mon }; });
     renderViewPreserveScroll();
-    toast('Расписание понедельника применено ко всем дням');
+    toast('Расписание понедельника применено ко всем дням', 'positive');
     return;
   }
 
@@ -802,7 +802,7 @@ document.addEventListener('click', (e) => {
     setTimeout(() => {
       mspUi.payment = 'done';
       if (location.hash === '#/msp') {
-        toast('Платёж подтверждён', 'Ваша точка на витрине');
+        toast('Платёж подтверждён', 'Ваша точка на витрине', 'financial');
         renderViewPreserveScroll();
       }
     }, 4000);

@@ -195,7 +195,7 @@ function approveUserStore(silent) {
   syncUserStore();
   persist();
   if (!silent) {
-    toast('Точка прошла модерацию', 'Она появилась в витрине района');
+    toast('Точка прошла модерацию', 'Она появилась в витрине района', 'positive');
     if (state.view.name === 'dash') renderView();
   }
 }
@@ -263,7 +263,7 @@ function renderDash(tab) {
   const role = state.activeRole;
   const ok = role && (['owner', 'investor'].includes(role) || state.roles[role]);
   if (!ok) {
-    toast('Роль ещё не получена', 'Оформите заявку в профиле');
+    toast('Роль ещё не получена', 'Оформите заявку в профиле', 'important');
     return renderProfile();
   }
   const t = tab || 'index';
@@ -1541,7 +1541,7 @@ function handleMspSignup(form) {
     goods: [],
   };
   persist();
-  toast('ИНН принят', 'Открываем экран МСП с заявкой');
+  toast('ИНН принят', 'Открываем экран МСП с заявкой', 'positive');
   go('msp', 'index');
 }
 
@@ -1564,7 +1564,7 @@ function handleMspPoint(form) {
     submittedAt: Date.now(),
   };
   persist();
-  toast('Заявка отправлена представителю', 'После апрува точка появится в каталоге');
+  toast('Заявка отправлена представителю', 'После апрува точка появится в каталоге', 'positive');
   renderView();
 }
 
@@ -1580,7 +1580,7 @@ function returnMspPoint() {
   if (!lead || !lead.point || lead.point.status !== 'pending_rep') return;
   lead.point.status = 'draft';
   persist();
-  toast('Заявка возвращена', 'Владелец может поправить карточку точки');
+  toast('Заявка возвращена', 'Владелец может поправить карточку точки', 'negative');
   renderViewPreserveScroll();
 }
 
@@ -1591,7 +1591,7 @@ function approveMspPoint() {
   lead.point.approvedAt = Date.now();
   syncMspStore();
   persist();
-  toast('Точка одобрена', 'Карточка уже видна в каталоге района');
+  toast('Точка одобрена', 'Карточка уже видна в каталоге района', 'positive');
   renderViewPreserveScroll();
 }
 
@@ -1601,7 +1601,7 @@ function demoPayMsp() {
   lead.point.status = 'payment';
   persist();
   renderViewPreserveScroll();
-  toast('Платёж получен', 'Формируем автоматический возврат');
+  toast('Платёж получен', 'Формируем автоматический возврат', 'financial');
   setTimeout(() => {
     if (!state.mspLead || !state.mspLead.point || state.mspLead.point.status !== 'payment') return;
     state.mspLead.point.status = 'ready';
@@ -1610,7 +1610,7 @@ function demoPayMsp() {
     syncMspStore();
     persist();
     if (state.view.name === 'msp') renderView();
-    toast('Точка готова к продажам', `Инструкция отправлена в ${state.mspLead.channel}`);
+    toast('Точка готова к продажам', `Инструкция отправлена в ${state.mspLead.channel}`, 'positive');
   }, 2500);
 }
 
@@ -1623,7 +1623,7 @@ function addMspGood(slug) {
   syncMspStore();
   persist();
   renderViewPreserveScroll();
-  toast('Товар опубликован', 'Он доступен на витрине точки');
+  toast('Товар опубликован', 'Он доступен на витрине точки', 'positive');
 }
 
 /* ================= Экспорт CSV ================= */
@@ -1642,7 +1642,7 @@ function exportCsv() {
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-  toast('Экспорт готов', 'CSV со всеми точками скачан');
+  toast('Экспорт готов', 'CSV со всеми точками скачан', 'positive');
 }
 
 /* ================= Обработчики форм и ролей ================= */
@@ -1669,10 +1669,10 @@ function handleApply(form) {
       goods: LOVII_DASH.storeGoodsSeed.map((g) => ({ ...g })),
     };
     moderationCheck(false);
-    toast('Заявка отправлена', 'Точка на авто-модерации, ~8 секунд');
+    toast('Заявка отправлена', 'Точка на авто-модерации, ~8 секунд', 'positive');
   } else {
     state.roles[role] = { appliedAt: Date.now(), name: val('name').trim() || LOVII_DASH.user.name, city: val('city') || 'Тверской' };
-    toast('Заявка одобрена', `Роль «${m.title}» открыта`);
+    toast('Заявка одобрена', `Роль «${m.title}» открыта`, 'positive');
   }
   state.activeRole = role;
   persist();
@@ -1689,7 +1689,7 @@ function handleCardSave(form) {
   r.point.about = val('about').trim();
   syncUserStore();
   persist();
-  toast('Карточка сохранена', 'Изменения уже на витрине района');
+  toast('Карточка сохранена', 'Изменения уже на витрине района', 'positive');
   go('dash', 'index');
 }
 

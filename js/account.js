@@ -164,7 +164,7 @@ document.addEventListener('click', (e) => {
     const list = accLoadAddresses().map((a) => ({ ...a, current: String(a.id) === el.dataset.id }));
     accSaveAddresses(list);
     PROFILE_MIRROR_SEED.user.deliveryAddress = list.find((a) => a.current)?.street || '';
-    toast('Адрес доставки выбран', el.closest('.address-item')?.querySelector('p')?.textContent);
+    toast('Адрес доставки выбран', el.closest('.address-item')?.querySelector('p')?.textContent, 'positive');
     renderViewPreserveScroll();
     return;
   }
@@ -183,7 +183,7 @@ document.addEventListener('click', (e) => {
         });
       }
       accSaveAddresses(list);
-      toast('Адрес сохранён');
+      toast('Адрес сохранён', '', 'positive');
       go('addresses');
       return;
     }
@@ -195,7 +195,7 @@ document.addEventListener('click', (e) => {
     };
     list.push(addr);
     accSaveAddresses(list);
-    toast('Адрес добавлен', accAddressLine(addr));
+    toast('Адрес добавлен', accAddressLine(addr), 'positive');
     accUi.form = {};
     go('addresses');
     return;
@@ -210,7 +210,7 @@ document.addEventListener('click', (e) => {
 
   if (action === 'acc-save-profile') {
     PROFILE_MIRROR_SEED.user.name = accProfile.first_name || PROFILE_MIRROR_SEED.user.name;
-    toast('Профиль сохранён', 'Демо: изменения живут до перезагрузки');
+    toast('Профиль сохранён', 'Демо: изменения живут до перезагрузки', 'positive');
     return;
   }
 });
