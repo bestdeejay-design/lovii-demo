@@ -81,7 +81,12 @@ input { font-family: inherit; }
 @keyframes lv-pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .45; transform: scale(.8); } }
 }
 
+@layer primitives {
+
+
 .lv-dot { width: 6px; height: 6px; border-radius: var(--lv-r-pill); display: inline-block; animation: lv-pulse-dot 1.4s ease-in-out infinite; }
+}
+
 @layer base {
 
 @keyframes lv-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -116,7 +121,11 @@ main#view { flex: 1; }
 .logo .lv { color: var(--lv-pink); }
 .logo .logo-img { height: 32px; width: auto; display: block; }
 @media (max-width: 360px) { .logo .logo-img { height: 28px; } }
+@layer primitives {
+
 .pill-btn { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 10px; border-radius: var(--lv-r-pill); background: var(--lv-surface); font-size: 14px; font-weight: 500; transition: background .2s; }
+}
+
 .pill-btn:hover { background: var(--lv-soft-pink); }
 .pill-btn svg { width: 16px; height: 16px; color: var(--lv-pink); flex-shrink: 0; }
 .pill-btn .chev { width: 16px; height: 16px; color: var(--lv-dim); }
@@ -127,12 +136,42 @@ main#view { flex: 1; }
   .pill-btn .lbl { max-width: 64px; }
   .app-header-in > div { gap: 6px; }
 }
-.icon-btn { position: relative; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--lv-r-pill); background: var(--lv-surface); transition: background .2s; }.icon-btn:hover, .search-trigger:hover, .promo-card.tone-pink { background: var(--lv-soft-pink); }.icon-btn svg, .back-btn svg { width: 20px; height: 20px; }/* Базовый размер иконки icon(name, 'icon'): без него SVG без width/height схлопывается в 0×0 в Chrome и раздувается за пределы строки в Safari (iOS) */ .icon, .icon-16 { width: 16px; height: 16px; flex-shrink: 0; }
+@layer primitives {
+
+.icon-btn { position: relative; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--lv-r-pill); background: var(--lv-surface); transition: background .2s; }
+}
+@layer primitives {
+.icon-btn:hover, .search-trigger:hover, .promo-card.tone-pink { background: var(--lv-soft-pink); }
+}
+@layer primitives {
+.icon-btn svg, .back-btn svg { width: 20px; height: 20px; }
+}
+/* Базовый размер иконки icon(name, 'icon'): без него SVG без width/height схлопывается в 0×0 в Chrome и раздувается за пределы строки в Safari (iOS) */ @layer primitives {
+/* Базовый размер иконки icon(name, 'icon'): без него SVG без width/height схлопывается в 0×0 в Chrome и раздувается за пределы строки в Safari (iOS) */ .icon, .icon-16 { width: 16px; height: 16px; flex-shrink: 0; }
+}
+
+/* SZ-062 · шкала размеров иконок (ДС): 12/16/20/24/32 */
+@layer primitives {
+
 /* SZ-062 · шкала размеров иконок (ДС): 12/16/20/24/32 */
 .icon-12 { width: 12px; height: 12px; flex-shrink: 0; }
+}
+
+@layer primitives {
+
 .icon-20 { width: 20px; height: 20px; flex-shrink: 0; }
+}
+
+@layer primitives {
+
 .icon-24 { width: 24px; height: 24px; flex-shrink: 0; }
+}
+
+@layer primitives {
+
 .icon-32 { width: 32px; height: 32px; flex-shrink: 0; }
+}
+
 
 /* ---------- Подшапка (назад) ---------- */
 .subheader { position: sticky; top: 56px; z-index: 30; background: var(--lv-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--lv-line); }
@@ -145,7 +184,11 @@ main#view { flex: 1; }
 /* Вертикальный ритм приложения: блок↔блок 24px (section padding-top 20 + хвост контента 4), заголовок↔контент 12px */
 .hero { padding: 12px 16px 4px; background: linear-gradient(180deg, var(--lv-hero-top) 0%, var(--lv-card) 100%); transition: padding .3s ease; }
 .hero-tab { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; padding: 8px 12px; border-radius: var(--lv-r-md); background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: 0 1px 3px rgba(26, 26, 26, .05); font-size: 13px; font-weight: 600; color: var(--lv-ink); cursor: pointer; }
-.ht-ico { display: flex; flex-shrink: 0; width: 16px; height: 16px; color: var(--lv-pink); }.ht-ico svg, .ht-chev svg, .stat-pill svg, .search-trigger svg, .link-btn svg, .walk-pill svg, .promo-timer svg, .glass-chip svg, .stat-pill.md svg, .added-pill svg, .info-pill svg, .search-bar .clear svg, .services-hint svg, .cart-store-head .trash svg, .pickup-hint svg, .order-foot .l svg { width: 16px; height: 16px; }
+@layer primitives {
+
+.ht-ico { display: flex; flex-shrink: 0; width: 16px; height: 16px; color: var(--lv-pink); }
+}
+.ht-ico svg, .ht-chev svg, .stat-pill svg, .search-trigger svg, .link-btn svg, .walk-pill svg, .promo-timer svg, .glass-chip svg, .stat-pill.md svg, .added-pill svg, .info-pill svg, .search-bar .clear svg, .services-hint svg, .cart-store-head .trash svg, .pickup-hint svg, .order-foot .l svg { width: 16px; height: 16px; }
 .ht-lbl { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ht-chev { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 24px; height: 24px; border-radius: var(--lv-r-pill); background: var(--lv-soft-pink); color: var(--lv-pink); transition: transform .3s ease; }
 .hero:not(.collapsed) .ht-chev { transform: rotate(180deg); }
@@ -158,7 +201,11 @@ main#view { flex: 1; }
 .hero .lead { margin: 6px 0 0; font-size: 14px; line-height: 1.6; color: var(--lv-dim); }
 .hero .lead b { color: var(--lv-ink); font-weight: 600; }
 .stat-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-.stat-pill { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 12px; border-radius: var(--lv-r-pill); font-size: 12px; font-weight: 600; }.stat-pill.pink, .status-pink { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }.stat-pill.tiffany, .info-pill.tiffany, .status-tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
+@layer primitives {
+
+.stat-pill { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 12px; border-radius: var(--lv-r-pill); font-size: 12px; font-weight: 600; }
+}
+.stat-pill.pink, .status-pink { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }.stat-pill.tiffany, .info-pill.tiffany, .status-tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .stat-pill.gold { background: var(--lv-soft-gold); color: var(--lv-gold-text); }.stat-pill.grey, .open-pill.off, .stock-out { background: var(--lv-grey-soft); color: #999; }
 .search-trigger { display: flex; align-items: center; gap: 10px; width: 100%; height: 44px; padding: 0 16px; margin-top: 16px; border-radius: var(--lv-r-pill); background: var(--lv-surface); color: var(--lv-dim); font-size: 14px; text-align: left; transition: background .2s; }
 
@@ -173,7 +220,11 @@ main#view { flex: 1; }
 .cats-sticky .cats { padding: 0 16px; }
 .cats-sticky.stuck { box-shadow: var(--lv-shadow-stuck); }
 .cats-sentinel { height: 0; }
-.cat-chip { flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border-radius: var(--lv-r-pill); border: 1px solid var(--lv-line); background: var(--lv-card); font-size: 13px; font-weight: 600; transition: all .2s; }.cat-chip:hover, .district-row:hover { border-color: var(--lv-pink); }
+@layer primitives {
+
+.cat-chip { flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border-radius: var(--lv-r-pill); border: 1px solid var(--lv-line); background: var(--lv-card); font-size: 13px; font-weight: 600; transition: all .2s; }
+}
+.cat-chip:hover, .district-row:hover { border-color: var(--lv-pink); }
 .cat-chip:active { transform: scale(.96); }
 .cat-chip.active { background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: var(--lv-on-brand); border-color: transparent; box-shadow: var(--lv-shadow-lift); }.cat-chip .e, .price-row .unit { font-size: 14px; }
 
@@ -185,7 +236,11 @@ main#view { flex: 1; }
 #catalog-head { margin-bottom: 16px; }
 .section-head { display: flex; align-items: center; justify-content: space-between; padding: 0 16px; gap: 8px; flex-wrap: wrap; }.section-head h2, .where-h h2 { margin: 0; font-size: 16px; font-weight: 800; }
 .section-head .sub { color: var(--lv-dim); font-weight: 600; font-size: 14px; }
+@layer primitives {
+
 .link-btn { display: flex; align-items: center; gap: 2px; font-size: 13px; font-weight: 600; color: var(--lv-pink-dark); transition: gap .2s; }
+}
+
 .link-btn:hover { gap: 6px; }
 .hscroll { display: flex; gap: 12px; overflow-x: auto; padding: 0 16px 4px;
   /* карточки мягко растворяются у краёв ленты */
@@ -203,15 +258,31 @@ main#view { flex: 1; }
 .store-card-w { flex-shrink: 0; width: 170px; }
 .btn-card { display: block; width: 100%; text-align: left; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); overflow: hidden; transition: transform .2s, box-shadow .2s; }.btn-card:hover, .promo-card:hover, .product-card:hover { transform: translateY(-2px); box-shadow: var(--lv-shadow-lift); }
 .cover-20 { height: 80px; display: flex; align-items: center; justify-content: center; position: relative; }.cover-20 .em, .cover-28 .em { font-size: 36px; transition: transform .2s; }.btn-card:hover .em, .product-card:hover .em { transform: scale(1.1); }
-.open-pill { position: absolute; top: 8px; right: 8px; height: 20px; padding: 0 8px; border-radius: var(--lv-r-pill); font-size: 10px; font-weight: 700; display: flex; align-items: center; gap: 4px; }.open-pill .dot, .promo-mini .dot { width: 6px; height: 6px; border-radius: var(--lv-r-pill); }.open-pill.on, .badge-new, .stock-ok { background: var(--lv-badge-new); color: var(--lv-tiffany-text); }
+@layer primitives {
+
+.open-pill { position: absolute; top: 8px; right: 8px; height: 20px; padding: 0 8px; border-radius: var(--lv-r-pill); font-size: 10px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+}
+.open-pill .dot, .promo-mini .dot { width: 6px; height: 6px; border-radius: var(--lv-r-pill); }.open-pill.on, .badge-new, .stock-ok { background: var(--lv-badge-new); color: var(--lv-tiffany-text); }
 .open-pill.on .dot { background: var(--lv-tiffany); }
 .open-pill.off .dot { background: #bbb; }.store-body, .prod-body { padding: 12px; }.store-name-row, .st-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
 .min-w-0 { min-width: 0; }.store-name, .cart-item .nm { font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .store-sub { font-size: 12px; color: var(--lv-dim); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.rating { display: flex; align-items: center; gap: 2px; font-size: 12px; font-weight: 700; flex-shrink: 0; }.rating svg, .rating-pill svg { width: 16px; height: 16px; color: var(--lv-gold); fill: var(--lv-gold); }
+@layer primitives {
+
+.rating { display: flex; align-items: center; gap: 2px; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+}
+.rating svg, .rating-pill svg { width: 16px; height: 16px; color: var(--lv-gold); fill: var(--lv-gold); }
 .store-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
+@layer primitives {
+
 .walk-pill { display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 8px; border-radius: var(--lv-r-pill); background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); font-size: 11px; font-weight: 600; }
+}
+
+@layer primitives {
+
 .chev { width: 16px; height: 16px; color: var(--lv-dim); transition: transform .2s, color .2s; }
+}
+
 .btn-card:hover .chev { transform: translateX(2px); color: var(--lv-pink); }
 
 /* ---------- Акции ---------- */
@@ -228,10 +299,29 @@ main#view { flex: 1; }
 .product-card.disabled { opacity: .6; }
 .product-card.disabled:hover { transform: none; box-shadow: var(--lv-shadow-soft); }
 .cover-28 { height: 112px; display: flex; align-items: center; justify-content: center; position: relative; }
+@layer primitives {
+
 .badge-pill { position: absolute; top: 8px; left: 8px; height: 20px; padding: 0 8px; border-radius: var(--lv-r-pill); font-size: 10px; font-weight: 700; display: flex; align-items: center; }
-.badge-hit { background: var(--lv-badge-hit); color: var(--lv-pink-dark); }.badge-sale, .stock-low { background: var(--lv-badge-sale); color: var(--lv-gold-text); }
+}
+
+@layer primitives {
+
+.badge-hit { background: var(--lv-badge-hit); color: var(--lv-pink-dark); }
+}
+@layer primitives {
+.badge-sale, .stock-low { background: var(--lv-badge-sale); color: var(--lv-gold-text); }
+}
+
+@layer primitives {
+
 .badge-eco { background: var(--lv-green-soft); color: var(--lv-green-text); }
-.walk-mini { position: absolute; bottom: 8px; left: 8px; height: 20px; padding: 0 8px; border-radius: var(--lv-r-pill); background: rgba(255, 255, 255, .9); backdrop-filter: blur(4px); font-size: 10px; font-weight: 600; color: var(--lv-tiffany-text); display: flex; align-items: center; gap: 4px; }.walk-mini svg, .walk-text svg, .compact-row .wk svg { width: 12px; height: 12px; }
+}
+
+@layer primitives {
+
+.walk-mini { position: absolute; bottom: 8px; left: 8px; height: 20px; padding: 0 8px; border-radius: var(--lv-r-pill); background: rgba(255, 255, 255, .9); backdrop-filter: blur(4px); font-size: 10px; font-weight: 600; color: var(--lv-tiffany-text); display: flex; align-items: center; gap: 4px; }
+}
+.walk-mini svg, .walk-text svg, .compact-row .wk svg { width: 12px; height: 12px; }
 .prod-name { font-size: 14px; font-weight: 700; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 38px; }
 .prod-meta { font-size: 11px; color: var(--lv-dim); margin-top: 4px; }
 .price-line { display: flex; align-items: baseline; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
@@ -240,7 +330,13 @@ main#view { flex: 1; }
 .unit { font-size: 11px; color: var(--lv-dim); }
 
 /* ---------- Товары | Услуги + сортировка ---------- */
-.seg { display: flex; height: 40px; border-radius: var(--lv-r-pill); background: var(--lv-surface); padding: 4px; margin: 0 16px 12px; } /* width:auto — 100% + боковые margin давали горизонтальное переполнение */
+@layer primitives {
+
+
+/* ---------- Товары | Услуги + сортировка ---------- */
+.seg { display: flex; height: 40px; border-radius: var(--lv-r-pill); background: var(--lv-surface); padding: 4px; margin: 0 16px 12px; }
+}
+ /* width:auto — 100% + боковые margin давали горизонтальное переполнение */
 .seg button { flex: 1; height: 32px; border-radius: var(--lv-r-pill); font-size: 13px; font-weight: 700; color: var(--lv-dim); transition: all .2s; }.seg button:hover, .sort-btn:hover, .search-bar .clear:hover, .tab-btn:hover, .nav-btn:hover { color: var(--lv-ink); }
 .seg button.active { background: var(--lv-card); color: var(--lv-ink); box-shadow: var(--lv-shadow-soft); }
 .sort-group { display: flex; gap: 6px; }
@@ -255,7 +351,11 @@ main#view { flex: 1; }
 .loyalty .big .g { color: var(--lv-gold); }
 .loyalty p { margin: 6px 0 0; font-size: 13px; color: rgba(255, 255, 255, .7); line-height: 1.6; }
 .loyalty .chips { display: flex; gap: 8px; margin-top: 12px; }
+@layer primitives {
+
 .glass-chip { display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 12px; border-radius: var(--lv-r-pill); background: rgba(255, 255, 255, .1); font-size: 12px; font-weight: 600; }
+}
+
 .glass-chip .g { color: var(--lv-gold); fill: var(--lv-gold); }.glass-chip .t, .pickup-hint .clk { color: var(--lv-tiffany); }
 
 /* ---------- Страница товара ---------- */
@@ -278,14 +378,30 @@ main#view { flex: 1; }
 .avail-addr { font-size: 11px; color: var(--lv-dim); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .avail-tags { display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap; align-items: center; }
 .walk-text { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; color: var(--lv-tiffany-text); }
+@layer primitives {
+
 .stock-pill { height: 18px; padding: 0 6px; border-radius: var(--lv-r-pill); font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; }
+}
+
 .avail-right { flex-shrink: 0; text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }.avail-price, .cart-store-total .v { font-size: 14px; font-weight: 800; }
 .out-note { font-size: 11px; color: #999; }
+@layer primitives {
+
 .cta-btn { height: 36px; padding: 0 16px; border-radius: var(--lv-r-pill); color: var(--lv-on-brand); font-size: 12px; font-weight: 700; transition: all .2s; display: inline-flex; align-items: center; justify-content: center; }
+}
+
 .cta-btn:active { transform: scale(.95); }
 .cta-btn.big { height: 48px; width: 100%; font-size: 14px; }
+@layer primitives {
+
 .added-pill { display: inline-flex; align-items: center; justify-content: center; gap: 4px; height: 36px; padding: 0 12px; border-radius: var(--lv-r-pill); background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); font-size: 12px; font-weight: 700; }
+}
+
+@layer primitives {
+
 .qty { display: inline-flex; align-items: center; height: 36px; border-radius: var(--lv-r-pill); background: var(--lv-soft-pink); }
+}
+
 .qty button { width: 36px; height: 36px; border-radius: var(--lv-r-pill); color: var(--lv-pink-dark); font-size: 18px; font-weight: 700; transition: background .2s; }
 .qty button:hover { background: rgba(255, 255, 255, .6); }
 .qty .n { width: 24px; text-align: center; font-size: 14px; font-weight: 700; color: var(--lv-pink-dark); }
@@ -295,27 +411,53 @@ main#view { flex: 1; }
 .st-cover .em { font-size: 60px; }
 .st-cover .open-pill { top: 12px; right: 12px; height: 24px; padding: 0 10px; font-size: 11px; background: rgba(255, 255, 255, .9); }
 .st-card { margin: -20px 16px 0; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); padding: 16px; position: relative; }.st-head h1, .sheet-head h2 { margin: 0; font-size: 18px; font-weight: 800; }
+@layer primitives {
+
 .rating-pill { display: flex; align-items: center; gap: 4px; height: 28px; padding: 0 10px; border-radius: var(--lv-r-pill); background: var(--lv-soft-gold); font-size: 12px; font-weight: 700; color: var(--lv-gold-text); flex-shrink: 0; }
+}
+
 .rating-pill .rev { color: #b09662; font-weight: 500; }
 .st-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+@layer primitives {
+
 .info-pill { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: var(--lv-r-pill); font-size: 12px; font-weight: 700; }
+}
+
 .info-pill.plain { background: var(--lv-surface); color: var(--lv-ink); font-weight: 600; }.info-pill.plain svg, .search-bar input::placeholder, .sum-row .l, .item-chip .q { color: var(--lv-dim); }
 .st-about { margin: 12px 0 0; font-size: 13px; color: var(--lv-dim); line-height: 1.6; }
 .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+@layer primitives {
+
 .tag-pill { height: 24px; padding: 0 10px; border-radius: var(--lv-r-pill); background: var(--lv-soft-pink); color: var(--lv-pink-dark); font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; }
+}
+
 .st-goods { padding: 20px 0 4px; }
 .st-goods .section-head h2 { display: flex; align-items: center; gap: 8px; }
 .st-goods .section-head h2 svg { width: 20px; height: 20px; color: var(--lv-pink); }
 
 /* ---------- Поиск ---------- */
+@layer primitives {
+
+
+/* ---------- Поиск ---------- */
 .search-bar-wrap { position: sticky; top: 56px; z-index: 30; background: var(--lv-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding: 12px 16px 10px; border-bottom: 1px solid var(--lv-line); }
+}
+
+@layer primitives {
+
 .search-bar { display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: var(--lv-r-pill); background: var(--lv-surface); transition: all .2s; }
+}
+
 .search-bar:focus-within { background: var(--lv-card); box-shadow: var(--lv-ring-search); }
 .search-bar > svg { width: 16px; height: 16px; color: var(--lv-dim); flex-shrink: 0; }
 .search-bar input { flex: 1; border: 0; outline: none; background: none; font-size: 14px; color: var(--lv-ink); min-width: 0; }
 .search-bar .clear { display: flex; color: var(--lv-dim); }
 .search-tabs { display: flex; gap: 8px; margin-top: 10px; }
+@layer primitives {
+
 .tab-btn { height: 32px; padding: 0 12px; border-radius: var(--lv-r-pill); font-size: 13px; font-weight: 700; background: var(--lv-surface); color: var(--lv-dim); transition: all .2s; }
+}
+
 .tab-btn.active { background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: var(--lv-on-brand); box-shadow: var(--lv-shadow-lift); }
 .results-wrap { padding: 12px 16px 8px; }
 .results-hint { font-size: 12px; color: var(--lv-dim); margin: 0 0 10px; }
@@ -360,7 +502,11 @@ main#view { flex: 1; }
 .orders-list { padding: 12px 16px 0; display: flex; flex-direction: column; gap: 12px; }
 .order-card { background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); padding: 16px; }
 .order-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }.order-head .oid, .order-foot .v { font-weight: 800; }
+@layer primitives {
+
 .status-pill { height: 24px; padding: 0 10px; border-radius: var(--lv-r-pill); font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; }
+}
+
 .status-dim { background: var(--lv-grey-soft); color: #888; }
 .order-meta { display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 12px; color: var(--lv-dim); flex-wrap: wrap; }.order-meta svg, .district-row .ic svg { width: 16px; height: 16px; color: var(--lv-pink); }
 .item-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
@@ -374,7 +520,11 @@ main#view { flex: 1; }
 .nav-btn { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 11px; font-weight: 500; color: var(--lv-dim); transition: color .2s; }
 .nav-btn .top-ind { position: absolute; top: 0; width: 32px; height: 2px; border-radius: var(--lv-r-pill); background: var(--lv-pink); display: none; }
 .nav-btn.active .top-ind { display: block; }
+@layer primitives {
+
 .nav-ico { position: relative; display: flex; }
+}
+
 .nav-ico svg { width: 24px; height: 24px; }
 .nav-count { position: absolute; top: -6px; right: -8px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: var(--lv-r-pill); color: var(--lv-on-brand); font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
 
@@ -425,8 +575,22 @@ main#view { flex: 1; }
    ============================================================ */
 
 /* ---------- Кнопки-призраки, служебные ---------- */
-.ghost-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 40px; padding: 0 16px; border-radius: var(--lv-r-pill); border: 1.5px solid var(--lv-line); background: var(--lv-card); font-size: 13px; font-weight: 700; color: var(--lv-ink); transition: all .2s; flex-shrink: 0; }.ghost-btn svg, .trash-btn svg { width: 16px; height: 15px; }.ghost-btn.sm, .cta-btn.sm { height: 32px; padding: 0 12px; font-size: 12px; }
+@layer primitives {
+
+
+/* ============================================================
+   Роли и дашборды: профиль, заявки, KPI, графики, дерево, чаты
+   ============================================================ */
+
+/* ---------- Кнопки-призраки, служебные ---------- */
+.ghost-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 40px; padding: 0 16px; border-radius: var(--lv-r-pill); border: 1.5px solid var(--lv-line); background: var(--lv-card); font-size: 13px; font-weight: 700; color: var(--lv-ink); transition: all .2s; flex-shrink: 0; }
+}
+.ghost-btn svg, .trash-btn svg { width: 16px; height: 15px; }.ghost-btn.sm, .cta-btn.sm { height: 32px; padding: 0 12px; font-size: 12px; }
+@layer primitives {
+
 .btn-row { display: flex; gap: 10px; padding: 16px 16px 0; flex-wrap: wrap; }
+}
+
 .cta-btn.plain { background: var(--lv-surface); color: var(--lv-ink); }
 
 /* ---------- Общие карточки-списки и строки ---------- */
@@ -440,12 +604,26 @@ main#view { flex: 1; }
 .ri-right { text-align: right; flex-shrink: 0; }
 .ri-right .v { font-size: 13px; font-weight: 800; }
 .ri-right .st-chip { margin-top: 4px; }
+@layer primitives {
+
 .chev-btn { flex-shrink: 0; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: var(--lv-r-pill); color: var(--lv-dim); }
+}
+
 .chev-btn svg, .row-item .chev { width: 16px; height: 16px; color: var(--lv-dim); flex-shrink: 0; }
+@layer primitives {
+
 .trash-btn { flex-shrink: 0; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 10px; color: var(--lv-negative); background: var(--lv-negative-soft); }
+}
+
+
+/* ---------- Статусы точек ---------- */
+@layer primitives {
+
 
 /* ---------- Статусы точек ---------- */
 .st-chip { display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-radius: var(--lv-r-pill); font-size: 11px; font-weight: 700; white-space: nowrap; }
+}
+
 .st-chip .lv-dot { width: 5px; height: 5px; }.st-active, .dash-note.tone-tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }.st-mod, .st-wait, .dash-note.tone-gold { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
 .st-off { background: var(--lv-grey-soft); color: #999; }
 
@@ -485,7 +663,11 @@ main#view { flex: 1; }
 .kpi .d { margin-top: 5px; min-height: 22px; display: flex; align-items: center; gap: 8px; }
 .kpi.accent { background-image: linear-gradient(150deg, var(--lv-kpi-soft), var(--lv-card)); border-color: rgba(246, 74, 138, .25); }.kpi.accent .v, .delta-down, .fin-row.neg .v { color: var(--lv-pink-dark); }
 .delta { display: inline-flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; }.delta-up, .fin-row.ok .v { color: var(--lv-tiffany-text); }
+@layer primitives {
+
 .spark { width: 76px; height: 24px; }
+}
+
 
 /* ---------- Графики ---------- */
 .chart-card { margin: 14px 16px 0; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); padding: 12px; }
@@ -515,7 +697,11 @@ main#view { flex: 1; }
 .ah-emoji { flex-shrink: 0; width: 52px; height: 52px; border-radius: var(--lv-r-lg); background: rgba(255, 255, 255, .65); display: flex; align-items: center; justify-content: center; font-size: 27px; }
 .ah-mid .kicker { font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--lv-dim); }
 .ah-mid h1 { margin: 2px 0 0; font-size: 20px; font-weight: 800; }
+@layer primitives {
+
 .f-field { display: block; padding: 0 16px; margin-top: 12px; }
+}
+
 .f-field .lb { display: block; margin-bottom: 6px; font-size: 12px; font-weight: 700; color: var(--lv-ink); }
 .f-field input, .f-field textarea, .f-field select { width: 100%; border: 1.5px solid var(--lv-line); border-radius: var(--lv-r-md); padding: 12px 12px; font: inherit; font-size: 14px; background: var(--lv-card); color: var(--lv-ink); outline: none; transition: border-color .2s, box-shadow .2s; }
 .f-field input:focus, .f-field textarea:focus, .f-field select:focus { border-color: var(--lv-pink); box-shadow: var(--lv-ring-field); }
@@ -569,7 +755,11 @@ main#view { flex: 1; }
 .fav-btn svg { width: 16px; height: 16px; }/* ============================================================ Адаптив: планшет и десктоп (база — мобильный макет выше) ============================================================ */ /* Контентные капсулы (на мобильных ширинах не работают — там экран уже): общий поток 1120px; линейные экраны (товар, поиск, корзина, заказы, профиль, заявка, чат) — 760px */ #view .lv-enter, .app-header-in, .subheader-in { max-width: 1120px; margin-left: auto; margin-right: auto; }
 #view .lv-narrow { max-width: 760px; }
 #view .chat-screen { max-width: 760px; margin-left: auto; margin-right: auto; }
+@layer primitives {
+
 .search-bar-wrap .search-bar { max-width: 728px; margin: 0 auto; }
+}
+
 /* ============================================================
    КОНТЕНТНАЯ КАПСУЛА · одна ширина на весь продукт
    ------------------------------------------------------------
@@ -648,8 +838,16 @@ main#view { flex: 1; }
 .rank-emoji { width: 46px; height: 46px; border-radius: var(--lv-r-md); display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,.62); font-size: 24px; }
 .rank-kicker { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--lv-dim); }
 .rank-title { margin-top: 2px; font-size: 18px; font-weight: 800; letter-spacing: -.01em; }
+@layer primitives {
+
 .progress, .mini-progress { height: 8px; border-radius: var(--lv-r-pill); background: var(--lv-surface); overflow: hidden; }
+}
+
+@layer primitives {
+
 .progress { margin-top: 14px; }
+}
+
 .progress span, .mini-progress span { display: block; height: 100%; border-radius: inherit; background-image: linear-gradient(90deg, var(--lv-tiffany), var(--lv-pink)); }
 .rank-foot { display: flex; justify-content: space-between; gap: 10px; margin-top: 8px; color: var(--lv-dim); font-size: 12px; font-weight: 600; }
 .rank-foot b { color: var(--lv-ink); font-weight: 800; text-align: right; }
@@ -671,7 +869,11 @@ main#view { flex: 1; }
 .mentor-card { padding: 20px; color: var(--lv-on-brand); }
 .mentor-card .big { margin-top: 6px; font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
 .mentor-card p { margin: 6px 0 0; color: rgba(255,255,255,.72); font-size: 13px; line-height: 1.55; }
+@layer primitives {
+
 .mini-progress { margin-top: 8px; height: 6px; }
+}
+
 @media (max-width: 380px) {
   .dash-tabs { overflow-x: auto; justify-content: flex-start; }
   .dash-tabs button { flex: 0 0 auto; min-width: 74px; padding: 0 10px; }
@@ -1133,12 +1335,33 @@ main#view { flex: 1; }
 .sr-ico.t-tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .sr-ico.t-gold { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
 /* свитч (component: switch-row) */
+@layer primitives {
+
+/* свитч (component: switch-row) */
 .lv-switch { position: relative; flex-shrink: 0; width: 44px; height: 26px; border-radius: var(--lv-r-pill); background: var(--lv-surface); box-shadow: inset 0 0 0 1px var(--lv-line); transition: background .2s, box-shadow .2s; }
+}
+
 .lv-switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: var(--lv-r-pill); background: var(--lv-white); box-shadow: 0 1px 3px rgba(26, 26, 26, .3); transition: transform .2s; }
+@layer primitives {
+
 .lv-switch.on { background-image: var(--lv-gradient-brand); box-shadow: none; }
+}
+
+@layer primitives {
+
 .lv-switch.on::after { transform: translateX(18px); }
-.lv-switch.disabled { opacity: .4; pointer-events: none; }/* сегмент темы (component: seg) */ .seg-row, .pay-cols .seg-row { padding: 0 12px 12px; }
+}
+
+@layer primitives {
+
+.lv-switch.disabled { opacity: .4; pointer-events: none; }
+}
+/* сегмент темы (component: seg) */ .seg-row, .pay-cols .seg-row { padding: 0 12px 12px; }
+@layer primitives {
+
 .seg { display: flex; gap: 2px; padding: 2px; border-radius: var(--lv-r-pill); background: var(--lv-surface); }
+}
+
 .seg button { flex: 1; border: 0; font-family: inherit; border-radius: var(--lv-r-pill); padding: 6px 4px; font-size: 11px; font-weight: 700; color: var(--lv-dim); background: transparent; cursor: pointer; white-space: nowrap; transition: background .15s, color .15s; }
 .seg button.active { background: var(--lv-card); color: var(--lv-pink-dark); box-shadow: 0 1px 4px rgba(26, 26, 26, .14); }
 
@@ -1217,7 +1440,13 @@ main#view { flex: 1; }
 .cta-btn svg { width: 16px; height: 16px; flex-shrink: 0; }/* Статусы: канон-пары (мягкие альфы 0.12 светлая / 0.18–0.20 тёмная) */ .st-new, .role-pill.t-pink { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
 
 /* Роль-пилюля в шапке кабинета */
+@layer primitives {
+
+
+/* Роль-пилюля в шапке кабинета */
 .role-pill { display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-radius: var(--lv-r-pill); font-size: 10px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; }
+}
+
 .role-pill .lv-dot { width: 5px; height: 5px; }
 .role-pill.t-tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .role-pill.t-gold { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
@@ -1899,6 +2128,10 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 }
 
 /* ---------- AppSwitch / AppBadge (стейдж) ---------- */
+@layer primitives {
+
+
+/* ---------- AppSwitch / AppBadge (стейдж) ---------- */
 .app-switch {
   position: relative;
   flex: none;
@@ -1911,8 +2144,16 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   cursor: pointer;
   padding: 0;
 }
+}
+
+@layer primitives {
+
 .app-switch.on { background: var(--lv-tiffany); }
+}
+
 .app-switch:disabled { opacity: 0.5; }
+@layer primitives {
+
 .app-switch__knob {
   position: absolute;
   top: 3px;
@@ -1923,7 +2164,15 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   background: var(--lv-on-brand);
   transition: transform 0.2s ease-out;
 }
+}
+
+@layer primitives {
+
 .app-switch.on .app-switch__knob { transform: translateX(18px); }
+}
+
+@layer primitives {
+
 .app-badge {
   display: inline-flex;
   align-items: center;
@@ -1933,6 +2182,8 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   white-space: nowrap;
   flex-shrink: 0;
 }
+}
+
 .app-badge_s { gap: 4px; height: 24px; padding: 0 6px; font-size: 12px; line-height: 1.5; }
 .app-badge_tertiary { color: var(--lv-ink); background: var(--lv-grey-soft); }
 
@@ -2343,6 +2594,8 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   box-sizing: border-box;
 }
 .home-hero__search > .ico { width: 16px; height: 16px; flex-shrink: 0; }.home-hero__search > .ico svg, .stat-pill .ico svg { width: 100%; height: 100%; }
+@layer primitives {
+
 .stat-pill {
   display: inline-flex;
   align-items: center;
@@ -2354,6 +2607,8 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   font-weight: 600;
   line-height: 1.5;
 }
+}
+
 .stat-pill .ico { width: 16px; height: 16px; display: inline-flex; }
 .stat-pill.pink { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
 .stat-pill.tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
@@ -2424,6 +2679,10 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 }
 
 /* Чип типов мерчантов (AppChip) */
+@layer primitives {
+
+
+/* Чип типов мерчантов (AppChip) */
 .app-chip {
   flex-shrink: 0;
   text-align: center;
@@ -2439,6 +2698,8 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   transition: all 0.3s ease-out;
   cursor: pointer;
 }
+}
+
 .app-chip.active {
   border-color: var(--lv-accent, var(--lv-pink));
   background: var(--lv-accent-soft, var(--lv-soft-pink));
@@ -2585,6 +2846,8 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   grid-template-columns: 1fr auto;
   gap: 6px;
 }
+@layer primitives {
+
 .sf-search {
   display: flex;
   align-items: center;
@@ -2596,6 +2859,8 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   background: var(--lv-card);
   color: var(--lv-dim);
 }
+}
+
 .sf-search svg { width: 16px; height: 16px; flex-shrink: 0; }
 .sf-search input {
   flex: 1;
@@ -3383,7 +3648,11 @@ body.cabinet-mode #view { padding-bottom: 0; }
 }
 .acc-map__pin { width: 44px; height: 44px; border-radius: 50%; background: var(--lv-pink); color: var(--lv-on-brand, var(--lv-white)); display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); }.acc-map__pin svg, .auth-channel-ico svg { width: 20px; height: 20px; }
 .acc-fields { display: grid; grid-template-columns: 1fr; gap: 10px; }
+@layer primitives {
+
 .acc-field { display: grid; gap: 4px; color: var(--lv-dim); font-size: 11px; font-weight: 600; }
+}
+
 .acc-field input {
   height: 44px; border: 1px solid var(--lv-line); border-radius: var(--lv-r-sm);
   background: var(--lv-card); color: var(--lv-ink);
