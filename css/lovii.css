@@ -3805,4 +3805,4 @@ body.cabinet-mode-auth .app-header { display: none; }
 .roles-periods .app-chip { flex-shrink: 0; }
 
 /* SZ-062 · в тёмной теме контур карточек — strong (иначе сливаются с фоном) */
-[data-theme="dark"] .nearby-store, .catalog-store, .role-kpi, .role-card, .role-next, .popular-store, .wallet__stat, .cart-info, .cart-summary, .order-preview, .cart-empty, .place__teaser { border-color: var(--lv-line-strong); }
+[data-theme="dark"] .nearby-store, [data-theme="dark"] .catalog-store, [data-theme="dark"] .role-kpi, [data-theme="dark"] .role-card, [data-theme="dark"] .role-next, [data-theme="dark"] .popular-store, [data-theme="dark"] .wallet__stat, [data-theme="dark"] .cart-info, [data-theme="dark"] .cart-summary, [data-theme="dark"] .order-preview, [data-theme="dark"] .cart-empty, [data-theme="dark"] .place__teaser { border-color: var(--lv-line-strong); }
