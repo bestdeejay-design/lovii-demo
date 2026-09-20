@@ -104,7 +104,7 @@ input { font-family: inherit; }
    СЛОЙ КОМПОНЕНТОВ (SZ-062) — переиспользуемые блоки.
    Карточка: канон-рецепт одна на всё. Варианты — модификаторами.
    ============================================================ */
-.card{ background: var(--lv-card); border: 1px solid var(--lv-line-strong); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); overflow: hidden; box-sizing: border-box; }
+.card{ background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); overflow: hidden; box-sizing: border-box; }
 .card--flush{ padding: 0; }
 .card--tap{ transition: box-shadow .2s, transform .2s, border-color .2s; }
 .card--tap:hover{ box-shadow: var(--lv-shadow-lift); border-color: var(--lv-pink); transform: translateY(-2px); }
@@ -256,7 +256,7 @@ main#view{ flex: 1; }
 
 /* ---------- Карточка точки ---------- */
 .store-card-w{ flex-shrink: 0; width: 170px; }
-.btn-card{ display: block; width: 100%; text-align: left; background: var(--lv-card); border: 1px solid var(--lv-line-strong); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); overflow: hidden; transition: transform .2s, box-shadow .2s; }.btn-card:hover, .promo-card:hover, .product-card:hover{ transform: translateY(-2px); box-shadow: var(--lv-shadow-lift); }
+.btn-card{ display: block; width: 100%; text-align: left; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); overflow: hidden; transition: transform .2s, box-shadow .2s; }.btn-card:hover, .promo-card:hover, .product-card:hover{ transform: translateY(-2px); box-shadow: var(--lv-shadow-lift); }
 .cover-20{ height: 80px; display: flex; align-items: center; justify-content: center; position: relative; }.cover-20 .em, .cover-28 .em{ font-size: 36px; transition: transform .2s; }.btn-card:hover .em, .product-card:hover .em{ transform: scale(1.1); }
 @layer primitives{
 
@@ -295,7 +295,7 @@ main#view{ flex: 1; }
 
 /* ---------- Карточка товара ---------- */
 .prod-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 16px 4px; }
-.product-card{ display: block; width: 100%; text-align: left; background: var(--lv-card); border: 1px solid var(--lv-line-strong); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); overflow: hidden; transition: transform .2s, box-shadow .2s, opacity .2s; }
+.product-card{ display: block; width: 100%; text-align: left; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); overflow: hidden; transition: transform .2s, box-shadow .2s, opacity .2s; }
 .product-card.disabled{ opacity: .6; }
 .product-card.disabled:hover{ transform: none; box-shadow: var(--lv-shadow-soft); }
 .cover-28{ height: 112px; display: flex; align-items: center; justify-content: center; position: relative; }
@@ -372,7 +372,7 @@ main#view{ flex: 1; }
 .where-h{ padding: 20px 16px 0; }.where-h .cnt, .page-h .cnt{ color: var(--lv-dim); font-size: 14px; font-weight: 600; margin-left: 6px; }
 .where-h .note{ font-size: 12px; color: var(--lv-dim); margin: 4px 0 0; }
 .avail-list{ padding: 12px 16px 4px; display: flex; flex-direction: column; gap: 10px; }
-.avail-card{ background: var(--lv-card); border: 1px solid var(--lv-line-strong); border-radius: var(--lv-r-lg); padding: 12px; box-shadow: var(--lv-shadow-soft); transition: box-shadow .2s, opacity .2s; }.avail-card:hover, .cta-btn:hover, .compact-row:hover{ box-shadow: var(--lv-shadow-lift); }
+.avail-card{ background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); padding: 12px; box-shadow: var(--lv-shadow-soft); transition: box-shadow .2s, opacity .2s; }.avail-card:hover, .cta-btn:hover, .compact-row:hover{ box-shadow: var(--lv-shadow-lift); }
 .avail-card.out{ opacity: .7; }.avail-row, .district-row .l{ display: flex; align-items: center; gap: 12px; }.avail-emoji, .compact-row .em-tile{ flex-shrink: 0; width: 48px; height: 48px; border-radius: var(--lv-r-sm); display: flex; align-items: center; justify-content: center; font-size: 24px; }.avail-mid, .compact-row .mid, .cart-item .mid{ flex: 1; min-width: 0; }
 .avail-name{ font-size: 14px; font-weight: 700; text-align: left; transition: color .2s; }
 .avail-addr{ font-size: 11px; color: var(--lv-dim); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -410,7 +410,7 @@ main#view{ flex: 1; }
 .st-cover{ height: 144px; display: flex; align-items: center; justify-content: center; position: relative; }
 .st-cover .em{ font-size: 60px; }
 .st-cover .open-pill{ top: 12px; right: 12px; height: 24px; padding: 0 10px; font-size: 11px; background: rgba(255, 255, 255, .9); }
-.st-card{ margin: -20px 16px 0; background: var(--lv-card); border: 1px solid var(--lv-line-strong); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); padding: 16px; position: relative; }.st-head h1, .sheet-head h2{ margin: 0; font-size: 18px; font-weight: 800; }
+.st-card{ margin: -20px 16px 0; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); padding: 16px; position: relative; }.st-head h1, .sheet-head h2{ margin: 0; font-size: 18px; font-weight: 800; }
 @layer primitives{
 
 .rating-pill { display: flex; align-items: center; gap: 4px; height: 28px; padding: 0 10px; border-radius: var(--lv-r-pill); background: var(--lv-soft-gold); font-size: 12px; font-weight: 700; color: var(--lv-gold-text); flex-shrink: 0; }
@@ -475,7 +475,7 @@ main#view{ flex: 1; }
 .page-h{ padding: 16px 16px 0; }
 .page-h h1{ margin: 0; font-size: 20px; font-weight: 800; }
 .cart-list{ padding: 12px 16px 0; display: flex; flex-direction: column; gap: 16px; }
-.cart-store-card{ background: var(--lv-card); border: 1px solid var(--lv-line-strong); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); overflow: hidden; }
+.cart-store-card{ background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); overflow: hidden; }
 .cart-store-head{ display: flex; align-items: center; gap: 8px; padding: 12px 16px 4px; }
 .cart-store-head .walk-pill{ height: 28px; font-size: 11px; font-weight: 700; }
 .cart-store-head .trash{ margin-left: auto; color: var(--lv-dim); display: flex; transition: color .2s; }
@@ -486,7 +486,7 @@ main#view{ flex: 1; }
 .cart-item .pr{ font-size: 12px; color: var(--lv-dim); }
 .cart-store-total{display: flex; align-items: center; justify-content: space-between; padding: 10px 16px;}
 .cart-store-total .l{ font-size: 12px; font-weight: 600; color: var(--lv-dim); }
-.sum-card{ margin: 20px 16px 0; background: var(--lv-card); border: 1px solid var(--lv-line-strong); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); padding: 16px; }
+.sum-card{ margin: 20px 16px 0; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); padding: 16px; }
 .sum-row{ display: flex; align-items: center; justify-content: space-between; font-size: 14px; margin-top: 6px; }
 .sum-row:first-child{ margin-top: 0; }
 .sum-row .v{ font-weight: 700; }
@@ -500,7 +500,7 @@ main#view{ flex: 1; }
 
 /* ---------- Заказы ---------- */
 .orders-list{ padding: 12px 16px 0; display: flex; flex-direction: column; gap: 12px; }
-.order-card{ background: var(--lv-card); border: 1px solid var(--lv-line-strong); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); padding: 16px; }
+.order-card{ background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); padding: 16px; }
 .order-head{ display: flex; align-items: center; justify-content: space-between; gap: 8px; }.order-head .oid, .order-foot .v{ font-weight: 800; }
 @layer primitives{
 
@@ -606,7 +606,7 @@ main#view{ flex: 1; }
 .cta-btn.plain{ background: var(--lv-surface); color: var(--lv-ink); }
 
 /* ---------- Общие карточки-списки и строки ---------- */
-.list-card{ margin: 10px 16px 0; background: var(--lv-card); border: 1px solid var(--lv-line-strong); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); overflow: hidden; }
+.list-card{ margin: 10px 16px 0; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); overflow: hidden; }
 .row-item{ display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 12px; text-align: left; }.row-item + .row-item, .install-step + .install-step, .fin-row + .fin-row{ border-top: 1px solid var(--lv-line-2); }
 .row-item.as-btn{ transition: background .15s; }
 .row-item.as-btn:hover{ background: var(--lv-surface); }
@@ -646,7 +646,7 @@ main#view{ flex: 1; }
 .dash-title .d{ font-size: 12px; color: var(--lv-dim); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .dash-tabs button{ display: inline-flex; align-items: center; justify-content: center; gap: 4px; }
 .tab-unread{ min-width: 17px; height: 17px; padding: 0 4px; border-radius: var(--lv-r-pill); background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: var(--lv-on-brand); font-size: 10px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
-.status-banner{ display: flex; align-items: center; gap: 10px; margin: 14px 16px 0; padding: 10px 12px; background: var(--lv-card); border: 1px solid var(--lv-line-strong); border-radius: var(--lv-r-md); }
+.status-banner{ display: flex; align-items: center; gap: 10px; margin: 14px 16px 0; padding: 10px 12px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-md); }
 .status-banner .sb{ font-size: 12px; color: var(--lv-dim); margin-left: auto; }
 .dash-note{ margin: 10px 16px 0; padding: 10px 12px; border-radius: var(--lv-r-sm); font-size: 12px; line-height: 1.5; font-weight: 500; }
 .dash-note.tone-dim{ background: var(--lv-grey-soft); color: var(--lv-dim); }
@@ -682,7 +682,7 @@ main#view{ flex: 1; }
 
 
 /* ---------- Графики ---------- */
-.chart-card{ margin: 14px 16px 0; background: var(--lv-card); border: 1px solid var(--lv-line-strong); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); padding: 12px; }
+.chart-card{ margin: 14px 16px 0; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); padding: 12px; }
 .chart-card .cc-head{ display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
 .chart-card .cc-head b{ font-size: 14px; font-weight: 800; }
 .chart-card .cc-head .sub{ font-size: 11px; color: var(--lv-dim); font-weight: 600; }
@@ -840,7 +840,7 @@ main#view{ flex: 1; }
 .rank-card, .code-card, .timeline-card, .mentor-card{
   margin: 14px 16px 0;
   border-radius: 18px;
-  border: 1px solid var(--lv-line-strong);
+  border: 1px solid var(--lv-line);
   box-shadow: var(--lv-shadow-soft);
 }
 .rank-card{ padding: 16px; background: var(--lv-card); }
@@ -904,7 +904,7 @@ main#view{ flex: 1; }
 .qr-grid{ display: grid; grid-template-columns: repeat(11, 1fr); gap: 2px; aspect-ratio: 1; padding: 4px; border-radius: var(--lv-r-sm); background: var(--lv-white); }
 .qr-grid span{ border-radius: 2px; background: transparent; }
 .qr-grid span.on{ background: var(--lv-ink-deep); }
-.script-card, .pay-card, .status-flow-card{ margin: 14px 16px 0; padding: 16px; border-radius: 18px; background: var(--lv-card); border: 1px solid var(--lv-line-strong); box-shadow: var(--lv-shadow-soft); }
+.script-card, .pay-card, .status-flow-card{ margin: 14px 16px 0; padding: 16px; border-radius: 18px; background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
 .script-card ol{ margin: 10px 0 0; padding-left: 20px; }
 .script-card li{ margin-top: 8px; font-size: 13px; line-height: 1.5; color: var(--lv-dim); }
 .script-card li b{ color: var(--lv-ink); }
@@ -932,13 +932,13 @@ main#view{ flex: 1; }
 .trust-cues span{ display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 8px 10px; border-radius: var(--lv-r-sm); background: var(--lv-surface); color: var(--lv-ink); font-size: 12px; font-weight: 700; }
 .trust-cues svg{ width: 16px; height: 16px; color: var(--lv-tiffany); flex-shrink: 0; }
 .stepper{ margin: 14px 16px 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-.step{ position: relative; min-width: 0; padding: 8px 6px; border-radius: var(--lv-r-md); background: var(--lv-surface); border: 1px solid var(--lv-line-strong); text-align: center; color: var(--lv-dim); }
-.step span{ display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: var(--lv-r-pill); background: var(--lv-card); border: 1px solid var(--lv-line-strong); font-size: 11px; font-weight: 900; }
+.step{ position: relative; min-width: 0; padding: 8px 6px; border-radius: var(--lv-r-md); background: var(--lv-surface); border: 1px solid var(--lv-line); text-align: center; color: var(--lv-dim); }
+.step span{ display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: var(--lv-r-pill); background: var(--lv-card); border: 1px solid var(--lv-line); font-size: 11px; font-weight: 900; }
 .step b{ display: block; margin-top: 5px; font-size: 10px; line-height: 1.2; font-weight: 800; }
 .step.done{ background: var(--lv-soft-tiffany); border-color: rgba(10,186,181,.24); color: var(--lv-tiffany-text); }
 .step.done span{ background-image: linear-gradient(135deg, var(--lv-tiffany), #078d89); color: var(--lv-on-brand); border-color: transparent; }
 .step.current{ box-shadow: 0 0 0 2px rgba(246,74,138,.16); }
-.approval-card, .empty-state-card, .checklist-card{ margin: 10px 16px 0; padding: 12px; border-radius: 18px; background: var(--lv-card); border: 1px solid var(--lv-line-strong); box-shadow: var(--lv-shadow-soft); }
+.approval-card, .empty-state-card, .checklist-card{ margin: 10px 16px 0; padding: 12px; border-radius: 18px; background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
 .empty-state-card{ text-align: center; padding: 26px 16px; }
 .empty-state-card .big-emoji{ font-size: 38px; }
 .empty-state-card h3{ margin: 8px 0 0; font-size: 17px; font-weight: 800; }
@@ -946,7 +946,7 @@ main#view{ flex: 1; }
 .empty-state-card .cta-btn{ margin-top: 14px; }
 .approval-head{ display: flex; align-items: center; gap: 12px; }
 .review-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
-.review-grid div{ min-width: 0; padding: 10px; border-radius: var(--lv-r-sm); background: var(--lv-card); border: 1px solid var(--lv-line-strong); box-shadow: var(--lv-shadow-soft); }
+.review-grid div{ min-width: 0; padding: 10px; border-radius: var(--lv-r-sm); background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
 .review-grid span{ display: block; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--lv-dim); }
 .review-grid b{ display: block; margin-top: 3px; font-size: 12px; line-height: 1.35; overflow-wrap: anywhere; }
 .approval-actions{ display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
@@ -967,7 +967,7 @@ main#view{ flex: 1; }
 }
 
 /* ---------- Следующий шаг (контекстуальная карточка) ---------- */
-.next-step-card{ display: flex; align-items: center; gap: 12px; margin: 12px 16px 0; padding: 12px; background: var(--lv-card); border: 1px solid var(--lv-line-strong); border-left: 3px solid var(--lv-tiffany); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); cursor: pointer; transition: transform .15s, box-shadow .15s; }
+.next-step-card{ display: flex; align-items: center; gap: 12px; margin: 12px 16px 0; padding: 12px; background: var(--lv-card); border: 1px solid var(--lv-line); border-left: 3px solid var(--lv-tiffany); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); cursor: pointer; transition: transform .15s, box-shadow .15s; }
 .next-step-card:active{ transform: scale(.98); box-shadow: 0 1px 6px rgba(10, 186, 181, .18); }
 .ns-icon{ flex-shrink: 0; width: 38px; height: 38px; border-radius: var(--lv-r-sm); background: var(--lv-soft-tiffany); display: flex; align-items: center; justify-content: center; font-size: 20px; }.ns-body, .ps-body{ flex: 1; min-width: 0; }
 .ns-title{ font-size: 14px; font-weight: 800; color: var(--lv-ink); line-height: 1.35; }
@@ -978,14 +978,14 @@ main#view{ flex: 1; }
 .next-step-card.gold:active{ box-shadow: 0 1px 6px rgba(212, 168, 84, .18); }
 
 /* ---------- Быстрые действия (2×2 сетка) ---------- */
-.quick-actions-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px 16px 20px; }.quick-action-card, /* ---------- Training tab: tool cards ---------- */ .tool-card{ display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 12px; background: var(--lv-card); border: 1px solid var(--lv-line-strong); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); text-align: left; cursor: pointer; transition: transform .15s, box-shadow .15s, border-color .2s; }
+.quick-actions-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px 16px 20px; }.quick-action-card, /* ---------- Training tab: tool cards ---------- */ .tool-card{ display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 12px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); text-align: left; cursor: pointer; transition: transform .15s, box-shadow .15s, border-color .2s; }
 .quick-action-card:active{ transform: scale(.97); box-shadow: 0 1px 6px rgba(26, 26, 26, .1); border-color: var(--lv-pink); }
 .qa-icon{ width: 34px; height: 34px; border-radius: 10px; background: var(--lv-surface); display: flex; align-items: center; justify-content: center; color: var(--lv-pink); }
 .qa-title{ font-size: 13px; font-weight: 800; color: var(--lv-ink); display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
 .qa-badge{ min-width: 16px; height: 16px; padding: 0 4px; border-radius: var(--lv-r-pill); background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: var(--lv-white); font-size: 10px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }.qa-desc, .tc-desc{ font-size: 12px; color: var(--lv-dim); line-height: 1.35; }
 
 /* ---------- Training tab: progress summary ---------- */
-.progress-summary-card{ display: flex; align-items: center; gap: 16px; margin: 14px 16px 0; padding: 16px; background: var(--lv-card); border: 1px solid var(--lv-line-strong); border-radius: 18px; box-shadow: var(--lv-shadow-soft); }
+.progress-summary-card{ display: flex; align-items: center; gap: 16px; margin: 14px 16px 0; padding: 16px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 18px; box-shadow: var(--lv-shadow-soft); }
 .ps-ring{ position: relative; flex-shrink: 0; width: 56px; height: 56px; }
 .progress-ring-svg{ width: 56px; height: 56px; }
 .ps-pct{ position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900; color: var(--lv-ink); }
@@ -1173,7 +1173,7 @@ main#view{ flex: 1; }
 .pay-hint{ display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; color: var(--lv-dim); }
 .pay-hint svg{ width: 12px; height: 12px; }
 .pay-hint.as-btn{ color: var(--lv-pink); }
-.pay-hint.as-btn:active{ opacity: .7; }/* ---------- 3. Счёт кэшбека ---------- */ .acct-card, /* ---------- 5. Статус LOVII PAY ---------- */ .tier-card{ margin: 10px 16px 0; padding: 16px; background: var(--lv-card); border: 1px solid var(--lv-line-strong); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); }
+.pay-hint.as-btn:active{ opacity: .7; }/* ---------- 3. Счёт кэшбека ---------- */ .acct-card, /* ---------- 5. Статус LOVII PAY ---------- */ .tier-card{ margin: 10px 16px 0; padding: 16px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); }
 .acct-balance{ font-size: 30px; font-weight: 800; letter-spacing: -.02em; color: var(--lv-ink); font-variant-numeric: tabular-nums; }
 .acct-balance .unit{ margin-left: 4px; font-size: 18px; font-weight: 700; color: var(--lv-pink); }
 .acct-lbl{ margin-top: 3px; font-size: 12px; font-weight: 600; color: var(--lv-dim); }
@@ -1216,7 +1216,7 @@ main#view{ flex: 1; }
 
 /* ---------- 6. Витрина привилегий ---------- */
 .priv-scroll{ padding: 4px 16px 6px; }
-.priv-card{ flex-shrink: 0; width: 168px; padding: 12px; border-radius: var(--lv-r-lg); border: 1px solid var(--lv-line-strong); background: var(--lv-card); box-shadow: var(--lv-shadow-soft); display: flex; flex-direction: column; gap: 6px; }
+.priv-card{ flex-shrink: 0; width: 168px; padding: 12px; border-radius: var(--lv-r-lg); border: 1px solid var(--lv-line); background: var(--lv-card); box-shadow: var(--lv-shadow-soft); display: flex; flex-direction: column; gap: 6px; }
 .priv-card .pc-ico{ width: 34px; height: 34px; border-radius: var(--lv-r-sm); display: flex; align-items: center; justify-content: center; }
 .pc-title{ font-size: 13px; font-weight: 800; line-height: 1.3; color: var(--lv-ink); }
 .pc-sub{ font-size: 11px; line-height: 1.4; color: var(--lv-dim); }
@@ -1472,7 +1472,7 @@ button.kpi.as-btn{ border: 0; font-family: inherit; width: 100%; text-align: lef
 button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
 
 /* Карточка подписки представителя (гейт SZ-042) */
-.sub-card{ display: flex; align-items: center; gap: 12px; margin: 14px 16px 0; padding: 12px 16px; border-radius: var(--lv-r-lg); background: var(--lv-card); border: 1px solid var(--lv-line-strong); box-shadow: var(--lv-shadow-soft); }
+.sub-card{ display: flex; align-items: center; gap: 12px; margin: 14px 16px 0; padding: 12px 16px; border-radius: var(--lv-r-lg); background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
 .sub-card .sc-ico{ width: 40px; height: 40px; border-radius: var(--lv-r-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .sub-card .sc-ico svg{ width: 20px; height: 20px; }
 .sub-card .sc-mid{ flex: 1; min-width: 0; }
@@ -1594,7 +1594,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
   gap: 12px;
   width: 100%;
   padding: 12px 16px;
-  border: 1px solid var(--lv-line-strong);
+  border: 1px solid var(--lv-line);
   border-radius: 18px;
   background: var(--lv-card);
 }
@@ -1750,7 +1750,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
 .collapse{
   display: block;
   background: var(--lv-card);
-  border: 1px solid var(--lv-line-strong);
+  border: 1px solid var(--lv-line);
   border-radius: var(--lv-r-lg);
   box-shadow: var(--lv-shadow-soft);
   overflow: hidden;
@@ -1941,7 +1941,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
   gap: 4px;
   padding: 12px;
   border-radius: var(--lv-r-md);
-  border: 1px solid var(--lv-line-strong);
+  border: 1px solid var(--lv-line);
   background: var(--lv-card);
 }.priv__card_pink .priv__ico, .cabinets__ico.t-pink, .history__ico.t-pink{ background: var(--lv-soft-pink); color: var(--lv-pink-dark); }.priv__card_gold .priv__ico, .cabinets__ico.t-gold, .history__ico.t-gold{ background: var(--lv-soft-gold); color: var(--lv-gold-text); }
 .priv__ico{
@@ -2097,7 +2097,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
 /* ---------- Юридический блок (ProfileFooter) ---------- */
 .profile-footer{ width: 100%; }
 .legal-card{
-  border: 1px solid var(--lv-line-strong);
+  border: 1px solid var(--lv-line);
   border-radius: var(--lv-r-lg);
   background: var(--lv-card);
   box-shadow: var(--lv-shadow-soft);
@@ -2378,7 +2378,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
 .wallet__acct-card{
   padding: 16px;
   background: var(--lv-card);
-  border: 1px solid var(--lv-line-strong);
+  border: 1px solid var(--lv-line);
   border-radius: var(--lv-r-lg);
   box-shadow: 0 1px 3px rgba(26, 26, 26, 0.06);
 }
@@ -2431,7 +2431,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
   flex-flow: column;
   gap: 6px;
   padding: 16px;
-  border: 1px solid var(--lv-line-strong);
+  border: 1px solid var(--lv-line);
   border-radius: var(--lv-r-lg);
   background:
     radial-gradient(130% 100% at 100% 0%, var(--lv-mist-pink) 0%, transparent 55%), var(--lv-card);
@@ -3546,7 +3546,7 @@ body.cabinet-mode #view{ padding-bottom: 0; }
 .msp-starter__step-check svg{ width: 12px; height: 12px; }
 .msp-starter__step[data-done='true'] .msp-starter__step-check{ background: var(--lv-tiffany); border-color: var(--lv-tiffany); }
 .msp-starter__step[data-done='true']{ color: var(--lv-ink); }/* Заказы точки */ .msp-orders__list, /* Товары точки */ .msp-products__list{ padding: 12px 16px 16px; display: grid; gap: 10px; }
-.msp-order-row{ display: grid; grid-template-columns: 36px 1fr auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: var(--lv-r-sm); border: 1px solid var(--lv-line-strong); }
+.msp-order-row{ display: grid; grid-template-columns: 36px 1fr auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: var(--lv-r-sm); border: 1px solid var(--lv-line); }
 .msp-order-row__ico{ width: 36px; height: 36px; border-radius: var(--lv-r-sm); background: var(--lv-soft-gold); color: var(--lv-gold-text); display: inline-flex; align-items: center; justify-content: center; }
 .msp-order-row__ico svg{ width: 16px; height: 16px; }
 .msp-order-row__mid{ min-width: 0; }.msp-order-row__name, .msp-product-row__name{ font-size: 13px; font-weight: 700; color: var(--lv-ink); }.msp-order-row__meta, .msp-product-row__meta{ margin-top: 2px; font-size: 12px; color: var(--lv-dim); }
