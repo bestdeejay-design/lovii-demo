@@ -3803,3 +3803,6 @@ body.cabinet-mode-auth .app-header { display: none; }
 }
 .roles-periods::-webkit-scrollbar { display: none; }
 .roles-periods .app-chip { flex-shrink: 0; }
+
+/* SZ-062 · в тёмной теме контур карточек — strong (иначе сливаются с фоном) */
+[data-theme="dark"] .nearby-store, .catalog-store, .role-kpi, .role-card, .role-next, .popular-store, .wallet__stat, .cart-info, .cart-summary, .order-preview, .cart-empty, .place__teaser { border-color: var(--lv-line-strong); }
