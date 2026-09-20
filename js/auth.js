@@ -1,13 +1,15 @@
 /* ============================================================
  * ЗЕРКАЛО СТЕЙДЖА · АВТОРИЗАЦИЯ (#/auth)
  * Перенос AuthModule.vue (AuthPhone → AuthCallCoders → AuthMaxLink/
- * Telegram/VK → AuthCode → AuthPromoCode) из lovii-app@staging.
+ * Telegram/VK → AuthCode) из lovii-app@staging.
+ * Экран промокода из сценария входа убран (решение владельца 2026-09-21):
+ * промокод представителя — часть сценария ролей, а не регистрации.
  * Без бекенда: код подтверждения в демо — любые 4 цифры.
  *
  * Источник: origin/staging 1fc7a27, 2026-09-19. v1.
  * ============================================================ */
 
-const authUi = { step: 'phone', phone: '', channel: '', code: '', resend: 0 };
+const authUi = { step: 'phone', phone: '', channel: '', code: '' };
 
 const AUTH_CHANNELS = [
   { id: 'max', label: 'MAX', live: true },
@@ -124,9 +126,12 @@ function startAuthResendTimer() {
 function authCodeFilled(digits) {
   authUi.code = digits;
   if (digits.length !== 4) return;
+  // кода достаточно: вход завершается сразу, без экрана промокода (решение владельца 2026-09-21)
   toast('Проверяем код…', 'Демо: любые 4 цифры подходят');
-  authUi.step = 'promo';
-  renderViewPreserveScroll();
+  setTimeout(() => {
+    toast('Вы вошли', 'Демо: вход без бекенда', 'positive');
+    go('profile');
+  }, 450);
 }
 
 /* Android Chrome: код из SMS приходит сам (формат «@домен #1234»). Тихо пропускаем, если API нет. */
@@ -145,23 +150,12 @@ function authTryWebOtp() {
   setTimeout(() => ac.abort(), 60000);
 }
 
-function aStepPromo() {
-  return `
-    <section class="auth-step">
-      <h3>Введите промокод, если он есть</h3>
-      <div class="acc-field">
-        <input type="text" placeholder="6 символов" maxlength="6" data-action="auth-promo-input">
-      </div>
-      <button type="button" class="acct__btn" data-action="auth-promo-skip">Пропустить</button>
-      <p class="auth-note">Промокод представителя открывает доступ к кабинету и привязывает точку к сети</p>
-    </section>`;
-}
-
-/* Демо-шорткат приёмки: #/auth/phone|channel|code|promo открывает нужный шаг.
+/* Демо-шорткат приёмки: #/auth/phone|channel|code открывает нужный шаг.
    Применяется один раз на каждый заход по ссылке, чтобы не мешать обычному проходу. */
 let _authStepKey = null;
 function applyAuthStep(step) {
-  if (!['phone', 'channel', 'code', 'promo'].includes(step)) return;
+  // неизвестный параметр (например устаревшая ссылка #/auth/promo) возвращает сценарий к началу
+  if (!['phone', 'channel', 'code'].includes(step)) { authUi.step = 'phone'; return; }
   const key = location.hash;
   if (_authStepKey === key) return;
   _authStepKey = key;
@@ -178,8 +172,7 @@ function renderAuthMirror() {
   const backable = authUi.step !== 'phone';
   const step = authUi.step === 'phone' ? aStepPhone()
     : authUi.step === 'channel' ? aStepChannel()
-    : authUi.step === 'code' ? aStepCode()
-    : aStepPromo();
+    : aStepCode();
   return `
     <div class="auth-screen">
       <header class="auth-head">
@@ -217,7 +210,7 @@ document.addEventListener('click', (e) => {
   }
 
   if (action === 'auth-back') {
-    authUi.step = authUi.step === 'code' ? 'channel' : authUi.step === 'promo' || authUi.step === 'channel' ? 'phone' : 'phone';
+    authUi.step = authUi.step === 'code' ? 'channel' : 'phone';
     renderViewPreserveScroll();
     return;
   }
@@ -247,10 +240,6 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  if (action === 'auth-promo-skip') {
-    go('profile');
-    toast('Вы вошли', 'Демо: вход без бекенда', 'positive');
-  }
 });
 
 document.addEventListener('input', (e) => {
@@ -259,7 +248,6 @@ document.addEventListener('input', (e) => {
   const action = el.dataset.action;
 
   if (action === 'auth-phone-input') authUi.phone = el.value;
-  if (action === 'auth-promo-input') authUi.promo = el.value;
 
   if (action === 'auth-code-input') {
     // нормализация: вставка «Код: 1234», пробелы и дефисы превращаются в 4 цифры
