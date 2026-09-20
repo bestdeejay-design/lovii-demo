@@ -45,14 +45,14 @@ input { font-family: inherit; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 
 @keyframes lv-pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .45; transform: scale(.8); } }
-.lv-dot { width: 6px; height: 6px; border-radius: 999px; display: inline-block; animation: lv-pulse-dot 1.4s ease-in-out infinite; }
+.lv-dot { width: 6px; height: 6px; border-radius: var(--lv-r-pill); display: inline-block; animation: lv-pulse-dot 1.4s ease-in-out infinite; }
 @keyframes lv-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .lv-enter { animation: lv-enter .35s ease-out both; }
 @keyframes lv-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 .lv-float { animation: lv-float 5s ease-in-out infinite; }
 
 /* ---------- Каркас приложения ---------- */
-.app { max-width: 480px; margin: 0 auto; min-height: 100dvh; background: var(--lv-card); display: flex; flex-direction: column; box-shadow: 0 0 60px rgba(26, 26, 26, .08); }
+.app { max-width: 480px; margin: 0 auto; min-height: 100dvh; background: var(--lv-card); display: flex; flex-direction: column; box-shadow: var(--lv-shadow-app); }
 main#view { flex: 1; }
 
 /* ---------- Шапка (стекло) ---------- */
@@ -63,7 +63,7 @@ main#view { flex: 1; }
 .logo .lv { color: var(--lv-pink); }
 .logo .logo-img { height: 32px; width: auto; display: block; }
 @media (max-width: 360px) { .logo .logo-img { height: 28px; } }
-.pill-btn { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 10px; border-radius: 999px; background: var(--lv-surface); font-size: 14px; font-weight: 500; transition: background .2s; }
+.pill-btn { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 10px; border-radius: var(--lv-r-pill); background: var(--lv-surface); font-size: 14px; font-weight: 500; transition: background .2s; }
 .pill-btn:hover { background: var(--lv-soft-pink); }
 .pill-btn svg { width: 16px; height: 16px; color: var(--lv-pink); flex-shrink: 0; }
 .pill-btn .chev { width: 16px; height: 16px; color: var(--lv-dim); }
@@ -74,7 +74,7 @@ main#view { flex: 1; }
   .pill-btn .lbl { max-width: 64px; }
   .app-header-in > div { gap: 6px; }
 }
-.icon-btn { position: relative; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 999px; background: var(--lv-surface); transition: background .2s; }
+.icon-btn { position: relative; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--lv-r-pill); background: var(--lv-surface); transition: background .2s; }
 .icon-btn:hover { background: var(--lv-soft-pink); }
 .icon-btn svg { width: 20px; height: 20px; }
 /* Базовый размер иконки icon(name, 'icon'): без него SVG без width/height
@@ -91,18 +91,18 @@ main#view { flex: 1; }
 .subheader { position: sticky; top: 56px; z-index: 30; background: var(--lv-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--lv-line); }
 .subheader-in { display: flex; align-items: center; height: 48px; padding: 0 12px; gap: 8px; }
 .subheader h1 { margin: 0; font-size: 16px; font-weight: 700; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.back-btn { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 999px; transition: background .2s; flex-shrink: 0; }
+.back-btn { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--lv-r-pill); transition: background .2s; flex-shrink: 0; }
 .back-btn:hover { background: var(--lv-surface); }
 .back-btn svg { width: 20px; height: 20px; }
 
 /* ---------- Герой (сворачивается ярлычком) ---------- */
 /* Вертикальный ритм приложения: блок↔блок 24px (section padding-top 20 + хвост контента 4), заголовок↔контент 12px */
 .hero { padding: 12px 16px 4px; background: linear-gradient(180deg, var(--lv-hero-top) 0%, var(--lv-card) 100%); transition: padding .3s ease; }
-.hero-tab { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; padding: 9px 12px; border-radius: 14px; background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: 0 1px 3px rgba(26, 26, 26, .05); font-size: 13px; font-weight: 600; color: var(--lv-ink); cursor: pointer; }
+.hero-tab { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; padding: 9px 12px; border-radius: var(--lv-r-md); background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: 0 1px 3px rgba(26, 26, 26, .05); font-size: 13px; font-weight: 600; color: var(--lv-ink); cursor: pointer; }
 .ht-ico { display: flex; flex-shrink: 0; width: 16px; height: 16px; color: var(--lv-pink); }
 .ht-ico svg { width: 16px; height: 16px; }
 .ht-lbl { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.ht-chev { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 24px; height: 24px; border-radius: 999px; background: var(--lv-soft-pink); color: var(--lv-pink); transition: transform .3s ease; }
+.ht-chev { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 24px; height: 24px; border-radius: var(--lv-r-pill); background: var(--lv-soft-pink); color: var(--lv-pink); transition: transform .3s ease; }
 .ht-chev svg { width: 16px; height: 16px; }
 .hero:not(.collapsed) .ht-chev { transform: rotate(180deg); }
 .hero-body { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .32s ease; }
@@ -115,13 +115,13 @@ main#view { flex: 1; }
 .hero .lead { margin: 6px 0 0; font-size: 14px; line-height: 1.6; color: var(--lv-dim); }
 .hero .lead b { color: var(--lv-ink); font-weight: 600; }
 .stat-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-.stat-pill { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 12px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+.stat-pill { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 12px; border-radius: var(--lv-r-pill); font-size: 12px; font-weight: 600; }
 .stat-pill svg { width: 16px; height: 16px; }
 .stat-pill.pink { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
 .stat-pill.tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .stat-pill.gold { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
 .stat-pill.grey { background: var(--lv-grey-soft); color: #999; }
-.search-trigger { display: flex; align-items: center; gap: 10px; width: 100%; height: 44px; padding: 0 16px; margin-top: 16px; border-radius: 999px; background: var(--lv-surface); color: var(--lv-dim); font-size: 14px; text-align: left; transition: background .2s; }
+.search-trigger { display: flex; align-items: center; gap: 10px; width: 100%; height: 44px; padding: 0 16px; margin-top: 16px; border-radius: var(--lv-r-pill); background: var(--lv-surface); color: var(--lv-dim); font-size: 14px; text-align: left; transition: background .2s; }
 .search-trigger:hover { background: var(--lv-soft-pink); }
 .search-trigger svg { width: 16px; height: 16px; }
 
@@ -134,12 +134,12 @@ main#view { flex: 1; }
    без постоянной тени; тень только в прилипшем состоянии — .stuck вешает IntersectionObserver (app.js) */
 .cats-sticky { position: sticky; top: 56px; z-index: 25; padding: 10px 0 16px; background: var(--lv-card); }
 .cats-sticky .cats { padding: 0 16px; }
-.cats-sticky.stuck { box-shadow: 0 12px 16px -16px rgba(26, 26, 26, .28); }
+.cats-sticky.stuck { box-shadow: var(--lv-shadow-stuck); }
 .cats-sentinel { height: 0; }
-.cat-chip { flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--lv-line); background: var(--lv-card); font-size: 13px; font-weight: 600; transition: all .2s; }
+.cat-chip { flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: var(--lv-r-pill); border: 1px solid var(--lv-line); background: var(--lv-card); font-size: 13px; font-weight: 600; transition: all .2s; }
 .cat-chip:hover { border-color: var(--lv-pink); }
 .cat-chip:active { transform: scale(.96); }
-.cat-chip.active { background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: var(--lv-on-brand); border-color: transparent; box-shadow: 0 12px 32px -12px rgba(201, 42, 106, .22); }
+.cat-chip.active { background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: var(--lv-on-brand); border-color: transparent; box-shadow: var(--lv-shadow-lift); }
 .cat-chip .e { font-size: 14px; }
 
 /* ---------- Секции ---------- */
@@ -168,13 +168,13 @@ main#view { flex: 1; }
 
 /* ---------- Карточка точки ---------- */
 .store-card-w { flex-shrink: 0; width: 170px; }
-.btn-card { display: block; width: 100%; text-align: left; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: var(--lv-shadow-soft); overflow: hidden; transition: transform .2s, box-shadow .2s; }
-.btn-card:hover { transform: translateY(-2px); box-shadow: 0 12px 32px -12px rgba(201, 42, 106, .22); }
+.btn-card { display: block; width: 100%; text-align: left; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); overflow: hidden; transition: transform .2s, box-shadow .2s; }
+.btn-card:hover { transform: translateY(-2px); box-shadow: var(--lv-shadow-lift); }
 .cover-20 { height: 80px; display: flex; align-items: center; justify-content: center; position: relative; }
 .cover-20 .em { font-size: 36px; transition: transform .2s; }
 .btn-card:hover .em { transform: scale(1.1); }
-.open-pill { position: absolute; top: 8px; right: 8px; height: 20px; padding: 0 8px; border-radius: 999px; font-size: 10px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
-.open-pill .dot { width: 6px; height: 6px; border-radius: 999px; }
+.open-pill { position: absolute; top: 8px; right: 8px; height: 20px; padding: 0 8px; border-radius: var(--lv-r-pill); font-size: 10px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+.open-pill .dot { width: 6px; height: 6px; border-radius: var(--lv-r-pill); }
 .open-pill.on { background: var(--lv-badge-new); color: var(--lv-tiffany-text); }
 .open-pill.on .dot { background: var(--lv-tiffany); }
 .open-pill.off { background: var(--lv-grey-soft); color: #999; }
@@ -187,19 +187,19 @@ main#view { flex: 1; }
 .rating { display: flex; align-items: center; gap: 2px; font-size: 12px; font-weight: 700; flex-shrink: 0; }
 .rating svg { width: 16px; height: 16px; color: var(--lv-gold); fill: var(--lv-gold); }
 .store-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
-.walk-pill { display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 8px; border-radius: 999px; background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); font-size: 11px; font-weight: 600; }
+.walk-pill { display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 8px; border-radius: var(--lv-r-pill); background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); font-size: 11px; font-weight: 600; }
 .walk-pill svg { width: 16px; height: 16px; }
 .chev { width: 16px; height: 16px; color: var(--lv-dim); transition: transform .2s, color .2s; }
 .btn-card:hover .chev { transform: translateX(2px); color: var(--lv-pink); }
 
 /* ---------- Акции ---------- */
-.promo-card { flex-shrink: 0; width: 240px; text-align: left; border-radius: 16px; padding: 16px; transition: transform .2s, box-shadow .2s; }
-.promo-card:hover { transform: translateY(-2px); box-shadow: 0 12px 32px -12px rgba(201, 42, 106, .22); }
+.promo-card { flex-shrink: 0; width: 240px; text-align: left; border-radius: var(--lv-r-lg); padding: 16px; transition: transform .2s, box-shadow .2s; }
+.promo-card:hover { transform: translateY(-2px); box-shadow: var(--lv-shadow-lift); }
 .promo-card.tone-pink { background: var(--lv-soft-pink); }
 .promo-card.tone-tiffany { background: var(--lv-soft-tiffany); }
 .promo-card.tone-gold { background: var(--lv-soft-gold); }
-.promo-mini { display: inline-flex; align-items: center; gap: 6px; height: 20px; padding: 0 8px; border-radius: 999px; background: rgba(255, 255, 255, .8); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--lv-pink-dark); }
-.promo-mini .dot { width: 6px; height: 6px; border-radius: 999px; }
+.promo-mini { display: inline-flex; align-items: center; gap: 6px; height: 20px; padding: 0 8px; border-radius: var(--lv-r-pill); background: rgba(255, 255, 255, .8); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--lv-pink-dark); }
+.promo-mini .dot { width: 6px; height: 6px; border-radius: var(--lv-r-pill); }
 .promo-title { margin-top: 8px; font-size: 16px; font-weight: 800; line-height: 1.3; }
 .promo-desc { font-size: 12px; color: var(--lv-dim); margin-top: 2px; }
 .promo-timer { display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; color: var(--lv-pink-dark); margin-top: 10px; }
@@ -207,19 +207,19 @@ main#view { flex: 1; }
 
 /* ---------- Карточка товара ---------- */
 .prod-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 16px 4px; }
-.product-card { display: block; width: 100%; text-align: left; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: var(--lv-shadow-soft); overflow: hidden; transition: transform .2s, box-shadow .2s, opacity .2s; }
-.product-card:hover { transform: translateY(-2px); box-shadow: 0 12px 32px -12px rgba(201, 42, 106, .22); }
+.product-card { display: block; width: 100%; text-align: left; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); overflow: hidden; transition: transform .2s, box-shadow .2s, opacity .2s; }
+.product-card:hover { transform: translateY(-2px); box-shadow: var(--lv-shadow-lift); }
 .product-card.disabled { opacity: .6; }
 .product-card.disabled:hover { transform: none; box-shadow: var(--lv-shadow-soft); }
 .cover-28 { height: 112px; display: flex; align-items: center; justify-content: center; position: relative; }
 .cover-28 .em { font-size: 36px; transition: transform .2s; }
 .product-card:hover .em { transform: scale(1.1); }
-.badge-pill { position: absolute; top: 8px; left: 8px; height: 20px; padding: 0 8px; border-radius: 999px; font-size: 10px; font-weight: 700; display: flex; align-items: center; }
+.badge-pill { position: absolute; top: 8px; left: 8px; height: 20px; padding: 0 8px; border-radius: var(--lv-r-pill); font-size: 10px; font-weight: 700; display: flex; align-items: center; }
 .badge-hit { background: var(--lv-badge-hit); color: var(--lv-pink-dark); }
 .badge-new { background: var(--lv-badge-new); color: var(--lv-tiffany-text); }
 .badge-sale { background: var(--lv-badge-sale); color: var(--lv-gold-text); }
 .badge-eco { background: var(--lv-green-soft); color: var(--lv-green-text); }
-.walk-mini { position: absolute; bottom: 8px; left: 8px; height: 20px; padding: 0 8px; border-radius: 999px; background: rgba(255, 255, 255, .9); backdrop-filter: blur(4px); font-size: 10px; font-weight: 600; color: var(--lv-tiffany-text); display: flex; align-items: center; gap: 4px; }
+.walk-mini { position: absolute; bottom: 8px; left: 8px; height: 20px; padding: 0 8px; border-radius: var(--lv-r-pill); background: rgba(255, 255, 255, .9); backdrop-filter: blur(4px); font-size: 10px; font-weight: 600; color: var(--lv-tiffany-text); display: flex; align-items: center; gap: 4px; }
 .walk-mini svg { width: 12px; height: 12px; }
 .prod-body { padding: 12px; }
 .prod-name { font-size: 14px; font-weight: 700; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 38px; }
@@ -230,30 +230,30 @@ main#view { flex: 1; }
 .unit { font-size: 11px; color: var(--lv-dim); }
 
 /* ---------- Товары | Услуги + сортировка ---------- */
-.seg { display: flex; height: 40px; border-radius: 999px; background: var(--lv-surface); padding: 4px; margin: 0 16px 12px; } /* width:auto — 100% + боковые margin давали горизонтальное переполнение */
-.seg button { flex: 1; height: 32px; border-radius: 999px; font-size: 13px; font-weight: 700; color: var(--lv-dim); transition: all .2s; }
+.seg { display: flex; height: 40px; border-radius: var(--lv-r-pill); background: var(--lv-surface); padding: 4px; margin: 0 16px 12px; } /* width:auto — 100% + боковые margin давали горизонтальное переполнение */
+.seg button { flex: 1; height: 32px; border-radius: var(--lv-r-pill); font-size: 13px; font-weight: 700; color: var(--lv-dim); transition: all .2s; }
 .seg button:hover { color: var(--lv-ink); }
 .seg button.active { background: var(--lv-card); color: var(--lv-ink); box-shadow: var(--lv-shadow-soft); }
 .sort-group { display: flex; gap: 6px; }
-.sort-btn { height: 28px; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--lv-surface); color: var(--lv-dim); transition: all .2s; }
+.sort-btn { height: 28px; padding: 0 10px; border-radius: var(--lv-r-pill); font-size: 12px; font-weight: 600; background: var(--lv-surface); color: var(--lv-dim); transition: all .2s; }
 .sort-btn:hover { color: var(--lv-ink); }
 .sort-btn.active { background: var(--lv-ink); color: var(--lv-card); box-shadow: var(--lv-shadow-soft); }
 
 /* ---------- Карточка лояльности ---------- */
-.loyalty { margin: 0 16px 16px; border-radius: 24px; color: var(--lv-on-brand); padding: 20px; position: relative; overflow: hidden; }
-.loyalty .blob { position: absolute; top: -32px; right: -32px; width: 128px; height: 128px; border-radius: 999px; background: rgba(246, 74, 138, .2); filter: blur(24px); }
+.loyalty { margin: 0 16px 16px; border-radius: var(--lv-r-xl); color: var(--lv-on-brand); padding: 20px; position: relative; overflow: hidden; }
+.loyalty .blob { position: absolute; top: -32px; right: -32px; width: 128px; height: 128px; border-radius: var(--lv-r-pill); background: rgba(246, 74, 138, .2); filter: blur(24px); }
 .loyalty .kicker { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(255, 255, 255, .6); }
 .loyalty .big { margin-top: 6px; font-size: 18px; font-weight: 800; line-height: 1.35; }
 .loyalty .big .g { color: var(--lv-gold); }
 .loyalty p { margin: 6px 0 0; font-size: 13px; color: rgba(255, 255, 255, .7); line-height: 1.6; }
 .loyalty .chips { display: flex; gap: 8px; margin-top: 12px; }
-.glass-chip { display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 12px; border-radius: 999px; background: rgba(255, 255, 255, .1); font-size: 12px; font-weight: 600; }
+.glass-chip { display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 12px; border-radius: var(--lv-r-pill); background: rgba(255, 255, 255, .1); font-size: 12px; font-weight: 600; }
 .glass-chip svg { width: 16px; height: 16px; }
 .glass-chip .g { color: var(--lv-gold); fill: var(--lv-gold); }
 .glass-chip .t { color: var(--lv-tiffany); }
 
 /* ---------- Страница товара ---------- */
-.pd-cover { margin: 16px 16px 0; height: 176px; border-radius: 24px; display: flex; align-items: center; justify-content: center; position: relative; }
+.pd-cover { margin: 16px 16px 0; height: 176px; border-radius: var(--lv-r-xl); display: flex; align-items: center; justify-content: center; position: relative; }
 .pd-cover .em { font-size: 72px; }
 .pd-cover .badge-pill { top: 12px; left: 12px; height: 24px; padding: 0 10px; font-size: 11px; }
 .price-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; padding: 0 16px; margin-top: 14px; }
@@ -270,11 +270,11 @@ main#view { flex: 1; }
 .where-h .cnt { color: var(--lv-dim); font-size: 14px; font-weight: 600; margin-left: 6px; }
 .where-h .note { font-size: 12px; color: var(--lv-dim); margin: 4px 0 0; }
 .avail-list { padding: 12px 16px 4px; display: flex; flex-direction: column; gap: 10px; }
-.avail-card { background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; padding: 12px; box-shadow: var(--lv-shadow-soft); transition: box-shadow .2s, opacity .2s; }
-.avail-card:hover { box-shadow: 0 12px 32px -12px rgba(201, 42, 106, .22); }
+.avail-card { background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); padding: 12px; box-shadow: var(--lv-shadow-soft); transition: box-shadow .2s, opacity .2s; }
+.avail-card:hover { box-shadow: var(--lv-shadow-lift); }
 .avail-card.out { opacity: .7; }
 .avail-row { display: flex; align-items: center; gap: 12px; }
-.avail-emoji { flex-shrink: 0; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+.avail-emoji { flex-shrink: 0; width: 48px; height: 48px; border-radius: var(--lv-r-sm); display: flex; align-items: center; justify-content: center; font-size: 24px; }
 .avail-mid { flex: 1; min-width: 0; }
 .avail-name { font-size: 14px; font-weight: 700; text-align: left; transition: color .2s; }
 .avail-name:hover { color: var(--lv-pink); }
@@ -282,21 +282,21 @@ main#view { flex: 1; }
 .avail-tags { display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap; align-items: center; }
 .walk-text { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; color: var(--lv-tiffany-text); }
 .walk-text svg { width: 12px; height: 12px; }
-.stock-pill { height: 18px; padding: 0 6px; border-radius: 999px; font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; }
+.stock-pill { height: 18px; padding: 0 6px; border-radius: var(--lv-r-pill); font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; }
 .stock-ok { background: var(--lv-badge-new); color: var(--lv-tiffany-text); }
 .stock-low { background: var(--lv-badge-sale); color: var(--lv-gold-text); }
 .stock-out { background: var(--lv-grey-soft); color: #999; }
 .avail-right { flex-shrink: 0; text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
 .avail-price { font-size: 14px; font-weight: 800; }
 .out-note { font-size: 11px; color: #999; }
-.cta-btn { height: 36px; padding: 0 16px; border-radius: 999px; color: var(--lv-on-brand); font-size: 12px; font-weight: 700; transition: all .2s; display: inline-flex; align-items: center; justify-content: center; }
-.cta-btn:hover { box-shadow: 0 12px 32px -12px rgba(201, 42, 106, .22); }
+.cta-btn { height: 36px; padding: 0 16px; border-radius: var(--lv-r-pill); color: var(--lv-on-brand); font-size: 12px; font-weight: 700; transition: all .2s; display: inline-flex; align-items: center; justify-content: center; }
+.cta-btn:hover { box-shadow: var(--lv-shadow-lift); }
 .cta-btn:active { transform: scale(.95); }
 .cta-btn.big { height: 48px; width: 100%; font-size: 14px; }
-.added-pill { display: inline-flex; align-items: center; justify-content: center; gap: 4px; height: 36px; padding: 0 12px; border-radius: 999px; background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); font-size: 12px; font-weight: 700; }
+.added-pill { display: inline-flex; align-items: center; justify-content: center; gap: 4px; height: 36px; padding: 0 12px; border-radius: var(--lv-r-pill); background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); font-size: 12px; font-weight: 700; }
 .added-pill svg { width: 16px; height: 16px; }
-.qty { display: inline-flex; align-items: center; height: 36px; border-radius: 999px; background: var(--lv-soft-pink); }
-.qty button { width: 36px; height: 36px; border-radius: 999px; color: var(--lv-pink-dark); font-size: 18px; font-weight: 700; transition: background .2s; }
+.qty { display: inline-flex; align-items: center; height: 36px; border-radius: var(--lv-r-pill); background: var(--lv-soft-pink); }
+.qty button { width: 36px; height: 36px; border-radius: var(--lv-r-pill); color: var(--lv-pink-dark); font-size: 18px; font-weight: 700; transition: background .2s; }
 .qty button:hover { background: rgba(255, 255, 255, .6); }
 .qty .n { width: 24px; text-align: center; font-size: 14px; font-weight: 700; color: var(--lv-pink-dark); }
 
@@ -304,15 +304,15 @@ main#view { flex: 1; }
 .st-cover { height: 144px; display: flex; align-items: center; justify-content: center; position: relative; }
 .st-cover .em { font-size: 60px; }
 .st-cover .open-pill { top: 12px; right: 12px; height: 24px; padding: 0 10px; font-size: 11px; background: rgba(255, 255, 255, .9); }
-.st-card { margin: -20px 16px 0; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: var(--lv-shadow-soft); padding: 16px; position: relative; }
+.st-card { margin: -20px 16px 0; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); padding: 16px; position: relative; }
 .st-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
 .st-head h1 { margin: 0; font-size: 18px; font-weight: 800; }
 .st-head .sub { font-size: 12px; color: var(--lv-dim); margin-top: 2px; }
-.rating-pill { display: flex; align-items: center; gap: 4px; height: 28px; padding: 0 10px; border-radius: 999px; background: var(--lv-soft-gold); font-size: 12px; font-weight: 700; color: var(--lv-gold-text); flex-shrink: 0; }
+.rating-pill { display: flex; align-items: center; gap: 4px; height: 28px; padding: 0 10px; border-radius: var(--lv-r-pill); background: var(--lv-soft-gold); font-size: 12px; font-weight: 700; color: var(--lv-gold-text); flex-shrink: 0; }
 .rating-pill svg { width: 16px; height: 16px; color: var(--lv-gold); fill: var(--lv-gold); }
 .rating-pill .rev { color: #b09662; font-weight: 500; }
 .st-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-.info-pill { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+.info-pill { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: var(--lv-r-pill); font-size: 12px; font-weight: 700; }
 .info-pill svg { width: 16px; height: 16px; }
 .info-pill.tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .info-pill.plain { background: var(--lv-surface); color: var(--lv-ink); font-weight: 600; }
@@ -320,15 +320,15 @@ main#view { flex: 1; }
 .info-pill.plain .pin { color: var(--lv-pink); }
 .st-about { margin: 12px 0 0; font-size: 13px; color: var(--lv-dim); line-height: 1.6; }
 .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-.tag-pill { height: 24px; padding: 0 10px; border-radius: 999px; background: var(--lv-soft-pink); color: var(--lv-pink-dark); font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; }
+.tag-pill { height: 24px; padding: 0 10px; border-radius: var(--lv-r-pill); background: var(--lv-soft-pink); color: var(--lv-pink-dark); font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; }
 .st-goods { padding: 20px 0 4px; }
 .st-goods .section-head h2 { display: flex; align-items: center; gap: 8px; }
 .st-goods .section-head h2 svg { width: 20px; height: 20px; color: var(--lv-pink); }
 
 /* ---------- Поиск ---------- */
 .search-bar-wrap { position: sticky; top: 56px; z-index: 30; background: var(--lv-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding: 12px 16px 10px; border-bottom: 1px solid var(--lv-line); }
-.search-bar { display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 999px; background: var(--lv-surface); transition: all .2s; }
-.search-bar:focus-within { background: var(--lv-card); box-shadow: 0 0 0 2px rgba(246, 74, 138, .4); }
+.search-bar { display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: var(--lv-r-pill); background: var(--lv-surface); transition: all .2s; }
+.search-bar:focus-within { background: var(--lv-card); box-shadow: var(--lv-ring-search); }
 .search-bar > svg { width: 16px; height: 16px; color: var(--lv-dim); flex-shrink: 0; }
 .search-bar input { flex: 1; border: 0; outline: none; background: none; font-size: 14px; color: var(--lv-ink); min-width: 0; }
 .search-bar input::placeholder { color: var(--lv-dim); }
@@ -336,15 +336,15 @@ main#view { flex: 1; }
 .search-bar .clear:hover { color: var(--lv-ink); }
 .search-bar .clear svg { width: 16px; height: 16px; }
 .search-tabs { display: flex; gap: 8px; margin-top: 10px; }
-.tab-btn { height: 32px; padding: 0 14px; border-radius: 999px; font-size: 13px; font-weight: 700; background: var(--lv-surface); color: var(--lv-dim); transition: all .2s; }
+.tab-btn { height: 32px; padding: 0 14px; border-radius: var(--lv-r-pill); font-size: 13px; font-weight: 700; background: var(--lv-surface); color: var(--lv-dim); transition: all .2s; }
 .tab-btn:hover { color: var(--lv-ink); }
-.tab-btn.active { background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: var(--lv-on-brand); box-shadow: 0 12px 32px -12px rgba(201, 42, 106, .22); }
+.tab-btn.active { background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: var(--lv-on-brand); box-shadow: var(--lv-shadow-lift); }
 .results-wrap { padding: 12px 16px 8px; }
 .results-hint { font-size: 12px; color: var(--lv-dim); margin: 0 0 10px; }
 .rows { display: flex; flex-direction: column; gap: 10px; }
-.compact-row { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: var(--lv-shadow-soft); transition: box-shadow .2s; text-align: left; width: 100%; }
-.compact-row:hover { box-shadow: 0 12px 32px -12px rgba(201, 42, 106, .22); }
-.compact-row .em-tile { flex-shrink: 0; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+.compact-row { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); transition: box-shadow .2s; text-align: left; width: 100%; }
+.compact-row:hover { box-shadow: var(--lv-shadow-lift); }
+.compact-row .em-tile { flex-shrink: 0; width: 48px; height: 48px; border-radius: var(--lv-r-sm); display: flex; align-items: center; justify-content: center; font-size: 24px; }
 .compact-row .mid { flex: 1; min-width: 0; }
 .compact-row .nm { display: block; font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .compact-row .sb { display: block; font-size: 12px; color: var(--lv-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -360,7 +360,7 @@ main#view { flex: 1; }
 .page-h h1 { margin: 0; font-size: 20px; font-weight: 800; }
 .page-h .cnt { color: var(--lv-dim); font-size: 14px; font-weight: 600; margin-left: 6px; }
 .cart-list { padding: 12px 16px 0; display: flex; flex-direction: column; gap: 16px; }
-.cart-store-card { background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: var(--lv-shadow-soft); overflow: hidden; }
+.cart-store-card { background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); overflow: hidden; }
 .cart-store-head { display: flex; align-items: center; gap: 8px; padding: 12px 16px 4px; }
 .cart-store-head .walk-pill { height: 28px; font-size: 11px; font-weight: 700; }
 .cart-store-head .trash { margin-left: auto; color: var(--lv-dim); display: flex; transition: color .2s; }
@@ -368,14 +368,14 @@ main#view { flex: 1; }
 .cart-store-head .trash svg { width: 16px; height: 16px; }
 .cart-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; }
 .cart-item + .cart-item { border-top: 1px solid var(--lv-line-2); }
-.cart-item .em-tile { flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.cart-item .em-tile { flex-shrink: 0; width: 44px; height: 44px; border-radius: var(--lv-r-sm); display: flex; align-items: center; justify-content: center; font-size: 20px; }
 .cart-item .mid { flex: 1; min-width: 0; }
 .cart-item .nm { font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cart-item .pr { font-size: 12px; color: var(--lv-dim); }
 .cart-store-total { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
 .cart-store-total .l { font-size: 12px; font-weight: 600; color: var(--lv-dim); }
 .cart-store-total .v { font-size: 14px; font-weight: 800; }
-.sum-card { margin: 20px 16px 0; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: var(--lv-shadow-soft); padding: 16px; }
+.sum-card { margin: 20px 16px 0; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); padding: 16px; }
 .sum-row { display: flex; align-items: center; justify-content: space-between; font-size: 14px; margin-top: 6px; }
 .sum-row:first-child { margin-top: 0; }
 .sum-row .l { color: var(--lv-dim); }
@@ -393,17 +393,17 @@ main#view { flex: 1; }
 
 /* ---------- Заказы ---------- */
 .orders-list { padding: 12px 16px 0; display: flex; flex-direction: column; gap: 12px; }
-.order-card { background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: var(--lv-shadow-soft); padding: 16px; }
+.order-card { background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); padding: 16px; }
 .order-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .order-head .oid { font-weight: 800; }
-.status-pill { height: 24px; padding: 0 10px; border-radius: 999px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.status-pill { height: 24px; padding: 0 10px; border-radius: var(--lv-r-pill); font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; }
 .status-pink { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
 .status-tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .status-dim { background: var(--lv-grey-soft); color: #888; }
 .order-meta { display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 12px; color: var(--lv-dim); flex-wrap: wrap; }
 .order-meta svg { width: 16px; height: 16px; color: var(--lv-pink); }
 .item-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-.item-chip { display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 10px; border-radius: 999px; background: var(--lv-surface); font-size: 12px; font-weight: 500; }
+.item-chip { display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 10px; border-radius: var(--lv-r-pill); background: var(--lv-surface); font-size: 12px; font-weight: 500; }
 .item-chip .q { color: var(--lv-dim); }
 .order-foot { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--lv-line); display: flex; align-items: center; justify-content: space-between; }
 .order-foot .l { font-size: 12px; font-weight: 600; color: var(--lv-dim); display: flex; align-items: center; gap: 6px; }
@@ -416,11 +416,11 @@ main#view { flex: 1; }
 .nav-btn { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 11px; font-weight: 500; color: var(--lv-dim); transition: color .2s; }
 .nav-btn:hover { color: var(--lv-ink); }
 .nav-btn.active { color: var(--lv-pink); }
-.nav-btn .top-ind { position: absolute; top: 0; width: 32px; height: 2px; border-radius: 999px; background: var(--lv-pink); display: none; }
+.nav-btn .top-ind { position: absolute; top: 0; width: 32px; height: 2px; border-radius: var(--lv-r-pill); background: var(--lv-pink); display: none; }
 .nav-btn.active .top-ind { display: block; }
 .nav-ico { position: relative; display: flex; }
 .nav-ico svg { width: 24px; height: 24px; }
-.nav-count { position: absolute; top: -6px; right: -8px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px; color: var(--lv-on-brand); font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.nav-count { position: absolute; top: -6px; right: -8px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: var(--lv-r-pill); color: var(--lv-on-brand); font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
 
 /* ---------- Шит выбора района ---------- */
 .sheet-overlay { position: fixed; inset: 0; z-index: 50; background: rgba(26, 26, 26, .4); opacity: 0; pointer-events: none; transition: opacity .25s; }
@@ -431,18 +431,18 @@ main#view { flex: 1; }
 .sheet-head h2 { margin: 0; font-size: 18px; font-weight: 800; }
 .sheet-head p { margin: 4px 0 0; font-size: 14px; color: var(--lv-dim); }
 .sheet-body { padding: 0 16px 24px; overflow-y: auto; display: grid; gap: 8px; }
-.district-row { display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 16px; border-radius: 16px; border: 1px solid var(--lv-line); transition: all .2s; text-align: left; }
+.district-row { display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 16px; border-radius: var(--lv-r-lg); border: 1px solid var(--lv-line); transition: all .2s; text-align: left; }
 .district-row:hover { border-color: var(--lv-pink); }
 .district-row.active { border-color: var(--lv-pink); background: var(--lv-soft-pink); }
 .district-row .l { display: flex; align-items: center; gap: 12px; }
-.district-row .ic { width: 36px; height: 36px; border-radius: 12px; background: var(--lv-soft-pink); display: flex; align-items: center; justify-content: center; }
+.district-row .ic { width: 36px; height: 36px; border-radius: var(--lv-r-sm); background: var(--lv-soft-pink); display: flex; align-items: center; justify-content: center; }
 .district-row .ic svg { width: 16px; height: 16px; color: var(--lv-pink); }
 .district-row .nm { display: block; font-size: 14px; font-weight: 600; }
 .district-row .mt { display: block; font-size: 12px; color: var(--lv-dim); }
 
 /* ---------- Тосты ---------- */
 .toast-wrap { position: fixed; left: 0; right: 0; bottom: 84px; z-index: 60; display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; padding: 0 16px; }
-.toast { max-width: 100%; background: var(--lv-ink); color: var(--lv-card); border-radius: 16px; padding: 10px 16px; font-size: 13px; font-weight: 600; box-shadow: 0 12px 32px -12px rgba(201, 42, 106, .35); animation: toast-in .25s ease-out; }
+.toast { max-width: 100%; background: var(--lv-ink); color: var(--lv-card); border-radius: var(--lv-r-lg); padding: 10px 16px; font-size: 13px; font-weight: 600; box-shadow: var(--lv-shadow-toast); animation: toast-in .25s ease-out; }
 .toast .d { font-size: 11px; color: var(--lv-toast-d); font-weight: 400; margin-top: 2px; }
 @keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .toast.hide { opacity: 0; transform: translateY(8px); transition: all .25s; }
@@ -469,7 +469,7 @@ main#view { flex: 1; }
    ============================================================ */
 
 /* ---------- Кнопки-призраки, служебные ---------- */
-.ghost-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 40px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--lv-line); background: var(--lv-card); font-size: 13px; font-weight: 700; color: var(--lv-ink); transition: all .2s; flex-shrink: 0; }
+.ghost-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 40px; padding: 0 16px; border-radius: var(--lv-r-pill); border: 1.5px solid var(--lv-line); background: var(--lv-card); font-size: 13px; font-weight: 700; color: var(--lv-ink); transition: all .2s; flex-shrink: 0; }
 .ghost-btn svg { width: 16px; height: 15px; }
 .ghost-btn.sm { height: 32px; padding: 0 12px; font-size: 12px; }
 .btn-row { display: flex; gap: 10px; padding: 16px 16px 0; flex-wrap: wrap; }
@@ -477,12 +477,12 @@ main#view { flex: 1; }
 .cta-btn.sm { height: 32px; padding: 0 12px; font-size: 12px; }
 
 /* ---------- Общие карточки-списки и строки ---------- */
-.list-card { margin: 10px 16px 0; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: var(--lv-shadow-soft); overflow: hidden; }
+.list-card { margin: 10px 16px 0; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); overflow: hidden; }
 .row-item { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 14px; text-align: left; }
 .row-item + .row-item { border-top: 1px solid var(--lv-line-2); }
 .row-item.as-btn { transition: background .15s; }
 .row-item.as-btn:hover { background: var(--lv-surface); }
-.ri-emoji { flex-shrink: 0; width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 21px; }
+.ri-emoji { flex-shrink: 0; width: 42px; height: 42px; border-radius: var(--lv-r-sm); display: flex; align-items: center; justify-content: center; font-size: 21px; }
 .ri-mid { flex: 1; min-width: 0; }
 .ri-mid .nm { font-size: 13.5px; font-weight: 700; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .ri-mid .sb { margin-top: 2px; font-size: 11.5px; color: var(--lv-dim); display: flex; align-items: center; gap: 3px; flex-wrap: wrap; }
@@ -490,13 +490,13 @@ main#view { flex: 1; }
 .ri-right { text-align: right; flex-shrink: 0; }
 .ri-right .v { font-size: 13px; font-weight: 800; }
 .ri-right .st-chip { margin-top: 4px; }
-.chev-btn { flex-shrink: 0; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 999px; color: var(--lv-dim); }
+.chev-btn { flex-shrink: 0; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: var(--lv-r-pill); color: var(--lv-dim); }
 .chev-btn svg, .row-item .chev { width: 16px; height: 16px; color: var(--lv-dim); flex-shrink: 0; }
 .trash-btn { flex-shrink: 0; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 10px; color: var(--lv-negative); background: var(--lv-negative-soft); }
 .trash-btn svg { width: 16px; height: 15px; }
 
 /* ---------- Статусы точек ---------- */
-.st-chip { display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 9px; border-radius: 999px; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
+.st-chip { display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 9px; border-radius: var(--lv-r-pill); font-size: 10.5px; font-weight: 700; white-space: nowrap; }
 .st-chip .lv-dot { width: 5px; height: 5px; }
 .st-active { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .st-mod { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
@@ -505,15 +505,15 @@ main#view { flex: 1; }
 
 /* ---------- Шапка дашборда, табы ---------- */
 .dash-head { display: flex; align-items: center; gap: 12px; padding: 16px 16px 0; }
-.dash-ava { width: 46px; height: 46px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+.dash-ava { width: 46px; height: 46px; border-radius: var(--lv-r-md); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
 .dash-title { flex: 1; min-width: 0; }
 .dash-title h1 { margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .dash-title .d { font-size: 11.5px; color: var(--lv-dim); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .dash-tabs button { display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
-.tab-unread { min-width: 17px; height: 17px; padding: 0 5px; border-radius: 999px; background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: var(--lv-on-brand); font-size: 10px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
-.status-banner { display: flex; align-items: center; gap: 10px; margin: 14px 16px 0; padding: 10px 14px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 14px; }
+.tab-unread { min-width: 17px; height: 17px; padding: 0 5px; border-radius: var(--lv-r-pill); background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: var(--lv-on-brand); font-size: 10px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
+.status-banner { display: flex; align-items: center; gap: 10px; margin: 14px 16px 0; padding: 10px 14px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-md); }
 .status-banner .sb { font-size: 11.5px; color: var(--lv-dim); margin-left: auto; }
-.dash-note { margin: 10px 16px 0; padding: 11px 14px; border-radius: 12px; font-size: 12px; line-height: 1.5; font-weight: 500; }
+.dash-note { margin: 10px 16px 0; padding: 11px 14px; border-radius: var(--lv-r-sm); font-size: 12px; line-height: 1.5; font-weight: 500; }
 .dash-note.tone-tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .dash-note.tone-gold { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
 .dash-note.tone-dim { background: var(--lv-grey-soft); color: var(--lv-dim); }
@@ -533,15 +533,15 @@ main#view { flex: 1; }
 /* ---------- Установка приложения (PWA) ---------- */
 .install-step { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; }
 .install-step + .install-step { border-top: 1px solid var(--lv-line-2); }
-.install-step .n { flex-shrink: 0; width: 26px; height: 26px; border-radius: 999px; display: flex; align-items: center; justify-content: center; background: var(--lv-soft-pink); color: var(--lv-pink-dark); font-size: 13px; font-weight: 800; }
+.install-step .n { flex-shrink: 0; width: 26px; height: 26px; border-radius: var(--lv-r-pill); display: flex; align-items: center; justify-content: center; background: var(--lv-soft-pink); color: var(--lv-pink-dark); font-size: 13px; font-weight: 800; }
 .install-step .t { font-size: 13.5px; line-height: 1.5; color: var(--lv-ink); font-weight: 500; padding-top: 3px; }
 .install-step .t b { font-weight: 800; }
 .install-ico { display: inline-block; vertical-align: -3px; margin: 0 2px; width: 16px; height: 16px; color: var(--lv-pink); }
-.install-note { margin-top: 10px; padding: 10px 12px; border-radius: 12px; background: var(--lv-grey-soft); color: var(--lv-dim); font-size: 12px; line-height: 1.5; }
+.install-note { margin-top: 10px; padding: 10px 12px; border-radius: var(--lv-r-sm); background: var(--lv-grey-soft); color: var(--lv-dim); font-size: 12px; line-height: 1.5; }
 
 /* ---------- KPI ---------- */
 .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 14px 16px 0; }
-.kpi { background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; padding: 12px 14px; box-shadow: var(--lv-shadow-soft); min-width: 0; }
+.kpi { background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); padding: 12px 14px; box-shadow: var(--lv-shadow-soft); min-width: 0; }
 .kpi .l { font-size: 10.5px; font-weight: 700; color: var(--lv-dim); text-transform: uppercase; letter-spacing: .04em; }
 .kpi .v { margin-top: 5px; font-size: 19px; font-weight: 800; letter-spacing: -.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .kpi .d { margin-top: 5px; min-height: 22px; display: flex; align-items: center; gap: 8px; }
@@ -554,7 +554,7 @@ main#view { flex: 1; }
 .spark { width: 76px; height: 24px; }
 
 /* ---------- Графики ---------- */
-.chart-card { margin: 14px 16px 0; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: var(--lv-shadow-soft); padding: 14px; }
+.chart-card { margin: 14px 16px 0; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); padding: 14px; }
 .chart-card .cc-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
 .chart-card .cc-head b { font-size: 13.5px; font-weight: 800; }
 .chart-card .cc-head .sub { font-size: 11px; color: var(--lv-dim); font-weight: 600; }
@@ -566,31 +566,31 @@ main#view { flex: 1; }
 .hb-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
 .hb-lbl { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .hb-val { font-size: 12px; font-weight: 800; flex-shrink: 0; }
-.hbar-track { display: block; height: 7px; border-radius: 999px; background: var(--lv-surface); overflow: hidden; }
-.hbar-fill { display: block; height: 100%; border-radius: 999px; }
+.hbar-track { display: block; height: 7px; border-radius: var(--lv-r-pill); background: var(--lv-surface); overflow: hidden; }
+.hbar-fill { display: block; height: 100%; border-radius: var(--lv-r-pill); }
 .hbar-fill.tone-pink { background-image: linear-gradient(90deg, var(--lv-pink), var(--lv-pink-dark)); }
 .hbar-fill.tone-tiffany { background-image: linear-gradient(90deg, var(--lv-tiffany), #078d89); }
 .hbar-fill.tone-gold { background-image: linear-gradient(90deg, var(--lv-gold), #b98d3e); }
-.prof-ava { flex-shrink: 0; width: 58px; height: 58px; border-radius: 999px; background: rgba(255, 255, 255, .14); display: flex; align-items: center; justify-content: center; font-size: 30px; }
+.prof-ava { flex-shrink: 0; width: 58px; height: 58px; border-radius: var(--lv-r-pill); background: rgba(255, 255, 255, .14); display: flex; align-items: center; justify-content: center; font-size: 30px; }
 .prof-name { font-size: 18px; font-weight: 800; letter-spacing: -.01em; }
 .prof-phone { margin-top: 2px; font-size: 12.5px; color: rgba(255, 255, 255, .65); font-weight: 600; }
-.role-badge { font-size: 9.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--lv-pink-dark); background: var(--lv-soft-pink); border-radius: 999px; padding: 3px 7px; }
-.demo-tag { font-size: 9.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--lv-tiffany-text); background: var(--lv-soft-tiffany); border-radius: 999px; padding: 3px 7px; }
+.role-badge { font-size: 9.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--lv-pink-dark); background: var(--lv-soft-pink); border-radius: var(--lv-r-pill); padding: 3px 7px; }
+.demo-tag { font-size: 9.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--lv-tiffany-text); background: var(--lv-soft-tiffany); border-radius: var(--lv-r-pill); padding: 3px 7px; }
 
 /* ---------- Заявка ---------- */
 .apply-head { margin: 14px 16px 0; border-radius: 20px; padding: 18px; display: flex; align-items: center; gap: 14px; }
-.ah-emoji { flex-shrink: 0; width: 52px; height: 52px; border-radius: 16px; background: rgba(255, 255, 255, .65); display: flex; align-items: center; justify-content: center; font-size: 27px; }
+.ah-emoji { flex-shrink: 0; width: 52px; height: 52px; border-radius: var(--lv-r-lg); background: rgba(255, 255, 255, .65); display: flex; align-items: center; justify-content: center; font-size: 27px; }
 .ah-mid .kicker { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--lv-dim); }
 .ah-mid h1 { margin: 2px 0 0; font-size: 20px; font-weight: 800; }
 .f-field { display: block; padding: 0 16px; margin-top: 12px; }
 .f-field .lb { display: block; margin-bottom: 6px; font-size: 12px; font-weight: 700; color: var(--lv-ink); }
-.f-field input, .f-field textarea, .f-field select { width: 100%; border: 1.5px solid var(--lv-line); border-radius: 14px; padding: 12px 14px; font: inherit; font-size: 14px; background: var(--lv-card); color: var(--lv-ink); outline: none; transition: border-color .2s, box-shadow .2s; }
-.f-field input:focus, .f-field textarea:focus, .f-field select:focus { border-color: var(--lv-pink); box-shadow: 0 0 0 4px rgba(246, 74, 138, .1); }
+.f-field input, .f-field textarea, .f-field select { width: 100%; border: 1.5px solid var(--lv-line); border-radius: var(--lv-r-md); padding: 12px 14px; font: inherit; font-size: 14px; background: var(--lv-card); color: var(--lv-ink); outline: none; transition: border-color .2s, box-shadow .2s; }
+.f-field input:focus, .f-field textarea:focus, .f-field select:focus { border-color: var(--lv-pink); box-shadow: var(--lv-ring-field); }
 .f-field textarea { min-height: 84px; resize: vertical; }
 .f-field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; }
 
 /* ---------- Дерево структуры ---------- */
-.tree { margin: 10px 16px 0; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: var(--lv-shadow-soft); padding: 6px 14px; }
+.tree { margin: 10px 16px 0; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); padding: 6px 14px; }
 .tree-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; }
 .tree-row.leaf { padding: 7px 0; }
 .t-emoji { flex-shrink: 0; width: 36px; height: 36px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 17px; }
@@ -606,7 +606,7 @@ main#view { flex: 1; }
 .fin-row .v { font-size: 13px; font-weight: 800; white-space: nowrap; }
 .fin-row.ok .v { color: var(--lv-tiffany-text); }
 .fin-row.neg .v { color: var(--lv-pink-dark); }
-.fin-total { margin: 10px 16px 0; padding: 13px 16px; border-radius: 14px; background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: var(--lv-on-brand); display: flex; align-items: center; justify-content: space-between; font-size: 14px; font-weight: 800; box-shadow: 0 12px 32px -12px rgba(201, 42, 106, .35); }
+.fin-total { margin: 10px 16px 0; padding: 13px 16px; border-radius: var(--lv-r-md); background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: var(--lv-on-brand); display: flex; align-items: center; justify-content: space-between; font-size: 14px; font-weight: 800; box-shadow: var(--lv-shadow-toast); }
 .roi-card { margin: 14px 16px 0; border-radius: 20px; padding: 20px; color: var(--lv-on-brand); }
 .roi-card .kicker { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: rgba(255, 255, 255, .55); }
 .roi-card .big { margin-top: 6px; font-size: 26px; font-weight: 800; letter-spacing: -.02em; }
@@ -618,23 +618,23 @@ main#view { flex: 1; }
 .chips-row .tab-btn.active { pointer-events: none; }
 
 /* ---------- Чаты ---------- */
-.unread { flex-shrink: 0; min-width: 19px; height: 19px; padding: 0 6px; border-radius: 999px; background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: var(--lv-on-brand); font-size: 10.5px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
+.unread { flex-shrink: 0; min-width: 19px; height: 19px; padding: 0 6px; border-radius: var(--lv-r-pill); background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: var(--lv-on-brand); font-size: 10.5px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
 .chat-sub { display: flex; align-items: center; gap: 6px; padding: 8px 16px 0; font-size: 11.5px; color: var(--lv-dim); font-weight: 600; }
 .chat-body { display: flex; flex-direction: column; gap: 8px; padding: 14px 16px 86px; }
-.msg { max-width: 80%; padding: 10px 13px; border-radius: 16px; font-size: 13.5px; line-height: 1.45; box-shadow: 0 1px 2px rgba(26, 26, 26, .05); }
+.msg { max-width: 80%; padding: 10px 13px; border-radius: var(--lv-r-lg); font-size: 13.5px; line-height: 1.45; box-shadow: 0 1px 2px rgba(26, 26, 26, .05); }
 .msg .ts { display: block; margin-top: 3px; font-size: 9.5px; opacity: .55; font-weight: 600; }
 .msg.them { align-self: flex-start; background: var(--lv-card); border: 1px solid var(--lv-line-2); border-bottom-left-radius: 6px; }
 .msg.me { align-self: flex-end; background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: var(--lv-on-brand); border-bottom-right-radius: 6px; }
-.msg.sys { align-self: center; background: var(--lv-soft-gold); color: var(--lv-gold-text); font-size: 11px; font-weight: 700; border-radius: 999px; padding: 6px 13px; max-width: 92%; text-align: center; }
+.msg.sys { align-self: center; background: var(--lv-soft-gold); color: var(--lv-gold-text); font-size: 11px; font-weight: 700; border-radius: var(--lv-r-pill); padding: 6px 13px; max-width: 92%; text-align: center; }
 .chat-input-bar { position: sticky; bottom: 0; z-index: 30; display: flex; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: var(--lv-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-top: 1px solid var(--lv-line); }
-.chat-input-bar input { flex: 1; min-width: 0; height: 44px; border: 1.5px solid var(--lv-line); border-radius: 999px; padding: 0 16px; font: inherit; font-size: 14px; outline: none; background: var(--lv-surface); }
+.chat-input-bar input { flex: 1; min-width: 0; height: 44px; border: 1.5px solid var(--lv-line); border-radius: var(--lv-r-pill); padding: 0 16px; font: inherit; font-size: 14px; outline: none; background: var(--lv-surface); }
 .chat-input-bar input:focus { border-color: var(--lv-pink); background: var(--lv-card); }
-.send-btn { flex-shrink: 0; width: 44px; height: 44px; border-radius: 999px; display: flex; align-items: center; justify-content: center; color: var(--lv-on-brand); }
+.send-btn { flex-shrink: 0; width: 44px; height: 44px; border-radius: var(--lv-r-pill); display: flex; align-items: center; justify-content: center; color: var(--lv-on-brand); }
 .send-btn svg { width: 20px; height: 20px; }
 
 /* ---------- Избранное на карточке товара ---------- */
 .pd-cover { position: relative; }
-.fav-btn { position: absolute; top: 10px; right: 10px; width: 36px; height: 36px; border-radius: 999px; background: rgba(255, 255, 255, .88); display: flex; align-items: center; justify-content: center; color: var(--lv-pink); box-shadow: 0 2px 8px rgba(26, 26, 26, .1); transition: transform .15s; }
+.fav-btn { position: absolute; top: 10px; right: 10px; width: 36px; height: 36px; border-radius: var(--lv-r-pill); background: rgba(255, 255, 255, .88); display: flex; align-items: center; justify-content: center; color: var(--lv-pink); box-shadow: var(--lv-shadow-float); transition: transform .15s; }
 .fav-btn:active { transform: scale(.9); }
 .fav-btn svg { width: 16px; height: 16px; }
 
@@ -664,9 +664,9 @@ main#view { flex: 1; }
 
 @media (min-width: 900px) {
   /* Десктоп: нижняя навигация превращается в плавающую капсулу */
-  .app-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); border: 1px solid var(--lv-line); border-radius: 999px; box-shadow: 0 12px 32px -12px rgba(26, 26, 26, .28); padding-bottom: 0; }
+  .app-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); border: 1px solid var(--lv-line); border-radius: var(--lv-r-pill); box-shadow: 0 12px 32px -12px rgba(26, 26, 26, .28); padding-bottom: 0; }
   .app-nav-in { grid-template-columns: repeat(5, auto); height: 60px; max-width: none; padding: 0 8px; }
-  .nav-btn { padding: 0 16px; border-radius: 999px; }
+  .nav-btn { padding: 0 16px; border-radius: var(--lv-r-pill); }
   main#view { padding-bottom: 96px; }
 }
 
@@ -695,10 +695,10 @@ main#view { flex: 1; }
 .rank-card.tone-tiffany { background: linear-gradient(150deg, var(--lv-soft-tiffany), var(--lv-card)); border-color: rgba(10, 186, 181, .26); }
 .rank-card.tone-gold { background: linear-gradient(150deg, var(--lv-soft-gold), var(--lv-card)); border-color: rgba(212, 168, 84, .28); }
 .rank-top { display: flex; align-items: center; gap: 12px; }
-.rank-emoji { width: 46px; height: 46px; border-radius: 14px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,.62); font-size: 24px; }
+.rank-emoji { width: 46px; height: 46px; border-radius: var(--lv-r-md); display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,.62); font-size: 24px; }
 .rank-kicker { font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--lv-dim); }
 .rank-title { margin-top: 2px; font-size: 18px; font-weight: 800; letter-spacing: -.01em; }
-.progress, .mini-progress { height: 8px; border-radius: 999px; background: var(--lv-surface); overflow: hidden; }
+.progress, .mini-progress { height: 8px; border-radius: var(--lv-r-pill); background: var(--lv-surface); overflow: hidden; }
 .progress { margin-top: 14px; }
 .progress span, .mini-progress span { display: block; height: 100%; border-radius: inherit; background-image: linear-gradient(90deg, var(--lv-tiffany), var(--lv-pink)); }
 .rank-foot { display: flex; justify-content: space-between; gap: 10px; margin-top: 8px; color: var(--lv-dim); font-size: 11.5px; font-weight: 600; }
@@ -712,7 +712,7 @@ main#view { flex: 1; }
 .code-card p { margin: 8px 0 0; font-size: 12.5px; line-height: 1.5; font-weight: 600; }
 .timeline-card { padding: 4px 14px; background: var(--lv-card); }
 .tl-item { position: relative; padding: 12px 0 12px 24px; border-left: 2px dashed var(--lv-line); }
-.tl-item::before { content: ''; position: absolute; left: -6px; top: 17px; width: 10px; height: 10px; border-radius: 999px; background: var(--lv-line); box-shadow: 0 0 0 4px var(--lv-card); }
+.tl-item::before { content: ''; position: absolute; left: -6px; top: 17px; width: 10px; height: 10px; border-radius: var(--lv-r-pill); background: var(--lv-line); box-shadow: 0 0 0 4px var(--lv-card); }
 .tl-item.done::before { background: var(--lv-tiffany); }
 .tl-item.active::before { background: var(--lv-pink); animation: lv-pulse-dot 1.4s ease-in-out infinite; }
 .tl-item:last-child { border-left-color: transparent; }
@@ -730,14 +730,14 @@ main#view { flex: 1; }
 }
 
 /* ---------- QR-сценарий подключения МСП ---------- */
-.connect-hero { margin: 14px 16px 0; border-radius: 24px; padding: 18px; color: var(--lv-on-brand); display: grid; grid-template-columns: minmax(0, 1fr) 126px; gap: 16px; align-items: center; overflow: hidden; }
+.connect-hero { margin: 14px 16px 0; border-radius: var(--lv-r-xl); padding: 18px; color: var(--lv-on-brand); display: grid; grid-template-columns: minmax(0, 1fr) 126px; gap: 16px; align-items: center; overflow: hidden; }
 .connect-copy .kicker, .script-card .kicker, .pay-card .kicker, .status-flow-card .kicker { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; opacity: .7; }
 .connect-copy h2 { margin: 5px 0 0; font-size: 22px; line-height: 1.15; letter-spacing: -.02em; }
 .connect-copy p { margin: 7px 0 0; font-size: 12.5px; line-height: 1.55; color: rgba(255,255,255,.72); }
 .connect-copy .chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
 .qr-card { width: 126px; padding: 10px; border-radius: 18px; background: rgba(255,255,255,.94); color: var(--lv-ink-deep); box-shadow: 0 16px 38px -18px rgba(0,0,0,.42); text-align: center; }
 .qr-card > span { display: block; margin-top: 7px; font-size: 10px; font-weight: 900; letter-spacing: .08em; }
-.qr-grid { display: grid; grid-template-columns: repeat(11, 1fr); gap: 2px; aspect-ratio: 1; padding: 5px; border-radius: 12px; background: var(--lv-white); }
+.qr-grid { display: grid; grid-template-columns: repeat(11, 1fr); gap: 2px; aspect-ratio: 1; padding: 5px; border-radius: var(--lv-r-sm); background: var(--lv-white); }
 .qr-grid span { border-radius: 2px; background: transparent; }
 .qr-grid span.on { background: var(--lv-ink-deep); }
 .script-card, .pay-card, .status-flow-card { margin: 14px 16px 0; padding: 16px; border-radius: 18px; background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
@@ -756,25 +756,25 @@ main#view { flex: 1; }
 }
 
 /* ---------- UX-полировка QR/MСП сценария: stepper, очередь, trust cues ---------- */
-.msp-mobile-head { margin: 14px 16px 0; border-radius: 24px; padding: 20px; color: var(--lv-on-brand); display: flex; gap: 14px; align-items: flex-start; }
-.msp-mobile-head .mh-emoji { flex-shrink: 0; width: 50px; height: 50px; border-radius: 16px; background: rgba(255,255,255,.14); display: flex; align-items: center; justify-content: center; font-size: 26px; }
+.msp-mobile-head { margin: 14px 16px 0; border-radius: var(--lv-r-xl); padding: 20px; color: var(--lv-on-brand); display: flex; gap: 14px; align-items: flex-start; }
+.msp-mobile-head .mh-emoji { flex-shrink: 0; width: 50px; height: 50px; border-radius: var(--lv-r-lg); background: rgba(255,255,255,.14); display: flex; align-items: center; justify-content: center; font-size: 26px; }
 .msp-mobile-head .kicker { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.62); }
 .msp-mobile-head h1 { margin: 3px 0 0; font-size: 22px; line-height: 1.15; letter-spacing: -.02em; }
 .msp-mobile-head p { margin: 7px 0 0; font-size: 12.5px; line-height: 1.55; color: rgba(255,255,255,.72); }
 .field-help { margin: 6px 16px 0; font-size: 11.5px; line-height: 1.45; color: var(--lv-dim); }
 .qr-link-row { margin: 10px 16px 0; display: flex; align-items: center; gap: 8px; }
-.qr-link-row code { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 9px 11px; border-radius: 12px; background: var(--lv-surface); color: var(--lv-dim); font-size: 11px; }
+.qr-link-row code { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 9px 11px; border-radius: var(--lv-r-sm); background: var(--lv-surface); color: var(--lv-dim); font-size: 11px; }
 .trust-cues { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 16px 0; }
-.trust-cues span { display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 8px 10px; border-radius: 12px; background: var(--lv-surface); color: var(--lv-ink); font-size: 11.5px; font-weight: 700; }
+.trust-cues span { display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 8px 10px; border-radius: var(--lv-r-sm); background: var(--lv-surface); color: var(--lv-ink); font-size: 11.5px; font-weight: 700; }
 .trust-cues svg { width: 16px; height: 16px; color: var(--lv-tiffany); flex-shrink: 0; }
 .stepper { margin: 14px 16px 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
-.step { position: relative; min-width: 0; padding: 9px 6px; border-radius: 14px; background: var(--lv-surface); border: 1px solid var(--lv-line); text-align: center; color: var(--lv-dim); }
-.step span { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 999px; background: var(--lv-card); border: 1px solid var(--lv-line); font-size: 11px; font-weight: 900; }
+.step { position: relative; min-width: 0; padding: 9px 6px; border-radius: var(--lv-r-md); background: var(--lv-surface); border: 1px solid var(--lv-line); text-align: center; color: var(--lv-dim); }
+.step span { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: var(--lv-r-pill); background: var(--lv-card); border: 1px solid var(--lv-line); font-size: 11px; font-weight: 900; }
 .step b { display: block; margin-top: 5px; font-size: 10px; line-height: 1.2; font-weight: 800; }
 .step.done { background: var(--lv-soft-tiffany); border-color: rgba(10,186,181,.24); color: var(--lv-tiffany-text); }
 .step.done span { background-image: linear-gradient(135deg, var(--lv-tiffany), #078d89); color: var(--lv-on-brand); border-color: transparent; }
 .step.current { box-shadow: 0 0 0 2px rgba(246,74,138,.16); }
-.approval-card, .empty-state-card, .checklist-card { margin: 10px 16px 0; padding: 14px; border-radius: 18px; background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: 0 1px 3px rgba(26,26,26,.06); }
+.approval-card, .empty-state-card, .checklist-card { margin: 10px 16px 0; padding: 14px; border-radius: 18px; background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
 .empty-state-card { text-align: center; padding: 26px 16px; }
 .empty-state-card .big-emoji { font-size: 38px; }
 .empty-state-card h3 { margin: 8px 0 0; font-size: 17px; font-weight: 800; }
@@ -782,7 +782,7 @@ main#view { flex: 1; }
 .empty-state-card .cta-btn { margin-top: 14px; }
 .approval-head { display: flex; align-items: center; gap: 12px; }
 .review-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
-.review-grid div { min-width: 0; padding: 10px; border-radius: 12px; background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
+.review-grid div { min-width: 0; padding: 10px; border-radius: var(--lv-r-sm); background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
 .review-grid span { display: block; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--lv-dim); }
 .review-grid b { display: block; margin-top: 3px; font-size: 12px; line-height: 1.35; overflow-wrap: anywhere; }
 .approval-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
@@ -790,7 +790,7 @@ main#view { flex: 1; }
 .checklist-card { padding: 4px 14px; }
 .cl-row { position: relative; padding: 12px 0 12px 24px; border-left: 2px dashed var(--lv-line); }
 .cl-row:last-child { border-left-color: transparent; }
-.cl-row::before { content: ''; position: absolute; left: -6px; top: 17px; width: 10px; height: 10px; border-radius: 999px; background: var(--lv-line); box-shadow: 0 0 0 4px var(--lv-card); }
+.cl-row::before { content: ''; position: absolute; left: -6px; top: 17px; width: 10px; height: 10px; border-radius: var(--lv-r-pill); background: var(--lv-line); box-shadow: 0 0 0 4px var(--lv-card); }
 .cl-row.done::before { background: var(--lv-tiffany); }
 .cl-row.active::before { background: var(--lv-pink); animation: lv-pulse-dot 1.4s ease-in-out infinite; }
 .cl-row b { display: block; font-size: 13px; }
@@ -803,9 +803,9 @@ main#view { flex: 1; }
 }
 
 /* ---------- Следующий шаг (контекстуальная карточка) ---------- */
-.next-step-card { display: flex; align-items: center; gap: 12px; margin: 12px 16px 0; padding: 14px; background: var(--lv-card); border: 1px solid var(--lv-line); border-left: 3px solid var(--lv-tiffany); border-radius: 16px; box-shadow: var(--lv-shadow-soft); cursor: pointer; transition: transform .15s, box-shadow .15s; }
+.next-step-card { display: flex; align-items: center; gap: 12px; margin: 12px 16px 0; padding: 14px; background: var(--lv-card); border: 1px solid var(--lv-line); border-left: 3px solid var(--lv-tiffany); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); cursor: pointer; transition: transform .15s, box-shadow .15s; }
 .next-step-card:active { transform: scale(.98); box-shadow: 0 1px 6px rgba(10, 186, 181, .18); }
-.ns-icon { flex-shrink: 0; width: 38px; height: 38px; border-radius: 12px; background: var(--lv-soft-tiffany); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.ns-icon { flex-shrink: 0; width: 38px; height: 38px; border-radius: var(--lv-r-sm); background: var(--lv-soft-tiffany); display: flex; align-items: center; justify-content: center; font-size: 20px; }
 .ns-body { flex: 1; min-width: 0; }
 .ns-title { font-size: 13.5px; font-weight: 800; color: var(--lv-ink); line-height: 1.35; }
 .ns-desc { margin-top: 3px; font-size: 11.5px; color: var(--lv-dim); line-height: 1.4; }
@@ -817,16 +817,16 @@ main#view { flex: 1; }
 
 /* ---------- Быстрые действия (2×2 сетка) ---------- */
 .quick-actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 14px 16px 20px; }
-.quick-action-card { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 14px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: var(--lv-shadow-soft); text-align: left; cursor: pointer; transition: transform .15s, box-shadow .15s, border-color .2s; }
+.quick-action-card { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 14px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); text-align: left; cursor: pointer; transition: transform .15s, box-shadow .15s, border-color .2s; }
 .quick-action-card:active { transform: scale(.97); box-shadow: 0 1px 6px rgba(26, 26, 26, .1); border-color: var(--lv-pink); }
 .qa-icon { width: 34px; height: 34px; border-radius: 10px; background: var(--lv-surface); display: flex; align-items: center; justify-content: center; color: var(--lv-pink); }
 .qa-icon svg { width: 16px; height: 16px; }
 .qa-title { font-size: 13px; font-weight: 800; color: var(--lv-ink); display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
-.qa-badge { min-width: 16px; height: 16px; padding: 0 5px; border-radius: 999px; background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: var(--lv-white); font-size: 10px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
+.qa-badge { min-width: 16px; height: 16px; padding: 0 5px; border-radius: var(--lv-r-pill); background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: var(--lv-white); font-size: 10px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
 .qa-desc { font-size: 11.5px; color: var(--lv-dim); line-height: 1.35; }
 
 /* ---------- Training tab: progress summary ---------- */
-.progress-summary-card { display: flex; align-items: center; gap: 16px; margin: 14px 16px 0; padding: 18px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 18px; box-shadow: 0 1px 3px rgba(26,26,26,.06); }
+.progress-summary-card { display: flex; align-items: center; gap: 16px; margin: 14px 16px 0; padding: 18px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 18px; box-shadow: var(--lv-shadow-soft); }
 .ps-ring { position: relative; flex-shrink: 0; width: 56px; height: 56px; }
 .progress-ring-svg { width: 56px; height: 56px; }
 .ps-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900; color: var(--lv-ink); }
@@ -841,13 +841,13 @@ main#view { flex: 1; }
 .lesson-pct { flex-shrink: 0; font-size: 10.5px; font-weight: 800; color: var(--lv-ink); min-width: 28px; text-align: right; }
 
 /* ---------- Training tab: status badges ---------- */
-.lesson-status { flex-shrink: 0; padding: 5px 10px; border-radius: 999px; font-size: 10.5px; font-weight: 800; white-space: nowrap; line-height: 1; }
+.lesson-status { flex-shrink: 0; padding: 5px 10px; border-radius: var(--lv-r-pill); font-size: 10.5px; font-weight: 800; white-space: nowrap; line-height: 1; }
 .lesson-status.done { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .lesson-status.active { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
 .lesson-status.pending { background: var(--lv-surface); color: var(--lv-dim); }
 
 /* ---------- Training tab: tool cards ---------- */
-.tool-card { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 14px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: 0 1px 3px rgba(26,26,26,.06); text-align: left; cursor: pointer; transition: transform .15s, box-shadow .15s, border-color .2s; }
+.tool-card { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 14px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); text-align: left; cursor: pointer; transition: transform .15s, box-shadow .15s, border-color .2s; }
 .tool-card:active { transform: scale(.97); box-shadow: 0 1px 6px rgba(26,26,26,.1); border-color: var(--lv-pink); }
 .tc-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 17px; }
 .tc-title { font-size: 13px; font-weight: 800; color: var(--lv-ink); }
@@ -867,7 +867,7 @@ main#view { flex: 1; }
 /* ---------- 1. Хедер участника ---------- */
 .pay-head { display: flex; align-items: center; gap: 14px; margin: 16px 16px 0; }
 .pay-head .prof-name { font-size: 17px; }
-.pay-badge { margin-left: auto; flex-shrink: 0; display: inline-flex; align-items: center; gap: 5px; height: 28px; padding: 0 12px; border-radius: 999px; background: var(--lv-soft-gold); color: var(--lv-gold-text); font-size: 11px; font-weight: 800; letter-spacing: .04em; white-space: nowrap; }
+.pay-badge { margin-left: auto; flex-shrink: 0; display: inline-flex; align-items: center; gap: 5px; height: 28px; padding: 0 12px; border-radius: var(--lv-r-pill); background: var(--lv-soft-gold); color: var(--lv-gold-text); font-size: 11px; font-weight: 800; letter-spacing: .04em; white-space: nowrap; }
 .pay-badge svg { width: 12px; height: 12px; }
 
 /* ---------- 2. Карта LOVII PAY ---------- */
@@ -994,7 +994,7 @@ main#view { flex: 1; }
 .pay-chip { position: relative; width: 40px; height: 30px; border-radius: 7px; background: linear-gradient(135deg, #f3d9a4, var(--lv-gold) 60%, #b98d3e); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .35); }
 .pay-chip::before { content: ''; position: absolute; inset: 6px 8px; border: 1px solid rgba(26, 26, 26, .35); border-radius: 4px; }
 /* статус-марка на карте (сердце PASS / корона VIP / домик BUSINESS; PAY — без марки) */
-.pay-mark { position: relative; margin-left: auto; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 999px; }
+.pay-mark { position: relative; margin-left: auto; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: var(--lv-r-pill); }
 .pay-mark svg { width: 16px; height: 16px; }
 .pay-num { position: relative; margin-top: auto; margin-bottom: 14px; font-size: clamp(17px, 5.6vw, 21px); font-weight: 700; letter-spacing: .12em; font-variant-numeric: tabular-nums; color: var(--lv-white); text-shadow: 0 1px 2px rgba(0, 0, 0, .35); white-space: nowrap; }
 /* номер масштабируется от ШИРИНЫ КАРТЫ, а не вьюпорта: в узкой колонке
@@ -1014,7 +1014,7 @@ main#view { flex: 1; }
 .pay-back { transform: rotateY(180deg); padding: 0; }
 .pay-mag { display: block; height: 40px; margin-top: 16px; background: rgba(0, 0, 0, .5); }
 .pay-back-mid { display: flex; align-items: center; gap: 14px; padding: 14px 20px 0; }
-.pay-qr { flex-shrink: 0; width: 84px; height: 84px; padding: 7px; border-radius: 12px; background: var(--lv-white); color: var(--lv-ink-deep); }
+.pay-qr { flex-shrink: 0; width: 84px; height: 84px; padding: 7px; border-radius: var(--lv-r-sm); background: var(--lv-white); color: var(--lv-ink-deep); }
 .pay-qr svg { display: block; width: 100%; height: 100%; }
 .pay-back-info { min-width: 0; display: flex; flex-direction: column; gap: 8px; }
 .pay-cvv .lbl { display: block; font-size: 8.5px; letter-spacing: .08em; text-transform: uppercase; color: rgba(255, 255, 255, .55); }
@@ -1029,16 +1029,16 @@ main#view { flex: 1; }
 .pay-hint.as-btn:active { opacity: .7; }
 
 /* ---------- 3. Счёт кэшбека ---------- */
-.acct-card { margin: 10px 16px 0; padding: 16px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: var(--lv-shadow-soft); }
+.acct-card { margin: 10px 16px 0; padding: 16px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); }
 .acct-balance { font-size: 30px; font-weight: 800; letter-spacing: -.02em; color: var(--lv-ink); font-variant-numeric: tabular-nums; }
 .acct-balance .unit { margin-left: 4px; font-size: 18px; font-weight: 700; color: var(--lv-pink); }
 .acct-lbl { margin-top: 3px; font-size: 11.5px; font-weight: 600; color: var(--lv-dim); }
 .acct-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
-.as-b { padding: 10px 8px; border-radius: 12px; background: var(--lv-surface); text-align: center; }
+.as-b { padding: 10px 8px; border-radius: var(--lv-r-sm); background: var(--lv-surface); text-align: center; }
 .as-b .v { display: block; font-size: 14.5px; font-weight: 800; color: var(--lv-ink); font-variant-numeric: tabular-nums; }
 .as-b .l { display: block; margin-top: 2px; font-size: 9.5px; font-weight: 600; color: var(--lv-dim); }
 .acct-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
-.acct-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 10px 14px; border-radius: 999px; font-size: 12.5px; font-weight: 700; transition: transform .15s; }
+.acct-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 10px 14px; border-radius: var(--lv-r-pill); font-size: 12.5px; font-weight: 700; transition: transform .15s; }
 .acct-btn:active { transform: scale(.97); }
 .acct-btn svg { width: 16px; height: 15px; }
 .acct-btn.brand { background-image: var(--lv-gradient-brand); color: var(--lv-on-brand); }
@@ -1046,7 +1046,7 @@ main#view { flex: 1; }
 
 /* ---------- 4. История операций ---------- */
 .tx-tabs { display: flex; gap: 6px; padding: 0 16px; margin: 10px 0 2px; overflow-x: auto; }
-.tx-tabs .tab-btn { flex-shrink: 0; padding: 7px 14px; border-radius: 999px; background: var(--lv-surface); font-size: 12px; font-weight: 700; color: var(--lv-dim); transition: background .15s, color .15s; }
+.tx-tabs .tab-btn { flex-shrink: 0; padding: 7px 14px; border-radius: var(--lv-r-pill); background: var(--lv-surface); font-size: 12px; font-weight: 700; color: var(--lv-dim); transition: background .15s, color .15s; }
 .tx-tabs .tab-btn.active { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
 .tx-list { padding: 2px 14px; }
 .tx-day { padding: 12px 0 4px; font-size: 10.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--lv-dim); }
@@ -1054,7 +1054,7 @@ main#view { flex: 1; }
 .tx-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; }
 .tx-row + .tx-row { border-top: 1px solid var(--lv-line-2); }
 .tx-row:has(+ .tx-day) { border-top: 0; }
-.tx-ico { flex-shrink: 0; width: 36px; height: 36px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+.tx-ico { flex-shrink: 0; width: 36px; height: 36px; border-radius: var(--lv-r-sm); display: flex; align-items: center; justify-content: center; }
 .tx-ico svg { width: 16px; height: 16px; }
 .tx-ico.in { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .tx-ico.buy { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
@@ -1066,23 +1066,23 @@ main#view { flex: 1; }
 .tx-sum.plus { color: var(--lv-tiffany-text); }
 
 /* ---------- 5. Статус LOVII PAY ---------- */
-.tier-card { margin: 10px 16px 0; padding: 16px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: var(--lv-shadow-soft); }
+.tier-card { margin: 10px 16px 0; padding: 16px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); }
 .tier-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .tier-name { display: inline-flex; align-items: center; gap: 6px; font-size: 14.5px; font-weight: 800; color: var(--lv-ink); }
 .tier-name svg { width: 16px; height: 15px; color: var(--lv-gold); }
-.tier-cond { padding: 3px 10px; border-radius: 999px; background: var(--lv-soft-gold); color: var(--lv-gold-text); font-size: 11px; font-weight: 800; }
-.tier-bar { height: 6px; margin-top: 12px; border-radius: 999px; background: var(--lv-surface); overflow: hidden; }
-.tier-bar span { display: block; height: 100%; border-radius: 999px; background-image: var(--lv-gradient-gold); transition: width .4s ease; }
+.tier-cond { padding: 3px 10px; border-radius: var(--lv-r-pill); background: var(--lv-soft-gold); color: var(--lv-gold-text); font-size: 11px; font-weight: 800; }
+.tier-bar { height: 6px; margin-top: 12px; border-radius: var(--lv-r-pill); background: var(--lv-surface); overflow: hidden; }
+.tier-bar span { display: block; height: 100%; border-radius: var(--lv-r-pill); background-image: var(--lv-gradient-gold); transition: width .4s ease; }
 .tier-next { margin-top: 10px; font-size: 12px; line-height: 1.5; color: var(--lv-dim); }
 .tier-next b { color: var(--lv-ink); }
 .tier-perks { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-.tp { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; border-radius: 999px; background: var(--lv-surface); font-size: 11px; font-weight: 600; color: var(--lv-ink); }
+.tp { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; border-radius: var(--lv-r-pill); background: var(--lv-surface); font-size: 11px; font-weight: 600; color: var(--lv-ink); }
 .tp svg { width: 12px; height: 12px; color: var(--lv-tiffany-text); }
 
 /* ---------- 6. Витрина привилегий ---------- */
 .priv-scroll { padding: 4px 16px 6px; }
-.priv-card { flex-shrink: 0; width: 168px; padding: 14px; border-radius: 16px; border: 1px solid var(--lv-line); background: var(--lv-card); box-shadow: var(--lv-shadow-soft); display: flex; flex-direction: column; gap: 6px; }
-.priv-card .pc-ico { width: 34px; height: 34px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+.priv-card { flex-shrink: 0; width: 168px; padding: 14px; border-radius: var(--lv-r-lg); border: 1px solid var(--lv-line); background: var(--lv-card); box-shadow: var(--lv-shadow-soft); display: flex; flex-direction: column; gap: 6px; }
+.priv-card .pc-ico { width: 34px; height: 34px; border-radius: var(--lv-r-sm); display: flex; align-items: center; justify-content: center; }
 .priv-card .pc-ico svg { width: 16px; height: 16px; }
 .priv-card.t-gold .pc-ico { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
 .priv-card.t-pink .pc-ico { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
@@ -1091,7 +1091,7 @@ main#view { flex: 1; }
 .pc-sub { font-size: 10.5px; line-height: 1.4; color: var(--lv-dim); }
 
 /* ---------- 7. Избранные МСП ---------- */
-.msp-fav { flex-shrink: 0; width: 40px; height: 40px; border-radius: 999px; display: flex; align-items: center; justify-content: center; background: var(--lv-soft-pink); color: var(--lv-pink); transition: transform .15s; }
+.msp-fav { flex-shrink: 0; width: 40px; height: 40px; border-radius: var(--lv-r-pill); display: flex; align-items: center; justify-content: center; background: var(--lv-soft-pink); color: var(--lv-pink); transition: transform .15s; }
 .msp-fav:active { transform: scale(.9); }
 .msp-fav svg { width: 16px; height: 16px; }
 /* Полировка: светлая окантовка карты (сепарация на тёмном фоне) + ритм секций */
@@ -1173,7 +1173,7 @@ main#view { flex: 1; }
   min-width: 0;
   height: 44px;
   border: 0;
-  border-radius: 12px;
+  border-radius: var(--lv-r-sm);
   cursor: pointer;
   font-family: inherit;
   display: flex;
@@ -1211,22 +1211,22 @@ main#view { flex: 1; }
 .switch-row:disabled { cursor: default; opacity: .55; }
 .switch-row .chev { flex-shrink: 0; width: 20px; height: 20px; color: var(--lv-dim); }
 .switch-row .chev svg { width: 20px; height: 20px; }
-.sr-ico { flex-shrink: 0; width: 36px; height: 36px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+.sr-ico { flex-shrink: 0; width: 36px; height: 36px; border-radius: var(--lv-r-sm); display: flex; align-items: center; justify-content: center; }
 .sr-ico svg { width: 16px; height: 16px; }
 .sr-ico.t-pink { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
 .sr-ico.t-tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .sr-ico.t-gold { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
 /* свитч (component: switch-row) */
-.lv-switch { position: relative; flex-shrink: 0; width: 44px; height: 26px; border-radius: 999px; background: var(--lv-surface); box-shadow: inset 0 0 0 1px var(--lv-line); transition: background .2s, box-shadow .2s; }
-.lv-switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 999px; background: var(--lv-white); box-shadow: 0 1px 3px rgba(26, 26, 26, .3); transition: transform .2s; }
+.lv-switch { position: relative; flex-shrink: 0; width: 44px; height: 26px; border-radius: var(--lv-r-pill); background: var(--lv-surface); box-shadow: inset 0 0 0 1px var(--lv-line); transition: background .2s, box-shadow .2s; }
+.lv-switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: var(--lv-r-pill); background: var(--lv-white); box-shadow: 0 1px 3px rgba(26, 26, 26, .3); transition: transform .2s; }
 .lv-switch.on { background-image: var(--lv-gradient-brand); box-shadow: none; }
 .lv-switch.on::after { transform: translateX(18px); }
 .lv-switch.disabled { opacity: .4; pointer-events: none; }
 /* сегмент темы (component: seg) */
 .seg-row { padding: 0 14px 12px; }
 .pay-cols .seg-row { padding: 0 14px 12px; }
-.seg { display: flex; gap: 2px; padding: 3px; border-radius: 999px; background: var(--lv-surface); }
-.seg button { flex: 1; border: 0; font-family: inherit; border-radius: 999px; padding: 7px 4px; font-size: 11px; font-weight: 700; color: var(--lv-dim); background: transparent; cursor: pointer; white-space: nowrap; transition: background .15s, color .15s; }
+.seg { display: flex; gap: 2px; padding: 3px; border-radius: var(--lv-r-pill); background: var(--lv-surface); }
+.seg button { flex: 1; border: 0; font-family: inherit; border-radius: var(--lv-r-pill); padding: 7px 4px; font-size: 11px; font-weight: 700; color: var(--lv-dim); background: transparent; cursor: pointer; white-space: nowrap; transition: background .15s, color .15s; }
 .seg button.active { background: var(--lv-card); color: var(--lv-pink-dark); box-shadow: 0 1px 4px rgba(26, 26, 26, .14); }
 
 /* ---------- PIN-пэд и экран блокировки (component: pin-pad / lock-screen) ---------- */
@@ -1240,7 +1240,7 @@ main#view { flex: 1; }
 .lock-title { margin: 0; font-size: 19px; font-weight: 800; color: var(--lv-ink); }
 .lock-sub { font-size: 11px; line-height: 1.45; color: var(--lv-dim); text-align: center; }
 .pin-dots { display: flex; gap: 14px; margin: 4px 0; }
-.pin-dot { width: 12px; height: 12px; border-radius: 999px; border: 1.5px solid var(--lv-dim); transition: background .15s, border-color .15s; }
+.pin-dot { width: 12px; height: 12px; border-radius: var(--lv-r-pill); border: 1.5px solid var(--lv-dim); transition: background .15s, border-color .15s; }
 .pin-dot.on { background: var(--lv-pink); border-color: var(--lv-pink); }
 .pin-dots.err { animation: lv-pin-shake .45s ease; }
 @keyframes lv-pin-shake {
@@ -1250,14 +1250,14 @@ main#view { flex: 1; }
   40%, 60% { transform: translateX(6px); }
 }
 .pin-pad { display: grid; grid-template-columns: repeat(3, 72px); gap: 12px; justify-content: center; margin-top: 8px; }
-.pin-key { height: 56px; border: 0; border-radius: 999px; background: var(--lv-card); box-shadow: inset 0 0 0 1px var(--lv-line); font-family: inherit; font-size: 21px; font-weight: 700; color: var(--lv-ink); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform .12s, background .15s; }
+.pin-key { height: 56px; border: 0; border-radius: var(--lv-r-pill); background: var(--lv-card); box-shadow: inset 0 0 0 1px var(--lv-line); font-family: inherit; font-size: 21px; font-weight: 700; color: var(--lv-ink); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform .12s, background .15s; }
 .pin-key:active { transform: scale(.93); background: var(--lv-surface); }
 .pin-key.aux { background: none; box-shadow: none; color: var(--lv-dim); }
 .pin-key.aux svg { width: 24px; height: 24px; }
 .pin-key.aux[hidden] { display: none; }
 .pin-cancel { margin-top: 6px; border: 0; background: none; font-family: inherit; font-size: 13px; font-weight: 700; color: var(--lv-pink); cursor: pointer; padding: 10px 16px; }
 /* подтверждение выхода (logout) */
-.lock-confirm { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; max-width: 320px; padding: 24px; border-radius: 24px; background: var(--lv-card); box-shadow: 0 18px 60px rgba(26, 26, 26, .25); }
+.lock-confirm { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; max-width: 320px; padding: 24px; border-radius: var(--lv-r-xl); background: var(--lv-card); box-shadow: 0 18px 60px rgba(26, 26, 26, .25); }
 .lock-confirm h2 { margin: 0; font-size: 18px; font-weight: 800; color: var(--lv-ink); }
 .lock-confirm p { margin: 0; font-size: 12.5px; line-height: 1.5; color: var(--lv-dim); text-align: center; }
 .lock-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin-top: 6px; }
@@ -1305,7 +1305,7 @@ main#view { flex: 1; }
 .st-new { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
 
 /* Роль-пилюля в шапке кабинета */
-.role-pill { display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 9px; border-radius: 999px; font-size: 10px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; }
+.role-pill { display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 9px; border-radius: var(--lv-r-pill); font-size: 10px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; }
 .role-pill .lv-dot { width: 5px; height: 5px; }
 .role-pill.t-tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .role-pill.t-gold { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
@@ -1320,8 +1320,8 @@ button.kpi.as-btn { border: 0; font-family: inherit; width: 100%; text-align: le
 button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 
 /* Карточка подписки представителя (гейт SZ-042) */
-.sub-card { display: flex; align-items: center; gap: 12px; margin: 14px 16px 0; padding: 14px 16px; border-radius: 16px; background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
-.sub-card .sc-ico { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
+.sub-card { display: flex; align-items: center; gap: 12px; margin: 14px 16px 0; padding: 14px 16px; border-radius: var(--lv-r-lg); background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
+.sub-card .sc-ico { width: 40px; height: 40px; border-radius: var(--lv-r-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .sub-card .sc-ico svg { width: 20px; height: 20px; }
 .sub-card .sc-mid { flex: 1; min-width: 0; }
 .sub-card .sc-t { font-size: 13.5px; font-weight: 700; color: var(--lv-ink); }
@@ -1460,7 +1460,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   width: 40px;
   height: 40px;
   border: 0;
-  border-radius: 12px;
+  border-radius: var(--lv-r-sm);
   background: var(--background-other-soft-neutral);
   color: var(--lv-dim);
   cursor: pointer;
@@ -1490,7 +1490,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   flex: none;
   width: 30px;
   height: 30px;
-  border-radius: 999px;
+  border-radius: var(--lv-r-pill);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1505,7 +1505,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   min-height: 36px;
   padding: 8px 12px;
   border: 1px solid var(--lv-line);
-  border-radius: 999px;
+  border-radius: var(--lv-r-pill);
   background: var(--lv-card);
   color: var(--lv-dim);
   font-size: 12.5px;
@@ -1567,7 +1567,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   flex-shrink: 0;
   width: 36px;
   height: 36px;
-  border-radius: 12px;
+  border-radius: var(--lv-r-sm);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1631,7 +1631,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   flex-shrink: 0;
   width: 30px;
   height: 30px;
-  border-radius: 999px;
+  border-radius: var(--lv-r-pill);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1676,7 +1676,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   min-height: 40px;
   margin-top: 12px;
   padding: 10px 14px;
-  border-radius: 999px;
+  border-radius: var(--lv-r-pill);
   border: 1px solid var(--lv-line);
   background: var(--lv-card);
   color: var(--lv-ink);
@@ -1720,7 +1720,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   gap: 6px;
   min-height: 44px;
   padding: 10px 12px;
-  border-radius: 999px;
+  border-radius: var(--lv-r-pill);
   border: 1px solid var(--lv-line);
   background: var(--lv-card);
   color: var(--lv-ink);
@@ -1740,7 +1740,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   align-items: center;
   gap: 4px;
   padding: 5px 10px;
-  border-radius: 999px;
+  border-radius: var(--lv-r-pill);
   font-size: 11px;
   font-weight: 800;
   background: var(--background-other-soft-neutral);
@@ -1763,14 +1763,14 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 .tier__bar {
   margin-top: 10px;
   height: 8px;
-  border-radius: 999px;
+  border-radius: var(--lv-r-pill);
   background: var(--background-other-soft-neutral);
   overflow: hidden;
 }
 .tier__fill {
   display: block;
   height: 100%;
-  border-radius: 999px;
+  border-radius: var(--lv-r-pill);
   background-image: var(--lv-gradient-brand);
   transition: width 0.3s ease;
 }
@@ -1782,7 +1782,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   align-items: center;
   gap: 4px;
   padding: 5px 10px;
-  border-radius: 999px;
+  border-radius: var(--lv-r-pill);
   background: var(--lv-surface);
   color: var(--lv-dim);
   font-size: 11px;
@@ -1798,7 +1798,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   flex-flow: column;
   gap: 4px;
   padding: 12px;
-  border-radius: 14px;
+  border-radius: var(--lv-r-md);
   border: 1px solid var(--lv-line);
   background: var(--lv-card);
 }
@@ -1859,7 +1859,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   width: 40px;
   height: 40px;
   border: 0;
-  border-radius: 999px;
+  border-radius: var(--lv-r-pill);
   background: none;
   display: inline-flex;
   align-items: center;
@@ -1894,7 +1894,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   flex-shrink: 0;
   width: 36px;
   height: 36px;
-  border-radius: 12px;
+  border-radius: var(--lv-r-sm);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1909,7 +1909,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 .cabinets__tag {
   flex: none;
   padding: 3px 8px;
-  border-radius: 999px;
+  border-radius: var(--lv-r-pill);
   font-size: 10px;
   font-weight: 800;
   white-space: nowrap;
@@ -1919,7 +1919,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 .cabinets__action {
   flex: none;
   padding: 8px 14px;
-  border-radius: 999px;
+  border-radius: var(--lv-r-pill);
   background: var(--lv-soft-pink);
   font-size: 12px;
   font-weight: 700;
@@ -2130,7 +2130,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   height: 7px;
   padding: 0;
   border: 0;
-  border-radius: 999px;
+  border-radius: var(--lv-r-pill);
   background: var(--lv-line-strong);
   transition: background 0.2s ease, width 0.2s ease;
   cursor: pointer;
@@ -2143,7 +2143,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   flex-shrink: 0;
   width: 52px;
   height: 52px;
-  border-radius: 999px;
+  border-radius: var(--lv-r-pill);
   background-color: var(--lv-soft-pink);
   background-size: cover;
   background-position: center;
@@ -2165,7 +2165,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   gap: 5px;
   height: 28px;
   padding: 0 12px;
-  border-radius: 999px;
+  border-radius: var(--lv-r-pill);
   background: var(--lv-soft-gold);
   color: var(--lv-gold-text);
   font-size: 11px;
@@ -2211,7 +2211,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 .wallet__hint_btn {
   padding: 4px 10px;
   border: 0;
-  border-radius: 999px;
+  border-radius: var(--lv-r-pill);
   background: none;
   color: var(--lv-pink);
   font: inherit;
@@ -2227,7 +2227,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   padding: 16px;
   background: var(--lv-card);
   border: 1px solid var(--lv-line);
-  border-radius: 16px;
+  border-radius: var(--lv-r-lg);
   box-shadow: 0 1px 3px rgba(26, 26, 26, 0.06);
 }
 .wallet__acct-balance {
@@ -2241,14 +2241,14 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 .wallet__acct-unit { margin-left: 4px; font-size: 18px; font-weight: 700; color: var(--lv-pink); }
 .wallet__acct-label { margin: 3px 0 0; font-size: 11.5px; font-weight: 600; color: var(--lv-dim); }
 .wallet__acct-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
-.wallet__stat { padding: 10px 6px; border-radius: 12px; background: var(--lv-card); text-align: center; border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
+.wallet__stat { padding: 10px 6px; border-radius: var(--lv-r-sm); background: var(--lv-card); text-align: center; border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
 .wallet__stat-v { display: block; font-size: 14px; font-weight: 800; color: var(--lv-ink); font-variant-numeric: tabular-nums; }
 .wallet__stat-l { display: block; margin-top: 2px; font-size: 9.5px; font-weight: 600; color: var(--lv-dim); }
 
 /* Лента операций */
 .wallet__tabs { display: grid; margin: 10px 0 2px; }
 .wallet__tabs .seg { width: 100%; }
-.wallet__list { padding: 2px 14px; border-radius: 16px; background-color: var(--background-other-soft-neutral); }
+.wallet__list { padding: 2px 14px; border-radius: var(--lv-r-lg); background-color: var(--background-other-soft-neutral); }
 .wallet__day {
   margin: 0;
   padding: 12px 0 4px;
@@ -2264,7 +2264,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   align-items: center;
   gap: 8px;
   padding: 24px 16px;
-  border-radius: 16px;
+  border-radius: var(--lv-r-lg);
   background-color: var(--background-other-soft-neutral);
 }
 .wallet__empty > p { margin: 0; text-align: center; color: var(--lv-dim); font-size: 13px; line-height: 1.55; }
@@ -2292,7 +2292,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   gap: 4px;
   margin-left: auto;
   padding: 3px 10px;
-  border-radius: 999px;
+  border-radius: var(--lv-r-pill);
   background: var(--lv-soft-tiffany);
   color: var(--lv-tiffany-text);
   font-size: 11px;
@@ -2310,7 +2310,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   flex-shrink: 0;
   width: 36px;
   height: 36px;
-  border-radius: 12px;
+  border-radius: var(--lv-r-sm);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2497,7 +2497,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   flex-flow: column;
   text-align: center;
   gap: 4px;
-  border-radius: 16px;
+  border-radius: var(--lv-r-lg);
   background: var(--lv-card);
   color: var(--lv-dim);
   font-size: 11px;
@@ -2507,7 +2507,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 .home-popular__list > a:last-of-type > .icon,
 .home-popular__list > a:last-of-type > svg { width: 32px; height: 32px; }
 .popular-store { padding: 0; overflow: hidden;
-  border-radius: 16px;
+  border-radius: var(--lv-r-lg);
   background: var(--lv-card);
   display: grid;
   grid-template-columns: 1fr;
@@ -2556,7 +2556,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 
 /* ---------- Баннер «Реклама» (HomeBanner) ---------- */
 .home-banner {
-  position: relative; overflow: hidden; border-radius: 16px;
+  position: relative; overflow: hidden; border-radius: var(--lv-r-lg);
   width: 320px; margin-inline: auto;
 }
 @media (max-width: 374px) {
@@ -2631,7 +2631,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   justify-content: flex-start;
   align-items: flex-start;
   padding: 10px;
-  border-radius: 16px;
+  border-radius: var(--lv-r-lg);
   background: var(--lv-card);
   border: 1px solid var(--lv-line);
   box-shadow: var(--lv-shadow-soft);
@@ -2719,7 +2719,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   height: 44px;
   padding: 0 14px;
   border: 1px solid var(--lv-line);
-  border-radius: 12px;
+  border-radius: var(--lv-r-sm);
   background: var(--lv-card);
   color: var(--lv-dim);
 }
@@ -2740,7 +2740,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   width: 44px;
   height: 44px;
   border: 1px solid var(--lv-line);
-  border-radius: 12px;
+  border-radius: var(--lv-r-sm);
   background: var(--lv-card);
   color: var(--lv-ink);
   display: inline-flex;
@@ -2859,7 +2859,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   width: 34px;
   height: 34px;
   border: 0;
-  border-radius: 999px;
+  border-radius: var(--lv-r-pill);
   background: none;
   color: var(--lv-dim);
   cursor: pointer;
@@ -2872,7 +2872,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 /* Тизер точки (SZ-035) */
 .place__teaser { margin: 16px 0 0;
   padding: 16px;
-  border-radius: 16px;
+  border-radius: var(--lv-r-lg);
   background: var(--lv-card);
   display: flex;
   align-items: center;
@@ -2960,7 +2960,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 /* Карточка позиции (ProductPreview) */
 .product-preview {
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: var(--lv-r-lg);
   background: var(--lv-card);
   box-shadow: var(--lv-shadow-soft);
   display: grid;
@@ -3064,7 +3064,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   width: 44px;
   height: 44px;
   border: 0;
-  border-radius: 12px;
+  border-radius: var(--lv-r-sm);
   background: var(--lv-card);
   box-shadow: var(--lv-shadow-soft);
   color: var(--lv-ink);
@@ -3140,7 +3140,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   justify-content: center;
   gap: 8px;
   border: 0;
-  border-radius: 12px;
+  border-radius: var(--lv-r-sm);
   background: var(--lv-pink);
   box-shadow: 0 4px 20px 0 rgba(13, 17, 27, 0.08);
   color: var(--lv-on-brand, var(--lv-white));
@@ -3155,7 +3155,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   grid-template-columns: 44px 1fr 44px;
   align-items: center;
   width: 100%;
-  border-radius: 12px;
+  border-radius: var(--lv-r-sm);
   background: var(--lv-pink);
   height: 44px;
 }
@@ -3223,7 +3223,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   margin-top: 12px;
   height: 44px;
   border: 0;
-  border-radius: 999px;
+  border-radius: var(--lv-r-pill);
   background: var(--lv-pink);
   color: var(--lv-on-brand, var(--lv-white));
   font: inherit;
@@ -3274,7 +3274,7 @@ html[data-motion='off'] *::after {
 .cart__shops::-webkit-scrollbar { display: none; }
 .cart__shops > button {
   display: flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px;
-  border: 1px solid var(--lv-line-2); border-radius: 999px;
+  border: 1px solid var(--lv-line-2); border-radius: var(--lv-r-pill);
   background: var(--lv-card); color: var(--lv-ink);
   font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
 }
@@ -3284,7 +3284,7 @@ html[data-motion='off'] *::after {
 }
 
 /* Состав корзины (CartInfo) */
-.cart-info { margin: 24px 0 0; padding: 16px; background-color: var(--lv-card); border-radius: 16px; border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
+.cart-info { margin: 24px 0 0; padding: 16px; background-color: var(--lv-card); border-radius: var(--lv-r-lg); border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
 .cart-info__store { display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: center; }
 .cart-info__store > span { width: 40px; height: 40px; border-radius: 8px; padding: 4px; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; }
 .cart-info__store > p { margin: 0; color: var(--lv-ink); font-size: 14px; font-weight: 600; line-height: 1.4; }
@@ -3308,7 +3308,7 @@ html[data-motion='off'] *::after {
 .cart-product__counter > button > svg { width: 20px; height: 20px; }
 
 /* Сводка (cart-summary) */
-.cart-summary { margin: 16px 0 0; padding: 16px; background-color: var(--lv-card); border-radius: 16px; border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
+.cart-summary { margin: 16px 0 0; padding: 16px; background-color: var(--lv-card); border-radius: var(--lv-r-lg); border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
 .cart-summary > ul { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr; gap: 8px; }
 .cart-summary > ul > li { display: flex; align-items: center; justify-content: space-between; color: var(--lv-ink); font-size: 13px; line-height: 1.55; }
 .cart-summary > p { margin: 16px 0 0; display: flex; align-items: center; justify-content: space-between; color: var(--lv-ink); font-size: 16px; font-weight: 800; line-height: 1.35; }
@@ -3321,10 +3321,10 @@ html[data-motion='off'] *::after {
 .acct__btn.is-disabled { opacity: 0.5; pointer-events: auto; }
 
 /* Пустая корзина (CartEmpty) */
-.cart-empty { margin: 24px 0 0; padding: 40px 16px; border-radius: 16px; background: var(--lv-card); display: flex; flex-flow: column; align-items: center; gap: 20px; border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
+.cart-empty { margin: 24px 0 0; padding: 40px 16px; border-radius: var(--lv-r-lg); background: var(--lv-card); display: flex; flex-flow: column; align-items: center; gap: 20px; border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
 .cart-empty__content { display: flex; flex-flow: column; align-items: center; gap: 8px; text-align: center; }
 .cart-empty__content > span {
-  width: 56px; height: 56px; border-radius: 16px; background: var(--lv-soft-pink); color: var(--lv-pink-dark);
+  width: 56px; height: 56px; border-radius: var(--lv-r-lg); background: var(--lv-soft-pink); color: var(--lv-pink-dark);
   display: inline-flex; align-items: center; justify-content: center;
 }
 .cart-empty__content > span > svg { width: 24px; height: 24px; }
@@ -3336,7 +3336,7 @@ html[data-motion='off'] *::after {
 .create-order-delivery { margin: 16px 0 0; display: flex; flex-flow: column; gap: 10px; }
 .create-order-delivery > h5, .create-order-recipient > h5, .create-order-products > h5 { margin: 0; color: var(--lv-ink); font-size: 16px; font-weight: 800; line-height: 1.35; }
 .create-order-delivery__address, .create-order-delivery__merchant {
-  display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 12px;
+  display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: var(--lv-r-sm);
   border: 1px solid var(--lv-line); background: var(--lv-card);
   color: var(--lv-ink); font-size: 13px; font-weight: 600; text-align: left;
 }
@@ -3364,7 +3364,7 @@ html[data-motion='off'] *::after {
 /* История заказов (OrdersModule + OrderPreview) */
 .orders { padding: 0 16px calc(var(--lv-navbar-offset) + 8px); min-height: calc(100dvh - 104px); }
 .orders__list { margin: 16px 0 0; display: grid; grid-template-columns: 1fr; gap: 16px; }
-.order-preview { width: 100%; padding: 12px 16px; background: var(--lv-card); border-radius: 16px;
+.order-preview { width: 100%; padding: 12px 16px; background: var(--lv-card); border-radius: var(--lv-r-lg);
   text-decoration: none; box-sizing: border-box; transition: background 0.2s ease-out; border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
 .order-preview:active { background: var(--background-other-soft-neutral); }
 .order-preview__header { display: grid; grid-template-columns: 56px 1fr; gap: 12px; }
@@ -3407,7 +3407,7 @@ body.cabinet-mode #view { padding-bottom: 0; }
   padding: 16px 16px 12px; margin-top: 12px;
 }
 .cabinet__ava {
-  flex-shrink: 0; width: 52px; height: 52px; border-radius: 16px;
+  flex-shrink: 0; width: 52px; height: 52px; border-radius: var(--lv-r-lg);
   background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text);
   display: flex; align-items: center; justify-content: center;
 }
@@ -3442,7 +3442,7 @@ body.cabinet-mode #view { padding-bottom: 0; }
 
 /* KPI (role-kpi) */
 .msp-overview__kpi { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 4px 0 0; }
-.role-kpi { padding: 12px; border-radius: 16px; background: var(--lv-card);
+.role-kpi { padding: 12px; border-radius: var(--lv-r-lg); background: var(--lv-card);
   display: flex; flex-flow: column; gap: 2px; border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
 .role-kpi__label { color: var(--lv-dim); font-size: 10.5px; font-weight: 600; }
 .role-kpi__value { color: var(--lv-ink); font-size: 20px; font-weight: 800; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
@@ -3453,7 +3453,7 @@ body.cabinet-mode #view { padding-bottom: 0; }
 .role-kpi_accent .role-kpi__value { color: var(--lv-on-brand, var(--lv-white)); }
 
 /* Карточки и заголовки разделов (role-card / role-section-head) */
-.role-card { margin: 12px 0 0; padding: 16px 0 0; border-radius: 16px; background: var(--lv-card); overflow: hidden; border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
+.role-card { margin: 12px 0 0; padding: 16px 0 0; border-radius: var(--lv-r-lg); background: var(--lv-card); overflow: hidden; border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
 .role-section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 0 16px; }
 .role-section-head h2 { margin: 0; color: var(--lv-ink); font-size: 15px; font-weight: 800; line-height: 1.35; }
 .role-section-head__sub { color: var(--lv-dim); font-size: 11.5px; font-weight: 600; }
@@ -3462,8 +3462,8 @@ body.cabinet-mode #view { padding-bottom: 0; }
 /* Чек-лист запуска (MspStarter) */
 .msp-starter__progress { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 12px 16px 0; }
 .msp-starter__progress-label { color: var(--lv-dim); font-size: 12px; font-weight: 600; }
-.msp-starter__meter { flex: 1; max-width: 140px; height: 8px; border-radius: 999px; background: var(--background-other-soft-neutral); overflow: hidden; display: block; }
-.msp-starter__meter-fill { display: block; height: 100%; border-radius: 999px; background-image: var(--lv-gradient-brand); }
+.msp-starter__meter { flex: 1; max-width: 140px; height: 8px; border-radius: var(--lv-r-pill); background: var(--background-other-soft-neutral); overflow: hidden; display: block; }
+.msp-starter__meter-fill { display: block; height: 100%; border-radius: var(--lv-r-pill); background-image: var(--lv-gradient-brand); }
 .msp-starter__steps { margin: 12px 0 0; padding: 0 16px 16px; list-style: none; display: grid; gap: 8px; }
 .msp-starter__step { display: flex; align-items: center; gap: 10px; color: var(--lv-dim); font-size: 13px; }
 .msp-starter__step b { font-weight: 700; color: var(--lv-ink); }
@@ -3478,13 +3478,13 @@ body.cabinet-mode #view { padding-bottom: 0; }
 
 /* Заказы точки */
 .msp-orders__list { padding: 12px 16px 16px; display: grid; gap: 10px; }
-.msp-order-row { display: grid; grid-template-columns: 36px 1fr auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--lv-line); }
-.msp-order-row__ico { width: 36px; height: 36px; border-radius: 12px; background: var(--lv-soft-gold); color: var(--lv-gold-text); display: inline-flex; align-items: center; justify-content: center; }
+.msp-order-row { display: grid; grid-template-columns: 36px 1fr auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: var(--lv-r-sm); border: 1px solid var(--lv-line); }
+.msp-order-row__ico { width: 36px; height: 36px; border-radius: var(--lv-r-sm); background: var(--lv-soft-gold); color: var(--lv-gold-text); display: inline-flex; align-items: center; justify-content: center; }
 .msp-order-row__ico svg { width: 16px; height: 16px; }
 .msp-order-row__mid { min-width: 0; }
 .msp-order-row__name { font-size: 13px; font-weight: 700; color: var(--lv-ink); }
 .msp-order-row__meta { margin-top: 2px; font-size: 11.5px; color: var(--lv-dim); }
-.role-tag { flex: none; padding: 3px 10px; border-radius: 999px; background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); font-size: 10.5px; font-weight: 800; white-space: nowrap; }
+.role-tag { flex: none; padding: 3px 10px; border-radius: var(--lv-r-pill); background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); font-size: 10.5px; font-weight: 800; white-space: nowrap; }
 
 /* Товары точки */
 .msp-products__list { padding: 12px 16px 16px; display: grid; gap: 10px; }
@@ -3504,9 +3504,9 @@ body.cabinet-mode #view { padding-bottom: 0; }
 
 /* Карточка «следующий шаг» (role-next) */
 .role-next { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center;
-  margin: 12px 0 0; padding: 14px 16px; border-radius: 16px;
+  margin: 12px 0 0; padding: 14px 16px; border-radius: var(--lv-r-lg);
   background: var(--lv-card); text-decoration: none; cursor: default; border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
-.role-next__icon { width: 40px; height: 40px; border-radius: 12px; background: var(--lv-soft-gold); color: var(--lv-gold-text); display: inline-flex; align-items: center; justify-content: center; }
+.role-next__icon { width: 40px; height: 40px; border-radius: var(--lv-r-sm); background: var(--lv-soft-gold); color: var(--lv-gold-text); display: inline-flex; align-items: center; justify-content: center; }
 .role-next__icon svg { width: 20px; height: 20px; }
 .role-next__body { display: flex; flex-flow: column; gap: 2px; min-width: 0; }
 .role-next__title { color: var(--lv-ink); font-size: 13.5px; font-weight: 700; line-height: 1.4; }
@@ -3537,7 +3537,7 @@ body.cabinet-mode #view { padding-bottom: 0; }
 
 /* ---------- МСП: счёт верификации и настройки точки ---------- */
 .role-empty__icon {
-  width: 52px; height: 52px; border-radius: 16px; margin-bottom: 8px;
+  width: 52px; height: 52px; border-radius: var(--lv-r-lg); margin-bottom: 8px;
   display: inline-flex; align-items: center; justify-content: center;
 }
 .role-empty__icon svg { width: 24px; height: 24px; }
@@ -3547,7 +3547,7 @@ body.cabinet-mode #view { padding-bottom: 0; }
 .msp-payment__amount { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; color: var(--lv-ink); }
 .msp-payment__code {
   display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px;
-  border: 1px dashed var(--lv-line-strong); border-radius: 12px; background: var(--lv-surface);
+  border: 1px dashed var(--lv-line-strong); border-radius: var(--lv-r-sm); background: var(--lv-surface);
   color: var(--lv-ink); font: inherit; font-size: 15px; font-weight: 800;
   letter-spacing: 0.06em; cursor: pointer;
 }
@@ -3579,7 +3579,7 @@ body.cabinet-mode #view { padding-bottom: 0; }
 
 .address-item {
   display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center;
-  padding: 12px 16px; border-radius: 16px; background: var(--lv-card);
+  padding: 12px 16px; border-radius: var(--lv-r-lg); background: var(--lv-card);
   border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); box-sizing: border-box;
 }
 .address-item.active { border-color: var(--lv-tiffany); }
@@ -3589,7 +3589,7 @@ body.cabinet-mode #view { padding-bottom: 0; }
 .address-item__extra { color: var(--lv-dim); font-size: 11.5px; }
 .address-item__current { margin-top: 4px; color: var(--lv-tiffany-text); font-size: 11px; font-weight: 700; }
 .address-item__edit {
-  width: 40px; height: 40px; border: 0; border-radius: 12px; background: var(--background-other-soft-neutral);
+  width: 40px; height: 40px; border: 0; border-radius: var(--lv-r-sm); background: var(--background-other-soft-neutral);
   color: var(--lv-dim); display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
 }
 .address-item__edit svg { width: 16px; height: 16px; }
@@ -3597,7 +3597,7 @@ body.cabinet-mode #view { padding-bottom: 0; }
 /* Форма адреса (AddressForm) */
 .address-form { padding: 0 16px calc(var(--lv-navbar-offset) + 16px); display: grid; gap: 14px; }
 .acc-map {
-  position: relative; height: 180px; border-radius: 16px; overflow: hidden;
+  position: relative; height: 180px; border-radius: var(--lv-r-lg); overflow: hidden;
   background:
     repeating-linear-gradient(0deg, transparent 0 39px, var(--lv-line-2) 39px 40px),
     repeating-linear-gradient(90deg, transparent 0 39px, var(--lv-line-2) 39px 40px),
@@ -3609,14 +3609,14 @@ body.cabinet-mode #view { padding-bottom: 0; }
 .acc-fields { display: grid; grid-template-columns: 1fr; gap: 10px; }
 .acc-field { display: grid; gap: 4px; color: var(--lv-dim); font-size: 11px; font-weight: 600; }
 .acc-field input {
-  height: 44px; border: 1px solid var(--lv-line); border-radius: 12px;
+  height: 44px; border: 1px solid var(--lv-line); border-radius: var(--lv-r-sm);
   background: var(--lv-card); color: var(--lv-ink);
   font: inherit; font-size: 14px; padding: 0 12px; box-sizing: border-box;
 }
 .acc-field input:focus { outline: none; border-color: var(--lv-pink); }
 .acc-two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .acc-del {
-  width: 100%; margin-top: 8px; height: 44px; border: 0; border-radius: 999px;
+  width: 100%; margin-top: 8px; height: 44px; border: 0; border-radius: var(--lv-r-pill);
   background: none; color: var(--lv-pink-dark); font: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
 }
 
@@ -3646,13 +3646,13 @@ body.cabinet-mode-auth .app-header { display: none; }
 .auth-channel.is-soon { opacity: 0.55; }
 .soon-badge {
   position: absolute; top: -7px; right: 10px; padding: 1px 7px;
-  border-radius: 999px; background: var(--lv-soft-gold); color: var(--lv-gold-text);
+  border-radius: var(--lv-r-pill); background: var(--lv-soft-gold); color: var(--lv-gold-text);
   font-size: 9px; font-weight: 800; letter-spacing: 0.04em;
 }
 .auth-code-input {
   width: 100%; height: 56px; text-align: center; letter-spacing: 0.5em;
   font: inherit; font-size: 24px; font-weight: 800; color: var(--lv-ink);
-  border: 1px solid var(--lv-line); border-radius: 14px;
+  border: 1px solid var(--lv-line); border-radius: var(--lv-r-md);
   background: var(--lv-card); box-sizing: border-box;
 }
 .auth-code-input:focus { outline: none; border-color: var(--lv-pink); }
@@ -3692,11 +3692,11 @@ body.cabinet-mode-auth .app-header { display: none; }
 .home-promos__list::-webkit-scrollbar { display: none; }
 .promo-card {
   flex-shrink: 0; width: 240px; min-height: 148px; padding: 14px;
-  border-radius: 16px; display: flex; flex-flow: column; gap: 4px;
+  border-radius: var(--lv-r-lg); display: flex; flex-flow: column; gap: 4px;
   text-decoration: none; box-sizing: border-box; position: relative; overflow: hidden;
 }
 .promo-card__badge {
-  align-self: flex-start; padding: 2px 8px; border-radius: 999px;
+  align-self: flex-start; padding: 2px 8px; border-radius: var(--lv-r-pill);
   background: rgba(255, 255, 255, 0.12); color: rgba(255, 255, 255, 0.9);
   font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
 }
@@ -3738,7 +3738,7 @@ body.cabinet-mode-auth .app-header { display: none; }
 
 /* ---------- Квитанция заказа (SZ-017, OrderReceipt) ---------- */
 .order-receipt {
-  margin: 0 16px; padding: 16px; border-radius: 16px;
+  margin: 0 16px; padding: 16px; border-radius: var(--lv-r-lg);
   background: var(--lv-card); border: 1px solid var(--lv-line);
   box-shadow: var(--lv-shadow-soft); box-sizing: border-box;
 }
