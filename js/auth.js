@@ -50,6 +50,13 @@ function aStepPhone() {
     </section>`;
 }
 
+/* Брендовые лого каналов — файлы из приложения (lovii-app@staging → assets/brand) */
+const AUTH_CHANNEL_LOGO = {
+  max: 'assets/brand/max.svg',
+  telegram: 'assets/brand/telegram.svg',
+  vkontakte: 'assets/brand/vk.svg',
+};
+
 function aStepChannel() {
   return `
     <section class="auth-step">
@@ -59,7 +66,9 @@ function aStepChannel() {
         ${AUTH_CHANNELS.map((c) => `
           <button type="button" class="acct__btn auth-channel${c.live ? '' : ' is-soon'}" data-testid="auth-otp-method"
             data-action="${c.live ? 'auth-channel' : ''}" data-channel="${c.id}" ${c.live ? '' : 'disabled'}>
-            <span class="auth-channel-ico auth-channel-ico_${c.id}">${c.id === 'telegram' ? icon('send') : c.id === 'call' ? icon('phone') : c.id === 'vkontakte' ? 'VK' : ''}</span>
+            <span class="auth-channel-ico${AUTH_CHANNEL_LOGO[c.id] ? ' auth-channel-ico_logo' : ''}">${AUTH_CHANNEL_LOGO[c.id]
+              ? `<img src="${AUTH_CHANNEL_LOGO[c.id]}" alt="" width="24" height="24" decoding="async">`
+              : icon('phone')}</span>
             ${c.label}${c.live ? '' : '<span class="soon-badge">Скоро</span>'}
           </button>`).join('')}
       </div>
