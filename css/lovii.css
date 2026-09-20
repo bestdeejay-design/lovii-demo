@@ -2717,7 +2717,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   gap: 10px;
   height: 44px;
   padding: 0 14px;
-  border: 1px solid var(--border-normal-subtle);
+  border: 1px solid var(--lv-line);
   border-radius: 12px;
   background: var(--background-normal-surface);
   color: var(--content-normal-tertiary);
@@ -2738,7 +2738,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   position: relative;
   width: 44px;
   height: 44px;
-  border: 1px solid var(--border-normal-subtle);
+  border: 1px solid var(--lv-line);
   border-radius: 12px;
   background: var(--background-normal-surface);
   color: var(--content-normal-primary);
