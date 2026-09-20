@@ -570,10 +570,13 @@ main#view { flex: 1; }
 #view .lv-narrow { max-width: 760px; }
 #view .chat-screen { max-width: 760px; margin-left: auto; margin-right: auto; }
 .search-bar-wrap .search-bar { max-width: 728px; margin: 0 auto; }
-/* Стабилизация ширины контента: настройки, поиск заведений и корзина — та же контентная капсула, что у профиля
+/* Стабилизация ширины контента: настройки, поиск заведений, корзина, карточка товара и карточка точки —
+   та же контентная капсула, что у профиля
    (профиль/кошелёк: 924px при ≥640px + гуттер 16px → ширина контента 892px). Ниже 640px экраны живут в ширине приложения. */
 @media (min-width: 640px) {
-  .settings-page, .stores, .cart { max-width: var(--lv-content-max, 924px); margin-inline: auto; }
+  .settings-page, .stores, .cart, .product, .place { max-width: var(--lv-content-max, 924px); margin-inline: auto; }
+  /* нижняя панель действий на карточке товара — та же капсула (fixed, поэтому центрируется через margin) */
+  .product__action { max-width: var(--lv-content-max, 924px); margin-inline: auto; }
 }
 
 @media (min-width: 640px) {
