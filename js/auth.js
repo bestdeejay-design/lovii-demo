@@ -68,16 +68,72 @@ function aStepChannel() {
 
 function aStepCode() {
   const hint = AUTH_CHANNEL_HINT[authUi.channel] || '';
+  startAuthResendTimer();
   return `
     <section class="auth-step">
       <h3>Введите код подтверждения</h3>
-      <p class="auth-phone-line">${AUTH_CHANNEL_HINT[authUi.channel] ? mEsc2(AUTH_CHANNEL_HINT[authUi.channel]) : ''}</p>
+      <p class="auth-phone-line">${hint ? mEsc2(hint) : ''}</p>
       <div class="acc-field">
         <input id="code" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="0000"
-          maxlength="4" class="auth-code-input" data-action="auth-code-input">
+          pattern="[0-9]*" enterkeyhint="done" autocapitalize="off" spellcheck="false" autofocus
+          class="auth-code-input" data-action="auth-code-input">
       </div>
-      <p class="auth-note">${icon('rotate')} Новый код можно получить через 30 сек.</p>
+      <p class="auth-note" id="auth-resend">${icon('rotate')}
+        <span id="auth-resend-text">Новый код можно получить через ${AUTH_RESEND_SEC} сек.</span>
+        <button type="button" class="link-btn" id="auth-resend-btn" data-action="auth-code-resend" hidden>Отправить код повторно</button>
+      </p>
+      <button type="button" class="link-btn" data-action="auth-code-autofill">Демо: подставить код из «пуша»</button>
     </section>`;
+}
+
+/* --- Приём кода: канон приложения (SZ-012 §2.5) ---
+   Поле ОДНО, с autocomplete="one-time-code" + inputmode="numeric": этого достаточно, чтобы iOS/Android
+   подставили код из сообщения бота (строка «Код: 1234» в тексте — триггер системы). Плюс автофокус
+   (без него система подстановку не предлагает), нормализация вставки и авто-отправка на 4-й цифре.
+   На Android Chrome дополнительно пробуем WebOTP (SMS) — тихо, если API нет. */
+const AUTH_RESEND_SEC = 30;
+let authResendTimer = null;
+let authResendLeft = AUTH_RESEND_SEC;
+
+function startAuthResendTimer() {
+  authResendLeft = AUTH_RESEND_SEC;
+  if (authResendTimer) clearInterval(authResendTimer);
+  authResendTimer = setInterval(() => {
+    authResendLeft = Math.max(0, authResendLeft - 1);
+    const txt = document.getElementById('auth-resend-text');
+    const btn = document.getElementById('auth-resend-btn');
+    if (txt) txt.textContent = authResendLeft > 0
+      ? `Новый код можно получить через ${authResendLeft} сек.`
+      : 'Код можно запросить повторно';
+    if (authResendLeft === 0) {
+      if (btn) btn.hidden = false;
+      clearInterval(authResendTimer); authResendTimer = null;
+    }
+  }, 1000);
+}
+
+function authCodeFilled(digits) {
+  authUi.code = digits;
+  if (digits.length !== 4) return;
+  toast('Проверяем код…', 'Демо: любые 4 цифры подходят');
+  authUi.step = 'promo';
+  renderViewPreserveScroll();
+}
+
+/* Android Chrome: код из SMS приходит сам (формат «@домен #1234»). Тихо пропускаем, если API нет. */
+function authTryWebOtp() {
+  if (!('OTPCredential' in window) || !navigator.credentials || !navigator.credentials.get) return;
+  const ac = new AbortController();
+  navigator.credentials.get({ otp: { transport: ['sms'] }, signal: ac.signal })
+    .then((otp) => {
+      const code = otp && otp.code ? String(otp.code).replace(/\D/g, '').slice(0, 4) : '';
+      if (!code) return;
+      const el = document.getElementById('code');
+      if (el) el.value = code;
+      authCodeFilled(code);
+    })
+    .catch(() => {});
+  setTimeout(() => ac.abort(), 60000);
 }
 
 function aStepPromo() {
@@ -105,6 +161,7 @@ function applyAuthStep(step) {
     authUi.channel = authUi.channel || 'sms';
   }
   authUi.step = step;
+  if (step === 'code') setTimeout(authTryWebOtp, 0);
 }
 
 function renderAuthMirror() {
@@ -132,6 +189,24 @@ document.addEventListener('click', (e) => {
   if (!el) return;
   const action = el.dataset.action;
 
+  if (action === 'auth-code-autofill') {
+    // демонстрация приёма: на устройстве это делает система, здесь — кнопкой
+    const input = document.getElementById('code');
+    if (input) input.value = '1234';
+    authCodeFilled('1234');
+    return;
+  }
+
+  if (action === 'auth-code-resend') {
+    toast('Код отправлен повторно', 'Демо: смотрите «сообщение» от бота');
+    startAuthResendTimer();
+    const btn = document.getElementById('auth-resend-btn');
+    if (btn) btn.hidden = true;
+    const txt = document.getElementById('auth-resend-text');
+    if (txt) txt.textContent = `Новый код можно получить через ${AUTH_RESEND_SEC} сек.`;
+    return;
+  }
+
   if (action === 'auth-back') {
     authUi.step = authUi.step === 'code' ? 'channel' : authUi.step === 'promo' || authUi.step === 'channel' ? 'phone' : 'phone';
     renderViewPreserveScroll();
@@ -158,6 +233,7 @@ document.addEventListener('click', (e) => {
     authUi.channel = el.dataset.channel;
     authUi.step = 'code';
     renderViewPreserveScroll();
+    authTryWebOtp();
     toast('Код отправлен', aPhonePretty(authUi.phone));
     return;
   }
@@ -177,11 +253,10 @@ document.addEventListener('input', (e) => {
   if (action === 'auth-promo-input') authUi.promo = el.value;
 
   if (action === 'auth-code-input') {
-    if (el.value.length === 4) {
-      toast('Проверяем код…', 'Демо: любые 4 цифры подходят');
-      authUi.step = 'promo';
-      renderViewPreserveScroll();
-    }
+    // нормализация: вставка «Код: 1234», пробелы и дефисы превращаются в 4 цифры
+    const digits = (el.value || '').replace(/\D/g, '').slice(0, 4);
+    if (digits !== el.value) el.value = digits;
+    authCodeFilled(digits);
   }
 });
 
