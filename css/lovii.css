@@ -3321,7 +3321,7 @@ html[data-motion='off'] *::after {
 .acct__btn.is-disabled { opacity: 0.5; pointer-events: auto; }
 
 /* Пустая корзина (CartEmpty) */
-.cart-empty { margin: 24px 0 0; padding: 40px 16px; border-radius: 16px; background: var(--lv-card); display: flex; flex-flow: column; align-items: center; gap: 20px; border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-float); }
+.cart-empty { margin: 24px 0 0; padding: 40px 16px; border-radius: 16px; background: var(--lv-card); display: flex; flex-flow: column; align-items: center; gap: 20px; border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
 .cart-empty__content { display: flex; flex-flow: column; align-items: center; gap: 8px; text-align: center; }
 .cart-empty__content > span {
   width: 56px; height: 56px; border-radius: 16px; background: var(--lv-soft-pink); color: var(--lv-pink-dark);
