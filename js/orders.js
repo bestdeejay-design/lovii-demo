@@ -170,11 +170,10 @@ function renderCartMirror() {
       </section>
 
       <section class="card cart-summary">
-        <ul>
-          <li>Товары (${count}) <span>${oFmt(cart.subtotal)}&nbsp;₽</span></li>
-          <li>Доставка <span>по тарифам заведения</span></li>
-        </ul>
-        <p>Итого: <span>${oFmt(cart.subtotal)}&nbsp;₽</span></p>
+        <div class="sum-row"><span>Товары (${count})</span><span class="v">${oFmt(cart.subtotal)}&nbsp;₽</span></div>
+        <div class="sum-row"><span>Доставка</span><span class="v">по тарифам заведения</span></div>
+        <div class="sum-div"></div>
+        <div class="sum-total"><span class="l">Итого</span><span class="v">${oFmt(cart.subtotal)}&nbsp;₽</span></div>
         ${blocked ? `<p class="cart-summary__min-order" role="note">Минимальная сумма заказа — ${oFmt(cart.minOrder)}&nbsp;₽. Добавьте ещё на ${oFmt(cart.minOrder - cart.subtotal)}&nbsp;₽</p>` : ''}
         <a href="${blocked ? '' : `#/checkout/${oEsc(cart.slug)}`}" class="acct__btn acct__btn_brand ${blocked ? 'is-disabled' : ''}" ${blocked ? 'aria-disabled="true" data-action="o-min-blocked"' : ''} data-testid="create-order">Оформить заказ</a>
       </section>
@@ -217,22 +216,20 @@ function renderCheckoutMirror(slug) {
       </section>
 
       <section class="create-order-recipient">
-        <h5>Получатель</h5>
+        <h5>Комментарий к заказу</h5>
         <div class="sf-search"><input type="text" placeholder="Комментарий заведению" data-action="o-comment"></div>
       </section>
 
       <section class="create-order-products">
         <h5>Товары</h5>
-        <div class="cart-info__products">
+        <div class="card cart-info__products">
           ${cart.items.map((it) => oCartProductRow(cart, it)).join('')}
         </div>
       </section>
 
       <section class="card cart-summary">
-        <ul>
-          <li>Товары (${cart.items.reduce((s, c) => s + c.qty, 0)}) <span>${oFmt(cart.subtotal)}&nbsp;₽</span></li>
-          <li>Доставка <span>${delivery ? 'по тарифам заведения' : 'самовывоз'}</span></li>
-        </ul>
+        <div class="sum-row"><span>Товары (${cart.items.reduce((s, c) => s + c.qty, 0)})</span><span class="v">${oFmt(cart.subtotal)}&nbsp;₽</span></div>
+        <div class="sum-row"><span>Доставка</span><span class="v">${delivery ? 'по тарифам заведения' : 'самовывоз'}</span></div>
       </section>
 
       <div class="create-order__cta">
@@ -270,30 +267,32 @@ function oPlaceOrder(slug, total, deliveryType) {
 function oReceipt(order) {
   return `
     <section class="card order-receipt" data-testid="order-receipt">
-      <header class="order-receipt__head"><h5>Квитанция</h5><p>№ ${oEsc(order.id)}</p></header>
+      <header class="order-receipt__head">
+        <h5>Квитанция</h5>
+        <span class="st-chip st-active">Принят</span>
+      </header>
       <dl class="order-receipt__rows">
-        <div><dt>Принят</dt><dd>${oDate(order.createdAt)}</dd></div>
+        <div><dt>Номер</dt><dd>№ ${oEsc(order.id)}</dd></div>
+        <div><dt>Оформлен</dt><dd>${oDate(order.createdAt)}</dd></div>
         <div><dt>Точка выдачи</dt><dd>${mEsc2(order.merchant.name)}</dd></div>
         <div><dt>Получение</dt><dd>${order.deliveryType === 'delivery' ? `Доставка · ${mEsc2(order.address)}` : 'Самовывоз'}</dd></div>
         ${order.items.map((it) => `<div><dt>${mEsc2(it.name)} × ${it.qty}</dt><dd>${oFmt(it.price * it.qty)}&nbsp;₽</dd></div>`).join('')}
-        <div><dt>Итого</dt><dd>${oFmt(order.total)}&nbsp;₽</dd></div>
       </dl>
+      <div class="order-receipt__total"><span class="l">Итого</span><span class="v">${oFmt(order.total)}&nbsp;₽</span></div>
       <p class="order-receipt__disc">Квитанция не является фискальным документом и подтверждает только приём заказа. Чек будет доступен после оплаты и подтверждения расчёта.</p>
     </section>`;
 }
 
 function renderOrderSuccess(order) {
   return `
-    <main class="container">
-      <section class="card cart-empty" style="padding:28px 16px 20px">
-        <div class="cart-empty__content">
-          <span>${icon('bag')}</span>
-          <h4>Заказ создан успешно</h4>
-          <p>Вы можете следить за статусом заказа во вкладке «История заказов» в профиле</p>
-        </div>
+    <main class="order-success-page container">
+      <section class="card order-success">
+        <span class="order-success__ico">${icon('check')}</span>
+        <h4>Заказ создан</h4>
+        <p>Следите за статусом во вкладке «История заказов» в профиле</p>
       </section>
       ${oReceipt(order)}
-      <div class="cart-empty__action" style="display:grid;gap:8px;padding:16px">
+      <div class="order-success__actions">
         <a href="#/orders" class="acct__btn acct__btn_brand">История заказов</a>
         <a href="#/home" class="acct__btn">На главную</a>
       </div>

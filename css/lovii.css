@@ -492,7 +492,7 @@ main#view{ flex: 1; }
 .sum-row .v{ font-weight: 700; }
 .sum-row .v.ok{ color: var(--lv-tiffany-text); }
 .sum-row .v.gold{ color: var(--lv-gold-text); }
-.sum-div{ height: 1px; background: var(--lv-line); margin: 12px 0; }
+.sum-div{ height: 1px; background: var(--lv-line-2); margin: 12px 0; }
 .sum-total{ display: flex; align-items: center; justify-content: space-between; }
 .sum-total .l{ font-size: 14px; font-weight: 700; }
 .sum-total .v{ font-size: 18px; font-weight: 800; }
@@ -3393,6 +3393,9 @@ html[data-motion='off'] *::after {
 .cart-info__store > p{ margin: 0; color: var(--lv-ink); font-size: 14px; font-weight: 600; line-height: 1.4; }
 /* SZ-062 · карточка списка товаров в корзине: внутренние отступы */
 .cart-info__products{ padding: 4px 16px 16px; }
+.cart-info__products{ gap: 0; }
+.cart-product{ padding-top: 14px; }
+.cart-product:first-of-type{ padding-top: 0; }
 .cart-info__products, .orders__list{ margin: 16px 0 0; display: grid; grid-template-columns: 1fr; gap: 16px; }
 
 /* Позиция корзины (CartProduct) */
@@ -3412,6 +3415,8 @@ html[data-motion='off'] *::after {
 .cart-summary > ul{ margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr; gap: 8px; }
 .cart-summary > ul > li{ display: flex; align-items: center; justify-content: space-between; color: var(--lv-ink); font-size: 13px; line-height: 1.55; }
 .cart-summary > p{ margin: 16px 0 0; display: flex; align-items: center; justify-content: space-between; color: var(--lv-ink); font-size: 16px; font-weight: 800; line-height: 1.35; }
+.cart-summary .acct__btn{ width: 100%; margin-top: 16px; }
+.cart-summary .sum-total .v{ font-variant-numeric: tabular-nums; }
 .cart-summary__min-order{
   margin: 16px 0 0; padding: 12px; border-radius: var(--lv-r-sm);
   background-color: var(--lv-soft-pink); color: var(--lv-ink);
@@ -3429,6 +3434,19 @@ html[data-motion='off'] *::after {
 }.cart-empty__content > span > svg, .cabinet__ava svg{ width: 24px; height: 24px; }
 .cart-empty__content > h4{ margin: 0; color: var(--lv-ink); font-size: 16px; font-weight: 800; }
 .cart-empty__content > p{ margin: 0; color: var(--lv-dim); font-size: 13px; line-height: 1.55; }
+.cart-empty__action{ display: grid; gap: 8px; width: 100%; padding: 0; margin: 4px 0 0; }
+.cart-empty__action .acct__btn{ width: 100%; }
+
+/* Экран успеха после создания заказа (раньше переиспользовал состояние «пустая корзина») */
+.order-success-page{ padding: 0 16px calc(var(--lv-navbar-offset) + 16px); }
+.order-success{ margin: 24px 0 0; padding: 24px 16px 20px; display: flex; flex-flow: column; align-items: center; gap: 10px; text-align: center; }
+.order-success__ico{ width: 56px; height: 56px; border-radius: var(--lv-r-lg); background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); display: inline-flex; align-items: center; justify-content: center; }
+.order-success__ico svg{ width: 26px; height: 26px; }
+.order-success > h4{ margin: 4px 0 0; color: var(--lv-ink); font-size: 18px; font-weight: 800; }
+.order-success > p{ margin: 0; color: var(--lv-dim); font-size: 13px; line-height: 1.55; max-width: 34ch; }
+.order-success__actions{ margin: 16px 0 0; display: grid; gap: 8px; width: 100%; }
+.order-success__actions .acct__btn{ width: 100%; }
+.order-receipt__rows .sum-row{ font-size: 13px; }
 
 /* Оформление заказа (CreateOrder) */
 .create-order{ display: flex; flex-flow: column; gap: 16px; padding: 0 16px calc(var(--lv-navbar-offset) + 96px); }.create-order-delivery, .create-order-recipient{ margin: 16px 0 0; display: flex; flex-flow: column; gap: 10px; }
@@ -3442,12 +3460,16 @@ html[data-motion='off'] *::after {
 .create-order-delivery__address-empty{ color: var(--lv-dim); font-weight: 400; }.create-order-delivery__address > svg, .role-next__arrow svg{ width: 16px; height: 16px; color: var(--lv-dim); }.create-order-delivery__merchant > span, .order-preview__products > span{ width: 36px; height: 36px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; }
 .create-order-delivery__merchant > p{ margin: 0; }
 .create-order-products{ margin: 16px 0 0; }
-.create-order-products .cart-info__products{ padding: 12px 16px;  padding: 0; }
+.create-order-products .cart-info__products{ padding: 14px 16px 16px; }
 .create-order__cta{
   position: fixed; left: 0; right: 0; bottom: var(--lv-navbar-height, 56px); z-index: 2;
-  display: grid; gap: 8px; padding: 12px 16px;
+  display: grid; gap: 10px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  background: var(--lv-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--lv-line);
 }
 .create-order__total{ display: flex; align-items: baseline; justify-content: space-between; color: var(--lv-ink); font-size: 13px; }
+.create-order__total > p{ margin: 0; color: var(--lv-dim); font-weight: 600; }
+.create-order__total > span{ font-variant-numeric: tabular-nums; }
 .create-order__total > span{ font-size: 16px; font-weight: 800; }
 
 /* История заказов (OrdersModule + OrderPreview) */
@@ -3773,7 +3795,10 @@ body.cabinet-mode #view{ padding-bottom: 0; }
 }
 
 /* ---------- Квитанция заказа (SZ-017, OrderReceipt) ---------- */
-.order-receipt{margin: 0 16px; padding: 16px; box-sizing: border-box;}
+.order-receipt{margin: 16px 0 0; padding: 16px; box-sizing: border-box;}
+.order-receipt__total{ display: flex; align-items: baseline; justify-content: space-between; margin: 12px 0 0; padding-top: 12px; border-top: 1px solid var(--lv-line-2); }
+.order-receipt__total .l{ font-size: 14px; font-weight: 700; color: var(--lv-ink); }
+.order-receipt__total .v{ font-size: 16px; font-weight: 800; color: var(--lv-ink); font-variant-numeric: tabular-nums; }
 .order-receipt__head{
   display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
   padding-bottom: 10px; border-bottom: 1px solid var(--lv-line-2);
