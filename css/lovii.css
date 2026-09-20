@@ -2979,7 +2979,10 @@ html[data-motion='off'] *::after {
 .cart-info { margin: 24px 0 0; display: grid; gap: 12px; }
 .cart-info__store { padding: 14px 16px;  display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: center; }
 .cart-info__store > span { width: 40px; height: 40px; border-radius: 8px; padding: 4px; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; }
-.cart-info__store > p { margin: 0; color: var(--lv-ink); font-size: 14px; font-weight: 600; line-height: 1.4; }.cart-info__products, .orders__list { margin: 16px 0 0; display: grid; grid-template-columns: 1fr; gap: 16px; }
+.cart-info__store > p { margin: 0; color: var(--lv-ink); font-size: 14px; font-weight: 600; line-height: 1.4; }
+/* SZ-062 · карточка списка товаров в корзине: внутренние отступы */
+.cart-info__products { padding: 4px 16px 16px; }
+.cart-info__products, .orders__list { margin: 16px 0 0; display: grid; grid-template-columns: 1fr; gap: 16px; }
 
 /* Позиция корзины (CartProduct) */
 .cart-product { display: grid; grid-template-columns: 56px 1fr; align-items: start; gap: 12px; padding: 16px 0 0; border-top: 1px solid var(--lv-line-2); }
