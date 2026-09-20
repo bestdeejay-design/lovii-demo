@@ -52,7 +52,7 @@ main#view { flex: 1; }
 .pill-btn { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 10px; border-radius: 999px; background: var(--lv-surface); font-size: 14px; font-weight: 500; transition: background .2s; }
 .pill-btn:hover { background: var(--lv-soft-pink); }
 .pill-btn svg { width: 16px; height: 16px; color: var(--lv-pink); flex-shrink: 0; }
-.pill-btn .chev { width: 14px; height: 14px; color: var(--lv-dim); }
+.pill-btn .chev { width: 16px; height: 16px; color: var(--lv-dim); }
 .pill-btn .lbl { max-width: 76px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 /* Шапка с 3-й кнопкой (тема): на узких экранах сжимаем район-пилл */
 @media (max-width: 400px) {
@@ -62,10 +62,16 @@ main#view { flex: 1; }
 }
 .icon-btn { position: relative; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 999px; background: var(--lv-surface); transition: background .2s; }
 .icon-btn:hover { background: var(--lv-soft-pink); }
-.icon-btn svg { width: 18px; height: 18px; }
+.icon-btn svg { width: 20px; height: 20px; }
 /* Базовый размер иконки icon(name, 'icon'): без него SVG без width/height
    схлопывается в 0×0 в Chrome и раздувается за пределы строки в Safari (iOS) */
 .icon { width: 16px; height: 16px; flex-shrink: 0; }
+/* SZ-062 · шкала размеров иконок (ДС): 12/16/20/24/32 */
+.icon-12 { width: 12px; height: 12px; flex-shrink: 0; }
+.icon-16 { width: 16px; height: 16px; flex-shrink: 0; }
+.icon-20 { width: 20px; height: 20px; flex-shrink: 0; }
+.icon-24 { width: 24px; height: 24px; flex-shrink: 0; }
+.icon-32 { width: 32px; height: 32px; flex-shrink: 0; }
 
 /* ---------- Подшапка (назад) ---------- */
 .subheader { position: sticky; top: 56px; z-index: 30; background: var(--lv-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--lv-line); }
@@ -83,7 +89,7 @@ main#view { flex: 1; }
 .ht-ico svg { width: 16px; height: 16px; }
 .ht-lbl { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ht-chev { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 24px; height: 24px; border-radius: 999px; background: var(--lv-soft-pink); color: var(--lv-pink); transition: transform .3s ease; }
-.ht-chev svg { width: 14px; height: 14px; }
+.ht-chev svg { width: 16px; height: 16px; }
 .hero:not(.collapsed) .ht-chev { transform: rotate(180deg); }
 .hero-body { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .32s ease; }
 .hero-body-in { min-height: 0; overflow: hidden; }
@@ -96,7 +102,7 @@ main#view { flex: 1; }
 .hero .lead b { color: var(--lv-ink); font-weight: 600; }
 .stat-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
 .stat-pill { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 12px; border-radius: 999px; font-size: 12px; font-weight: 600; }
-.stat-pill svg { width: 14px; height: 14px; }
+.stat-pill svg { width: 16px; height: 16px; }
 .stat-pill.pink { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
 .stat-pill.tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .stat-pill.gold { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
@@ -165,10 +171,10 @@ main#view { flex: 1; }
 .store-name { font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .store-sub { font-size: 12px; color: var(--lv-dim); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .rating { display: flex; align-items: center; gap: 2px; font-size: 12px; font-weight: 700; flex-shrink: 0; }
-.rating svg { width: 14px; height: 14px; color: var(--lv-gold); fill: var(--lv-gold); }
+.rating svg { width: 16px; height: 16px; color: var(--lv-gold); fill: var(--lv-gold); }
 .store-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
 .walk-pill { display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 8px; border-radius: 999px; background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); font-size: 11px; font-weight: 600; }
-.walk-pill svg { width: 14px; height: 14px; }
+.walk-pill svg { width: 16px; height: 16px; }
 .chev { width: 16px; height: 16px; color: var(--lv-dim); transition: transform .2s, color .2s; }
 .btn-card:hover .chev { transform: translateX(2px); color: var(--lv-pink); }
 
@@ -183,7 +189,7 @@ main#view { flex: 1; }
 .promo-title { margin-top: 8px; font-size: 16px; font-weight: 800; line-height: 1.3; }
 .promo-desc { font-size: 12px; color: var(--lv-dim); margin-top: 2px; }
 .promo-timer { display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; color: var(--lv-pink-dark); margin-top: 10px; }
-.promo-timer svg { width: 14px; height: 14px; }
+.promo-timer svg { width: 16px; height: 16px; }
 
 /* ---------- Карточка товара ---------- */
 .prod-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 16px 4px; }
@@ -228,7 +234,7 @@ main#view { flex: 1; }
 .loyalty p { margin: 6px 0 0; font-size: 13px; color: rgba(255, 255, 255, .7); line-height: 1.6; }
 .loyalty .chips { display: flex; gap: 8px; margin-top: 12px; }
 .glass-chip { display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 12px; border-radius: 999px; background: rgba(255, 255, 255, .1); font-size: 12px; font-weight: 600; }
-.glass-chip svg { width: 14px; height: 14px; }
+.glass-chip svg { width: 16px; height: 16px; }
 .glass-chip .g { color: var(--lv-gold); fill: var(--lv-gold); }
 .glass-chip .t { color: var(--lv-tiffany); }
 
@@ -274,7 +280,7 @@ main#view { flex: 1; }
 .cta-btn:active { transform: scale(.95); }
 .cta-btn.big { height: 48px; width: 100%; font-size: 14px; }
 .added-pill { display: inline-flex; align-items: center; justify-content: center; gap: 4px; height: 36px; padding: 0 12px; border-radius: 999px; background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); font-size: 12px; font-weight: 700; }
-.added-pill svg { width: 14px; height: 14px; }
+.added-pill svg { width: 16px; height: 16px; }
 .qty { display: inline-flex; align-items: center; height: 36px; border-radius: 999px; background: var(--lv-soft-pink); }
 .qty button { width: 36px; height: 36px; border-radius: 999px; color: var(--lv-pink-dark); font-size: 18px; font-weight: 700; transition: background .2s; }
 .qty button:hover { background: rgba(255, 255, 255, .6); }
@@ -289,7 +295,7 @@ main#view { flex: 1; }
 .st-head h1 { margin: 0; font-size: 18px; font-weight: 800; }
 .st-head .sub { font-size: 12px; color: var(--lv-dim); margin-top: 2px; }
 .rating-pill { display: flex; align-items: center; gap: 4px; height: 28px; padding: 0 10px; border-radius: 999px; background: var(--lv-soft-gold); font-size: 12px; font-weight: 700; color: var(--lv-gold-text); flex-shrink: 0; }
-.rating-pill svg { width: 14px; height: 14px; color: var(--lv-gold); fill: var(--lv-gold); }
+.rating-pill svg { width: 16px; height: 16px; color: var(--lv-gold); fill: var(--lv-gold); }
 .rating-pill .rev { color: #b09662; font-weight: 500; }
 .st-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .info-pill { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; font-size: 12px; font-weight: 700; }
@@ -303,7 +309,7 @@ main#view { flex: 1; }
 .tag-pill { height: 24px; padding: 0 10px; border-radius: 999px; background: var(--lv-soft-pink); color: var(--lv-pink-dark); font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; }
 .st-goods { padding: 20px 0 4px; }
 .st-goods .section-head h2 { display: flex; align-items: center; gap: 8px; }
-.st-goods .section-head h2 svg { width: 18px; height: 18px; color: var(--lv-pink); }
+.st-goods .section-head h2 svg { width: 20px; height: 20px; color: var(--lv-pink); }
 
 /* ---------- Поиск ---------- */
 .search-bar-wrap { position: sticky; top: 56px; z-index: 30; background: var(--lv-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding: 12px 16px 10px; border-bottom: 1px solid var(--lv-line); }
@@ -333,7 +339,7 @@ main#view { flex: 1; }
 .compact-row .wk { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; color: var(--lv-tiffany-text); font-weight: 600; }
 .compact-row .wk svg { width: 12px; height: 12px; }
 .services-hint { display: flex; align-items: center; gap: 8px; margin: 20px 0 8px; font-size: 12px; color: var(--lv-dim); }
-.services-hint svg { width: 14px; height: 14px; }
+.services-hint svg { width: 16px; height: 16px; }
 
 /* ---------- Корзина ---------- */
 .page-h { padding: 16px 16px 0; }
@@ -367,7 +373,7 @@ main#view { flex: 1; }
 .sum-total .l { font-size: 14px; font-weight: 700; }
 .sum-total .v { font-size: 18px; font-weight: 800; }
 .pickup-hint { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 10px; font-size: 11px; color: var(--lv-dim); flex-wrap: wrap; }
-.pickup-hint svg { width: 14px; height: 14px; }
+.pickup-hint svg { width: 16px; height: 16px; }
 .pickup-hint .pin { color: var(--lv-pink); }
 .pickup-hint .clk { color: var(--lv-tiffany); }
 
@@ -381,13 +387,13 @@ main#view { flex: 1; }
 .status-tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .status-dim { background: var(--lv-grey-soft); color: #888; }
 .order-meta { display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 12px; color: var(--lv-dim); flex-wrap: wrap; }
-.order-meta svg { width: 14px; height: 14px; color: var(--lv-pink); }
+.order-meta svg { width: 16px; height: 16px; color: var(--lv-pink); }
 .item-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
 .item-chip { display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 10px; border-radius: 999px; background: var(--lv-surface); font-size: 12px; font-weight: 500; }
 .item-chip .q { color: var(--lv-dim); }
 .order-foot { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--lv-line); display: flex; align-items: center; justify-content: space-between; }
 .order-foot .l { font-size: 12px; font-weight: 600; color: var(--lv-dim); display: flex; align-items: center; gap: 6px; }
-.order-foot .l svg { width: 14px; height: 14px; }
+.order-foot .l svg { width: 16px; height: 16px; }
 .order-foot .v { font-weight: 800; }
 
 /* ---------- Нижняя навигация ---------- */
@@ -399,7 +405,7 @@ main#view { flex: 1; }
 .nav-btn .top-ind { position: absolute; top: 0; width: 32px; height: 2px; border-radius: 999px; background: var(--lv-pink); display: none; }
 .nav-btn.active .top-ind { display: block; }
 .nav-ico { position: relative; display: flex; }
-.nav-ico svg { width: 22px; height: 22px; }
+.nav-ico svg { width: 24px; height: 24px; }
 .nav-count { position: absolute; top: -6px; right: -8px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px; color: var(--lv-on-brand); font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
 
 /* ---------- Шит выбора района ---------- */
@@ -450,7 +456,7 @@ main#view { flex: 1; }
 
 /* ---------- Кнопки-призраки, служебные ---------- */
 .ghost-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 40px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--lv-line); background: var(--lv-card); font-size: 13px; font-weight: 700; color: var(--lv-ink); transition: all .2s; flex-shrink: 0; }
-.ghost-btn svg { width: 15px; height: 15px; }
+.ghost-btn svg { width: 16px; height: 15px; }
 .ghost-btn.sm { height: 32px; padding: 0 12px; font-size: 12px; }
 .btn-row { display: flex; gap: 10px; padding: 16px 16px 0; flex-wrap: wrap; }
 .cta-btn.plain { background: var(--lv-surface); color: var(--lv-ink); }
@@ -473,7 +479,7 @@ main#view { flex: 1; }
 .chev-btn { flex-shrink: 0; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 999px; color: var(--lv-dim); }
 .chev-btn svg, .row-item .chev { width: 16px; height: 16px; color: var(--lv-dim); flex-shrink: 0; }
 .trash-btn { flex-shrink: 0; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 10px; color: #c25555; background: #fdf1f1; }
-.trash-btn svg { width: 15px; height: 15px; }
+.trash-btn svg { width: 16px; height: 15px; }
 
 /* ---------- Статусы точек ---------- */
 .st-chip { display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 9px; border-radius: 999px; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
@@ -516,7 +522,7 @@ main#view { flex: 1; }
 .install-step .n { flex-shrink: 0; width: 26px; height: 26px; border-radius: 999px; display: flex; align-items: center; justify-content: center; background: var(--lv-soft-pink); color: var(--lv-pink-dark); font-size: 13px; font-weight: 800; }
 .install-step .t { font-size: 13.5px; line-height: 1.5; color: var(--lv-ink); font-weight: 500; padding-top: 3px; }
 .install-step .t b { font-weight: 800; }
-.install-ico { display: inline-block; vertical-align: -3px; margin: 0 2px; width: 17px; height: 17px; color: var(--lv-pink); }
+.install-ico { display: inline-block; vertical-align: -3px; margin: 0 2px; width: 16px; height: 16px; color: var(--lv-pink); }
 .install-note { margin-top: 10px; padding: 10px 12px; border-radius: 12px; background: var(--lv-grey-soft); color: var(--lv-dim); font-size: 12px; line-height: 1.5; }
 
 /* ---------- KPI ---------- */
@@ -528,7 +534,7 @@ main#view { flex: 1; }
 .kpi.accent { background-image: linear-gradient(150deg, var(--lv-kpi-soft), var(--lv-card)); border-color: rgba(246, 74, 138, .25); }
 .kpi.accent .v { color: var(--lv-pink-dark); }
 .delta { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 700; }
-.delta svg { width: 13px; height: 13px; }
+.delta svg { width: 12px; height: 12px; }
 .delta-up { color: var(--lv-tiffany-text); }
 .delta-down { color: var(--lv-pink-dark); }
 .spark { width: 76px; height: 24px; }
@@ -610,13 +616,13 @@ main#view { flex: 1; }
 .chat-input-bar input { flex: 1; min-width: 0; height: 44px; border: 1.5px solid var(--lv-line); border-radius: 999px; padding: 0 16px; font: inherit; font-size: 14px; outline: none; background: var(--lv-surface); }
 .chat-input-bar input:focus { border-color: var(--lv-pink); background: var(--lv-card); }
 .send-btn { flex-shrink: 0; width: 44px; height: 44px; border-radius: 999px; display: flex; align-items: center; justify-content: center; color: var(--lv-on-brand); }
-.send-btn svg { width: 18px; height: 18px; }
+.send-btn svg { width: 20px; height: 20px; }
 
 /* ---------- Избранное на карточке товара ---------- */
 .pd-cover { position: relative; }
 .fav-btn { position: absolute; top: 10px; right: 10px; width: 36px; height: 36px; border-radius: 999px; background: rgba(255, 255, 255, .88); display: flex; align-items: center; justify-content: center; color: var(--lv-pink); box-shadow: 0 2px 8px rgba(26, 26, 26, .1); transition: transform .15s; }
 .fav-btn:active { transform: scale(.9); }
-.fav-btn svg { width: 17px; height: 17px; }
+.fav-btn svg { width: 16px; height: 16px; }
 
 /* ============================================================
    Адаптив: планшет и десктоп (база — мобильный макет выше)
@@ -746,7 +752,7 @@ main#view { flex: 1; }
 .qr-link-row code { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 9px 11px; border-radius: 12px; background: var(--lv-surface); color: var(--lv-dim); font-size: 11px; }
 .trust-cues { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 16px 0; }
 .trust-cues span { display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 8px 10px; border-radius: 12px; background: var(--lv-surface); color: var(--lv-ink); font-size: 11.5px; font-weight: 700; }
-.trust-cues svg { width: 14px; height: 14px; color: var(--lv-tiffany); flex-shrink: 0; }
+.trust-cues svg { width: 16px; height: 16px; color: var(--lv-tiffany); flex-shrink: 0; }
 .stepper { margin: 14px 16px 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
 .step { position: relative; min-width: 0; padding: 9px 6px; border-radius: 14px; background: var(--lv-surface); border: 1px solid var(--lv-line); text-align: center; color: var(--lv-dim); }
 .step span { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 999px; background: var(--lv-card); border: 1px solid var(--lv-line); font-size: 11px; font-weight: 900; }
@@ -800,9 +806,9 @@ main#view { flex: 1; }
 .quick-action-card { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 14px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: 0 1px 3px rgba(26, 26, 26, .06); text-align: left; cursor: pointer; transition: transform .15s, box-shadow .15s, border-color .2s; }
 .quick-action-card:active { transform: scale(.97); box-shadow: 0 1px 6px rgba(26, 26, 26, .1); border-color: var(--lv-pink); }
 .qa-icon { width: 34px; height: 34px; border-radius: 10px; background: var(--lv-surface); display: flex; align-items: center; justify-content: center; color: var(--lv-pink); }
-.qa-icon svg { width: 17px; height: 17px; }
+.qa-icon svg { width: 16px; height: 16px; }
 .qa-title { font-size: 13px; font-weight: 800; color: var(--lv-ink); display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
-.qa-badge { min-width: 17px; height: 17px; padding: 0 5px; border-radius: 999px; background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: #fff; font-size: 10px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
+.qa-badge { min-width: 16px; height: 16px; padding: 0 5px; border-radius: 999px; background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: #fff; font-size: 10px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
 .qa-desc { font-size: 11.5px; color: var(--lv-dim); line-height: 1.35; }
 
 /* ---------- Training tab: progress summary ---------- */
@@ -848,7 +854,7 @@ main#view { flex: 1; }
 .pay-head { display: flex; align-items: center; gap: 14px; margin: 16px 16px 0; }
 .pay-head .prof-name { font-size: 17px; }
 .pay-badge { margin-left: auto; flex-shrink: 0; display: inline-flex; align-items: center; gap: 5px; height: 28px; padding: 0 12px; border-radius: 999px; background: var(--lv-soft-gold); color: var(--lv-gold-text); font-size: 11px; font-weight: 800; letter-spacing: .04em; white-space: nowrap; }
-.pay-badge svg { width: 13px; height: 13px; }
+.pay-badge svg { width: 12px; height: 12px; }
 
 /* ---------- 2. Карта LOVII PAY ---------- */
 .pay-stage { margin: 14px 16px 0; }
@@ -975,7 +981,7 @@ main#view { flex: 1; }
 .pay-chip::before { content: ''; position: absolute; inset: 6px 8px; border: 1px solid rgba(26, 26, 26, .35); border-radius: 4px; }
 /* статус-марка на карте (сердце PASS / корона VIP / домик BUSINESS; PAY — без марки) */
 .pay-mark { position: relative; margin-left: auto; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 999px; }
-.pay-mark svg { width: 17px; height: 17px; }
+.pay-mark svg { width: 16px; height: 16px; }
 .pay-num { position: relative; margin-top: auto; margin-bottom: 14px; font-size: clamp(17px, 5.6vw, 21px); font-weight: 700; letter-spacing: .12em; font-variant-numeric: tabular-nums; color: #ffffff; text-shadow: 0 1px 2px rgba(0, 0, 0, .35); white-space: nowrap; }
 /* номер масштабируется от ШИРИНЫ КАРТЫ, а не вьюпорта: в узкой колонке
    ≥640px (карта ~250–330px) vw-кламп обрезал номер — cqw чинит (fallback выше) */
@@ -1004,7 +1010,7 @@ main#view { flex: 1; }
 /* подсказки под картой */
 .pay-hints { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; }
 .pay-hint { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: var(--lv-dim); }
-.pay-hint svg { width: 13px; height: 13px; }
+.pay-hint svg { width: 12px; height: 12px; }
 .pay-hint.as-btn { color: var(--lv-pink); }
 .pay-hint.as-btn:active { opacity: .7; }
 
@@ -1020,7 +1026,7 @@ main#view { flex: 1; }
 .acct-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
 .acct-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 10px 14px; border-radius: 999px; font-size: 12.5px; font-weight: 700; transition: transform .15s; }
 .acct-btn:active { transform: scale(.97); }
-.acct-btn svg { width: 15px; height: 15px; }
+.acct-btn svg { width: 16px; height: 15px; }
 .acct-btn.brand { background-image: var(--lv-gradient-brand); color: var(--lv-on-brand); }
 .acct-btn.ghost { border: 1px solid var(--lv-line); color: var(--lv-ink); background: var(--lv-card); }
 
@@ -1035,7 +1041,7 @@ main#view { flex: 1; }
 .tx-row + .tx-row { border-top: 1px solid var(--lv-line-2); }
 .tx-row:has(+ .tx-day) { border-top: 0; }
 .tx-ico { flex-shrink: 0; width: 36px; height: 36px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
-.tx-ico svg { width: 17px; height: 17px; }
+.tx-ico svg { width: 16px; height: 16px; }
 .tx-ico.in { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .tx-ico.buy { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
 .tx-ico.out { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
@@ -1049,7 +1055,7 @@ main#view { flex: 1; }
 .tier-card { margin: 10px 16px 0; padding: 16px; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 16px; box-shadow: 0 1px 3px rgba(26, 26, 26, .06); }
 .tier-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .tier-name { display: inline-flex; align-items: center; gap: 6px; font-size: 14.5px; font-weight: 800; color: var(--lv-ink); }
-.tier-name svg { width: 15px; height: 15px; color: var(--lv-gold); }
+.tier-name svg { width: 16px; height: 15px; color: var(--lv-gold); }
 .tier-cond { padding: 3px 10px; border-radius: 999px; background: var(--lv-soft-gold); color: var(--lv-gold-text); font-size: 11px; font-weight: 800; }
 .tier-bar { height: 6px; margin-top: 12px; border-radius: 999px; background: var(--lv-surface); overflow: hidden; }
 .tier-bar span { display: block; height: 100%; border-radius: 999px; background-image: var(--lv-gradient-gold); transition: width .4s ease; }
@@ -1063,7 +1069,7 @@ main#view { flex: 1; }
 .priv-scroll { padding: 4px 16px 6px; }
 .priv-card { flex-shrink: 0; width: 168px; padding: 14px; border-radius: 16px; border: 1px solid var(--lv-line); background: var(--lv-card); box-shadow: 0 1px 3px rgba(26, 26, 26, .06); display: flex; flex-direction: column; gap: 6px; }
 .priv-card .pc-ico { width: 34px; height: 34px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
-.priv-card .pc-ico svg { width: 17px; height: 17px; }
+.priv-card .pc-ico svg { width: 16px; height: 16px; }
 .priv-card.t-gold .pc-ico { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
 .priv-card.t-pink .pc-ico { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
 .priv-card.t-tiffany .pc-ico { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
@@ -1073,7 +1079,7 @@ main#view { flex: 1; }
 /* ---------- 7. Избранные МСП ---------- */
 .msp-fav { flex-shrink: 0; width: 40px; height: 40px; border-radius: 999px; display: flex; align-items: center; justify-content: center; background: var(--lv-soft-pink); color: var(--lv-pink); transition: transform .15s; }
 .msp-fav:active { transform: scale(.9); }
-.msp-fav svg { width: 17px; height: 17px; }
+.msp-fav svg { width: 16px; height: 16px; }
 /* Полировка: светлая окантовка карты (сепарация на тёмном фоне) + ритм секций */
 .pay-face { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .09); }
 .pay-screen .section-head { margin-top: 22px; }
@@ -1189,10 +1195,10 @@ main#view { flex: 1; }
 .pay-cols .set-sub { margin: 14px 0 6px; }
 .switch-row { width: 100%; border: 0; background: none; font-family: inherit; text-align: left; cursor: pointer; }
 .switch-row:disabled { cursor: default; opacity: .55; }
-.switch-row .chev { flex-shrink: 0; width: 18px; height: 18px; color: var(--lv-dim); }
-.switch-row .chev svg { width: 18px; height: 18px; }
+.switch-row .chev { flex-shrink: 0; width: 20px; height: 20px; color: var(--lv-dim); }
+.switch-row .chev svg { width: 20px; height: 20px; }
 .sr-ico { flex-shrink: 0; width: 36px; height: 36px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
-.sr-ico svg { width: 17px; height: 17px; }
+.sr-ico svg { width: 16px; height: 16px; }
 .sr-ico.t-pink { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
 .sr-ico.t-tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .sr-ico.t-gold { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
@@ -1233,7 +1239,7 @@ main#view { flex: 1; }
 .pin-key { height: 56px; border: 0; border-radius: 999px; background: var(--lv-card); box-shadow: inset 0 0 0 1px var(--lv-line); font-family: inherit; font-size: 21px; font-weight: 700; color: var(--lv-ink); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform .12s, background .15s; }
 .pin-key:active { transform: scale(.93); background: var(--lv-surface); }
 .pin-key.aux { background: none; box-shadow: none; color: var(--lv-dim); }
-.pin-key.aux svg { width: 22px; height: 22px; }
+.pin-key.aux svg { width: 24px; height: 24px; }
 .pin-key.aux[hidden] { display: none; }
 .pin-cancel { margin-top: 6px; border: 0; background: none; font-family: inherit; font-size: 13px; font-weight: 700; color: var(--lv-pink); cursor: pointer; padding: 10px 16px; }
 /* подтверждение выхода (logout) */
@@ -1253,7 +1259,7 @@ main#view { flex: 1; }
   .lock-title { font-size: 16px; }
   .lock-sub { display: none; }
   .pin-dots { gap: 10px; margin: 0; }
-  .pin-dot { width: 10px; height: 10px; }
+  .pin-dot { width: 12px; height: 12px; }
   .pin-pad { grid-template-columns: repeat(3, 60px); gap: 8px; margin-top: 0; }
   .pin-key { height: 46px; font-size: 18px; }
   .pin-key.aux svg { width: 20px; height: 20px; }
@@ -1445,7 +1451,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   color: var(--content-normal-secondary);
   cursor: pointer;
 }
-.profile__member-edit svg { width: 18px; height: 18px; }
+.profile__member-edit svg { width: 20px; height: 20px; }
 .profile__member-edit:active { background: var(--background-other-soft-press); }
 
 /* ---------- Карты и счета ---------- */
@@ -1552,7 +1558,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   align-items: center;
   justify-content: center;
 }
-.profile__nav-ico svg { width: 17px; height: 17px; }
+.profile__nav-ico svg { width: 16px; height: 16px; }
 .profile__nav-ico.t-pink { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
 .profile__nav-ico.t-tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .profile__nav-ico.t-gold { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
@@ -1793,7 +1799,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   align-items: center;
   justify-content: center;
 }
-.priv__ico svg { width: 17px; height: 17px; }
+.priv__ico svg { width: 16px; height: 16px; }
 .priv__title { margin-top: 4px; font-size: 13.5px; font-weight: 700; color: var(--content-normal-primary); }
 .priv__sub { color: var(--lv-dim); font-size: 11.5px; line-height: 1.4; }
 
@@ -1847,7 +1853,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   color: var(--lv-dim);
   cursor: pointer;
 }
-.fav-heart svg { width: 18px; height: 18px; }
+.fav-heart svg { width: 20px; height: 20px; }
 .fav-heart.active { color: var(--lv-pink); }
 .fav-heart.active svg { fill: currentColor; }
 
@@ -1879,7 +1885,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   align-items: center;
   justify-content: center;
 }
-.cabinets__ico svg { width: 17px; height: 17px; }
+.cabinets__ico svg { width: 16px; height: 16px; }
 .cabinets__ico.t-pink { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
 .cabinets__ico.t-tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .cabinets__ico.t-gold { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
@@ -1932,7 +1938,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   align-items: center;
   justify-content: center;
 }
-.history__ico svg { width: 17px; height: 17px; }
+.history__ico svg { width: 16px; height: 16px; }
 .history__ico.t-pink { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
 .history__ico.t-tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .history__ico.t-gold { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
@@ -2034,7 +2040,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   white-space: nowrap;
   flex-shrink: 0;
 }
-.app-badge_s { gap: 4px; height: 22px; padding: 0 6px; font-size: 12px; line-height: 1.5; }
+.app-badge_s { gap: 4px; height: 24px; padding: 0 6px; font-size: 12px; line-height: 1.5; }
 .app-badge_tertiary { color: var(--content-normal-primary); background: var(--lv-grey-soft); }
 
 /* ============================================================
@@ -2115,7 +2121,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   transition: background 0.2s ease, width 0.2s ease;
   cursor: pointer;
 }
-.wallet__dot_active { width: 18px; background: var(--lv-gold-text); }
+.wallet__dot_active { width: 20px; background: var(--lv-gold-text); }
 
 /* Хедер участника */
 .wallet__head { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
@@ -2153,7 +2159,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   letter-spacing: 0.04em;
   white-space: nowrap;
 }
-.wallet__badge svg { width: 13px; height: 13px; }
+.wallet__badge svg { width: 12px; height: 12px; }
 
 /* Заголовки секций */
 .wallet__sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
@@ -2187,7 +2193,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   font-weight: 600;
   color: var(--content-normal-secondary);
 }
-.wallet__hint svg { width: 13px; height: 13px; flex-shrink: 0; }
+.wallet__hint svg { width: 12px; height: 12px; flex-shrink: 0; }
 .wallet__hint_btn {
   padding: 4px 10px;
   border: 0;
@@ -2295,7 +2301,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   align-items: center;
   justify-content: center;
 }
-.tx-ico svg { width: 17px; height: 17px; }
+.tx-ico svg { width: 16px; height: 16px; }
 .tx-ico.in { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .tx-ico.out { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
 .tx-mid { min-width: 0; }
@@ -2373,7 +2379,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   color: var(--lv-pink);
   transition: transform 0.3s ease;
 }
-.home-hero__tab-chev svg { width: 14px; height: 14px; }
+.home-hero__tab-chev svg { width: 16px; height: 16px; }
 .home-hero:not(.collapsed) .home-hero__tab-chev { transform: rotate(180deg); }
 .home-hero__body { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.32s ease; }
 .home-hero__body-in { min-height: 0; overflow: hidden; }
@@ -2434,7 +2440,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   font-weight: 600;
   line-height: 1.5;
 }
-.stat-pill .ico { width: 14px; height: 14px; display: inline-flex; }
+.stat-pill .ico { width: 16px; height: 16px; display: inline-flex; }
 .stat-pill .ico svg { width: 100%; height: 100%; }
 .stat-pill.pink { background: var(--lv-soft-pink); color: var(--lv-pink-dark); }
 .stat-pill.tiffany { background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
@@ -2556,7 +2562,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   margin-top: 6px; display: inline-flex; align-items: center; gap: 6px;
   font-size: 11px; font-weight: 700; opacity: 0.9;
 }
-.promo-banner__cta svg { width: 13px; height: 13px; }
+.promo-banner__cta svg { width: 12px; height: 12px; }
 .home-banner__ad {
   position: absolute;
   bottom: 8px;
@@ -2574,7 +2580,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   line-height: 13px;
   font-weight: 400;
 }
-.home-banner__ad > svg { flex-shrink: 0; width: 10px; height: 10px; color: rgba(255, 255, 255, 0.7); }
+.home-banner__ad > svg { flex-shrink: 0; width: 12px; height: 10px; color: rgba(255, 255, 255, 0.7); }
 .home-banner__dots {
   position: absolute;
   bottom: 8px;
@@ -2728,7 +2734,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   justify-content: center;
   cursor: pointer;
 }
-.sf-filter-btn svg { width: 18px; height: 18px; }
+.sf-filter-btn svg { width: 20px; height: 20px; }
 .stores__catalog { margin: 24px 0 0; padding: 0 16px; }
 .stores__catalog > h4 { margin: 0; color: var(--content-normal-primary); font-size: 16px; font-weight: 800; line-height: 1.35; }
 .stores__list {
@@ -2929,7 +2935,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   align-items: center;
   justify-content: center;
 }
-.sf-cat-check svg { width: 14px; height: 14px; }
+.sf-cat-check svg { width: 16px; height: 16px; }
 
 /* Каталог позиции (StoreProducts) */
 .place-catalog { margin: 24px 0 0; padding: 0 16px; }
@@ -3463,7 +3469,7 @@ body.cabinet-mode #view { padding-bottom: 0; }
 .msp-starter__step { display: flex; align-items: center; gap: 10px; color: var(--content-normal-secondary); font-size: 13px; }
 .msp-starter__step b { font-weight: 700; color: var(--content-normal-primary); }
 .msp-starter__step-check {
-  flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+  flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
   border: 1.5px solid var(--lv-line-strong); display: inline-flex; align-items: center; justify-content: center;
   color: var(--lv-on-brand, #fff);
 }
@@ -3475,7 +3481,7 @@ body.cabinet-mode #view { padding-bottom: 0; }
 .msp-orders__list { padding: 12px 16px 16px; display: grid; gap: 10px; }
 .msp-order-row { display: grid; grid-template-columns: 36px 1fr auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--lv-line); }
 .msp-order-row__ico { width: 36px; height: 36px; border-radius: 12px; background: var(--lv-soft-gold); color: var(--lv-gold-text); display: inline-flex; align-items: center; justify-content: center; }
-.msp-order-row__ico svg { width: 17px; height: 17px; }
+.msp-order-row__ico svg { width: 16px; height: 16px; }
 .msp-order-row__mid { min-width: 0; }
 .msp-order-row__name { font-size: 13px; font-weight: 700; color: var(--content-normal-primary); }
 .msp-order-row__meta { margin-top: 2px; font-size: 11.5px; color: var(--lv-dim); }
@@ -3589,7 +3595,7 @@ body.cabinet-mode #view { padding-bottom: 0; }
   width: 40px; height: 40px; border: 0; border-radius: 12px; background: var(--background-other-soft-neutral);
   color: var(--content-normal-secondary); display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
 }
-.address-item__edit svg { width: 17px; height: 17px; }
+.address-item__edit svg { width: 16px; height: 16px; }
 
 /* Форма адреса (AddressForm) */
 .address-form { padding: 0 16px calc(var(--lv-navbar-offset) + 16px); display: grid; gap: 14px; }
@@ -3630,7 +3636,7 @@ body.cabinet-mode-auth .app-header { display: none; }
 .auth-step h3 { margin: 0; color: var(--content-normal-primary); font-size: 20px; font-weight: 800; line-height: 1.25; letter-spacing: -0.01em; }
 .auth-note { margin: 0; color: var(--content-normal-tertiary); font-size: 11.5px; line-height: 1.5; display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
 .auth-note a { color: var(--lv-pink); }
-.auth-note svg { width: 13px; height: 13px; flex-shrink: 0; }
+.auth-note svg { width: 12px; height: 12px; flex-shrink: 0; }
 .auth-phone-line { margin: 0; color: var(--content-normal-secondary); font-size: 13px; line-height: 1.5; }
 .auth-channels { display: grid; gap: 10px; }
 .auth-channel { position: relative; justify-content: flex-start; padding-left: 14px; }
@@ -3639,7 +3645,7 @@ body.cabinet-mode-auth .app-header { display: none; }
   display: inline-flex; align-items: center; justify-content: center;
   font-size: 11px; font-weight: 800; color: var(--content-normal-primary);
 }
-.auth-channel-ico svg { width: 18px; height: 18px; }
+.auth-channel-ico svg { width: 20px; height: 20px; }
 .auth-channel.is-soon { opacity: 0.55; }
 .soon-badge {
   position: absolute; top: -7px; right: 10px; padding: 1px 7px;
@@ -3661,7 +3667,7 @@ body.cabinet-mode-auth .app-header { display: none; }
   color: var(--content-normal-tertiary); font: inherit; font-size: 12px; line-height: 1.5;
   cursor: pointer; text-align: left;
 }
-.cabinet__partner svg { width: 13px; height: 13px; color: var(--lv-dim); }
+.cabinet__partner svg { width: 12px; height: 12px; color: var(--lv-dim); }
 .partner-row {
   width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px;
   padding: 12px 16px; border: 0; border-top: 1px solid var(--lv-line-2);
@@ -3716,12 +3722,12 @@ body.cabinet-mode-auth .app-header { display: none; }
 .msp-od__flow { display: grid; gap: 6px; }
 .msp-od__step { display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--content-normal-tertiary); }
 .msp-od__dot {
-  flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+  flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
   border: 1.5px solid var(--lv-line-strong);
   display: inline-flex; align-items: center; justify-content: center;
   color: var(--lv-on-brand, #fff);
 }
-.msp-od__dot svg { width: 11px; height: 11px; }
+.msp-od__dot svg { width: 12px; height: 12px; }
 .msp-od__step.done { color: var(--content-normal-secondary); }
 .msp-od__step.done .msp-od__dot { background: var(--lv-tiffany); border-color: var(--lv-tiffany); }
 .msp-od__step.cur { color: var(--content-normal-primary); font-weight: 700; }
