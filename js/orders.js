@@ -115,9 +115,13 @@ function oCartProductRow(cart, item) {
     <div class="cart-product">
       <span style="background-color:${item.bg || '#eee'}"><i class="sf-emoji sf-emoji-sm">${item.emoji}</i></span>
       <div class="cart-product__info">
-        <h5>${oEsc(item.name)}</h5>
-        <p>${oFmt(item.price)}&nbsp;₽</p>
-        <div class="cart-product__counter">
+        <div class="cart-product__row">
+          <h5 class="cart-product__name">${oEsc(item.name)}</h5>
+          <span class="cart-product__sum">${oFmt(item.price * item.qty)}&nbsp;₽</span>
+        </div>
+        <div class="cart-product__row">
+          ${item.qty > 1 ? `<p class="cart-product__unit">${oFmt(item.price)}&nbsp;₽ / шт</p>` : '<span></span>'}
+          <div class="cart-product__counter">
           <button type="button" aria-label="Меньше" data-action="o-dec" data-store="${oEsc(cart.slug)}" data-slug="${oEsc(item.slug)}">${icon('minus')}</button>
           <span>${item.qty}</span>
           <button type="button" aria-label="Больше" data-action="sf-add" data-store="${oEsc(cart.slug)}" data-slug="${oEsc(item.slug)}">${icon('plus')}</button>
@@ -197,6 +201,19 @@ function renderCheckoutMirror(slug) {
 
   return `
     <main class="create-order container">
+
+      <section class="create-order-recipient">
+        <h5>Комментарий к заказу</h5>
+        <div class="sf-search"><input type="text" placeholder="Комментарий заведению" data-action="o-comment"></div>
+      </section>
+
+      <section class="create-order-products">
+        <h5>Товары</h5>
+        <div class="card cart-info__products">
+          ${cart.items.map((it) => oCartProductRow(cart, it)).join('')}
+        </div>
+      </section>
+
       <section class="create-order-delivery">
         <h5>Способ получения</h5>
         <div class="seg" role="radiogroup" aria-label="Способ получения">
@@ -213,18 +230,6 @@ function renderCheckoutMirror(slug) {
             <span style="background-color:${cart.bg}"><i class="sf-emoji sf-emoji-sm">${cart.emoji}</i></span>
             <p>${oEsc(cart.name)}</p>
           </div>`}
-      </section>
-
-      <section class="create-order-recipient">
-        <h5>Комментарий к заказу</h5>
-        <div class="sf-search"><input type="text" placeholder="Комментарий заведению" data-action="o-comment"></div>
-      </section>
-
-      <section class="create-order-products">
-        <h5>Товары</h5>
-        <div class="card cart-info__products">
-          ${cart.items.map((it) => oCartProductRow(cart, it)).join('')}
-        </div>
       </section>
 
       <section class="card cart-summary">
