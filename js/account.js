@@ -47,7 +47,7 @@ function accExtra(a) {
 function renderAddressesMirror() {
   const list = accLoadAddresses();
   const rows = list.map((a, i) => `
-    <div class="address-item${a.current ? ' active' : ''}">
+    <div class="card address-item${a.current ? ' active' : ''}">
       <div class="address-item__info" data-action="acc-select" data-id="${a.id}" role="button" tabindex="0">
         ${a.label ? `<h6>«${mEsc2(a.label)}»</h6>` : ''}
         <p>${mEsc2(accAddressLine(a))}</p>

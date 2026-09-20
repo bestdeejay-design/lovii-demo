@@ -289,7 +289,7 @@ function mPayCard(account, slideCls = 'profile__slide') {
 
 function mCollapse({ title, subtitle = '', open = false, testid = '', noChev = false, inner }) {
   return `
-    <section class="collapse${open ? ' collapse_open' : ''}${noChev ? ' collapse_static' : ''}"${testid ? ` data-testid="${testid}"` : ''}>
+    <section class="card collapse${open ? ' collapse_open' : ''}${noChev ? ' collapse_static' : ''}"${testid ? ` data-testid="${testid}"` : ''}>
       <button type="button" class="collapse__head" aria-expanded="${open}" data-action="mir-collapse"${noChev ? ' tabindex="-1"' : ''}>
         <span class="collapse__text">
           <span class="collapse__title">${title}</span>
@@ -346,7 +346,7 @@ function mHistoryList(transactions, limit = 0) {
 
 function mNavRow({ icon: ico, tile, label, sub, href, badge, switchOn, switchKey }) {
   const mid = sub
-    ? `<span class="profile__nav-stack"><span>${label}</span><span class="profile__nav-subtitle">${mEsc(sub)}</span></span>`
+    ? `<span class="card profile__nav-stack"><span>${label}</span><span class="card profile__nav-subtitle">${mEsc(sub)}</span></span>`
     : label;
   const tail = switchOn !== undefined
     ? `<button type="button" class="app-switch${switchOn ? ' on' : ''}" data-action="mir-switch"${switchKey ? ` data-key="${switchKey}"` : ''} aria-label="${mEsc(label)}"><span class="app-switch__knob"></span></button>`
@@ -354,7 +354,7 @@ function mNavRow({ icon: ico, tile, label, sub, href, badge, switchOn, switchKey
       ? `<span class="app-badge app-badge_tertiary app-badge_s">${badge}</span>`
       : icon('chev-right', 'icon');
   const inner = `
-    <span class="profile__nav-ico ${tile}">${icon(ico)}</span>
+    <span class="card profile__nav-ico ${tile}">${icon(ico)}</span>
     ${mid}
     ${tail}`;
   if (href) return `<a href="${href}">${inner}</a>`;
@@ -499,13 +499,13 @@ function renderProfileMirror() {
             <a href="#/stores" class="ops-link" data-testid="profile-favorites-stores"><span>Открыть витрину района</span>${icon('chev-right')}</a>` })}
           ${mCollapse({ title: 'Кабинеты', subtitle: `${S.cabinets.length} доступно`, open: true, testid: 'profile-collapse-cabinets', inner: cabinets })}
 
-          <div class="profile__nav">
+          <div class="card profile__nav">
             <section aria-label="Адреса">
               ${mNavRow({ icon: 'pin', tile: 't-tiffany', label: 'Мои адреса', href: '#/addresses' })}
             </section>
           </div>
 
-          <div class="profile__nav">
+          <div class="card profile__nav">
             <section aria-label="Покупки">
               ${mNavRow({ icon: 'package', tile: 't-pink', label: 'История заказов', href: '#/orders' })}
               ${mNavRow({ icon: 'message', tile: 't-gold', label: 'Отзывы', badge: 'Скоро' })}

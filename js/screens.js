@@ -128,7 +128,7 @@ function promoCardHtml(p) {
 
 function compactRowHtml(p) {
   return `
-  <button class="compact-row" data-go="product:${p.slug}">
+  <button class="card compact-row" data-go="product:${p.slug}">
     <span class="em-tile ${tileBg(p.storeColor || 'ink')}">${p.emoji}</span>
     <span class="mid">
       <span class="nm">${esc(p.name)}</span>
@@ -450,7 +450,7 @@ function searchListHtml() {
         ${stores
           .map(
             (s) => `
-        <button class="compact-row" data-go="store:${s.slug}">
+        <button class="card compact-row" data-go="store:${s.slug}">
           <span class="em-tile ${tileBg(s.color)}">${s.emoji}</span>
           <span class="mid">
             <span class="nm">${esc(s.name)}</span>

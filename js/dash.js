@@ -129,7 +129,7 @@ function deltaHtml(pct, { invert = false } = {}) {
 
 function kpiCard(label, value, { delta, invert, spark, tone = 'pink', accent = false } = {}) {
   return `
-  <div class="kpi ${accent ? 'accent' : ''}">
+  <div class="card kpi ${accent ? 'accent' : ''}">
     <div class="l">${esc(label)}</div>
     <div class="v">${value}</div>
     <div class="d">${delta != null ? deltaHtml(delta, { invert }) : ''}${spark || ''}</div>
@@ -389,7 +389,7 @@ function renderStoreDash(tab) {
 
   return `
   ${head}${tabs}${statusBlock}${periodSegHtml()}
-  <div class="kpi-grid">
+  <div class="card kpi-grid">
     ${kpiCard('Выручка · ' + (PERIODS.find((x) => x[0] === period) || [])[1], moneyFmt(st.revenue), { delta: st.delta, accent: true })}
     ${kpiCard('Заказы', String(st.orders), { spark: sparkSvg(st.series.slice(-7), 'tiffany') })}
     ${kpiCard('Средний чек', priceFmt(st.avg), { delta: seededSeries('avg-dlt', 2, -6, 12)[1], tone: 'gold' })}
@@ -630,7 +630,7 @@ function renderRepDash(tab) {
       .sort((a, b) => b.value - a.value);
     return `
     ${head}${tabs}
-    <div class="kpi-grid">
+    <div class="card kpi-grid">
       ${kpiCard('Доход · месяц', moneyFmt(totals.roleIncome), { delta: 12, accent: true })}
       ${kpiCard('Средний доход/точка', moneyFmt(avgIncome), { tone: 'tiffany', spark: sparkSvg(seededSeries('rep-avg-inc', 7, 40000, 80000), 'tiffany') })}
       ${kpiCard('Активные точки', `${totals.activePts.length}`, { tone: 'tiffany', spark: sparkSvg(seededSeries('rep-kpi', 7, 2, 4), 'tiffany') })}
@@ -668,7 +668,7 @@ function renderRepDash(tab) {
   return `
   ${head}${tabs}
   ${rankCardHtml(rank, 'tiffany')}
-  <div class="kpi-grid">
+  <div class="card kpi-grid">
     ${kpiCard('Доход · месяц', moneyFmt(totals.roleIncome), { delta: 12, accent: true })}
     ${kpiCard('Активные точки', `${totals.activePts.length} / ${totals.pts.length}`, { spark: sparkSvg(seededSeries('rep-kpi', 7, 3, 5), 'tiffany') })}
     ${kpiCard('Конверсия заказов', totals.conv.toFixed(1) + '%', { delta: 0.8, tone: 'gold' })}
@@ -743,15 +743,15 @@ function ambTotals() {
 
 function renderAmbTree(reps, totalPoints, totalRev) {
   return `
-  <div class="tree">
-    <div class="tree-row root">
+  <div class="card tree">
+    <div class="card tree-row root">
       <span class="t-emoji ${tileBg('gold')}">🚀</span>
       <div class="ri-mid"><div class="nm">Ты · амбасадор</div><div class="sb">${reps.length} представителя · ${totalPoints} точки</div></div>
       <div class="ri-right"><div class="v">${moneyFmt(totalRev)}</div><span class="sb">GMV/нед.</span></div>
     </div>
-    <div class="tree-kids">
+    <div class="card tree-kids">
       ${reps.map((r) => `
-      <div class="tree-row">
+      <div class="card tree-row">
         <span class="t-emoji ${tileBg('tiffany')}">🤝</span>
         <div class="ri-mid">
           <div class="nm">${esc(r.name)}</div>
@@ -759,9 +759,9 @@ function renderAmbTree(reps, totalPoints, totalRev) {
         </div>
         <div class="ri-right"><div class="v">${moneyFmt(r.revenueWeek)}</div>${deltaHtml(r.growth)}</div>
       </div>
-      <div class="tree-kids">
+      <div class="card tree-kids">
         ${r.pointsNames.map((s) => `
-        <div class="tree-row leaf">
+        <div class="card tree-row leaf">
           <span class="t-emoji ${tileBg('sand')}">${s.emoji}</span>
           <div class="ri-mid"><div class="nm">${esc(s.name)}</div><div class="sb">${esc(catLabel(s.category))}</div></div>
           <button class="chev-btn" data-go="store:${s.slug}">${icon('chev-right')}</button>
@@ -806,7 +806,7 @@ function renderAmbDash(tab) {
     const incomeByRep = totals.reps.map((r) => ({ label: r.name, value: r.roleIncome }));
     return `
     ${head}${tabs}
-    <div class="kpi-grid">
+    <div class="card kpi-grid">
       ${kpiCard('Доход амбасадора · месяц', moneyFmt(totals.roleIncome), { delta: totals.avgGrowth, accent: true })}
       ${kpiCard('Доход LOVII сети', moneyFmt(totals.platformIncome), { tone: 'gold' })}
       ${kpiCard('Средний доход/предст.', moneyFmt(totals.roleIncome / Math.max(1, totals.reps.length)), { tone: 'tiffany' })}
@@ -896,7 +896,7 @@ function renderAmbDash(tab) {
   const needsHelp = Math.min(totals.reps.length, 2);
   return `
   ${head}${tabs}
-  <div class="kpi-grid">
+  <div class="card kpi-grid">
     ${kpiCard('Доход · месяц', moneyFmt(totals.roleIncome), { delta: totals.avgGrowth, accent: true })}
     ${kpiCard('Представители', String(totals.reps.length), { spark: sparkSvg(seededSeries('amb-reps', 6, 2, 4), 'tiffany') })}
     ${kpiCard('Точки в структуре', String(totals.totalPoints), { tone: 'gold' })}
@@ -1017,26 +1017,26 @@ function renderOwnerDash(tab) {
     const totalPoints = LOVII_DASH.ambassadors.reduce((s, a) => s + a.reps.reduce((x, r) => x + r.points, 0), 0);
     return `
     ${head}${tabs}
-    <div class="kpi-grid">
+    <div class="card kpi-grid">
       ${kpiCard('Амбасадоры', String(LOVII_DASH.ambassadors.length), { accent: true })}
       ${kpiCard('Представители', String(totalReps), { tone: 'tiffany' })}
       ${kpiCard('Точки в структуре', String(totalPoints), { tone: 'gold' })}
       ${kpiCard('Выручка структуры · неделя', moneyFmt(totalRev), {})}
     </div>
-    <div class="tree" style="margin-top:16px">
+    <div class="card tree" style="margin-top:16px">
       ${LOVII_DASH.ambassadors
         .map(
           (a) => `
-      <div class="tree-row root">
+      <div class="card tree-row root">
         <span class="t-emoji ${tileBg('gold')}">👑</span>
         <div class="ri-mid"><div class="nm">${esc(a.name)}</div><div class="sb">${esc(a.city)} · ${a.reps.length} представителя</div></div>
         <div class="ri-right"><div class="v">${moneyFmt(a.reps.reduce((x, r) => x + r.rev, 0))}</div></div>
       </div>
-      <div class="tree-kids">
+      <div class="card tree-kids">
         ${a.reps
           .map(
             (r) => `
-        <div class="tree-row leaf">
+        <div class="card tree-row leaf">
           <span class="t-emoji ${tileBg('tiffany')}">🤝</span>
           <div class="ri-mid"><div class="nm">${esc(r.name)}</div><div class="sb">${r.points} точки</div></div>
           <div class="ri-right"><div class="v">${moneyFmt(r.rev)}</div></div>
@@ -1059,7 +1059,7 @@ function renderOwnerDash(tab) {
 
   return `
   ${head}${tabs}
-  <div class="kpi-grid">
+  <div class="card kpi-grid">
     ${kpiCard('Выручка платформы · месяц', moneyFmt(totalMonth), { delta: 11, accent: true })}
     ${kpiCard('Точки на витрине', String(inv.points[inv.points.length - 1]), { spark: sparkSvg(inv.points, 'tiffany') })}
     ${kpiCard('Пользователи', numFmt(inv.users[inv.users.length - 1]), { delta: 17, tone: 'tiffany' })}
@@ -1098,7 +1098,7 @@ function renderInvestorDash(tab) {
     const tops = inv.topProducts.map((s) => LOVII_DATA.products.find((p) => p.slug === s)).filter(Boolean);
     return `
     ${head}${tabs}
-    <div class="kpi-grid">
+    <div class="card kpi-grid">
       ${kpiCard('Средний чек', priceFmt(inv.avgCheck), { delta: 4, accent: true })}
       ${kpiCard('Конверсия платформы', inv.conversion + '%', { delta: 0.7, tone: 'tiffany' })}
       ${kpiCard('GMV · месяц', moneyFmt(inv.gmv[inv.gmv.length - 1] * 1000), { delta: 11, tone: 'gold' })}
@@ -1163,7 +1163,7 @@ function renderInvestorDash(tab) {
   const pointsGrowth = Math.round((inv.points[inv.points.length - 1] / inv.points[0] - 1) * 100);
   return `
   ${head}${tabs}
-  <div class="kpi-grid">
+  <div class="card kpi-grid">
     ${kpiCard('Пользователи', numFmt(inv.users[inv.users.length - 1]), { delta: usersGrowth / 12, accent: true, spark: sparkSvg(inv.users, 'pink') })}
     ${kpiCard('Точки на витрине', String(inv.points[inv.points.length - 1]), { delta: pointsGrowth / 12, spark: sparkSvg(inv.points, 'tiffany') })}
     ${kpiCard('GMV · месяц', moneyFmt(inv.gmv[inv.gmv.length - 1] * 1000), { delta: 11, tone: 'gold' })}

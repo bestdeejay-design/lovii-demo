@@ -141,7 +141,7 @@ function revenueModelNote(role) {
 
 function kpiTap(label, value, { tone = 'pink', action = 'dash-tab', val = 'index', delta, spark } = {}) {
   return `
-  <button class="kpi as-btn" data-action="${action}" data-val="${val}">
+  <button class="card kpi as-btn" data-action="${action}" data-val="${val}">
     <div class="l">${esc(label)}</div>
     <div class="v">${value}</div>
     <div class="d">${delta != null ? deltaHtml(delta) : ''}${spark || ''}</div>
@@ -434,7 +434,7 @@ function renderRepDash(tab) {
       .sort((a, b) => b.value - a.value);
     return `
     ${head}${tabs}
-    <div class="kpi-grid">
+    <div class="card kpi-grid">
       ${kpiCard('Доход · месяц', moneyFmt(totals.roleIncome), { delta: 12, accent: true })}
       ${kpiCard('Средний доход/точка', moneyFmt(avgIncome), { spark: sparkSvg(seededSeries('rep-avg-inc', 7, 40000, 80000), 'tiffany') })}
       ${kpiTap('Активные точки', String(totals.activePts.length), { val: 'points', spark: sparkSvg(seededSeries('rep-kpi', 7, 2, 4), 'tiffany') })}
@@ -473,7 +473,7 @@ function renderRepDash(tab) {
   ${head}${tabs}
   ${rankCardHtml(rank, 'tiffany')}
   ${subCardHtml()}
-  <div class="kpi-grid">
+  <div class="card kpi-grid">
     ${kpiCard('Доход · месяц', moneyFmt(totals.roleIncome), { delta: 12, accent: true })}
     ${kpiTap('Активные точки', `${totals.activePts.length} / ${totals.pts.length}`, { val: 'points', spark: sparkSvg(seededSeries('rep-kpi', 7, 3, 5), 'tiffany') })}
     ${kpiTap('GMV сети · месяц', moneyFmt(totals.monthRevenue), { val: 'income', delta: 9 })}
@@ -628,7 +628,7 @@ function renderAmbDash(tab) {
     const incomeByRep = totals.reps.map((r) => ({ label: r.name, value: r.roleIncome }));
     return `
     ${head}${tabs}
-    <div class="kpi-grid">
+    <div class="card kpi-grid">
       ${kpiCard('Доход · месяц', moneyFmt(totals.roleIncome), { delta: totals.avgGrowth, accent: true })}
       ${kpiCard('Доход LOVII сети', moneyFmt(totals.platformIncome), {})}
       ${kpiCard('Средний доход/предст.', moneyFmt(totals.roleIncome / Math.max(1, totals.reps.length)), {})}
@@ -710,7 +710,7 @@ function renderAmbDash(tab) {
   const needsHelp = Math.min(totals.reps.length, 2);
   return `
   ${head}${tabs}
-  <div class="kpi-grid">
+  <div class="card kpi-grid">
     ${kpiCard('Доход · месяц', moneyFmt(totals.roleIncome), { delta: totals.avgGrowth, accent: true })}
     ${kpiTap('Представители', String(totals.reps.length), { val: 'reps', spark: sparkSvg(seededSeries('amb-reps', 6, 2, 4), 'tiffany') })}
     ${kpiTap('Точки в структуре', String(totals.totalPoints), { val: 'reps' })}
@@ -938,7 +938,7 @@ function renderMspOps(tab) {
   return `
   ${head}${tabs}
   ${demoNote}
-  <div class="kpi-grid">
+  <div class="card kpi-grid">
     ${kpiTap('Активные заказы', String(activeOrders.length), { val: 'orders' })}
     ${kpiCard('Выручка · месяц', moneyFmt(stats.revenueMonth), { delta: 8, accent: true })}
     ${kpiTap('Товары на витрине', String(prods.length), { val: 'goods' })}

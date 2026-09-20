@@ -269,7 +269,7 @@ function oPlaceOrder(slug, total, deliveryType) {
 
 function oReceipt(order) {
   return `
-    <section class="order-receipt" data-testid="order-receipt">
+    <section class="card order-receipt" data-testid="order-receipt">
       <header class="order-receipt__head"><h5>Квитанция</h5><p>№ ${oEsc(order.id)}</p></header>
       <dl class="order-receipt__rows">
         <div><dt>Принят</dt><dd>${oDate(order.createdAt)}</dd></div>

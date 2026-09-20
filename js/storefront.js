@@ -401,7 +401,7 @@ function sfCartQty(slug, storeSlug) {
 function sfProductCard(product, storeId) {
   const qty = sfCartQty(product.id, storeId);
   return `
-    <a href="#/product/${product.id}" class="product-preview" data-testid="product-card" data-mir-store="${sfEsc(storeId)}">
+    <a href="#/product/${product.id}" class="card product-preview" data-testid="product-card" data-mir-store="${sfEsc(storeId)}">
       <span style="background-color:${product.bg}"><i class="sf-emoji">${product.e}</i></span>
       <div class="product-preview__info">
         <h4>${sfEsc(product.t)}</h4>
