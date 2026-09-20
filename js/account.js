@@ -65,7 +65,7 @@ function renderAddressesMirror() {
       </div>
       ${list.length
         ? `<div class="addresses__list">${rows}</div>`
-        : `<section class="cart-empty">
+        : `<section class="card cart-empty">
             <div class="cart-empty__content"><span>${icon('pin')}</span><h4>Адресов пока нет</h4><p>Добавьте адрес — доставка по нему появится при оформлении заказа</p></div>
             <div class="cart-empty__action"><a href="#/address:new" class="acct__btn acct__btn_brand" style="min-width:180px">Добавить адрес</a></div>
           </section>`}
@@ -130,7 +130,7 @@ function renderProfileEditMirror() {
       </section>
 
       <p class="acc-kicker">Личные данные</p>
-      <section class="role-card acc-card">
+      <section class="card role-card acc-card">
         <label class="acc-field">Фамилия
           <input type="text" value="${mEsc2(accProfile.last_name)}" data-action="acc-profile" data-key="last_name">
         </label>
@@ -142,7 +142,7 @@ function renderProfileEditMirror() {
         </label>
       </section>
 
-      <section class="role-card acc-card">
+      <section class="card role-card acc-card">
         <div class="role-section-head"><h2>Быстрый вход</h2></div>
         <div style="padding:12px 16px 16px;display:grid;gap:10px">
           <button type="button" class="acct__btn" data-go="settings">${icon('lock')} PIN-код и Face ID — в настройках</button>

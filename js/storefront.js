@@ -448,7 +448,7 @@ function renderStoreMirror(slug) {
     return `
       <main class="place container">
         ${card}
-        <section class="place__teaser" data-testid="store-teaser-banner">
+        <section class="card place__teaser" data-testid="store-teaser-banner">
           <span class="app-badge app-badge_brand app-badge_s">Скоро</span>
           <p>Эта точка скоро откроется на LOVII — товары появятся здесь после полного запуска.</p>
         </section>

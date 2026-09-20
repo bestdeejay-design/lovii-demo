@@ -170,9 +170,9 @@ function renderWalletMirror() {
               <p class="wallet__acct-balance">${fmtKop(balance)}<span class="wallet__acct-unit">${unit}</span></p>
               <p class="wallet__acct-label">${isPoints ? 'Доступно баллов · 1 балл = 1 ₽' : 'Доступно на счёте'}</p>
               <div class="wallet__acct-stats">
-                <div class="wallet__stat"><span class="wallet__stat-v">${fmtKop(month.earned)} ${unit}</span><span class="wallet__stat-l">Начислено за месяц</span></div>
-                <div class="wallet__stat"><span class="wallet__stat-v">${fmtKop(month.spent)} ${unit}</span><span class="wallet__stat-l">Списано за месяц</span></div>
-                <div class="wallet__stat"><span class="wallet__stat-v">${month.count}</span><span class="wallet__stat-l">Операций за месяц</span></div>
+                <div class="card wallet__stat"><span class="card wallet__stat-v">${fmtKop(month.earned)} ${unit}</span><span class="card wallet__stat-l">Начислено за месяц</span></div>
+                <div class="card wallet__stat"><span class="card wallet__stat-v">${fmtKop(month.spent)} ${unit}</span><span class="card wallet__stat-l">Списано за месяц</span></div>
+                <div class="card wallet__stat"><span class="card wallet__stat-v">${month.count}</span><span class="card wallet__stat-l">Операций за месяц</span></div>
               </div>
             </div>
           </section>

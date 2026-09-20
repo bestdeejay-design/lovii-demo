@@ -282,7 +282,7 @@ function mspStarter(point) {
   const doneCount = steps.filter((s) => s.done).length;
   const percent = Math.round((doneCount / steps.length) * 100);
   return `
-    <section class="role-card msp-starter__card">
+    <section class="card role-card msp-starter__card">
       <div class="role-section-head"><h2>Запуск точки</h2><span class="role-section-head__sub">${mEsc2(point.name)}</span></div>
       <div class="msp-starter__progress">
         <span class="msp-starter__progress-label">${doneCount === steps.length ? 'Точка готова к запуску' : `Осталось шагов: ${steps.length - doneCount} из ${steps.length}`}</span>
@@ -310,7 +310,7 @@ function mspOverview() {
   if (!brand) {
     return `
       <div class="msp-overview cabinet-screen">
-        <section class="role-card" style="padding:16px">
+        <section class="card role-card" style="padding:16px">
           <span class="role-empty__icon" style="background:var(--lv-soft-tiffany);color:var(--lv-tiffany-text)">${icon('store')}</span>
           <span class="role-empty__title">Брендов пока нет</span>
           <p class="role-empty__text">Это юрлицо подтверждено, но в нём ещё нет брендов и торговых точек. Здесь появится первый бренд — вместе с ним в кабинете откроются точки, товары и команда этого юрлица.</p>
@@ -326,7 +326,7 @@ function mspOverview() {
 
   return `
     <div class="msp-overview cabinet-screen">
-      <section class="role-card" style="padding:12px 16px 12px">
+      <section class="card role-card" style="padding:12px 16px 12px">
         <div class="msp-order-row is-link" role="button" data-action="msp-payment" style="border:0;padding:0">
           <span class="msp-order-row__ico">${icon('banknote')}</span>
           <div class="msp-order-row__mid">
@@ -337,22 +337,22 @@ function mspOverview() {
         </div>
       </section>
       <section class="msp-overview__kpi">
-        <div class="role-kpi role-kpi_accent">
+        <div class="card role-kpi role-kpi_accent">
           <span class="role-kpi__label">Товары точки</span>
           <span class="role-kpi__value">${onProducts}</span>
           <span class="role-kpi__sub">позиций в каталоге</span>
         </div>
-        <div class="role-kpi">
+        <div class="card role-kpi">
           <span class="role-kpi__label">Заказы в работе</span>
           <span class="role-kpi__value">${active}</span>
           <span class="role-kpi__sub">за последние 30 дней</span>
         </div>
-        <div class="role-kpi">
+        <div class="card role-kpi">
           <span class="role-kpi__label">Расписание</span>
           <span class="role-kpi__value">${mEsc2(mspScheduleLabel(point))}</span>
           <span class="role-kpi__sub">регулярное расписание</span>
         </div>
-        <div class="role-kpi">
+        <div class="card role-kpi">
           <span class="role-kpi__label">Мин. сумма</span>
           <span class="role-kpi__value">${point.minOrder}&nbsp;₽</span>
           <span class="role-kpi__sub">на заказ доставке</span>
@@ -361,7 +361,7 @@ function mspOverview() {
 
       ${mspStarter(point)}
 
-      <section class="role-card">
+      <section class="card role-card">
         <div class="role-section-head"><h2>Последние заказы</h2>
           <button type="button" class="role-link" data-action="msp-tab" data-tab="orders">Все заказы</button>
         </div>
@@ -385,7 +385,7 @@ function mspOverview() {
 function mspProducts() {
   const brand = mspActiveBrand();
   if (!brand) {
-    return `<div class="msp-products cabinet-screen"><section class="role-card" style="padding:16px"><p class="role-empty__text" style="margin:0">У этого юрлица пока нет товаров — добавьте первый в каталог точки.</p></section></div>`;
+    return `<div class="msp-products cabinet-screen"><section class="card role-card" style="padding:16px"><p class="role-empty__text" style="margin:0">У этого юрлица пока нет товаров — добавьте первый в каталог точки.</p></section></div>`;
   }
   const point = mspActivePoint();
   const scope = mspUi.saleScope; // point | brand
@@ -403,7 +403,7 @@ function mspProducts() {
 
   return `
     <div class="msp-products cabinet-screen">
-      <section class="role-card" style="padding:12px 16px">
+      <section class="card role-card" style="padding:12px 16px">
         <div class="seg" role="radiogroup" aria-label="Область применения товаров">
           <button type="button" class="${scope === 'point' ? 'active' : ''}" data-action="msp-sale-scope" data-value="point">Эта точка</button>
           <button type="button" class="${scope === 'brand' ? 'active' : ''}" data-action="msp-sale-scope" data-value="brand">Весь бренд</button>
@@ -414,7 +414,7 @@ function mspProducts() {
       </section>
 
       ${brand.points.map((pt) => `
-        <section class="role-card">
+        <section class="card role-card">
           <div class="role-section-head"><h2>${mEsc2(pt.name)}</h2>
             <span class="role-section-head__sub">${pt.products.filter((x) => x.on).length} из ${pt.products.length}</span></div>
           <div class="msp-products__list">${renderList(pt)}</div>
@@ -448,7 +448,7 @@ function mspOrders() {
 function mspTeam() {
   return `
     <div class="msp-team cabinet-screen">
-      <section class="role-card">
+      <section class="card role-card">
         <div class="role-section-head"><h2>Команда точки</h2><span class="role-section-head__sub">${MSP_MIRROR.team.length}</span></div>
         <div class="msp-team__list">
           ${MSP_MIRROR.team.map((m) => `
@@ -479,7 +479,7 @@ function mspSettings() {
   if (!brand) {
     return `
       <div class="msp-settings cabinet-screen">
-        <section class="role-card" style="padding:16px">
+        <section class="card role-card" style="padding:16px">
           <span class="role-empty__icon" style="background:var(--lv-soft-tiffany);color:var(--lv-tiffany-text)">${icon('store')}</span>
           <span class="role-empty__title">Точек пока нет</span>
           <p class="role-empty__text">У юрлица ${mEsc2(partner.name)} ещё нет брендов и торговых точек — настройки появятся вместе с первой точкой.</p>
@@ -493,7 +493,7 @@ function mspSettings() {
   return `
     <div class="msp-settings cabinet-screen">
       ${multiBrand ? `
-      <section class="role-card" style="padding:12px 16px">
+      <section class="card role-card" style="padding:12px 16px">
         <div class="role-section-head" style="padding:0"><h2>Бренд</h2><span class="role-section-head__sub">${partner.brands.length}</span></div>
         <div class="msp-days" style="margin-top:10px">
           ${partner.brands.map((b, i) => `
@@ -502,7 +502,7 @@ function mspSettings() {
       </section>` : ''}
 
       ${multiPoint ? `
-      <section class="role-card" style="padding:12px 16px">
+      <section class="card role-card" style="padding:12px 16px">
         <div class="role-section-head" style="padding:0"><h2>Торговая точка</h2><span class="role-section-head__sub">${brand.points.length}</span></div>
         <div class="msp-days" style="margin-top:10px">
           ${brand.points.map((pt, i) => `
@@ -510,7 +510,7 @@ function mspSettings() {
         </div>
       </section>` : ''}
 
-      <section class="role-card">
+      <section class="card role-card">
         <div class="role-section-head"><h2>Магазин</h2><span class="role-section-head__sub">видно клиентам</span></div>
         <div style="padding:12px 16px 16px">
           <div class="msp-order-row" style="border:0;padding:0">
@@ -524,7 +524,7 @@ function mspSettings() {
         </div>
       </section>
 
-      <section class="role-card">
+      <section class="card role-card">
         <div class="role-section-head"><h2>Точка</h2><span class="role-section-head__sub">${mEsc2(point.address)}</span></div>
         <div style="padding:12px 16px 16px;display:grid;gap:10px">
           <label class="sf-search"><input type="text" placeholder="Адрес" value="${mEsc2(point.address)}" data-action="msp-addr"></label>
@@ -542,7 +542,7 @@ function mspSettings() {
         </div>
       </section>
 
-      <section class="role-card">
+      <section class="card role-card">
         <div class="role-section-head"><h2>Минимальная сумма заказа</h2></div>
         <div style="padding:12px 16px 16px">
           <div class="sf-search"><input type="number" min="0" placeholder="Рекомендованный минимум — 500 ₽" value="${point.minOrder || ''}" data-action="msp-min"></div>
@@ -550,7 +550,7 @@ function mspSettings() {
         </div>
       </section>
 
-      <section class="role-card" style="padding:12px 16px 16px">
+      <section class="card role-card" style="padding:12px 16px 16px">
         <button type="button" class="acct__btn acct__btn_brand" data-action="msp-save">${icon('check')} Сохранить</button>
       </section>
     </div>`;
@@ -563,7 +563,7 @@ function mspPayment() {
   if (st === 'done') {
     return `
       <div class="msp-payment cabinet-screen">
-        <section class="role-card" style="padding:16px">
+        <section class="card role-card" style="padding:16px">
           <span class="role-empty__icon" style="background:var(--lv-soft-tiffany);color:var(--lv-tiffany-text)">${icon('check-circle')}</span>
           <span class="role-empty__title">Ваша точка на витрине</span>
           <p class="role-empty__text">Платёж подтверждён — добавляйте товары и принимайте заказы.</p>
@@ -574,7 +574,7 @@ function mspPayment() {
   const verifying = st === 'verifying';
   return `
     <div class="msp-payment cabinet-screen">
-      <section class="role-card" style="padding:16px">
+      <section class="card role-card" style="padding:16px">
         <div class="role-section-head" style="padding:0">
           <h2>Счёт верификации</h2>
           <span class="role-tag">${verifying ? 'Идёт комплаенс' : 'Ждёт оплаты'}</span>
@@ -583,7 +583,7 @@ function mspPayment() {
       </section>
 
       ${verifying ? `
-      <section class="role-card" style="padding:16px">
+      <section class="card role-card" style="padding:16px">
         <div class="msp-order-row" style="border:0;padding:0">
           <span class="role-pulse" aria-hidden="true"></span>
           <div class="msp-order-row__mid">
@@ -592,7 +592,7 @@ function mspPayment() {
           </div>
         </div>
       </section>` : `
-      <section class="role-card" style="padding:16px">
+      <section class="card role-card" style="padding:16px">
         <span class="role-field__label">Сумма</span>
         <div class="msp-payment__amount">1 ₽</div>
         <span class="role-field__label">Код назначения платежа</span>
@@ -623,7 +623,7 @@ function renderMspOrderDetail(id) {
 
   return `
     <div class="msp-od cabinet-screen">
-      <section class="role-card" style="padding:16px">
+      <section class="card role-card" style="padding:16px">
         <div class="role-section-head" style="padding:0">
           <h2>Заказ №${mEsc2(order.id)}</h2>
           <span class="role-tag">${mspOrderStatus(order)}</span>

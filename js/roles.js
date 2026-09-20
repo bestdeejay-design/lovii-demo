@@ -93,22 +93,22 @@ const AMB_SEED = {
 function repKpi() {
   return `
     <section class="msp-overview__kpi">
-      <div class="role-kpi role-kpi_accent">
+      <div class="card role-kpi role-kpi_accent">
         <span class="role-kpi__label">Заявки</span>
         <span class="role-kpi__value">${REP_SEED.applications}</span>
         <span class="role-kpi__sub">по вашему промокоду</span>
       </div>
-      <div class="role-kpi">
+      <div class="card role-kpi">
         <span class="role-kpi__label">Активные точки</span>
         <span class="role-kpi__value">${REP_SEED.activePoints}</span>
         <span class="role-kpi__sub">подтверждены платформой</span>
       </div>
-      <div class="role-kpi">
+      <div class="card role-kpi">
         <span class="role-kpi__label">Доход · месяц</span>
         <span class="role-kpi__value">0&nbsp;₽</span>
         <span class="role-kpi__sub">финконтур ещё не подключён</span>
       </div>
-      <div class="role-kpi">
+      <div class="card role-kpi">
         <span class="role-kpi__label">Уровень</span>
         <span class="role-kpi__value">—</span>
         <span class="role-kpi__sub">откроется с первыми точками</span>
@@ -120,7 +120,7 @@ function repOverview() {
   return `
     <div class="rep-overview cabinet-screen">
       ${repKpi()}
-      <a href="#/dash/rep" class="role-next" data-testid="rep-overview-next" onclick="return false">
+      <a href="#/dash/rep" class="card role-next" data-testid="rep-overview-next" onclick="return false">
         <span class="role-next__icon">${icon(REP_SEED.queue.length > 0 ? 'check-circle' : 'sparkles')}</span>
         <span class="role-next__body">
           <span class="role-next__title">${REP_SEED.queue.length > 0 ? `${REP_SEED.queue.length} заявки ждут решения` : 'Очередь пуста — новых заявок нет'}</span>
@@ -128,7 +128,7 @@ function repOverview() {
         </span>
         <span class="role-next__arrow">${icon('chev-right')}</span>
       </a>
-      <section class="role-card">
+      <section class="card role-card">
         <div class="role-section-head"><h2>Очередь на модерации</h2><span class="role-section-head__sub">${REP_SEED.queue.length}</span></div>
         <div class="msp-orders__list">
           ${REP_SEED.queue.map((q) => `
@@ -148,7 +148,7 @@ function repOverview() {
 function repPoints() {
   return `
     <div class="rep-points cabinet-screen">
-      <section class="role-card">
+      <section class="card role-card">
         <div class="role-section-head"><h2>Мои точки</h2><span class="role-section-head__sub">${REP_SEED.points.length}</span></div>
         <div class="msp-orders__list">
           ${REP_SEED.points.map((p) => `
@@ -168,7 +168,7 @@ function repPoints() {
 function repApprovals() {
   return `
     <div class="rep-approvals cabinet-screen">
-      <section class="role-card">
+      <section class="card role-card">
         <div class="role-section-head"><h2>Заявки по промокоду ${REP_SEED.promo}</h2><span class="role-section-head__sub">${REP_SEED.applications}</span></div>
         <div class="msp-orders__list">
           ${REP_SEED.queue.concat(REP_SEED.points.map((p) => ({ name: p.name, status: 'Одобрена' }))).map((q) => `
@@ -189,9 +189,9 @@ function repApprovals() {
 function repIncome() {
   return `
     <div class="rep-income cabinet-screen">
-      <section class="role-card">
+      <section class="card role-card">
         <div class="role-section-head"><h2>Доход · месяц</h2></div>
-        <div class="role-kpi role-kpi_accent" style="margin:12px 16px 16px">
+        <div class="card role-kpi role-kpi_accent" style="margin:12px 16px 16px">
           <span class="role-kpi__label">Начислено</span>
           <span class="role-kpi__value">0&nbsp;₽</span>
           <span class="role-kpi__sub">финконтур ещё не подключён — цифры появятся с первым подтверждённым чеком</span>
@@ -203,7 +203,7 @@ function repIncome() {
 function repProfileTab() {
   return `
     <div class="rep-profile cabinet-screen">
-      <section class="role-card">
+      <section class="card role-card">
         <div class="role-section-head"><h2>Роль</h2></div>
         <div class="sf-info-rows" style="padding:12px 16px 16px">
           <div><span>Промокод</span><b>${REP_SEED.promo}</b></div>
@@ -221,28 +221,28 @@ function ambOverview() {
   return `
     <div class="amb-overview cabinet-screen">
       <section class="msp-overview__kpi">
-        <div class="role-kpi role-kpi_accent">
+        <div class="card role-kpi role-kpi_accent">
           <span class="role-kpi__label">Представители</span>
           <span class="role-kpi__value">${AMB_SEED.reps}</span>
           <span class="role-kpi__sub">в вашей структуре</span>
         </div>
-        <div class="role-kpi">
+        <div class="card role-kpi">
           <span class="role-kpi__label">Заявки сети</span>
           <span class="role-kpi__value">${AMB_SEED.applications}</span>
           <span class="role-kpi__sub">суммарно по сети</span>
         </div>
-        <div class="role-kpi">
+        <div class="card role-kpi">
           <span class="role-kpi__label">Доход · месяц</span>
           <span class="role-kpi__value">0&nbsp;₽</span>
           <span class="role-kpi__sub">финконтур ещё не подключён</span>
         </div>
-        <div class="role-kpi">
+        <div class="card role-kpi">
           <span class="role-kpi__label">Доход</span>
           <span class="role-kpi__value">20%</span>
           <span class="role-kpi__sub">от комиссии сети по BRD</span>
         </div>
       </section>
-      <section class="role-card">
+      <section class="card role-card">
         <div class="role-section-head"><h2>Обучение</h2><button type="button" class="role-link" data-action="roles-tab" data-role="amb" data-tab="training">Открыть</button></div>
         <div class="msp-orders__list">
           ${AMB_SEED.training.map((t) => `
@@ -262,7 +262,7 @@ function ambOverview() {
 function ambReps() {
   return `
     <div class="amb-reps cabinet-screen">
-      <section class="role-card">
+      <section class="card role-card">
         <div class="role-section-head"><h2>Структура</h2><span class="role-section-head__sub">${AMB_SEED.repsList.length}</span></div>
         <div class="msp-orders__list">
           ${AMB_SEED.repsList.map((r) => `
@@ -282,7 +282,7 @@ function ambReps() {
 function ambTraining() {
   return `
     <div class="amb-training cabinet-screen">
-      <section class="role-card">
+      <section class="card role-card">
         <div class="role-section-head"><h2>Программа обучения</h2><span class="role-section-head__sub">${AMB_SEED.training.length}</span></div>
         <div class="msp-orders__list">
           ${AMB_SEED.training.map((t) => `
@@ -303,9 +303,9 @@ function ambTraining() {
 function ambIncome() {
   return `
     <div class="amb-income cabinet-screen">
-      <section class="role-card">
+      <section class="card role-card">
         <div class="role-section-head"><h2>Доход · месяц</h2></div>
-        <div class="role-kpi role-kpi_accent" style="margin:12px 16px 16px">
+        <div class="card role-kpi role-kpi_accent" style="margin:12px 16px 16px">
           <span class="role-kpi__label">Начислено</span>
           <span class="role-kpi__value">0&nbsp;₽</span>
           <span class="role-kpi__sub">финконтур ещё не подключён</span>
@@ -384,32 +384,32 @@ function ownerOverview() {
     <div class="msp-overview cabinet-screen">
       ${rolesPeriodChipRow('owner')}
       <section class="msp-overview__kpi">
-        <div class="role-kpi role-kpi_accent">
+        <div class="card role-kpi role-kpi_accent">
           <span class="role-kpi__label">GMV · период</span>
           <span class="role-kpi__value">${rolesMoney(f.gmv)}</span>
           <span class="role-kpi__sub">оборот всех точек</span>
         </div>
-        <div class="role-kpi">
+        <div class="card role-kpi">
           <span class="role-kpi__label">Комиссия · 10%</span>
           <span class="role-kpi__value">${rolesMoney(f.commission)}</span>
           <span class="role-kpi__sub">платформа</span>
         </div>
-        <div class="role-kpi">
+        <div class="card role-kpi">
           <span class="role-kpi__label">LOVII PASS</span>
           <span class="role-kpi__value">${rolesMoney(f.pass)}</span>
           <span class="role-kpi__sub">списания за подписку</span>
         </div>
-        <div class="role-kpi">
+        <div class="card role-kpi">
           <span class="role-kpi__label">Прибыль · период</span>
           <span class="role-kpi__value">${rolesMoney(f.profit)}</span>
           <span class="role-kpi__sub">после выплат и OPEX</span>
         </div>
       </section>
-      <section class="role-card" style="padding:16px">
+      <section class="card role-card" style="padding:16px">
         <div class="role-section-head" style="padding:0"><h2>GMV по месяцам</h2><span class="role-section-head__sub">тыс ₽ · справка</span></div>
         ${rolesBars(inv.gmv.slice(-8), inv.monthLabels.slice(-8), 'var(--lv-pink)')}
       </section>
-      <section class="role-card">
+      <section class="card role-card">
         <div class="role-section-head"><h2>Юрлица · выручка за период</h2>
           <button type="button" class="role-link" data-action="roles-tab" data-role="owner" data-tab="structure">Структура</button>
         </div>
@@ -437,7 +437,7 @@ function ownerFinance() {
   return `
     <div class="msp-overview cabinet-screen">
       ${rolesPeriodChipRow('owner')}
-      <section class="role-card" style="padding:16px">
+      <section class="card role-card" style="padding:16px">
         <div class="role-section-head" style="padding:0"><h2>Финансы периода</h2><span class="role-section-head__sub">${(ROLES_PERIODS.find((p) => p.id === rolesUi.ownerPeriod) || ROLES_PERIODS[0]).label}</span></div>
         <div style="margin-top:10px">
           ${row('Выручка по точкам (GMV)', rolesMoney(f.gmv))}
@@ -448,7 +448,7 @@ function ownerFinance() {
         </div>
         <div class="msp-od__total"><span>Прибыль за период</span><b>${rolesMoney(f.profit)}</b></div>
       </section>
-      <section class="role-card" style="padding:16px">
+      <section class="card role-card" style="padding:16px">
         <div class="role-section-head" style="padding:0"><h2>Прибыль платформы по месяцам</h2><span class="role-section-head__sub">тыс ₽ · справка</span></div>
         ${rolesBars(series.slice(-8), inv.monthLabels.slice(-8), 'var(--lv-gold)')}
       </section>
@@ -461,7 +461,7 @@ function ownerStructure() {
   }));
   return `
     <div class="msp-overview cabinet-screen">
-      <section class="role-card">
+      <section class="card role-card">
         <div class="role-section-head"><h2>Точки платформы</h2><span class="role-section-head__sub">${rows.length}</span></div>
         <div class="msp-orders__list">
           ${rows.map((r) => `
@@ -487,28 +487,28 @@ function investorGrowth() {
     <div class="msp-overview cabinet-screen">
       ${rolesPeriodChipRow('investor')}
       <section class="msp-overview__kpi">
-        <div class="role-kpi role-kpi_accent">
+        <div class="card role-kpi role-kpi_accent">
           <span class="role-kpi__label">GMV · период</span>
           <span class="role-kpi__value">${rolesMoney(f.gmv)}</span>
           <span class="role-kpi__sub">оборот всех точек</span>
         </div>
-        <div class="role-kpi">
+        <div class="card role-kpi">
           <span class="role-kpi__label">Пользователи</span>
           <span class="role-kpi__value">${inv.users[inv.users.length - 1].toLocaleString('ru-RU')}</span>
           <span class="role-kpi__sub">всего на платформе</span>
         </div>
-        <div class="role-kpi">
+        <div class="card role-kpi">
           <span class="role-kpi__label">Точки</span>
           <span class="role-kpi__value">${inv.points[inv.points.length - 1]}</span>
           <span class="role-kpi__sub">на витрине платформы</span>
         </div>
-        <div class="role-kpi">
+        <div class="card role-kpi">
           <span class="role-kpi__label">Средний чек</span>
           <span class="role-kpi__value">${rolesMoney(inv.avgCheck)}</span>
           <span class="role-kpi__sub">конверсия ${inv.conversion}%</span>
         </div>
       </section>
-      <section class="role-card" style="padding:16px">
+      <section class="card role-card" style="padding:16px">
         <div class="role-section-head" style="padding:0"><h2>Пользователи по месяцам</h2></div>
         ${rolesBars(inv.users.slice(-8), inv.monthLabels.slice(-8), 'var(--lv-pink)')}
       </section>
@@ -520,7 +520,7 @@ function investorSales() {
   return `
     <div class="msp-overview cabinet-screen">
       ${rolesPeriodChipRow('investor')}
-      <section class="role-card">
+      <section class="card role-card">
         <div class="role-section-head"><h2>Топ точки · месяц</h2></div>
         <div class="msp-orders__list">
           ${LOVII_DATA.stores.slice(0, 3).map((s) => `
@@ -543,7 +543,7 @@ function investorMoney() {
   return `
     <div class="msp-overview cabinet-screen">
       ${rolesPeriodChipRow('investor')}
-      <section class="role-card" style="padding:16px">
+      <section class="card role-card" style="padding:16px">
         <div class="role-section-head" style="padding:0"><h2>Доходность · период</h2><span class="role-section-head__sub">${(ROLES_PERIODS.find((p) => p.id === rolesUi.investorPeriod) || ROLES_PERIODS[0]).label}</span></div>
         <div style="margin-top:10px">
           <div class="msp-od__item"><span>Прибыль платформы</span><b>${rolesMoney(f.profit)}</b></div>

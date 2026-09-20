@@ -544,7 +544,7 @@ function renderCart() {
         </div>`
           )
           .join('')}
-        <div class="cart-store-total">
+        <div class="card cart-store-total">
           <span class="l">По этой точке</span>
           <span class="v">${priceFmt(storeTotal)}</span>
         </div>

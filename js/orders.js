@@ -132,7 +132,7 @@ function renderCartMirror() {
   if (!carts.length) {
     return `
       <main class="cart container">
-        <section class="cart-empty">
+        <section class="card cart-empty">
           <div class="cart-empty__content">
             <span>${icon('cart')}</span>
             <h4>Корзина пуста</h4>
@@ -159,7 +159,7 @@ function renderCartMirror() {
             </button>`).join('')}
         </section>` : ''}
 
-      <section class="cart-info">
+      <section class="card cart-info">
         <div class="cart-info__store">
           <span style="background-color:${cart.bg}"><i class="sf-emoji sf-emoji-sm">${cart.emoji}</i></span>
           <p>${oEsc(cart.name)}</p>
@@ -169,7 +169,7 @@ function renderCartMirror() {
         </div>
       </section>
 
-      <section class="cart-summary">
+      <section class="card cart-summary">
         <ul>
           <li>Товары (${count}) <span>${oFmt(cart.subtotal)}&nbsp;₽</span></li>
           <li>Доставка <span>по тарифам заведения</span></li>
@@ -228,7 +228,7 @@ function renderCheckoutMirror(slug) {
         </div>
       </section>
 
-      <section class="cart-summary">
+      <section class="card cart-summary">
         <ul>
           <li>Товары (${cart.items.reduce((s, c) => s + c.qty, 0)}) <span>${oFmt(cart.subtotal)}&nbsp;₽</span></li>
           <li>Доставка <span>${delivery ? 'по тарифам заведения' : 'самовывоз'}</span></li>
@@ -285,7 +285,7 @@ function oReceipt(order) {
 function renderOrderSuccess(order) {
   return `
     <main class="container">
-      <section class="cart-empty" style="padding:28px 16px 20px">
+      <section class="card cart-empty" style="padding:28px 16px 20px">
         <div class="cart-empty__content">
           <span>${icon('bag')}</span>
           <h4>Заказ создан успешно</h4>
@@ -306,7 +306,7 @@ function oOrderCard(order) {
   const thumbs = order.items.slice(0, 4).map((it) =>
     `<span style="background-color:${it.bg || '#eee'}"><i class="sf-emoji sf-emoji-xs">${it.emoji}</i></span>`).join('');
   return `
-    <a href="#/order/${oEsc(order.id)}" class="order-preview" data-testid="order-card">
+    <a href="#/order/${oEsc(order.id)}" class="card order-preview" data-testid="order-card">
       <div class="order-preview__header">
         <span class="order-preview__logo" style="background-color:${order.merchant.bg || '#eee'}"><i class="sf-emoji sf-emoji-sm">${order.merchant.emoji || '🛍️'}</i></span>
         <div class="order-preview__info">
@@ -330,7 +330,7 @@ function renderOrdersMirror() {
   return `
     <main class="orders container">
       ${orders.length ? `<div class="orders__list">${orders.map(oOrderCard).join('')}</div>`
-        : `<section class="cart-empty">
+        : `<section class="card cart-empty">
             <div class="cart-empty__content"><span>${icon('package')}</span><h4>Заказов пока нет</h4><p>Оформите первый заказ — история появится здесь</p></div>
           </section>`}
     </main>`;
@@ -343,7 +343,7 @@ function renderOrderDetailMirror(id) {
   if (!order) return renderOrdersMirror();
   return `
     <main class="orders container">
-      <section class="cart-info">
+      <section class="card cart-info">
         <div class="cart-info__store">
           <span style="background-color:${order.merchant.bg || '#eee'}"><i class="sf-emoji sf-emoji-sm">${order.merchant.emoji || '🛍️'}</i></span>
           <p>${oEsc(order.merchant.name)} ${oBadge(order.status || 'done')}</p>
@@ -360,7 +360,7 @@ function renderOrderDetailMirror(id) {
             </div>`).join('')}
         </div>
       </section>
-      <section class="cart-summary">
+      <section class="card cart-summary">
         <ul><li>Товары (${order.items.reduce((s, c) => s + c.qty, 0)}) <span>${oFmt(order.subtotal ?? order.total)}&nbsp;₽</span></li></ul>
         <p>Итого: <span>${oFmt(order.total)}&nbsp;₽</span></p>
       </section>
