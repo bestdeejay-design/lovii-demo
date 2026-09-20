@@ -526,6 +526,10 @@ main#view{ flex: 1; }
 .nav-btn{ position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 11px; font-weight: 500; color: var(--lv-dim); transition: color .2s; }
 .nav-btn .top-ind{ position: absolute; top: 0; width: 32px; height: 2px; border-radius: var(--lv-r-pill); background: var(--lv-pink); display: none; }
 .nav-btn.active .top-ind{ display: block; }
+/* Активная вкладка — канон приложения (Task 89): подпись pink-dark вместо яркого #f64a8a
+   (11px ярким розовым давал 3.1:1, pink-dark даёт ~4.8:1), индикатор остаётся ярким розовым —
+   это не-текстовая графика с нормой 3:1. */
+.nav-btn.active{ color: var(--lv-pink-dark); }
 @layer primitives{
 
 .nav-ico { position: relative; display: flex; }
