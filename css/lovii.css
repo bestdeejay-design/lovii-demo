@@ -577,6 +577,11 @@ main#view { flex: 1; }
   .settings-page, .stores, .cart, .product, .place { max-width: var(--lv-content-max, 924px); margin-inline: auto; }
   /* нижняя панель действий на карточке товара — та же капсула (fixed, поэтому центрируется через margin) */
   .product__action { max-width: var(--lv-content-max, 924px); margin-inline: auto; }
+  /* линейные экраны второго порядка: заказы, адреса, редактирование профиля, вход */
+  .orders, .addresses, .profile-edit, .auth-screen { max-width: var(--lv-content-max, 924px); margin-inline: auto; }
+  /* шапка «назад» — по ширине контента; на узких экранах (чат, заявка) остаётся узкой */
+  .subheader-in { max-width: var(--lv-content-max, 924px); }
+  #view:has(.lv-narrow) .subheader-in { max-width: var(--lv-container-narrow, 760px); }
 }
 
 @media (min-width: 640px) {
