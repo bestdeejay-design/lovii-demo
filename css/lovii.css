@@ -3716,8 +3716,8 @@ body.cabinet-mode #view{ padding-bottom: 0; }
 .acc-kicker{ margin: 4px 0 0; color: var(--lv-dim); font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
 .acc-card{ padding: 16px; display: grid; gap: 10px; }/* ---------- ЗЕРКАЛО СТЕЙДЖА · АВТОРИЗАЦИЯ (AuthModule) ---------- */ body.cabinet-mode-auth .app-header, .home-promos__list::-webkit-scrollbar{ display: none; }
 .auth-screen{ min-height: 100dvh; padding: 12px 16px 32px; }
-.auth-head{ display: flex; margin: 8px 0 8px; }
-.auth-step{ display: grid; gap: 12px; margin-top: 8vh; }
+.auth-head{ display: flex; margin: 8px 0 8px; max-width: 420px; margin-inline: auto; }
+.auth-step{ display: grid; gap: 12px; margin: 8vh auto 0; max-width: 420px; }
 .auth-step h3{ margin: 0; color: var(--lv-ink); font-size: 20px; font-weight: 800; line-height: 1.25; letter-spacing: -0.01em; }
 .auth-note{ margin: 0; color: var(--lv-dim); font-size: 12px; line-height: 1.5; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
 .auth-note a{ color: var(--lv-pink); }
@@ -3736,12 +3736,7 @@ body.cabinet-mode #view{ padding-bottom: 0; }
   border-radius: var(--lv-r-pill); background: var(--lv-soft-gold); color: var(--lv-gold-text);
   font-size: 9px; font-weight: 800; letter-spacing: 0.04em;
 }
-.auth-code-input{
-  width: 100%; height: 56px; text-align: center; letter-spacing: 0.5em;
-  font: inherit; font-size: 24px; font-weight: 800; color: var(--lv-ink);
-  border: 1px solid var(--lv-line-strong); border-radius: var(--lv-r-md);
-  background: var(--lv-card); box-sizing: border-box;
-}
+.acc-field input.auth-code-input{ width: min(184px, 100%); margin-inline: auto; height: 56px; text-align: center; letter-spacing: 0.45em; text-indent: 0.45em; font: inherit; font-size: 24px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--lv-ink); border: 1px solid var(--lv-line-strong); border-radius: var(--lv-r-md); background: var(--lv-surface); }
 
 /* ---------- МСП: переключатель юрлица и расписание точки ---------- */
 .cabinet__partner{
