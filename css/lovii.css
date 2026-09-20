@@ -51,6 +51,15 @@ input { font-family: inherit; }
 @keyframes lv-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 .lv-float { animation: lv-float 5s ease-in-out infinite; }
 
+/* ============================================================
+   СЛОЙ КОМПОНЕНТОВ (SZ-062) — переиспользуемые блоки.
+   Карточка: канон-рецепт одна на всё. Варианты — модификаторами.
+   ============================================================ */
+.card { background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); overflow: hidden; box-sizing: border-box; }
+.card--flush { padding: 0; }
+.card--tap { transition: box-shadow .2s, transform .2s, border-color .2s; }
+.card--tap:hover { box-shadow: var(--lv-shadow-lift); border-color: var(--lv-pink); transform: translateY(-2px); }
+
 /* ---------- Каркас приложения ---------- */
 .app { max-width: 480px; margin: 0 auto; min-height: 100dvh; background: var(--lv-card); display: flex; flex-direction: column; box-shadow: var(--lv-shadow-app); }
 main#view { flex: 1; }
@@ -2506,14 +2515,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 }
 .home-popular__list > a:last-of-type > .icon,
 .home-popular__list > a:last-of-type > svg { width: 32px; height: 32px; }
-.popular-store { padding: 0; overflow: hidden;
-  border-radius: var(--lv-r-lg);
-  background: var(--lv-card);
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr;
-  gap: 8px;
-  box-sizing: border-box; border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); }
+.popular-store { padding: 0; overflow: hidden; display: grid; grid-template-columns: 1fr; grid-template-rows: auto 1fr; gap: 8px; box-sizing: border-box; }
 .popular-store > span {
   width: 100%; aspect-ratio: 1 / 1; height: auto;
   
@@ -2625,23 +2627,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 @media (width < 540px) {
   .nearby-stores__list { grid-template-columns: 1fr; }
 }
-.nearby-store {
-  display: flex;
-  flex-flow: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding: 10px;
-  border-radius: var(--lv-r-lg);
-  background: var(--lv-card);
-  border: 1px solid var(--lv-line);
-  box-shadow: var(--lv-shadow-soft);
-  width: 100%;
-  overflow: hidden;
-  text-decoration: none;
-  box-sizing: border-box;
-  transition: box-shadow .2s, transform .2s, border-color .2s;
-}
-.nearby-store:hover { box-shadow: var(--lv-shadow-lift); border-color: var(--lv-pink); transform: translateY(-2px); }
+.nearby-store { display: flex; flex-flow: column; justify-content: flex-start; align-items: flex-start; padding: 10px; width: 100%; overflow: hidden; text-decoration: none; box-sizing: border-box; }
 .nearby-store__products {
   width: 100%;
   display: flex;
@@ -2760,8 +2746,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 .stores__noresult { margin: 0; padding: 16px 0; color: var(--lv-dim); font-size: 13px; line-height: 1.55; }
 
 /* Карточка точки каталога (CatalogStore) */
-.catalog-store:hover { box-shadow: var(--lv-shadow-lift); border-color: var(--lv-pink); }
-.catalog-store { border-radius: var(--lv-r-sm); background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-soft); padding: 8px; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px; transition: box-shadow .2s, border-color .2s; }
+.catalog-store { border-radius: var(--lv-r-sm); padding: 8px; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px; transition: box-shadow .2s, border-color .2s; }
 .catalog-store__link {
   display: grid;
   grid-template-columns: 48px minmax(0, 1fr);

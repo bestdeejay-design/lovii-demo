@@ -130,7 +130,7 @@ function sfPopular() {
       <h3>Популярные заведения</h3>
       <div class="home-popular__list">
         ${visible.map((s) => `
-          <a href="#/store/${sfEsc(s.id)}" class="popular-store">
+          <a href="#/store/${sfEsc(s.id)}" class="card card--flush card--tap popular-store">
             <span style="background-color:${s.logoBg}"><i class="sf-emoji">${s.emoji}</i></span>
             <h5>${sfEsc(s.name)}</h5>
           </a>`).join('')}
@@ -174,7 +174,7 @@ function sfNearby() {
       <h3>Возле вас</h3>
       <div class="nearby-stores__list">
         ${stores.map((s) => `
-          <a href="#/store/${sfEsc(s.id)}" class="nearby-store">
+          <a href="#/store/${sfEsc(s.id)}" class="card card--tap nearby-store">
             <div class="nearby-store__products">
               ${s.products.map((p) => `<span style="background-color:${p.bg}"><i class="sf-emoji">${p.e}</i></span>`).join('')}
             </div>
@@ -208,7 +208,7 @@ function renderHomeMirror() {
 
 function sfCatalogRow(s) {
   return `
-    <div class="catalog-store">
+    <div class="card card--tap catalog-store">
       <a href="#/store/${sfEsc(s.id)}" class="catalog-store__link" data-testid="store-card">
         <span class="catalog-store__logo" style="background-color:${s.logoBg}"><i class="sf-emoji">${s.emoji}</i></span>
         <span class="catalog-store__info">
