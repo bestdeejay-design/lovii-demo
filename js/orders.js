@@ -111,21 +111,19 @@ function oCartGroups() {
 }
 
 function oCartProductRow(cart, item) {
+  const many = item.qty > 1;
   return `
     <div class="cart-product">
       <span style="background-color:${item.bg || '#eee'}"><i class="sf-emoji sf-emoji-sm">${item.emoji}</i></span>
       <div class="cart-product__info">
-        <div class="cart-product__row">
-          <h5 class="cart-product__name">${oEsc(item.name)}</h5>
-          <span class="cart-product__sum">${oFmt(item.price * item.qty)}&nbsp;₽</span>
-        </div>
-        <div class="cart-product__row">
-          ${item.qty > 1 ? `<p class="cart-product__unit">${oFmt(item.price)}&nbsp;₽ / шт</p>` : '<span></span>'}
-          <div class="cart-product__counter">
-          <button type="button" aria-label="Меньше" data-action="o-dec" data-store="${oEsc(cart.slug)}" data-slug="${oEsc(item.slug)}">${icon('minus')}</button>
+        <h5 class="cart-product__name">${oEsc(item.name)}</h5>
+        <span class="cart-product__sum">${oFmt(item.price * item.qty)}&nbsp;₽</span>
+        <div class="cart-product__counter">
+          <button type="button" aria-label="${many ? 'Меньше' : 'Удалить'}" data-action="o-dec" data-store="${oEsc(cart.slug)}" data-slug="${oEsc(item.slug)}">${icon(many ? 'minus' : 'trash')}</button>
           <span>${item.qty}</span>
           <button type="button" aria-label="Больше" data-action="sf-add" data-store="${oEsc(cart.slug)}" data-slug="${oEsc(item.slug)}">${icon('plus')}</button>
         </div>
+        ${many ? `<span class="cart-product__unit">${oFmt(item.price)}&nbsp;₽ / шт</span>` : ''}
       </div>
     </div>`;
 }
