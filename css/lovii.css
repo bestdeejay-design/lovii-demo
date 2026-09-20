@@ -2761,15 +2761,8 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 .stores__noresult { margin: 0; padding: 16px 0; color: var(--content-normal-secondary); font-size: 13px; line-height: 1.55; }
 
 /* Карточка точки каталога (CatalogStore) */
-.catalog-store {
-  border-radius: var(--lv-r-sm);
-  background: var(--background-normal-surface);
-  padding: 8px;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 4px;
-}
+.catalog-store:hover { box-shadow: var(--lv-shadow-lift); border-color: var(--lv-pink); }
+.catalog-store { border-radius: var(--lv-r-sm); background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: var(--lv-shadow-float); padding: 8px; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px; transition: box-shadow .2s, border-color .2s; }
 .catalog-store__link {
   display: grid;
   grid-template-columns: 48px minmax(0, 1fr);
@@ -2787,8 +2780,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
-}
+  padding: 4px; border: 1px solid var(--lv-line-2); }
 .catalog-store__logo .sf-emoji { font-size: 24px; }
 .catalog-store__info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .catalog-store__name {
