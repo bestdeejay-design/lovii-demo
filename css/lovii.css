@@ -592,6 +592,9 @@ main#view { flex: 1; }
   .app:has(#view > .lv-enter) .app-header-in { max-width: var(--lv-container-wide, 1120px); }
   /* Узкие экраны — чат и заявка */
   .app:has(#view .lv-narrow) .app-header-in { max-width: var(--lv-container-narrow, 760px); }
+  /* Кабинеты ролей: полоса с аватаром и названием — в той же капсуле, что тело кабинета,
+     иначе под шапкой она уходит к краям окна, пока контент стоит по центру */
+  .cabinet__head { width: 100%; max-width: var(--lv-content-max, 924px); margin-inline: auto; }
 }
 
 @media (min-width: 640px) {
