@@ -1,4 +1,14 @@
 /* ============================================================
+   LOVII · продуктовый CSS витрины · каркас слоёв (SZ-062, фаза 2)
+   ------------------------------------------------------------
+   Порядок слоёв (от слабого к сильному):
+     tokens · base · primitives · components · utilities · screens
+   Сейчас в слои вынесены токены и base (сброс/анимации) — они не
+   участвуют в переопределениях экранов, поэтому визуал не меняется.
+   Остальной файл пока вне слоёв и переносится поэтапно с проверкой.
+   ============================================================ */
+@layer tokens, base, primitives, components, utilities, screens;
+/* ============================================================
    LOVII Витрина — статическая версия для GitHub Pages
    Дизайн-система сайта-референса lovii-site:
    pink var(--lv-pink) · tiffany var(--lv-tiffany) · gold var(--lv-gold) · ink var(--lv-ink-deep)
@@ -25,7 +35,14 @@
    Классы и визуальные результаты не меняются; слои — карта, не реордер.
    ============================================================ */
 *, *::before, *::after { box-sizing: border-box; }
+@layer base {
+
 html, body { margin: 0; padding: 0; }
+}
+
+
+@layer base {
+
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -34,9 +51,23 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
+}
+
+@layer base {
+
 button { font-family: inherit; border: 0; background: none; padding: 0; cursor: pointer; color: inherit; font-size: inherit; }
+}
+
+@layer base {
+
 input { font-family: inherit; }
+}
+
+@layer base {
+
 :focus-visible { outline: 2px solid var(--lv-pink); outline-offset: 2px; border-radius: 8px; }
+}
+
 
 /* ---------- Градиенты, тени, утилиты ---------- */
 .brand-gradient { background-image: linear-gradient(135deg, var(--lv-pink) 0%, var(--lv-pink-dark) 100%); }
@@ -44,11 +75,24 @@ input { font-family: inherit; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 
+@layer base {
+
+
 @keyframes lv-pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .45; transform: scale(.8); } }
+}
+
 .lv-dot { width: 6px; height: 6px; border-radius: var(--lv-r-pill); display: inline-block; animation: lv-pulse-dot 1.4s ease-in-out infinite; }
+@layer base {
+
 @keyframes lv-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+}
+
 .lv-enter { animation: lv-enter .35s ease-out both; }
+@layer base {
+
 @keyframes lv-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+}
+
 .lv-float { animation: lv-float 5s ease-in-out infinite; }
 
 /* ============================================================
@@ -352,7 +396,11 @@ main#view { flex: 1; }
 .toast-wrap { position: fixed; left: 0; right: 0; bottom: 84px; z-index: 60; display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; padding: 0 16px; }
 .toast { max-width: 100%; background: var(--lv-ink); color: var(--lv-card); border-radius: var(--lv-r-lg); padding: 10px 16px; font-size: 13px; font-weight: 600; box-shadow: var(--lv-shadow-toast); animation: toast-in .25s ease-out; }
 .toast .d { font-size: 11px; color: var(--lv-toast-d); font-weight: 400; margin-top: 2px; }
+@layer base {
+
 @keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+}
+
 .toast.hide { opacity: 0; transform: translateY(8px); transition: all .25s; }
 
 /* ---------- Пустые состояния ---------- */
@@ -522,6 +570,11 @@ main#view { flex: 1; }
 #view .lv-narrow { max-width: 760px; }
 #view .chat-screen { max-width: 760px; margin-left: auto; margin-right: auto; }
 .search-bar-wrap .search-bar { max-width: 728px; margin: 0 auto; }
+/* Стабилизация ширины контента: настройки, поиск заведений и корзина — та же контентная капсула, что у профиля
+   (профиль/кошелёк: 924px при ≥640px + гуттер 16px → ширина контента 892px). Ниже 640px экраны живут в ширине приложения. */
+@media (min-width: 640px) {
+  .settings-page, .stores, .cart { max-width: var(--lv-content-max, 924px); margin-inline: auto; }
+}
 
 @media (min-width: 640px) {
   /* Планшет: приложение разворачивается на всю ширину, сетки растут */
@@ -1077,12 +1130,16 @@ main#view { flex: 1; }
 .pin-dot { width: 12px; height: 12px; border-radius: var(--lv-r-pill); border: 1.5px solid var(--lv-dim); transition: background .15s, border-color .15s; }
 .pin-dot.on { background: var(--lv-pink); border-color: var(--lv-pink); }
 .pin-dots.err { animation: lv-pin-shake .45s ease; }
+@layer base {
+
 @keyframes lv-pin-shake {
   10%, 90% { transform: translateX(-2px); }
   20%, 80% { transform: translateX(4px); }
   30%, 50%, 70% { transform: translateX(-6px); }
   40%, 60% { transform: translateX(6px); }
 }
+}
+
 .pin-pad { display: grid; grid-template-columns: repeat(3, 72px); gap: 12px; justify-content: center; margin-top: 8px; }
 .pin-key { height: 56px; border: 0; border-radius: var(--lv-r-pill); background: var(--lv-card); box-shadow: inset 0 0 0 1px var(--lv-line); font-family: inherit; font-size: 21px; font-weight: 700; color: var(--lv-ink); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform .12s, background .15s; }
 .pin-key:active { transform: scale(.93); background: var(--lv-surface); }
@@ -1190,6 +1247,18 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
    ============================================================ */
 
 /* Семантические токены стейджа (src/scss/tokens.scss) — алиасы палитры ДС */
+@layer tokens {
+
+
+/* ============================================================
+   ЗЕРКАЛО СТЕЙДЖА · ЭКРАН «ПРОФИЛЬ»
+   Порт стилей ProfileModule.vue + ProfileCollapse + WalletHistoryList +
+   ProfileCabinets + ProfileFooter + AppSwitch/AppBadge из lovii-app
+   (origin/staging 938fe42). Классы и значения — 1:1; scss-миксы
+   развёрнуты в px (body-m 13/400/1.55, body-s 12, caption-1 11/600).
+   ============================================================ */
+
+/* Семантические токены стейджа (src/scss/tokens.scss) — алиасы палитры ДС */
 :root,
 [data-theme="light"] {
   --background-normal-surface: var(--lv-card);
@@ -1206,9 +1275,15 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   --lv-navbar-offset: calc(var(--lv-navbar-height, 56px) + env(safe-area-inset-bottom, 0px));
   --lv-block-gap: 16px;
 }
+}
+
+@layer tokens {
+
 [data-theme="dark"] {
   --background-other-soft-neutral: rgba(210, 211, 214, 0.12);
 }
+}
+
 
 /* ---------- Каркас экрана ---------- */
 .profile {
@@ -1842,15 +1917,29 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
    Порт ProfileWallet.vue + PassSubscription.vue + AppSegmentControl.vue +
    LedgerTxRow.vue из lovii-app (origin/staging 938fe42).
    ============================================================ */
+@layer tokens {
+
+
+/* ============================================================
+   ЗЕРКАЛО СТЕЙДЖА · ЭКРАН «СЧЁТ И ОПЕРАЦИИ» (#/wallet)
+   Порт ProfileWallet.vue + PassSubscription.vue + AppSegmentControl.vue +
+   LedgerTxRow.vue из lovii-app (origin/staging 938fe42).
+   ============================================================ */
 :root,
 [data-theme="light"] {
   --lv-line-strong: #8f8578;
   --border-normal-subtle: var(--lv-line-2);
   --background-normal-page: var(--lv-bg);
 }
+}
+
+@layer tokens {
+
 [data-theme="dark"] {
   --lv-line-strong: #8d7f88;
 }
+}
+
 
 .wallet {
   display: flex;
@@ -2106,6 +2195,15 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
    NearbyStore) и StoresCatalog.vue (CatalogStore/AppChip) из lovii-app
    (origin/staging 1fc7a27). Картинки → эмодзи-плитки (.sf-emoji).
    ============================================================ */
+@layer tokens {
+
+
+/* ============================================================
+   ЗЕРКАЛО СТЕЙДЖА · ВИТРИНА: ГЛАВНАЯ + «ПОИСК»
+   Порт HomeModule.vue (HomeHero/HomePopular/HomeBanner/HomeNearbyPlaces/
+   NearbyStore) и StoresCatalog.vue (CatalogStore/AppChip) из lovii-app
+   (origin/staging 1fc7a27). Картинки → эмодзи-плитки (.sf-emoji).
+   ============================================================ */
 :root,
 [data-theme="light"] {
   --background-normal-soft-accent: var(--lv-soft-pink);
@@ -2113,6 +2211,8 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   --feedback-positive-solid: var(--lv-tiffany);
   --feedback-negative-solid: var(--lv-negative, #c25555);
 }
+}
+
 
 /* ---------- Каркас главной (HomeModule) ---------- */
 .home { padding: 0 0 64px; }
@@ -2942,7 +3042,17 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 
 /* ---------- Настройки: масштаб текста и анимации (перенос из app) ---------- */
 /* Масштаб: множитель на контент экрана (в app — по-текстово через --font-scale) */
+@layer base {
+
+
+/* ---------- Настройки: масштаб текста и анимации (перенос из app) ---------- */
+/* Масштаб: множитель на контент экрана (в app — по-текстово через --font-scale) */
 #view { zoom: var(--font-scale, 1); }
+}
+
+/* Анимации: гейт SZ-030 — «off» гасит движение, «system» решает media-query */
+@layer base {
+
 /* Анимации: гейт SZ-030 — «off» гасит движение, «system» решает media-query */
 html[data-motion='off'] *,
 html[data-motion='off'] *::before,
@@ -2951,6 +3061,8 @@ html[data-motion='off'] *::after {
   animation-duration: 0.01ms !important;
   animation-iteration-count: 1 !important;
 }
+}
+
 
 /* Подсказка-примечание в карточке настроек */
 .set-hint { margin: 4px 0 2px; padding: 0 16px 10px; color: var(--lv-dim); font-size: 12px; line-height: 1.45; }
@@ -3202,10 +3314,14 @@ body.cabinet-mode #view { padding-bottom: 0; }
   flex-shrink: 0; width: 10px; height: 10px; border-radius: 50%;
   background: var(--lv-tiffany); animation: role-pulse 1.4s ease-in-out infinite;
 }
+@layer base {
+
 @keyframes role-pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.4; transform: scale(0.8); }
 }
+}
+
 .msp-days { display: flex; flex-wrap: wrap; gap: 6px; }
 .msp-time { display: inline-flex; align-items: center; gap: 6px; }
 .msp-time input {
