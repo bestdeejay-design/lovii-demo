@@ -1,7 +1,7 @@
 /* ============================================================
    LOVII Витрина — статическая версия для GitHub Pages
    Дизайн-система сайта-референса lovii-site:
-   pink var(--lv-pink) · tiffany var(--lv-tiffany) · gold var(--lv-gold) · ink #1a1a1a
+   pink var(--lv-pink) · tiffany var(--lv-tiffany) · gold var(--lv-gold) · ink var(--lv-ink-deep)
    ============================================================
    ТОКЕНЫ: с v1.12.0 живут во фреймворке lovii-design и
    подключаются из assets/lovii-tokens.css (см. index.html).
@@ -9,6 +9,20 @@
    через compat-алиасы снапшота (--pink: var(--lv-pink) и т.д.).
    Правка значений/новых токенов — только в lovii-design:
      tokens/tokens.css → build-lovii-css.py → propagate --push.
+   ============================================================ */
+/* ============================================================
+   СЛОИ ФАЙЛА (SZ-062). Порядок применения: tokens → base →
+   primitives → components → utilities. Фактические границы секций:
+     · tokens      — НЕ здесь: assets/lovii-tokens.css (--lv-* + compat)
+     · base        — сброс и каркас: *, html/body, .app, .app-header,
+                     .app-nav, keyframes, утилиты .lv-dot/.lv-enter/.lv-float
+     · primitives  — типографика/цвет/отступы берутся из токенов; отдельных
+                     примитивных классов нет (базовый .icon — 16px)
+     · components  — секции экранов: hero, категории, карточки, корзина,
+                     заказы, кабинет(ы), кошелёк, дашборды, шиты, чаты
+     · utilities   — .no-scrollbar, .shadow-soft/.shadow-lift (удалены как
+                     мёртвые), служебные одноцелевые классы
+   Классы и визуальные результаты не меняются; слои — карта, не реордер.
    ============================================================ */
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
@@ -26,7 +40,7 @@ input { font-family: inherit; }
 
 /* ---------- Градиенты, тени, утилиты ---------- */
 .brand-gradient { background-image: linear-gradient(135deg, var(--lv-pink) 0%, var(--lv-pink-dark) 100%); }
-.ink-gradient { background-image: linear-gradient(150deg, #262023 0%, #1a1a1a 55%, #2b1219 100%); }
+.ink-gradient { background-image: linear-gradient(150deg, #262023 0%, var(--lv-ink-deep) 55%, #2b1219 100%); }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 
@@ -114,8 +128,8 @@ main#view { flex: 1; }
 /* ---------- Категории ---------- */
 .cats { display: flex; gap: 8px; overflow-x: auto; padding: 8px 16px 4px;
   /* чипы растворяются у краёв вместо жёсткой обрезки об экран */
-  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
-  mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%); }
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, var(--lv-black) 16px, var(--lv-black) calc(100% - 16px), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, var(--lv-black) 16px, var(--lv-black) calc(100% - 16px), transparent 100%); }
 /* Липкая плашка чипов: непрозрачная, БЕЗ отрицательных отступов (иначе вылезает за край экрана),
    без постоянной тени; тень только в прилипшем состоянии — .stuck вешает IntersectionObserver (app.js) */
 .cats-sticky { position: sticky; top: 56px; z-index: 25; padding: 10px 0 16px; background: var(--lv-card); }
@@ -142,8 +156,8 @@ main#view { flex: 1; }
 .link-btn svg { width: 16px; height: 16px; }
 .hscroll { display: flex; gap: 12px; overflow-x: auto; padding: 0 16px 4px;
   /* карточки мягко растворяются у краёв ленты */
-  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
-  mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%); }
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, var(--lv-black) 16px, var(--lv-black) calc(100% - 16px), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, var(--lv-black) 16px, var(--lv-black) calc(100% - 16px), transparent 100%); }
 
 /* ---------- Плитки-подложки (категорийные цвета) ---------- */
 .tile-pink { background: linear-gradient(135deg, var(--lv-badge-hit), #fbf0f5); }
@@ -721,11 +735,11 @@ main#view { flex: 1; }
 .connect-copy h2 { margin: 5px 0 0; font-size: 22px; line-height: 1.15; letter-spacing: -.02em; }
 .connect-copy p { margin: 7px 0 0; font-size: 12.5px; line-height: 1.55; color: rgba(255,255,255,.72); }
 .connect-copy .chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
-.qr-card { width: 126px; padding: 10px; border-radius: 18px; background: rgba(255,255,255,.94); color: #1a1a1a; box-shadow: 0 16px 38px -18px rgba(0,0,0,.42); text-align: center; }
+.qr-card { width: 126px; padding: 10px; border-radius: 18px; background: rgba(255,255,255,.94); color: var(--lv-ink-deep); box-shadow: 0 16px 38px -18px rgba(0,0,0,.42); text-align: center; }
 .qr-card > span { display: block; margin-top: 7px; font-size: 10px; font-weight: 900; letter-spacing: .08em; }
-.qr-grid { display: grid; grid-template-columns: repeat(11, 1fr); gap: 2px; aspect-ratio: 1; padding: 5px; border-radius: 12px; background: #fff; }
+.qr-grid { display: grid; grid-template-columns: repeat(11, 1fr); gap: 2px; aspect-ratio: 1; padding: 5px; border-radius: 12px; background: var(--lv-white); }
 .qr-grid span { border-radius: 2px; background: transparent; }
-.qr-grid span.on { background: #1a1a1a; }
+.qr-grid span.on { background: var(--lv-ink-deep); }
 .script-card, .pay-card, .status-flow-card { margin: 14px 16px 0; padding: 16px; border-radius: 18px; background: var(--lv-card); border: 1px solid var(--lv-line); box-shadow: 0 1px 3px rgba(26, 26, 26, .06); }
 .script-card ol { margin: 10px 0 0; padding-left: 20px; }
 .script-card li { margin-top: 8px; font-size: 12.5px; line-height: 1.5; color: var(--lv-dim); }
@@ -808,7 +822,7 @@ main#view { flex: 1; }
 .qa-icon { width: 34px; height: 34px; border-radius: 10px; background: var(--lv-surface); display: flex; align-items: center; justify-content: center; color: var(--lv-pink); }
 .qa-icon svg { width: 16px; height: 16px; }
 .qa-title { font-size: 13px; font-weight: 800; color: var(--lv-ink); display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
-.qa-badge { min-width: 16px; height: 16px; padding: 0 5px; border-radius: 999px; background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: #fff; font-size: 10px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
+.qa-badge { min-width: 16px; height: 16px; padding: 0 5px; border-radius: 999px; background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: var(--lv-white); font-size: 10px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
 .qa-desc { font-size: 11.5px; color: var(--lv-dim); line-height: 1.35; }
 
 /* ---------- Training tab: progress summary ---------- */
@@ -863,7 +877,7 @@ main#view { flex: 1; }
 .paycard.flipped { transform: rotateY(180deg); }
 .paycard:active { transform: scale(.985); }
 .paycard.flipped:active { transform: rotateY(180deg) scale(.985); }
-.pay-face { position: absolute; inset: 0; display: flex; flex-direction: column; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: var(--lv-r-xl); background-image: var(--lv-gradient-ink); overflow: hidden; color: #ffffff; padding: 18px 20px; }
+.pay-face { position: absolute; inset: 0; display: flex; flex-direction: column; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: var(--lv-r-xl); background-image: var(--lv-gradient-ink); overflow: hidden; color: var(--lv-white); padding: 18px 20px; }
 /* золотой блик на лицевой стороне */
 .pay-sheen { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 90% at 88% -8%, rgba(212, 168, 84, .38) 0%, rgba(212, 168, 84, .1) 34%, transparent 62%), radial-gradient(90% 70% at -6% 108%, rgba(246, 74, 138, .28) 0%, transparent 55%); }
 /* премиальные блики: пятно света следит за курсором (только pointer:fine),
@@ -892,11 +906,11 @@ main#view { flex: 1; }
 /* LOVII PAY — «серебро»: всем при регистрации. Единственная светлая карта
    программы — физическая белая металлическая с брашированной текстурой */
 .paycard.skin-pay .pay-face {
-  color: #1a1a1a;
+  color: var(--lv-ink-deep);
   background-image:
     repeating-linear-gradient(115deg, rgba(26, 26, 26, .026) 0 1px, transparent 1px 7px),
     linear-gradient(160deg, rgba(26, 26, 26, .08) 0%, transparent 30%, rgba(26, 26, 26, .16) 100%),
-    linear-gradient(150deg, #ffffff 0%, #f5f5f7 52%, #e7e7ed 100%);
+    linear-gradient(150deg, var(--lv-white) 0%, #f5f5f7 52%, #e7e7ed 100%);
   box-shadow: inset 0 0 0 1px rgba(26, 26, 26, .1), inset 0 -26px 48px -34px rgba(26, 26, 26, .3);
 }
 .paycard.skin-pay .pay-brand { background: linear-gradient(90deg, #43434b 0%, #87878f 55%, #5a5a64 100%); -webkit-background-clip: text; background-clip: text; }
@@ -949,7 +963,7 @@ main#view { flex: 1; }
 .paycard.skin-vip .pay-face::after { content: ''; position: absolute; inset: 9px; border: 1px solid rgba(212, 168, 84, .38); border-radius: 15px; pointer-events: none; }
 .paycard.skin-vip .pay-num { color: rgba(243, 217, 164, 1); text-shadow: 0 1px 2px rgba(0, 0, 0, .55); }
 .paycard.skin-vip .pay-bot .lbl { color: rgba(243, 217, 164, .62); }
-.paycard.skin-vip .pay-bot .val { color: #ffffff; }
+.paycard.skin-vip .pay-bot .val { color: var(--lv-white); }
 .paycard.skin-vip .pay-bal .val { color: #f3d9a4; }
 .paycard.skin-vip .pay-sheen { background: radial-gradient(120% 90% at 88% -8%, rgba(243, 217, 164, .5) 0%, rgba(212, 168, 84, .16) 34%, transparent 62%); }
 .paycard.skin-vip .pay-glare { background: radial-gradient(300px 300px at var(--gx, 70%) var(--gy, 15%), rgba(255, 232, 180, .34) 0%, rgba(255, 232, 180, .08) 40%, transparent 65%); }
@@ -982,7 +996,7 @@ main#view { flex: 1; }
 /* статус-марка на карте (сердце PASS / корона VIP / домик BUSINESS; PAY — без марки) */
 .pay-mark { position: relative; margin-left: auto; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 999px; }
 .pay-mark svg { width: 16px; height: 16px; }
-.pay-num { position: relative; margin-top: auto; margin-bottom: 14px; font-size: clamp(17px, 5.6vw, 21px); font-weight: 700; letter-spacing: .12em; font-variant-numeric: tabular-nums; color: #ffffff; text-shadow: 0 1px 2px rgba(0, 0, 0, .35); white-space: nowrap; }
+.pay-num { position: relative; margin-top: auto; margin-bottom: 14px; font-size: clamp(17px, 5.6vw, 21px); font-weight: 700; letter-spacing: .12em; font-variant-numeric: tabular-nums; color: var(--lv-white); text-shadow: 0 1px 2px rgba(0, 0, 0, .35); white-space: nowrap; }
 /* номер масштабируется от ШИРИНЫ КАРТЫ, а не вьюпорта: в узкой колонке
    ≥640px (карта ~250–330px) vw-кламп обрезал номер — cqw чинит (fallback выше) */
 @supports (font-size: 1cqw) {
@@ -991,7 +1005,7 @@ main#view { flex: 1; }
 }
 .pay-bot { position: relative; display: flex; align-items: flex-end; gap: 14px; }
 .pay-bot .lbl { display: block; font-size: 8.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255, 255, 255, .55); }
-.pay-bot .val { display: block; margin-top: 2px; font-size: 12.5px; font-weight: 700; letter-spacing: .04em; color: #ffffff; }
+.pay-bot .val { display: block; margin-top: 2px; font-size: 12.5px; font-weight: 700; letter-spacing: .04em; color: var(--lv-white); }
 .pay-holder { min-width: 0; }
 .pay-holder .val { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pay-bal { margin-left: auto; text-align: right; }
@@ -1000,11 +1014,11 @@ main#view { flex: 1; }
 .pay-back { transform: rotateY(180deg); padding: 0; }
 .pay-mag { display: block; height: 40px; margin-top: 16px; background: rgba(0, 0, 0, .5); }
 .pay-back-mid { display: flex; align-items: center; gap: 14px; padding: 14px 20px 0; }
-.pay-qr { flex-shrink: 0; width: 84px; height: 84px; padding: 7px; border-radius: 12px; background: #ffffff; color: #1a1a1a; }
+.pay-qr { flex-shrink: 0; width: 84px; height: 84px; padding: 7px; border-radius: 12px; background: var(--lv-white); color: var(--lv-ink-deep); }
 .pay-qr svg { display: block; width: 100%; height: 100%; }
 .pay-back-info { min-width: 0; display: flex; flex-direction: column; gap: 8px; }
 .pay-cvv .lbl { display: block; font-size: 8.5px; letter-spacing: .08em; text-transform: uppercase; color: rgba(255, 255, 255, .55); }
-.pay-cvv .val { margin-top: 2px; display: inline-block; padding: 3px 10px; border-radius: 6px; background: rgba(255, 255, 255, .92); color: #1a1a1a; font-size: 12px; font-weight: 700; letter-spacing: .2em; }
+.pay-cvv .val { margin-top: 2px; display: inline-block; padding: 3px 10px; border-radius: 6px; background: rgba(255, 255, 255, .92); color: var(--lv-ink-deep); font-size: 12px; font-weight: 700; letter-spacing: .2em; }
 .pay-note { font-size: 11px; line-height: 1.45; color: rgba(255, 255, 255, .75); }
 .pay-back-bot { margin-top: auto; padding: 0 20px 14px; font-size: 9.5px; font-weight: 600; letter-spacing: .03em; color: rgba(255, 255, 255, .55); }
 /* подсказки под картой */
@@ -1174,9 +1188,9 @@ main#view { flex: 1; }
 .mini-card .mc-chip { width: 12px; height: 9px; border-radius: 3px; background: rgba(255, 255, 255, .55); box-shadow: inset 0 0 0 1px rgba(26, 26, 26, .25); flex-shrink: 0; }
 .mini-card .mc-tag { font-size: 9px; font-weight: 800; letter-spacing: .08em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 /* тона скинов (упрощённые градиенты карт — канон 2026-09-12) */
-.mini-card.skin-pay { background-image: linear-gradient(150deg, #ffffff 0%, #f5f5f7 52%, #e7e7ed 100%); box-shadow: inset 0 0 0 1px rgba(26, 26, 26, .16); color: #43434b; }
+.mini-card.skin-pay { background-image: linear-gradient(150deg, var(--lv-white) 0%, #f5f5f7 52%, #e7e7ed 100%); box-shadow: inset 0 0 0 1px rgba(26, 26, 26, .16); color: #43434b; }
 .mini-card.skin-pay .mc-chip { background: linear-gradient(135deg, #eef0f4, #c8ccd6 55%, #9aa0ac); }
-.mini-card.skin-pass { background-image: var(--lv-gradient-brand); color: #ffffff; }
+.mini-card.skin-pass { background-image: var(--lv-gradient-brand); color: var(--lv-white); }
 .mini-card.skin-vip { background-image: var(--lv-gradient-ink); box-shadow: inset 0 0 0 1px rgba(212, 168, 84, .6); color: #f3d9a4; }
 .mini-card.skin-vip .mc-chip { background: linear-gradient(135deg, #f3d9a4, #b98d3e); }
 .mini-card.skin-biz { background-image: var(--lv-gradient-ink); box-shadow: inset 0 0 0 1px rgba(10, 186, 181, .42); color: #9fe8e4; }
@@ -1204,7 +1218,7 @@ main#view { flex: 1; }
 .sr-ico.t-gold { background: var(--lv-soft-gold); color: var(--lv-gold-text); }
 /* свитч (component: switch-row) */
 .lv-switch { position: relative; flex-shrink: 0; width: 44px; height: 26px; border-radius: 999px; background: var(--lv-surface); box-shadow: inset 0 0 0 1px var(--lv-line); transition: background .2s, box-shadow .2s; }
-.lv-switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 999px; background: #ffffff; box-shadow: 0 1px 3px rgba(26, 26, 26, .3); transition: transform .2s; }
+.lv-switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 999px; background: var(--lv-white); box-shadow: 0 1px 3px rgba(26, 26, 26, .3); transition: transform .2s; }
 .lv-switch.on { background-image: var(--lv-gradient-brand); box-shadow: none; }
 .lv-switch.on::after { transform: translateX(18px); }
 .lv-switch.disabled { opacity: .4; pointer-events: none; }
@@ -2554,7 +2568,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 .promo-banner {
   width: 320px; height: 140px; box-sizing: border-box;
   display: flex; flex-flow: column; align-items: flex-start; justify-content: center;
-  gap: 5px; padding: 0 22px; color: #fff; text-decoration: none;
+  gap: 5px; padding: 0 22px; color: var(--lv-white); text-decoration: none;
 }
 .promo-banner__title { font-size: 17px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.25; }
 .promo-banner__sub { font-size: 12.5px; opacity: 0.85; line-height: 1.35; }
@@ -2598,7 +2612,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   background: rgba(255, 255, 255, 0.4);
   transition: all 0.3s ease-out;
 }
-.home-banner__dot.active { width: 16px; border-radius: 3px; background: #fff; }
+.home-banner__dot.active { width: 16px; border-radius: 3px; background: var(--lv-white); }
 
 /* ---------- Возле вас (HomeNearbyPlaces + NearbyStore) ---------- */
 .nearby-stores { margin: 24px 0 0; padding: 0 16px; }
@@ -2874,7 +2888,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   gap: 12px;
 }
 .place__teaser p { margin: 0; color: var(--content-normal-secondary); font-size: 13px; line-height: 1.55; }
-.app-badge_brand { color: var(--lv-on-brand, #fff); background-image: var(--lv-gradient-brand); }
+.app-badge_brand { color: var(--lv-on-brand, var(--lv-white)); background-image: var(--lv-gradient-brand); }
 
 /* Поиск в заведении */
 .place-search { padding: 0 16px; margin: 4px 0 0; }
@@ -2930,7 +2944,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   height: 24px;
   border-radius: 50%;
   background: var(--lv-pink);
-  color: var(--lv-on-brand, #fff);
+  color: var(--lv-on-brand, var(--lv-white));
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3014,7 +3028,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   justify-content: center;
   padding: 0 16px;
   height: 36px;
-  color: var(--lv-on-brand, #fff);
+  color: var(--lv-on-brand, var(--lv-white));
   cursor: pointer;
 }
 .product-preview__info > button > svg { width: 20px; height: 20px; }
@@ -3028,7 +3042,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   background: var(--lv-pink);
   height: 36px;
 }
-.product-preview__counter > span { text-align: center; color: var(--lv-on-brand, #fff); font-size: 13px; font-weight: 600; }
+.product-preview__counter > span { text-align: center; color: var(--lv-on-brand, var(--lv-white)); font-size: 13px; font-weight: 600; }
 .product-preview__counter > button {
   width: 100%;
   height: 100%;
@@ -3037,7 +3051,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--lv-on-brand, #fff);
+  color: var(--lv-on-brand, var(--lv-white));
   cursor: pointer;
 }
 .product-preview__counter > button > svg { width: 20px; height: 20px; }
@@ -3140,7 +3154,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   border-radius: 12px;
   background: var(--lv-pink);
   box-shadow: 0 4px 20px 0 rgba(13, 17, 27, 0.08);
-  color: var(--lv-on-brand, #fff);
+  color: var(--lv-on-brand, var(--lv-white));
   font: inherit;
   font-size: 14px;
   font-weight: 700;
@@ -3156,7 +3170,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   background: var(--lv-pink);
   height: 44px;
 }
-.product__counter > span { text-align: center; color: var(--lv-on-brand, #fff); font-size: 14px; font-weight: 700; }
+.product__counter > span { text-align: center; color: var(--lv-on-brand, var(--lv-white)); font-size: 14px; font-weight: 700; }
 .product__counter > button {
   width: 100%;
   height: 100%;
@@ -3165,7 +3179,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--lv-on-brand, #fff);
+  color: var(--lv-on-brand, var(--lv-white));
   cursor: pointer;
 }
 .product__counter > button > svg { width: 20px; height: 20px; }
@@ -3222,7 +3236,7 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   border: 0;
   border-radius: 999px;
   background: var(--lv-pink);
-  color: var(--lv-on-brand, #fff);
+  color: var(--lv-on-brand, var(--lv-white));
   font: inherit;
   font-size: 14px;
   font-weight: 700;
@@ -3297,10 +3311,10 @@ html[data-motion='off'] *::after {
   margin: 8px 0 0 auto; max-width: 120px; display: grid; grid-template-columns: 44px 1fr 44px;
   align-items: center; width: 100%; border-radius: 10px; background: var(--lv-pink); height: 36px;
 }
-.cart-product__counter > span { text-align: center; color: var(--lv-on-brand, #fff); font-size: 13px; font-weight: 600; }
+.cart-product__counter > span { text-align: center; color: var(--lv-on-brand, var(--lv-white)); font-size: 13px; font-weight: 600; }
 .cart-product__counter > button {
   width: 100%; height: 100%; border: 0; background: none; display: flex; align-items: center;
-  justify-content: center; color: var(--lv-on-brand, #fff); cursor: pointer;
+  justify-content: center; color: var(--lv-on-brand, var(--lv-white)); cursor: pointer;
 }
 .cart-product__counter > button > svg { width: 20px; height: 20px; }
 
@@ -3387,7 +3401,7 @@ html[data-motion='off'] *::after {
 
 /* Дополнительные тона бейджей (AppBadge) */
 .app-badge_xs { gap: 3px; height: 16px; padding: 0 4px; font-size: 11px; font-weight: 400; }
-.app-badge_brand { color: var(--lv-on-brand, #fff); background-image: var(--lv-gradient-brand); }
+.app-badge_brand { color: var(--lv-on-brand, var(--lv-white)); background-image: var(--lv-gradient-brand); }
 
 /* ============================================================
    ЗЕРКАЛО СТЕЙДЖА · КАБИНЕТ МСП (CabinetLayout + роли, v1)
@@ -3450,8 +3464,8 @@ body.cabinet-mode #view { padding-bottom: 0; }
 .role-kpi__sub { color: var(--content-normal-tertiary); font-size: 10.5px; line-height: 1.35; }
 .role-kpi_accent { background: var(--lv-gradient-brand); }
 .role-kpi_accent .role-kpi__label,
-.role-kpi_accent .role-kpi__sub { color: var(--lv-on-brand, #fff); opacity: 0.8; }
-.role-kpi_accent .role-kpi__value { color: var(--lv-on-brand, #fff); }
+.role-kpi_accent .role-kpi__sub { color: var(--lv-on-brand, var(--lv-white)); opacity: 0.8; }
+.role-kpi_accent .role-kpi__value { color: var(--lv-on-brand, var(--lv-white)); }
 
 /* Карточки и заголовки разделов (role-card / role-section-head) */
 .role-card { margin: 12px 0 0; padding: 16px 0 0; border-radius: 16px; background: var(--background-normal-surface); overflow: hidden; }
@@ -3471,7 +3485,7 @@ body.cabinet-mode #view { padding-bottom: 0; }
 .msp-starter__step-check {
   flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
   border: 1.5px solid var(--lv-line-strong); display: inline-flex; align-items: center; justify-content: center;
-  color: var(--lv-on-brand, #fff);
+  color: var(--lv-on-brand, var(--lv-white));
 }
 .msp-starter__step-check svg { width: 12px; height: 12px; }
 .msp-starter__step[data-done='true'] .msp-starter__step-check { background: var(--lv-tiffany); border-color: var(--lv-tiffany); }
@@ -3607,7 +3621,7 @@ body.cabinet-mode #view { padding-bottom: 0; }
     var(--background-other-soft-neutral);
   display: flex; align-items: center; justify-content: center;
 }
-.acc-map__pin { width: 44px; height: 44px; border-radius: 50%; background: var(--lv-pink); color: var(--lv-on-brand, #fff); display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); }
+.acc-map__pin { width: 44px; height: 44px; border-radius: 50%; background: var(--lv-pink); color: var(--lv-on-brand, var(--lv-white)); display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); }
 .acc-map__pin svg { width: 20px; height: 20px; }
 .acc-fields { display: grid; grid-template-columns: 1fr; gap: 10px; }
 .acc-field { display: grid; gap: 4px; color: var(--content-normal-tertiary); font-size: 11px; font-weight: 600; }
@@ -3706,7 +3720,7 @@ body.cabinet-mode-auth .app-header { display: none; }
   background: rgba(255, 255, 255, 0.12); color: rgba(255, 255, 255, 0.9);
   font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
 }
-.promo-card__title { margin-top: 6px; color: #fff; font-size: 15px; font-weight: 800; line-height: 1.3; letter-spacing: -0.01em; }
+.promo-card__title { margin-top: 6px; color: var(--lv-white); font-size: 15px; font-weight: 800; line-height: 1.3; letter-spacing: -0.01em; }
 .promo-card__sub { color: rgba(255, 255, 255, 0.75); font-size: 12px; line-height: 1.4; }
 .promo-card__foot {
   margin-top: auto; padding-top: 10px; display: flex; align-items: center;
@@ -3725,7 +3739,7 @@ body.cabinet-mode-auth .app-header { display: none; }
   flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
   border: 1.5px solid var(--lv-line-strong);
   display: inline-flex; align-items: center; justify-content: center;
-  color: var(--lv-on-brand, #fff);
+  color: var(--lv-on-brand, var(--lv-white));
 }
 .msp-od__dot svg { width: 12px; height: 12px; }
 .msp-od__step.done { color: var(--content-normal-secondary); }
