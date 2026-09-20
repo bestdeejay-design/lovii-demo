@@ -159,12 +159,12 @@ function renderCartMirror() {
             </button>`).join('')}
         </section>` : ''}
 
-      <section class="card cart-info">
-        <div class="cart-info__store">
+      <section class="cart-info">
+        <div class="card cart-info__store">
           <span style="background-color:${cart.bg}"><i class="sf-emoji sf-emoji-sm">${cart.emoji}</i></span>
           <p>${oEsc(cart.name)}</p>
         </div>
-        <div class="cart-info__products">
+        <div class="card cart-info__products">
           ${cart.items.map((it) => oCartProductRow(cart, it)).join('')}
         </div>
       </section>
@@ -343,13 +343,13 @@ function renderOrderDetailMirror(id) {
   if (!order) return renderOrdersMirror();
   return `
     <main class="orders container">
-      <section class="card cart-info">
-        <div class="cart-info__store">
+      <section class="cart-info">
+        <div class="card cart-info__store">
           <span style="background-color:${order.merchant.bg || '#eee'}"><i class="sf-emoji sf-emoji-sm">${order.merchant.emoji || '🛍️'}</i></span>
           <p>${oEsc(order.merchant.name)} ${oBadge(order.status || 'done')}</p>
         </div>
         <p class="order-detail__meta">Заказ №${oEsc(order.id)} от ${oDate(order.createdAt)} · ${order.deliveryType === 'delivery' ? `Доставка · ${oEsc(order.address || '')}` : 'Самовывоз'}</p>
-        <div class="cart-info__products">
+        <div class="card cart-info__products">
           ${order.items.map((it) => `
             <div class="cart-product">
               <span style="background-color:${it.bg || '#eee'}"><i class="sf-emoji sf-emoji-sm">${it.emoji}</i></span>

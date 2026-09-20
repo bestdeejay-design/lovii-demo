@@ -285,8 +285,6 @@ main#view { flex: 1; }
 .services-hint { display: flex; align-items: center; gap: 8px; margin: 20px 0 8px; font-size: 12px; color: var(--lv-dim); }
 
 
-/* SZ-062 · разделитель: заведение ↔ список товаров */
-.cart-info > .cart-info__products { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--lv-line-2); }
 /* ---------- Корзина ---------- */
 .page-h { padding: 16px 16px 0; }
 .page-h h1 { margin: 0; font-size: 20px; font-weight: 800; }
@@ -2978,8 +2976,8 @@ html[data-motion='off'] *::after {
 }
 
 /* Состав корзины (CartInfo) */
-.cart-info {margin: 24px 0 0; padding: 16px; background-color: var(--lv-card);}
-.cart-info__store { display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: center; }
+.cart-info { margin: 24px 0 0; display: grid; gap: 12px; }
+.cart-info__store { padding: 14px 16px;  display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: center; }
 .cart-info__store > span { width: 40px; height: 40px; border-radius: 8px; padding: 4px; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; }
 .cart-info__store > p { margin: 0; color: var(--lv-ink); font-size: 14px; font-weight: 600; line-height: 1.4; }.cart-info__products, .orders__list { margin: 16px 0 0; display: grid; grid-template-columns: 1fr; gap: 16px; }
 
@@ -3030,7 +3028,7 @@ html[data-motion='off'] *::after {
 .create-order-delivery__address-empty { color: var(--lv-dim); font-weight: 400; }.create-order-delivery__address > svg, .role-next__arrow svg { width: 16px; height: 16px; color: var(--lv-dim); }.create-order-delivery__merchant > span, .order-preview__products > span { width: 36px; height: 36px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; }
 .create-order-delivery__merchant > p { margin: 0; }
 .create-order-products { margin: 16px 0 0; }
-.create-order-products .cart-info__products { padding: 0; }
+.create-order-products .cart-info__products { padding: 12px 16px;  padding: 0; }
 .create-order__cta {
   position: fixed; left: 0; right: 0; bottom: var(--lv-navbar-height, 56px); z-index: 2;
   display: grid; gap: 8px; padding: 12px 16px;
