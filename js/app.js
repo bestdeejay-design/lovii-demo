@@ -245,6 +245,8 @@ function renderView(keepScroll) {
   const { name, param } = parseHash();
   state.view = { name, param };
 
+  // Демо-шорткаты шагов входа: #/auth/phone|channel|code|promo (см. auth.js)
+  if (name === 'auth' && param && typeof applyAuthStep === 'function') applyAuthStep(param);
   const view = document.getElementById('view');
   let html = currentScreenHtml();
 

@@ -92,6 +92,21 @@ function aStepPromo() {
     </section>`;
 }
 
+/* Демо-шорткат приёмки: #/auth/phone|channel|code|promo открывает нужный шаг.
+   Применяется один раз на каждый заход по ссылке, чтобы не мешать обычному проходу. */
+let _authStepKey = null;
+function applyAuthStep(step) {
+  if (!['phone', 'channel', 'code', 'promo'].includes(step)) return;
+  const key = location.hash;
+  if (_authStepKey === key) return;
+  _authStepKey = key;
+  if (step !== 'phone') {
+    if (!authUi.phone) authUi.phone = '+79119287478'; // номер с полным набором данных
+    authUi.channel = authUi.channel || 'sms';
+  }
+  authUi.step = step;
+}
+
 function renderAuthMirror() {
   document.body.classList.add('cabinet-mode-auth');
   const backable = authUi.step !== 'phone';

@@ -506,17 +506,11 @@ async function renderSettingsHtml() {
 
   <div class="set-sub">Безопасность</div>
   <div class="list-card">
-    <button class="row-item switch-row" data-action="set-pin">
+    <button class="row-item switch-row" data-action="set-pin-toggle" role="switch" aria-checked="${pinSet}">
       <span class="sr-ico t-gold">${icon('lock')}</span>
-      <div class="ri-mid"><div class="nm">PIN-код</div><div class="sb">${pinSet ? 'Установлен · запрашивается при входе' : 'Не установлен · 4 цифры, хранится только на устройстве'}</div></div>
-      <span class="chev">${icon('chev-right', '', 2, true)}</span>
+      <div class="ri-mid"><div class="nm">PIN-код</div><div class="sb">${pinSet ? 'Запрашивается при входе в демо' : '4 цифры · хранится только на этом устройстве'}</div></div>
+      <span class="lv-switch${pinSet ? ' on' : ''}"></span>
     </button>
-    ${pinSet ? `
-    <button class="row-item switch-row" data-action="set-pin-off">
-      <span class="sr-ico t-pink">${icon('x')}</span>
-      <div class="ri-mid"><div class="nm">Отключить PIN-код</div><div class="sb">Подтвердите текущим кодом — вход останется по Face ID</div></div>
-      <span class="chev">${icon('chev-right', '', 2, true)}</span>
-    </button>` : ''}
     ${face ? `
     <button class="row-item switch-row" data-action="set-face" ${pinSet ? '' : 'disabled'}>
       <span class="sr-ico t-tiffany">${icon('scan-face')}</span>
@@ -570,22 +564,20 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  if (a === 'set-pin-off') {
-    if (!pinIsSet()) { toast('PIN-код не установлен', 'important'); return; }
-    openPinOverlay('verify', async () => {
-      const s = ensureSettings();
-      s.security = { pinHash: null, salt: null, faceId: null };
-      saveSettings();
-      closePinOverlay();
-      toast('PIN-код отключён', 'Быстрый вход по коду выключен');
-      renderViewPreserveScroll();
-    });
-    return;
-  }
-
-  if (a === 'set-pin') {
-    if (pinIsSet()) openPinOverlay('verify', () => openPinOverlay('setup1'));
-    else openPinOverlay('setup1');
+  /* PIN — один переключатель: включить → установка, выключить → подтверждение текущим кодом */
+  if (a === 'set-pin-toggle') {
+    if (pinIsSet()) {
+      openPinOverlay('verify', async () => {
+        const s = ensureSettings();
+        s.security = { pinHash: null, salt: null, faceId: null };
+        saveSettings();
+        closePinOverlay();
+        toast('PIN-код отключён', 'Быстрый вход по коду выключен');
+        renderViewPreserveScroll();
+      });
+    } else {
+      openPinOverlay('setup1');
+    }
     return;
   }
 
