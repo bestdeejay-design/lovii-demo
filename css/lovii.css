@@ -2631,14 +2631,22 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
   flex-flow: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 8px;
+  padding: 10px;
   border-radius: 16px;
-  background: var(--background-normal-surface);
+  background: var(--lv-card);
+  border: 1px solid var(--lv-line);
+  box-shadow: var(--lv-shadow-float);
   width: 100%;
   overflow: hidden;
   text-decoration: none;
   box-sizing: border-box;
+  transition: box-shadow .2s, transform .2s, border-color .2s;
 }
+.nearby-store:hover { box-shadow: var(--lv-shadow-lift); border-color: var(--lv-pink); transform: translateY(-2px); }
+.nearby-store__products > span { border: 1px solid var(--lv-line-2); }
+.nearby-store__info > span { border: 1px solid var(--lv-line-2); border-radius: 10px; }
+.nearby-store__description > h4 { font-weight: 700; }
+.nearby-store__description > span { color: var(--lv-pink); font-weight: 600; }
 .nearby-store__products {
   width: 100%;
   display: flex;
