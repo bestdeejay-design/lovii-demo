@@ -2202,7 +2202,6 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
    ============================================================ */
 :root,
 [data-theme="light"] {
-  --lv-line-strong: #8f8578;
   --border-normal-subtle: var(--lv-line-2);
   --background-normal-page: var(--lv-bg);
 }
@@ -2211,7 +2210,6 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 @layer tokens {
 
 [data-theme="dark"] {
-  --lv-line-strong: #8d7f88;
 }
 }
 
@@ -2482,9 +2480,9 @@ button.kpi.as-btn:hover .v { color: var(--lv-pink-dark); }
 :root,
 [data-theme="light"] {
   --background-normal-soft-accent: var(--lv-soft-pink);
-  --feedback-info-solid: var(--lv-info, #4797ff);
+  --feedback-info-solid: var(--lv-info);
   --feedback-positive-solid: var(--lv-tiffany);
-  --feedback-negative-solid: var(--lv-negative, #c25555);
+  --feedback-negative-solid: var(--lv-negative);
 }
 }
 
