@@ -221,7 +221,8 @@ function parseHash() {
     }
     return { name: 'home', param: null };
   }
-  const known = ['home', 'store', 'product', 'search', 'cart', 'orders', 'order', 'profile', 'wallet', 'stores', 'popular', 'settings', 'checkout', 'addresses', 'address', 'profile-edit', 'auth', 'apply', 'dash', 'chat', 'msp-signup', 'msp'];
+  // 'lock' — демо-шорткат: открывает оверлей PIN (см. settings.js), за ним рендерим настройки
+  const known = ['home', 'store', 'product', 'search', 'cart', 'orders', 'order', 'profile', 'wallet', 'stores', 'popular', 'settings', 'checkout', 'addresses', 'address', 'profile-edit', 'auth', 'apply', 'dash', 'chat', 'msp-signup', 'msp', 'lock'];
   return { name: known.includes(name) ? name : 'home', param: param || null };
 }
 
@@ -236,6 +237,7 @@ function currentScreenHtml() {
   if (name === 'chat' && param) return renderChat(param);
   if (name === 'msp-signup') return renderMspSignup(param);
   if (name === 'msp') return renderMspCabinet(param || 'index');
+  if (name === 'lock') return (SCREENS.settings || renderHome)(); // оверлей PIN поверх настроек
   return (SCREENS[name] || renderHome)();
 }
 

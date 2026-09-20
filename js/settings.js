@@ -652,4 +652,10 @@ document.addEventListener('click', (e) => {
   fillSettingsSlot(); // первый рендер уже случился (settings.js грузится после app.js)
   // PIN-лок: установлен → показываем экран блокировки при загрузке (решение №2)
   if (pinIsSet()) openPinOverlay('unlock');
+  // Демо-шорткат приёмки: #/lock — сразу экран PIN (PIN не задан → экран установки)
+  const lockShortcut = () => {
+    if (location.hash === '#/lock') openPinOverlay(pinIsSet() ? 'unlock' : 'setup1');
+  };
+  lockShortcut();
+  window.addEventListener('hashchange', lockShortcut);
 })();
