@@ -3337,7 +3337,7 @@ html[data-motion='off'] *::after {
 .create-order-delivery > h5, .create-order-recipient > h5, .create-order-products > h5 { margin: 0; color: var(--content-normal-primary); font-size: 16px; font-weight: 800; line-height: 1.35; }
 .create-order-delivery__address, .create-order-delivery__merchant {
   display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 12px;
-  border: 1px solid var(--border-normal-subtle); background: var(--background-normal-surface);
+  border: 1px solid var(--lv-line); background: var(--background-normal-surface);
   color: var(--content-normal-primary); font-size: 13px; font-weight: 600; text-align: left;
 }
 .create-order-delivery__address { justify-content: space-between; cursor: pointer; }
@@ -3609,7 +3609,7 @@ body.cabinet-mode #view { padding-bottom: 0; }
 .acc-fields { display: grid; grid-template-columns: 1fr; gap: 10px; }
 .acc-field { display: grid; gap: 4px; color: var(--content-normal-tertiary); font-size: 11px; font-weight: 600; }
 .acc-field input {
-  height: 44px; border: 1px solid var(--border-normal-subtle); border-radius: 12px;
+  height: 44px; border: 1px solid var(--lv-line); border-radius: 12px;
   background: var(--background-normal-surface); color: var(--content-normal-primary);
   font: inherit; font-size: 14px; padding: 0 12px; box-sizing: border-box;
 }
@@ -3652,7 +3652,7 @@ body.cabinet-mode-auth .app-header { display: none; }
 .auth-code-input {
   width: 100%; height: 56px; text-align: center; letter-spacing: 0.5em;
   font: inherit; font-size: 24px; font-weight: 800; color: var(--content-normal-primary);
-  border: 1px solid var(--border-normal-subtle); border-radius: 14px;
+  border: 1px solid var(--lv-line); border-radius: 14px;
   background: var(--background-normal-surface); box-sizing: border-box;
 }
 .auth-code-input:focus { outline: none; border-color: var(--lv-pink); }
