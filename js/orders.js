@@ -113,17 +113,19 @@ function oCartGroups() {
 function oCartProductRow(cart, item) {
   const many = item.qty > 1;
   return `
-    <div class="cart-product">
-      <span style="background-color:${item.bg || '#eee'}"><i class="sf-emoji sf-emoji-sm">${item.emoji}</i></span>
-      <div class="cart-product__info">
-        <h5 class="cart-product__name">${oEsc(item.name)}</h5>
-        <span class="cart-product__sum">${oFmt(item.price * item.qty)}&nbsp;₽</span>
-        <div class="cart-product__counter">
+    <div class="row-item">
+      <span class="ri-emoji" style="background-color:${item.bg || '#eee'}"><i class="sf-emoji sf-emoji-sm">${item.emoji}</i></span>
+      <div class="ri-mid">
+        <div class="nm">${oEsc(item.name)}</div>
+        ${many ? `<div class="sb">${oFmt(item.price)}&nbsp;₽ / шт</div>` : ''}
+      </div>
+      <div class="cart-row__rail">
+        <span class="cart-row__sum">${oFmt(item.price * item.qty)}&nbsp;₽</span>
+        <span class="qty">
           <button type="button" aria-label="${many ? 'Меньше' : 'Удалить'}" data-action="o-dec" data-store="${oEsc(cart.slug)}" data-slug="${oEsc(item.slug)}">${icon(many ? 'minus' : 'trash')}</button>
-          <span>${item.qty}</span>
+          <span class="n">${item.qty}</span>
           <button type="button" aria-label="Больше" data-action="sf-add" data-store="${oEsc(cart.slug)}" data-slug="${oEsc(item.slug)}">${icon('plus')}</button>
-        </div>
-        ${many ? `<span class="cart-product__unit">${oFmt(item.price)}&nbsp;₽ / шт</span>` : ''}
+        </span>
       </div>
     </div>`;
 }
@@ -353,11 +355,11 @@ function renderOrderDetailMirror(id) {
         <p class="order-detail__meta">Заказ №${oEsc(order.id)} от ${oDate(order.createdAt)} · ${order.deliveryType === 'delivery' ? `Доставка · ${oEsc(order.address || '')}` : 'Самовывоз'}</p>
         <div class="card cart-info__products">
           ${order.items.map((it) => `
-            <div class="cart-product">
-              <span style="background-color:${it.bg || '#eee'}"><i class="sf-emoji sf-emoji-sm">${it.emoji}</i></span>
-              <div class="cart-product__info">
-                <h5>${oEsc(it.name)}</h5>
-                <p>${oFmt(it.price)}&nbsp;₽ × ${it.qty}</p>
+            <div class="row-item">
+              <span class="ri-emoji" style="background-color:${it.bg || '#eee'}"><i class="sf-emoji sf-emoji-sm">${it.emoji}</i></span>
+              <div class="ri-mid">
+                <div class="nm">${oEsc(it.name)}</div>
+                <div class="sb">${oFmt(it.price)}&nbsp;₽ × ${it.qty}</div>
               </div>
             </div>`).join('')}
         </div>

@@ -59,7 +59,7 @@ button { font-family: inherit; border: 0; background: none; padding: 0; cursor: 
 button, a, label, input, select, textarea, [role="button"], [role="tab"] { touch-action: manipulation; }
 button, [role="button"], [role="tab"] { -webkit-tap-highlight-color: transparent; }
 /* Счётчики количества: быстрые серии тапов без выделения текста и случайных зумов */
-.cart-product__counter > button, .product-preview__counter > button, .product__counter > button, .qty button { touch-action: manipulation; }
+.product-preview__counter > button, .product__counter > button, .qty button { touch-action: manipulation; }
 }
 
 @layer base{
@@ -3239,7 +3239,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-}.product__action > button > svg, .product__counter > button > svg, .cart-product__counter > button > svg, .cabinet__bar-ico svg, .role-next__icon svg{ width: 20px; height: 20px; }
+}.product__action > button > svg, .product__counter > button > svg, .cabinet__bar-ico svg, .role-next__icon svg{ width: 20px; height: 20px; }
 .product__counter{
   display: grid;
   grid-template-columns: 44px 1fr 44px;
@@ -3249,8 +3249,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
   background: var(--lv-pink);
   height: 44px;
 }
-.product__counter > span{ text-align: center; color: var(--lv-on-brand, var(--lv-white)); font-size: 14px; font-weight: 700; }.product__counter > button, .cart-product__counter > button{ width: 100%; height: 100%; border: 0; background: none; display: flex; align-items: center; justify-content: center; color: var(--lv-pink-dark); cursor: pointer; transition: opacity .15s; }
-.cart-product__counter > button:active{ opacity: .55; }
+.product__counter > span{ text-align: center; color: var(--lv-on-brand, var(--lv-white)); font-size: 14px; font-weight: 700; }.product__counter > button{ width: 100%; height: 100%; border: 0; background: none; display: flex; align-items: center; justify-content: center; color: var(--lv-pink-dark); cursor: pointer; transition: opacity .15s; }
 
 /* Инфо-лист точки (StoreInfoSheet) */
 .sf-info-rows{ display: grid; grid-template-columns: 1fr; gap: 2px; }
@@ -3379,24 +3378,16 @@ html[data-motion='off'] *::after {
 /* SZ-062 · карточка списка товаров в корзине: внутренние отступы */
 .cart-info__products{ padding: 4px 16px 16px; }
 .cart-info__products{ gap: 0; }
-.cart-product:first-of-type{ padding-top: 0; }
 .cart-info__products, .orders__list{ margin: 16px 0 0; display: grid; grid-template-columns: 1fr; gap: 16px; }
 
 /* Позиция корзины (CartProduct) */
 /* Строка товара: плитка 64 · название и сумма позиции сверху · счётчик и цена за штуку снизу.
    Обе пары выровнены по общим колонкам, разделитель внутренний — начинается от текстовой колонки,
    поэтому плиточная колонка читается как непрерывная рейка. */
-.cart-product{ display: grid; grid-template-columns: 64px 1fr; gap: 14px; align-items: start; padding: 16px 0; position: relative; }
-.cart-product + .cart-product::before{ content: ""; position: absolute; left: 78px; right: 0; top: 0; height: 1px; background: var(--lv-line-2); }
-.cart-product:first-of-type{ padding-top: 0; }
-.cart-product:first-of-type{ border-top: 0; padding-top: 0; }
-.cart-product > span{ width: 64px; height: 64px; border-radius: var(--lv-r-sm); display: inline-flex; align-items: center; justify-content: center; }
-.cart-product__info{ display: grid; grid-template-columns: 1fr auto; gap: 8px 12px; align-items: center; min-width: 0; }
-.cart-product__name{ grid-column: 1; grid-row: 1; margin: 0; color: var(--lv-ink); font-size: 15px; font-weight: 600; line-height: 1.35; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-.cart-product__sum{ grid-column: 2; grid-row: 1; color: var(--lv-ink); font-size: 15px; font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
-.cart-product__unit{ grid-column: 2; grid-row: 2; margin: 0; color: var(--lv-dim); font-size: 12.5px; font-weight: 500; line-height: 1.4; white-space: nowrap; text-align: right; }
-.cart-product__counter{ grid-column: 1; grid-row: 2; justify-self: start; display: grid; grid-template-columns: 40px 34px 40px; align-items: center; height: 34px; border-radius: var(--lv-r-pill); background: var(--lv-surface); box-shadow: inset 0 0 0 1px var(--lv-line-2); }
-.cart-product__counter > span{ text-align: center; color: var(--lv-ink); font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; }
+/* Строка корзины собрана из системного ряда .row-item; своя только правая рейка «сумма + счётчик» */
+.cart-row__rail{ display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+.cart-row__sum{ font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--lv-ink); white-space: nowrap; }
+.cart-row__rail .qty button svg{ width: 16px; height: 16px; }
 
 /* Сводка (cart-summary) */
 .cart-summary{margin: 16px 0 0; padding: 16px; background-color: var(--lv-card);}
