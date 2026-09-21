@@ -3552,9 +3552,7 @@ body.cabinet-mode #view{ padding-bottom: 0; }
 .msp-starter__step[data-done='true'] .msp-starter__step-check{ background: var(--lv-tiffany); border-color: var(--lv-tiffany); }
 .msp-starter__step[data-done='true']{ color: var(--lv-ink); }/* Заказы точки */ .msp-orders__list, /* Товары точки */ .msp-products__list{ padding: 12px 16px 16px; display: grid; gap: 10px; }
 .msp-order-row{ display: grid; grid-template-columns: 36px 1fr auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: var(--lv-r-sm); border: 1px solid var(--lv-line); }
-.msp-order-row__ico{ width: 36px; height: 36px; border-radius: var(--lv-r-sm); background: var(--lv-soft-gold); color: var(--lv-gold-text); display: inline-flex; align-items: center; justify-content: center; }
-.msp-order-row__ico svg{ width: 16px; height: 16px; }
-.msp-order-row__mid{ min-width: 0; }.msp-order-row__name, .msp-product-row__name{ font-size: 13px; font-weight: 700; color: var(--lv-ink); }.msp-order-row__meta, .msp-product-row__meta{ margin-top: 2px; font-size: 12px; color: var(--lv-dim); }
+.msp-product-row__name{ font-size: 13px; font-weight: 700; color: var(--lv-ink); }.msp-product-row__meta{ margin-top: 2px; font-size: 12px; color: var(--lv-dim); }
 .role-tag{ flex: none; padding: 2px 10px; border-radius: var(--lv-r-pill); background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); font-size: 11px; font-weight: 800; white-space: nowrap; }
 .msp-product-row{ display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; align-items: center; }
 .msp-product-row__thumb{ width: 44px; height: 44px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; }

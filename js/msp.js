@@ -328,10 +328,10 @@ function mspOverview() {
     <div class="msp-overview cabinet-screen">
       <section class="card role-card" style="padding:12px 16px 12px">
         <div class="msp-order-row is-link" role="button" data-action="msp-payment" style="border:0;padding:0">
-          <span class="msp-order-row__ico">${icon('banknote')}</span>
-          <div class="msp-order-row__mid">
-            <div class="msp-order-row__name">Счёт верификации · 1 ₽</div>
-            <div class="msp-order-row__meta">Проверочный платёж с расчётного счёта компании</div>
+          <span class="sr-ico t-gold">${icon('banknote')}</span>
+          <div class="ri-mid">
+            <div class="nm">Счёт верификации · 1 ₽</div>
+            <div class="sb">Проверочный платёж с расчётного счёта компании</div>
           </div>
           <span class="role-tag">${mspUi.payment === 'done' ? 'Оплачен' : mspUi.payment === 'verifying' ? 'Идёт комплаенс' : 'Ждёт оплаты'}</span>
         </div>
@@ -368,10 +368,10 @@ function mspOverview() {
         <div class="msp-orders__list">
           ${orders.slice(0, 3).map((o) => `
             <div class="msp-order-row is-link" role="button" tabindex="0" data-action="msp-order" data-id="${mEsc2(o.id)}">
-              <span class="msp-order-row__ico">${icon('bag')}</span>
-              <div class="msp-order-row__mid">
-                <div class="msp-order-row__name">Заказ №${mEsc2(o.id)} · ${oFmt(o.total)}&nbsp;₽</div>
-                <div class="msp-order-row__meta">${oDate(o.createdAt)} · ${o.deliveryType === 'delivery' ? 'Доставка' : 'Самовывоз'}</div>
+              <span class="sr-ico t-gold">${icon('bag')}</span>
+              <div class="ri-mid">
+                <div class="nm">Заказ №${mEsc2(o.id)} · ${oFmt(o.total)}&nbsp;₽</div>
+                <div class="sb">${oDate(o.createdAt)} · ${o.deliveryType === 'delivery' ? 'Доставка' : 'Самовывоз'}</div>
               </div>
               <span class="role-tag">${mspOrderStatus(o)}</span>
             </div>`).join('') || '<p class="stores__noresult">Заказов пока нет</p>'}
@@ -432,10 +432,10 @@ function mspOrders() {
       <div class="msp-orders__list">
         ${orders.map((o) => `
           <div class="msp-order-row is-link" role="button" tabindex="0" data-action="msp-order" data-id="${mEsc2(o.id)}">
-            <span class="msp-order-row__ico">${icon('bag')}</span>
-            <div class="msp-order-row__mid">
-              <div class="msp-order-row__name">Заказ №${mEsc2(o.id)} · ${oFmt(o.total)}&nbsp;₽</div>
-              <div class="msp-order-row__meta">${oDate(o.createdAt)} · ${o.deliveryType === 'delivery' ? 'Доставка' : 'Самовывоз'} · ${o.items.reduce((s, c) => s + c.qty, 0)} поз.</div>
+            <span class="sr-ico t-gold">${icon('bag')}</span>
+            <div class="ri-mid">
+              <div class="nm">Заказ №${mEsc2(o.id)} · ${oFmt(o.total)}&nbsp;₽</div>
+              <div class="sb">${oDate(o.createdAt)} · ${o.deliveryType === 'delivery' ? 'Доставка' : 'Самовывоз'} · ${o.items.reduce((s, c) => s + c.qty, 0)} поз.</div>
             </div>
             <span class="role-tag">${mspOrderStatus(o)}</span>
           </div>`).join('') || '<p class="stores__noresult">Заказов пока нет</p>'}
@@ -514,10 +514,10 @@ function mspSettings() {
         <div class="role-section-head"><h2>Магазин</h2><span class="role-section-head__sub">видно клиентам</span></div>
         <div style="padding:12px 16px 16px">
           <div class="msp-order-row" style="border:0;padding:0">
-            <span class="msp-order-row__ico" style="background:var(--lv-soft-tiffany);color:var(--lv-tiffany-text)">${icon('store')}</span>
-            <div class="msp-order-row__mid">
-              <div class="msp-order-row__name">${mEsc2(point.name)}</div>
-              <div class="msp-order-row__meta">Выключишь — точка скроется с витрины</div>
+            <span class="sr-ico t-gold" style="background:var(--lv-soft-tiffany);color:var(--lv-tiffany-text)">${icon('store')}</span>
+            <div class="ri-mid">
+              <div class="nm">${mEsc2(point.name)}</div>
+              <div class="sb">Выключишь — точка скроется с витрины</div>
             </div>
             <button type="button" class="app-switch${point.open ? ' on' : ''}" data-action="msp-shop"><span class="app-switch__knob"></span></button>
           </div>
@@ -586,9 +586,9 @@ function mspPayment() {
       <section class="card role-card" style="padding:16px">
         <div class="msp-order-row" style="border:0;padding:0">
           <span class="role-pulse" aria-hidden="true"></span>
-          <div class="msp-order-row__mid">
-            <div class="msp-order-row__name">Идёт комплаенс — банк подтверждает платёж</div>
-            <div class="msp-order-row__meta">Экран обновится сам, точка станет активной</div>
+          <div class="ri-mid">
+            <div class="nm">Идёт комплаенс — банк подтверждает платёж</div>
+            <div class="sb">Экран обновится сам, точка станет активной</div>
           </div>
         </div>
       </section>` : `

@@ -133,10 +133,10 @@ function repOverview() {
         <div class="msp-orders__list">
           ${REP_SEED.queue.map((q) => `
             <div class="msp-order-row">
-              <span class="msp-order-row__ico">${icon('store')}</span>
-              <div class="msp-order-row__mid">
-                <div class="msp-order-row__name">${mEsc2(q.name)}</div>
-                <div class="msp-order-row__meta">${mEsc2(q.status)}</div>
+              <span class="sr-ico t-gold">${icon('store')}</span>
+              <div class="ri-mid">
+                <div class="nm">${mEsc2(q.name)}</div>
+                <div class="sb">${mEsc2(q.status)}</div>
               </div>
               <span class="role-tag">${mEsc2(q.status)}</span>
             </div>`).join('')}
@@ -153,10 +153,10 @@ function repPoints() {
         <div class="msp-orders__list">
           ${REP_SEED.points.map((p) => `
             <div class="msp-order-row">
-              <span class="msp-order-row__ico">${icon('store')}</span>
-              <div class="msp-order-row__mid">
-                <div class="msp-order-row__name">${mEsc2(p.name)}</div>
-                <div class="msp-order-row__meta">${mEsc2(p.address)}</div>
+              <span class="sr-ico t-gold">${icon('store')}</span>
+              <div class="ri-mid">
+                <div class="nm">${mEsc2(p.name)}</div>
+                <div class="sb">${mEsc2(p.address)}</div>
               </div>
               <span class="role-tag">${mEsc2(p.status)}</span>
             </div>`).join('')}
@@ -173,10 +173,10 @@ function repApprovals() {
         <div class="msp-orders__list">
           ${REP_SEED.queue.concat(REP_SEED.points.map((p) => ({ name: p.name, status: 'Одобрена' }))).map((q) => `
             <div class="msp-order-row">
-              <span class="msp-order-row__ico">${icon('store')}</span>
-              <div class="msp-order-row__mid">
-                <div class="msp-order-row__name">${mEsc2(q.name)}</div>
-                <div class="msp-order-row__meta">${mEsc2(q.status)}</div>
+              <span class="sr-ico t-gold">${icon('store')}</span>
+              <div class="ri-mid">
+                <div class="nm">${mEsc2(q.name)}</div>
+                <div class="sb">${mEsc2(q.status)}</div>
               </div>
               <span class="role-tag">${mEsc2(q.status)}</span>
             </div>`).join('')}
@@ -247,10 +247,10 @@ function ambOverview() {
         <div class="msp-orders__list">
           ${AMB_SEED.training.map((t) => `
             <div class="msp-order-row">
-              <span class="msp-order-row__ico">${t.done ? icon('check-circle') : icon('star')}</span>
-              <div class="msp-order-row__mid">
-                <div class="msp-order-row__name">${mEsc2(t.name)}</div>
-                <div class="msp-order-row__meta">${t.lessons}</div>
+              <span class="sr-ico t-gold">${t.done ? icon('check-circle') : icon('star')}</span>
+              <div class="ri-mid">
+                <div class="nm">${mEsc2(t.name)}</div>
+                <div class="sb">${t.lessons}</div>
               </div>
               <span class="role-tag">${t.done ? 'Пройден' : 'В работе'}</span>
             </div>`).join('')}
@@ -267,10 +267,10 @@ function ambReps() {
         <div class="msp-orders__list">
           ${AMB_SEED.repsList.map((r) => `
             <div class="msp-order-row">
-              <span class="msp-order-row__ico">${icon('user')}</span>
-              <div class="msp-order-row__mid">
-                <div class="msp-order-row__name">${mEsc2(r.name)}</div>
-                <div class="msp-order-row__meta">${mEsc2(r.note)}</div>
+              <span class="sr-ico t-gold">${icon('user')}</span>
+              <div class="ri-mid">
+                <div class="nm">${mEsc2(r.name)}</div>
+                <div class="sb">${mEsc2(r.note)}</div>
               </div>
               <span class="role-tag">Активен</span>
             </div>`).join('')}
@@ -287,10 +287,10 @@ function ambTraining() {
         <div class="msp-orders__list">
           ${AMB_SEED.training.map((t) => `
             <div class="msp-order-row">
-              <span class="msp-order-row__ico">${icon('star')}</span>
-              <div class="msp-order-row__mid">
-                <div class="msp-order-row__name">${mEsc2(t.name)}</div>
-                <div class="msp-order-row__meta">${t.lessons}</div>
+              <span class="sr-ico t-gold">${icon('star')}</span>
+              <div class="ri-mid">
+                <div class="nm">${mEsc2(t.name)}</div>
+                <div class="sb">${t.lessons}</div>
               </div>
               <span class="role-tag">${t.done ? 'Пройден' : 'В работе'}</span>
             </div>`).join('')}
@@ -416,10 +416,10 @@ function ownerOverview() {
         <div class="msp-orders__list">
           ${f.legals.map((l) => `
             <div class="msp-order-row">
-              <span class="msp-order-row__ico">${icon('building')}</span>
-              <div class="msp-order-row__mid">
-                <div class="msp-order-row__name">${mEsc2(l.name)}</div>
-                <div class="msp-order-row__meta">суммарная выручка точек</div>
+              <span class="sr-ico t-gold">${icon('building')}</span>
+              <div class="ri-mid">
+                <div class="nm">${mEsc2(l.name)}</div>
+                <div class="sb">суммарная выручка точек</div>
               </div>
               <span class="role-tag">${rolesMoney(l.gmv)}</span>
             </div>`).join('')}
@@ -466,10 +466,10 @@ function ownerStructure() {
         <div class="msp-orders__list">
           ${rows.map((r) => `
             <div class="msp-order-row">
-              <span class="msp-order-row__ico">${r.emoji}</span>
-              <div class="msp-order-row__mid">
-                <div class="msp-order-row__name">${mEsc2(r.name)}</div>
-                <div class="msp-order-row__meta">${mEsc2(r.region)}</div>
+              <span class="sr-ico t-gold">${r.emoji}</span>
+              <div class="ri-mid">
+                <div class="nm">${mEsc2(r.name)}</div>
+                <div class="sb">${mEsc2(r.region)}</div>
               </div>
               <span class="role-tag" style="${r.status === 'offline' ? 'background:var(--lv-surface);color:var(--lv-dim)' : ''}">${r.status === 'offline' ? 'Оффлайн' : 'Активна'}</span>
             </div>`).join('')}
@@ -525,10 +525,10 @@ function investorSales() {
         <div class="msp-orders__list">
           ${LOVII_DATA.stores.slice(0, 3).map((s) => `
             <div class="msp-order-row">
-              <span class="msp-order-row__ico">${s.emoji}</span>
-              <div class="msp-order-row__mid">
-                <div class="msp-order-row__name">${mEsc2(s.name)}</div>
-                <div class="msp-order-row__meta">выручка месяца</div>
+              <span class="sr-ico t-gold">${s.emoji}</span>
+              <div class="ri-mid">
+                <div class="nm">${mEsc2(s.name)}</div>
+                <div class="sb">выручка месяца</div>
               </div>
               <span class="role-tag">Активна</span>
             </div>`).join('')}
