@@ -392,10 +392,10 @@ function mspProducts() {
 
   const renderList = (pt) => pt.products.map((p) => `
     <div class="msp-product-row">
-      <span class="msp-product-row__thumb" style="background-color:${p.bg}"><i class="sf-emoji sf-emoji-xs">${p.emoji}</i></span>
-      <div class="msp-product-row__mid">
-        <div class="msp-product-row__name">${mEsc2(p.name)}</div>
-        <div class="msp-product-row__meta">${oFmt(p.price)}&nbsp;₽ · ${mEsc2(p.unit || '1 шт')}</div>
+      <span class="ri-emoji" style="background-color:${p.bg}"><i class="sf-emoji sf-emoji-xs">${p.emoji}</i></span>
+      <div class="ri-mid">
+        <div class="nm">${mEsc2(p.name)}</div>
+        <div class="sb">${oFmt(p.price)}&nbsp;₽ · ${mEsc2(p.unit || '1 шт')}</div>
       </div>
       <button type="button" class="app-switch${p.on ? ' on' : ''}" aria-label="В продаже"
         data-action="msp-sale" data-point="${pt.id}" data-pid="${p.id}"><span class="app-switch__knob"></span></button>
