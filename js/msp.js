@@ -392,7 +392,7 @@ function mspProducts() {
 
   const renderList = (pt) => pt.products.map((p) => `
     <div class="msp-product-row">
-      <span class="ri-emoji" style="background-color:${p.bg}"><i class="sf-emoji sf-emoji-xs">${p.emoji}</i></span>
+      <span class="ri-emoji" style="background-color:${p.bg}">${thumb(p, 'sf-emoji-xs')}</span>
       <div class="ri-mid">
         <div class="nm">${mEsc2(p.name)}</div>
         <div class="sb">${oFmt(p.price)}&nbsp;₽ · ${mEsc2(p.unit || '1 шт')}</div>

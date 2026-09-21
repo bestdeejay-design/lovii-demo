@@ -116,7 +116,7 @@ function oCartProductRow(cart, item) {
   const many = item.qty > 1;
   return `
     <div class="row-item">
-      <span class="ri-emoji" style="background-color:${item.bg || '#eee'}"><i class="sf-emoji sf-emoji-sm">${item.emoji}</i></span>
+      <span class="ri-emoji" style="background-color:${item.bg || '#eee'}">${thumb(item, 'sf-emoji-sm')}</span>
       <div class="ri-mid">
         <div class="nm">${oEsc(item.name)}</div>
         <div class="sb"><span class="row-amount">${oFmt(item.price * item.qty)}&nbsp;₽</span>${many ? `&nbsp;· &nbsp;${oFmt(item.price)}&nbsp;₽ / шт` : ''}</div>
@@ -157,14 +157,14 @@ function renderCartMirror() {
         <section class="cart__shops">
           ${carts.map((c) => `
             <button type="button" data-testid="cart-tab" class="${c.slug === slug ? 'active' : ''}" data-action="o-cart-tab" data-slug="${oEsc(c.slug)}">
-              <span style="background-color:${c.bg}"><i class="sf-emoji sf-emoji-sm">${c.emoji}</i></span>
+              <span style="background-color:${c.bg}">${thumb(c, 'sf-emoji-sm')}</span>
               <span>${oEsc(c.name)}</span>
             </button>`).join('')}
         </section>` : ''}
 
       <section class="cart-info">
         <div class="card cart-info__store">
-          <span style="background-color:${cart.bg}"><i class="sf-emoji sf-emoji-sm">${cart.emoji}</i></span>
+          <span style="background-color:${cart.bg}">${thumb(cart, 'sf-emoji-sm')}</span>
           <p>${oEsc(cart.name)}</p>
         </div>
         <div class="card cart-info__products">
@@ -214,7 +214,7 @@ function renderCheckoutMirror(slug) {
           </button>`
         : `
           <div class="create-order-delivery__merchant">
-            <span style="background-color:${cart.bg}"><i class="sf-emoji sf-emoji-sm">${cart.emoji}</i></span>
+            <span style="background-color:${cart.bg}">${thumb(cart, 'sf-emoji-sm')}</span>
             <p>${oEsc(cart.name)}</p>
           </div>`}
       </section>
@@ -323,7 +323,7 @@ function renderOrderSuccess(order) {
 
 function oOrderCard(order) {
   const thumbs = order.items.slice(0, 4).map((it) =>
-    `<span style="background-color:${it.bg || '#eee'}"><i class="sf-emoji sf-emoji-xs">${it.emoji}</i></span>`).join('');
+    `<span style="background-color:${it.bg || '#eee'}">${thumb(it, 'sf-emoji-xs')}</span>`).join('');
   return `
     <a href="#/order/${oEsc(order.id)}" class="card order-preview" data-testid="order-card">
       <div class="order-preview__header">
@@ -372,7 +372,7 @@ function renderOrderDetailMirror(id) {
         <div class="card cart-info__products">
           ${order.items.map((it) => `
             <div class="row-item">
-              <span class="ri-emoji" style="background-color:${it.bg || '#eee'}"><i class="sf-emoji sf-emoji-sm">${it.emoji}</i></span>
+              <span class="ri-emoji" style="background-color:${it.bg || '#eee'}">${thumb(it, 'sf-emoji-sm')}</span>
               <div class="ri-mid">
                 <div class="nm">${oEsc(it.name)}</div>
                 ${it.qty > 1 ? `<div class="sb">${oFmt(it.price)}&nbsp;₽ × ${it.qty}</div>` : ''}

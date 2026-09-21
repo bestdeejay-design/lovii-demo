@@ -131,7 +131,7 @@ function sfPopular() {
       <div class="home-popular__list">
         ${visible.map((s) => `
           <a href="#/store/${sfEsc(s.id)}" class="card card--flush card--tap popular-store">
-            <span style="background-color:${s.logoBg}"><i class="sf-emoji">${s.emoji}</i></span>
+            <span style="background-color:${s.logoBg}">${thumb(s)}</span>
             <h5>${sfEsc(s.name)}</h5>
           </a>`).join('')}
         <a href="#/popular">
@@ -176,10 +176,10 @@ function sfNearby() {
         ${stores.map((s) => `
           <a href="#/store/${sfEsc(s.id)}" class="card card--tap nearby-store">
             <div class="nearby-store__products">
-              ${s.products.map((p) => `<span style="background-color:${p.bg}"><i class="sf-emoji">${p.e}</i></span>`).join('')}
+              ${s.products.map((p) => `<span style="background-color:${p.bg}">${thumb(p)}</span>`).join('')}
             </div>
             <div class="nearby-store__info">
-              <span style="background-color:${s.logoBg}"><i class="sf-emoji sf-emoji-lg">${s.emoji}</i></span>
+              <span style="background-color:${s.logoBg}">${thumb(s, 'sf-emoji-lg')}</span>
               <div class="nearby-store__description">
                 <h4>${sfEsc(s.name)}</h4>
                 <p class="${s.open ? 'open' : 'close'}">${sfAvailability(s)}</p>
@@ -210,7 +210,7 @@ function sfCatalogRow(s) {
   return `
     <div class="card card--tap catalog-store">
       <a href="#/store/${sfEsc(s.id)}" class="catalog-store__link" data-testid="store-card">
-        <span class="catalog-store__logo" style="background-color:${s.logoBg}"><i class="sf-emoji">${s.emoji}</i></span>
+        <span class="catalog-store__logo" style="background-color:${s.logoBg}">${thumb(s)}</span>
         <span class="catalog-store__info">
           <h4 class="catalog-store__name">${sfEsc(s.name)}</h4>
           <p class="catalog-store__meta">
@@ -402,7 +402,7 @@ function sfProductCard(product, storeId) {
   const qty = sfCartQty(product.id, storeId);
   return `
     <a href="#/product/${product.id}" class="card product-preview" data-testid="product-card" data-mir-store="${sfEsc(storeId)}">
-      <span style="background-color:${product.bg}"><i class="sf-emoji">${product.e}</i></span>
+      <span style="background-color:${product.bg}">${thumb(product)}</span>
       <div class="product-preview__info">
         <h4>${sfEsc(product.t)}</h4>
         <span>${sfEsc(product.unit || '')}</span>
@@ -427,7 +427,7 @@ function renderStoreMirror(slug) {
 
   const card = `
     <section class="place-card">
-      <span style="background-color:${store.logoBg}"><i class="sf-emoji sf-emoji-lg">${store.emoji}</i></span>
+      <span style="background-color:${store.logoBg}">${thumb(store, 'sf-emoji-lg')}</span>
       <div class="place-card__info">
         <h3>
           <span>${sfEsc(store.name)}</span>
@@ -481,7 +481,7 @@ function renderStoreMirror(slug) {
           <div class="store-categories__list">
             ${goods.cats.map((c) => `
               <button type="button" class="${c.id === catId ? 'active' : ''}" data-action="sf-cat" data-value="${c.id}">
-                <span style="background-color:${c.bg}"><i class="sf-emoji sf-emoji-sm">${c.e}</i>${c.id === catId ? '<b class="sf-cat-check">' + icon('check') + '</b>' : ''}</span>
+                <span style="background-color:${c.bg}">${thumb(c, 'sf-emoji-sm')}${c.id === catId ? '<b class="sf-cat-check">' + icon('check') + '</b>' : ''}</span>
                 ${c.name}
               </button>`).join('')}
           </div>
@@ -520,7 +520,7 @@ function renderProductMirror(slug) {
     <main class="product container">
       <div class="product__image" style="background-color:${product.bg}">
         <button type="button" class="sf-back" data-action="back" aria-label="Назад">${icon('chev-left')}</button>
-        <i class="sf-emoji sf-emoji-xl">${product.e}</i>
+        ${thumb(product, 'sf-emoji-xl')}
       </div>
 
       <section class="product__info">

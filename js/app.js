@@ -353,6 +353,18 @@ function toast(msg, desc, tone) {
   }, 2400);
 }
 
+/* Плитка позиции: фото, если оно сгенерировано; иначе прежняя эмодзи-плитка */
+function thumb(item, emojiCls = '') {
+  const slug = item && (item.slug || item.id);
+  const bySlug = slug && window.LOVII_PHOTOS && window.LOVII_PHOTOS[slug];
+  const nmKey = item && (item.name || item.t || item.title);
+  const nm = nmKey && window.LOVII_PHOTO_NAMES && window.LOVII_PHOTO_NAMES[String(nmKey).trim().toLowerCase()];
+  const src = bySlug || nm;
+  if (src) return `<img class="thumb-img" src="${src}" alt="" loading="lazy" decoding="async">`;
+  const emoji = (item && (item.emoji || item.e)) || '';
+  return `<i class="sf-emoji${emojiCls ? ' ' + emojiCls.trim() : ''}">${emoji}</i>`;
+}
+
 /* ================= Корзина ================= */
 
 function addToCart(item, qty = 1) {

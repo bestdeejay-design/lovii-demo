@@ -1,0 +1,532 @@
+{
+ "sloyka": {
+  "file": "assets/photos/sloyka.jpg",
+  "id": 1314,
+  "prompt": "fresh bakery pastry, food photography, soft warm light, light background — Пекарня «Слойка»",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-qjutuwxpega6.jpg",
+  "detail": "https://www.picsum.dev/gallery/1314",
+  "fetched": "2026-09-22",
+  "name": "Пекарня «Слойка»"
+ },
+ "daily": {
+  "file": "assets/photos/daily.jpg",
+  "id": 1315,
+  "prompt": "coffee drink in a paper cup, food photography, warm light — Кофейня «Daily»",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-z72aefxfwpgi.jpg",
+  "detail": "https://www.picsum.dev/gallery/1315",
+  "fetched": "2026-09-22",
+  "name": "Кофейня «Daily»"
+ },
+ "flowers": {
+  "file": "assets/photos/flowers.jpg",
+  "id": 1316,
+  "prompt": "fresh flower bouquet, soft daylight, minimal background — Цветы «Fresh»",
+  "category": "nature",
+  "source": "https://www.picsum.dev/images/ai/nature/nature-kthnq35cpsut.jpg",
+  "detail": "https://www.picsum.dev/gallery/1316",
+  "fetched": "2026-09-22",
+  "name": "Цветы «Fresh»"
+ },
+ "miya": {
+  "file": "assets/photos/miya.jpg",
+  "id": 1317,
+  "prompt": "product photo, clean light background, soft shadow — Суши «Мия»",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-5nugvpnvb3ix.jpg",
+  "detail": "https://www.picsum.dev/gallery/1317",
+  "fetched": "2026-09-22",
+  "name": "Суши «Мия»"
+ },
+ "forno": {
+  "file": "assets/photos/forno.jpg",
+  "id": 1318,
+  "prompt": "italian pizza, top view, food photography — Пиццерия «Forno»",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-irpwowogcrpf.jpg",
+  "detail": "https://www.picsum.dev/gallery/1318",
+  "fetched": "2026-09-22",
+  "name": "Пиццерия «Forno»"
+ },
+ "udoma": {
+  "file": "assets/photos/udoma.jpg",
+  "id": 1319,
+  "prompt": "fresh groceries, vegetables and greens, top view, light background — Продукты «У дома»",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-71tlp2il0d7p.jpg",
+  "detail": "https://www.picsum.dev/gallery/1319",
+  "fetched": "2026-09-22",
+  "name": "Продукты «У дома»"
+ },
+ "grill": {
+  "file": "assets/photos/grill.jpg",
+  "id": 1320,
+  "prompt": "juicy burger with fries, food photography, warm light — Бургерная «Гриль»",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-sjaicjyzy5mm.jpg",
+  "detail": "https://www.picsum.dev/gallery/1320",
+  "fetched": "2026-09-22",
+  "name": "Бургерная «Гриль»"
+ },
+ "health": {
+  "file": "assets/photos/health.jpg",
+  "id": 1321,
+  "prompt": "pharmacy products on a clean white background — Аптека «Здоровье»",
+  "category": "business",
+  "source": "https://www.picsum.dev/images/ai/business/business-daqv13pschey.jpg",
+  "detail": "https://www.picsum.dev/gallery/1321",
+  "fetched": "2026-09-22",
+  "name": "Аптека «Здоровье»"
+ },
+ "snejinka": {
+  "file": "assets/photos/snejinka.jpg",
+  "id": 1322,
+  "prompt": "beauty salon tools, soft pink background, minimal — Химчистка «Снежинка»",
+  "category": "business",
+  "source": "https://www.picsum.dev/images/ai/business/business-cqleoteqsmqr.jpg",
+  "detail": "https://www.picsum.dev/gallery/1322",
+  "fetched": "2026-09-22",
+  "name": "Химчистка «Снежинка»"
+ },
+ "krasota": {
+  "file": "assets/photos/krasota.jpg",
+  "id": 1323,
+  "prompt": "beauty salon tools, soft pink background, minimal — Салон «Красота»",
+  "category": "business",
+  "source": "https://www.picsum.dev/images/ai/business/business-hk3z2gwzorw8.jpg",
+  "detail": "https://www.picsum.dev/gallery/1323",
+  "fetched": "2026-09-22",
+  "name": "Салон «Красота»"
+ },
+ "igla": {
+  "file": "assets/photos/igla.jpg",
+  "id": 1324,
+  "prompt": "product photo, clean light background, soft shadow — Ателье «Игла»",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-n4jklxeuyjef.jpg",
+  "detail": "https://www.picsum.dev/gallery/1324",
+  "fetched": "2026-09-22",
+  "name": "Ателье «Игла»"
+ },
+ "shokolad": {
+  "file": "assets/photos/shokolad.jpg",
+  "id": 1325,
+  "prompt": "fresh bakery pastry, food photography, soft warm light, light background — Кондитерская «Шоколад»",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-gtjzf0sahgub.jpg",
+  "detail": "https://www.picsum.dev/gallery/1325",
+  "fetched": "2026-09-22",
+  "name": "Кондитерская «Шоколад»"
+ },
+ "derevnya": {
+  "file": "assets/photos/derevnya.jpg",
+  "id": 1326,
+  "prompt": "fresh groceries, vegetables and greens, top view, light background — Молочная «Деревня»",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-ijv48ptk814n.jpg",
+  "detail": "https://www.picsum.dev/gallery/1326",
+  "fetched": "2026-09-22",
+  "name": "Молочная «Деревня»"
+ },
+ "master": {
+  "file": "assets/photos/master.jpg",
+  "id": 1327,
+  "prompt": "product photo, clean light background, soft shadow — Ремонт обуви «Мастер»",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-jr5qpru07yh2.jpg",
+  "detail": "https://www.picsum.dev/gallery/1327",
+  "fetched": "2026-09-22",
+  "name": "Ремонт обуви «Мастер»"
+ },
+ "cr-almond": {
+  "file": "assets/photos/cr-almond.jpg",
+  "id": 1328,
+  "prompt": "fresh bakery pastry, food photography, soft warm light, light background — Круассан с миндалём",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-xlwyqoz1gxml.jpg",
+  "detail": "https://www.picsum.dev/gallery/1328",
+  "fetched": "2026-09-22",
+  "name": "Круассан с миндалём"
+ },
+ "sloyka-cherry": {
+  "file": "assets/photos/sloyka-cherry.jpg",
+  "id": 1329,
+  "prompt": "fresh bakery pastry, food photography, soft warm light, light background — Слойка с вишней",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-81nspbvywixq.jpg",
+  "detail": "https://www.picsum.dev/gallery/1329",
+  "fetched": "2026-09-22",
+  "name": "Слойка с вишней"
+ },
+ "bread-borodino": {
+  "file": "assets/photos/bread-borodino.jpg",
+  "id": 1330,
+  "prompt": "fresh bakery pastry, food photography, soft warm light, light background — Хлеб «Бородинский»",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-j9t8tmjjl6n3.jpg",
+  "detail": "https://www.picsum.dev/gallery/1330",
+  "fetched": "2026-09-22",
+  "name": "Хлеб «Бородинский»"
+ },
+ "eclear": {
+  "file": "assets/photos/eclear.jpg",
+  "id": 1331,
+  "prompt": "fresh bakery pastry, food photography, soft warm light, light background — Эклер шоколадный",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-nmyzrjbd8jz3.jpg",
+  "detail": "https://www.picsum.dev/gallery/1331",
+  "fetched": "2026-09-22",
+  "name": "Эклер шоколадный"
+ },
+ "cake-berry": {
+  "file": "assets/photos/cake-berry.jpg",
+  "id": 1332,
+  "prompt": "fresh bakery pastry, food photography, soft warm light, light background — Пирог с лесными ягодами",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-9jw8qmqutp0i.jpg",
+  "detail": "https://www.picsum.dev/gallery/1332",
+  "fetched": "2026-09-22",
+  "name": "Пирог с лесными ягодами"
+ },
+ "choco-truffle": {
+  "file": "assets/photos/choco-truffle.jpg",
+  "id": 1333,
+  "prompt": "fresh bakery pastry, food photography, soft warm light, light background — Шоколад ручной работы, набор",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-e0qbclygkxvg.jpg",
+  "detail": "https://www.picsum.dev/gallery/1333",
+  "fetched": "2026-09-22",
+  "name": "Шоколад ручной работы, набор"
+ },
+ "cappuccino": {
+  "file": "assets/photos/cappuccino.jpg",
+  "id": 1334,
+  "prompt": "coffee drink in a paper cup, food photography, warm light — Капучино 0,3",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-ijtljyvbfowi.jpg",
+  "detail": "https://www.picsum.dev/gallery/1334",
+  "fetched": "2026-09-22",
+  "name": "Капучино 0,3"
+ },
+ "latte": {
+  "file": "assets/photos/latte.jpg",
+  "id": 1335,
+  "prompt": "coffee drink in a paper cup, food photography, warm light — Латте на миндальном",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-pytpcvkqyj5j.jpg",
+  "detail": "https://www.picsum.dev/gallery/1335",
+  "fetched": "2026-09-22",
+  "name": "Латте на миндальном"
+ },
+ "cheesecake": {
+  "file": "assets/photos/cheesecake.jpg",
+  "id": 1336,
+  "prompt": "coffee drink in a paper cup, food photography, warm light — Чизкейк Нью-Йорк",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-n2oc2dwags6z.jpg",
+  "detail": "https://www.picsum.dev/gallery/1336",
+  "fetched": "2026-09-22",
+  "name": "Чизкейк Нью-Йорк"
+ },
+ "filter-ethiopia": {
+  "file": "assets/photos/filter-ethiopia.jpg",
+  "id": 1337,
+  "prompt": "coffee drink in a paper cup, food photography, warm light — Фильтр-кофе Эфиопия",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-hfvqlvbacvul.jpg",
+  "detail": "https://www.picsum.dev/gallery/1337",
+  "fetched": "2026-09-22",
+  "name": "Фильтр-кофе Эфиопия"
+ },
+ "roses-ecuador": {
+  "file": "assets/photos/roses-ecuador.jpg",
+  "id": 1338,
+  "prompt": "fresh flower bouquet, soft daylight, minimal background — Розы эквадорские, 5 шт",
+  "category": "nature",
+  "source": "https://www.picsum.dev/images/ai/nature/nature-rcfhhqjj6ws7.jpg",
+  "detail": "https://www.picsum.dev/gallery/1338",
+  "fetched": "2026-09-22",
+  "name": "Розы эквадорские, 5 шт"
+ },
+ "peony-bouquet": {
+  "file": "assets/photos/peony-bouquet.jpg",
+  "id": 1339,
+  "prompt": "fresh flower bouquet, soft daylight, minimal background — Монобукет из пионовидных роз",
+  "category": "nature",
+  "source": "https://www.picsum.dev/images/ai/nature/nature-2drvei9gwgrc.jpg",
+  "detail": "https://www.picsum.dev/gallery/1339",
+  "fetched": "2026-09-22",
+  "name": "Монобукет из пионовидных роз"
+ },
+ "spring-mix": {
+  "file": "assets/photos/spring-mix.jpg",
+  "id": 1340,
+  "prompt": "fresh flower bouquet, soft daylight, minimal background — Букет «Весна» микс",
+  "category": "nature",
+  "source": "https://www.picsum.dev/images/ai/nature/nature-pysewnaisuhq.jpg",
+  "detail": "https://www.picsum.dev/gallery/1340",
+  "fetched": "2026-09-22",
+  "name": "Букет «Весна» микс"
+ },
+ "philadelphia": {
+  "file": "assets/photos/philadelphia.jpg",
+  "id": 1341,
+  "prompt": "product photo, clean light background, soft shadow — Ролл «Филадельфия»",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-tywtpq5wm7gt.jpg",
+  "detail": "https://www.picsum.dev/gallery/1341",
+  "fetched": "2026-09-22",
+  "name": "Ролл «Филадельфия»"
+ },
+ "california": {
+  "file": "assets/photos/california.jpg",
+  "id": 1342,
+  "prompt": "product photo, clean light background, soft shadow — Ролл «Калифорния»",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-rncz0cnwtzzl.jpg",
+  "detail": "https://www.picsum.dev/gallery/1342",
+  "fetched": "2026-09-22",
+  "name": "Ролл «Калифорния»"
+ },
+ "set-miya": {
+  "file": "assets/photos/set-miya.jpg",
+  "id": 1343,
+  "prompt": "product photo, clean light background, soft shadow — Сет «Мия» на двоих",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-jpttyo09llg2.jpg",
+  "detail": "https://www.picsum.dev/gallery/1343",
+  "fetched": "2026-09-22",
+  "name": "Сет «Мия» на двоих"
+ },
+ "pepperoni": {
+  "file": "assets/photos/pepperoni.jpg",
+  "id": 1344,
+  "prompt": "italian pizza, top view, food photography — Пицца «Пепперони»",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-vvizbrds4b9e.jpg",
+  "detail": "https://www.picsum.dev/gallery/1344",
+  "fetched": "2026-09-22",
+  "name": "Пицца «Пепперони»"
+ },
+ "margarita": {
+  "file": "assets/photos/margarita.jpg",
+  "id": 1345,
+  "prompt": "italian pizza, top view, food photography — Пицца «Маргарита»",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-qvhw9nxf3t7y.jpg",
+  "detail": "https://www.picsum.dev/gallery/1345",
+  "fetched": "2026-09-22",
+  "name": "Пицца «Маргарита»"
+ },
+ "quattro": {
+  "file": "assets/photos/quattro.jpg",
+  "id": 1346,
+  "prompt": "italian pizza, top view, food photography — Пицца «4 сыра»",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-2mnds8ciooaf.jpg",
+  "detail": "https://www.picsum.dev/gallery/1346",
+  "fetched": "2026-09-22",
+  "name": "Пицца «4 сыра»"
+ },
+ "avocado": {
+  "file": "assets/photos/avocado.jpg",
+  "id": 1347,
+  "prompt": "fresh groceries, vegetables and greens, top view, light background — Авокадо Хасс, спелое",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-y2tk70992pkb.jpg",
+  "detail": "https://www.picsum.dev/gallery/1347",
+  "fetched": "2026-09-22",
+  "name": "Авокадо Хасс, спелое"
+ },
+ "milk": {
+  "file": "assets/photos/milk.jpg",
+  "id": 1348,
+  "prompt": "fresh groceries, vegetables and greens, top view, light background — Молоко фермерское 2,5%",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-tzjfidscavlx.jpg",
+  "detail": "https://www.picsum.dev/gallery/1348",
+  "fetched": "2026-09-22",
+  "name": "Молоко фермерское 2,5%"
+ },
+ "eggs": {
+  "file": "assets/photos/eggs.jpg",
+  "id": 1349,
+  "prompt": "fresh groceries, vegetables and greens, top view, light background — Яйца куриные С0",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-vnkz8jymv0ip.jpg",
+  "detail": "https://www.picsum.dev/gallery/1349",
+  "fetched": "2026-09-22",
+  "name": "Яйца куриные С0"
+ },
+ "brie": {
+  "file": "assets/photos/brie.jpg",
+  "id": 1350,
+  "prompt": "fresh groceries, vegetables and greens, top view, light background — Сыр «Бри» французский",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-rb4dpi8nmcgy.jpg",
+  "detail": "https://www.picsum.dev/gallery/1350",
+  "fetched": "2026-09-22",
+  "name": "Сыр «Бри» французский"
+ },
+ "coffee-beans": {
+  "file": "assets/photos/coffee-beans.jpg",
+  "id": 1351,
+  "prompt": "fresh groceries, vegetables and greens, top view, light background — Кофе зерновой для дома",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-5fsmhdirkn08.jpg",
+  "detail": "https://www.picsum.dev/gallery/1351",
+  "fetched": "2026-09-22",
+  "name": "Кофе зерновой для дома"
+ },
+ "tomatoes": {
+  "file": "assets/photos/tomatoes.jpg",
+  "id": 1352,
+  "prompt": "fresh groceries, vegetables and greens, top view, light background — Томаты «Бакинские»",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-eqcbaabkkfww.jpg",
+  "detail": "https://www.picsum.dev/gallery/1352",
+  "fetched": "2026-09-22",
+  "name": "Томаты «Бакинские»"
+ },
+ "cheeseburger": {
+  "file": "assets/photos/cheeseburger.jpg",
+  "id": 1353,
+  "prompt": "juicy burger with fries, food photography, warm light — Чизбургер «Гриль»",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-ifigzwtl51yn.jpg",
+  "detail": "https://www.picsum.dev/gallery/1353",
+  "fetched": "2026-09-22",
+  "name": "Чизбургер «Гриль»"
+ },
+ "fries": {
+  "file": "assets/photos/fries.jpg",
+  "id": 1354,
+  "prompt": "juicy burger with fries, food photography, warm light — Картофель фри с трюфелем",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-ppdpaos7dvub.jpg",
+  "detail": "https://www.picsum.dev/gallery/1354",
+  "fetched": "2026-09-22",
+  "name": "Картофель фри с трюфелем"
+ },
+ "lemonade": {
+  "file": "assets/photos/lemonade.jpg",
+  "id": 1355,
+  "prompt": "juicy burger with fries, food photography, warm light — Лимонад домашний",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-pzijrhvuigev.jpg",
+  "detail": "https://www.picsum.dev/gallery/1355",
+  "fetched": "2026-09-22",
+  "name": "Лимонад домашний"
+ },
+ "vitc": {
+  "file": "assets/photos/vitc.jpg",
+  "id": 1356,
+  "prompt": "pharmacy products on a clean white background — Витамин C 1000 мг",
+  "category": "business",
+  "source": "https://www.picsum.dev/images/ai/business/business-fkoymhwjor4a.jpg",
+  "detail": "https://www.picsum.dev/gallery/1356",
+  "fetched": "2026-09-22",
+  "name": "Витамин C 1000 мг"
+ },
+ "plaster": {
+  "file": "assets/photos/plaster.jpg",
+  "id": 1357,
+  "prompt": "pharmacy products on a clean white background — Пластыри бактерицидные",
+  "category": "business",
+  "source": "https://www.picsum.dev/images/ai/business/business-oedlwpm1ylt9.jpg",
+  "detail": "https://www.picsum.dev/gallery/1357",
+  "fetched": "2026-09-22",
+  "name": "Пластыри бактерицидные"
+ },
+ "thermometer": {
+  "file": "assets/photos/thermometer.jpg",
+  "id": 1358,
+  "prompt": "pharmacy products on a clean white background — Термометр инфракрасный",
+  "category": "business",
+  "source": "https://www.picsum.dev/images/ai/business/business-bjyqyand40wj.jpg",
+  "detail": "https://www.picsum.dev/gallery/1358",
+  "fetched": "2026-09-22",
+  "name": "Термометр инфракрасный"
+ },
+ "haircut": {
+  "file": "assets/photos/haircut.jpg",
+  "id": 1359,
+  "prompt": "beauty salon tools, soft pink background, minimal — Стрижка женская",
+  "category": "business",
+  "source": "https://www.picsum.dev/images/ai/business/business-pf92tq6b1raj.jpg",
+  "detail": "https://www.picsum.dev/gallery/1359",
+  "fetched": "2026-09-22",
+  "name": "Стрижка женская"
+ },
+ "manicure": {
+  "file": "assets/photos/manicure.jpg",
+  "id": 1360,
+  "prompt": "beauty salon tools, soft pink background, minimal — Маникюр гель-лак",
+  "category": "business",
+  "source": "https://www.picsum.dev/images/ai/business/business-bad6fbdwmvij.jpg",
+  "detail": "https://www.picsum.dev/gallery/1360",
+  "fetched": "2026-09-22",
+  "name": "Маникюр гель-лак"
+ },
+ "coat-clean": {
+  "file": "assets/photos/coat-clean.jpg",
+  "id": 1361,
+  "prompt": "product photo, clean light background, soft shadow — Химчистка пальто",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-ekbvmrcswish.jpg",
+  "detail": "https://www.picsum.dev/gallery/1361",
+  "fetched": "2026-09-22",
+  "name": "Химчистка пальто"
+ },
+ "carpet-clean": {
+  "file": "assets/photos/carpet-clean.jpg",
+  "id": 1362,
+  "prompt": "product photo, clean light background, soft shadow — Химчистка ковра",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-avdxrnbi5ulx.jpg",
+  "detail": "https://www.picsum.dev/gallery/1362",
+  "fetched": "2026-09-22",
+  "name": "Химчистка ковра"
+ },
+ "trousers-hem": {
+  "file": "assets/photos/trousers-hem.jpg",
+  "id": 1363,
+  "prompt": "product photo, clean light background, soft shadow — Подшить брюки",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-en8vr9x810da.jpg",
+  "detail": "https://www.picsum.dev/gallery/1363",
+  "fetched": "2026-09-22",
+  "name": "Подшить брюки"
+ },
+ "dress-fit": {
+  "file": "assets/photos/dress-fit.jpg",
+  "id": 1364,
+  "prompt": "product photo, clean light background, soft shadow — Подгонка платья по фигуре",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-ph4yrgznvcie.jpg",
+  "detail": "https://www.picsum.dev/gallery/1364",
+  "fetched": "2026-09-22",
+  "name": "Подгонка платья по фигуре"
+ },
+ "heels-fix": {
+  "file": "assets/photos/heels-fix.jpg",
+  "id": 1365,
+  "prompt": "product photo, clean light background, soft shadow — Замена набоек",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-hblzxruynmlq.jpg",
+  "detail": "https://www.picsum.dev/gallery/1365",
+  "fetched": "2026-09-22",
+  "name": "Замена набоек"
+ },
+ "shoes-shine": {
+  "file": "assets/photos/shoes-shine.jpg",
+  "id": 1366,
+  "prompt": "product photo, clean light background, soft shadow — Полная реставрация обуви",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-zlftvlp5losc.jpg",
+  "detail": "https://www.picsum.dev/gallery/1366",
+  "fetched": "2026-09-22",
+  "name": "Полная реставрация обуви"
+ }
+}
