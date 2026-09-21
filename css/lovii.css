@@ -3392,9 +3392,8 @@ html[data-motion='off'] *::after {
 .cart-list .ri-mid .sb, .cart-info__products .ri-mid .sb{ display: block; margin-top: 2px; }
 .cart-list .ri-mid .sb .row-amount, .cart-info__products .ri-mid .sb .row-amount{ font-size: 15px; margin-right: 4px; }
 /* Строка корзины собрана из системного ряда .row-item; своя только правая рейка «сумма + счётчик» */
-.row-rail{ display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
 .row-amount{ font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--lv-ink); white-space: nowrap; }
-.row-rail .qty button svg{ width: 16px; height: 16px; }
+.qty button svg{ width: 16px; height: 16px; }
 
 /* Сводка (cart-summary) */
 .cart-summary{margin: 16px 0 0; padding: 16px; background-color: var(--lv-card);}
@@ -3695,11 +3694,6 @@ body.cabinet-mode #view{ padding-bottom: 0; }
 .auth-note a{ color: var(--lv-pink); }
 .auth-note svg{ width: 12px; height: 12px; flex-shrink: 0; }
 .auth-phone-line{ margin: 0; color: var(--lv-dim); font-size: 13px; line-height: 1.5; }
-.soon-badge{
-  position: absolute; top: -7px; right: 10px; padding: 0px 6px;
-  border-radius: var(--lv-r-pill); background: var(--lv-soft-gold); color: var(--lv-gold-text);
-  font-size: 9px; font-weight: 800; letter-spacing: 0.04em;
-}
 .acc-field input.auth-code-input{ width: min(184px, 100%); margin-inline: auto; height: 56px; text-align: center; letter-spacing: 0.45em; text-indent: 0.45em; font: inherit; font-size: 24px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--lv-ink); border: 1px solid var(--lv-line-strong); border-radius: var(--lv-r-md); background: var(--lv-surface); }
 
 /* ---------- МСП: переключатель юрлица и расписание точки ---------- */
