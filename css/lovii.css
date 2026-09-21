@@ -398,12 +398,12 @@ main#view{ flex: 1; }
 
 @layer primitives{
 
-.qty { display: inline-flex; align-items: center; height: 36px; border-radius: var(--lv-r-pill); background: var(--lv-soft-pink); }
+.qty { display: inline-flex; align-items: center; height: 36px; border-radius: var(--lv-r-pill); background: var(--lv-pink-dark); }
 }
 
-.qty button{ width: 36px; height: 36px; border-radius: var(--lv-r-pill); color: var(--lv-pink-dark); font-size: 18px; font-weight: 700; transition: background .2s; }
-.qty button:hover{ background: rgba(255, 255, 255, .6); }
-.qty .n{ width: 24px; text-align: center; font-size: 14px; font-weight: 700; color: var(--lv-pink-dark); }
+.qty button{ width: 36px; height: 36px; border-radius: var(--lv-r-pill); color: var(--lv-on-brand); font-size: 18px; font-weight: 700; transition: background .2s; }
+.qty button:hover{ background: color-mix(in srgb, var(--lv-white) 22%, transparent); }
+.qty .n{ width: 24px; text-align: center; font-size: 14px; font-weight: 700; color: var(--lv-on-brand); }
 
 /* ---------- Страница точки ---------- */
 .st-cover{ height: 144px; display: flex; align-items: center; justify-content: center; position: relative; }
@@ -2991,7 +2991,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
 .priv__card_pink .priv__ico, .cabinets__ico.t-pink, .history__ico.t-pink,
 .stat-pill.pink,
 .place-card__tools .fav-pill{
-  background:var(--lv-soft-pink);color:var(--lv-pink-dark)
+  background:var(--lv-soft-pink);color:var(--lv-pink-ink)
 }
 .place-card__tools .fav-pill.active svg{ fill: currentColor; }
 
@@ -3246,7 +3246,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
   align-items: center;
   width: 100%;
   border-radius: var(--lv-r-sm);
-  background: var(--lv-pink);
+  background: var(--lv-pink-dark);
   height: 44px;
 }
 .product__counter > span{ text-align: center; color: var(--lv-on-brand, var(--lv-white)); font-size: 14px; font-weight: 700; }.product__counter > button{ width: 100%; height: 100%; border: 0; background: none; display: flex; align-items: center; justify-content: center; color: var(--lv-pink-dark); cursor: pointer; transition: opacity .15s; }
@@ -3384,6 +3384,10 @@ html[data-motion='off'] *::after {
 /* Строка товара: плитка 64 · название и сумма позиции сверху · счётчик и цена за штуку снизу.
    Обе пары выровнены по общим колонкам, разделитель внутренний — начинается от текстовой колонки,
    поэтому плиточная колонка читается как непрерывная рейка. */
+/* Тон «финансы»: в тёмной теме розовые чернила светлеют, иначе розовый на розовом даёт ~2.5:1 */
+:root{ --lv-pink-ink: var(--lv-pink-dark); }
+:root[data-theme="dark"]{ --lv-pink-ink: color-mix(in srgb, var(--lv-pink) 45%, var(--lv-white)); }
+
 /* Строка корзины собрана из системного ряда .row-item; своя только правая рейка «сумма + счётчик» */
 .row-rail{ display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
 .row-amount{ font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--lv-ink); white-space: nowrap; }
