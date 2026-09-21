@@ -3385,9 +3385,9 @@ html[data-motion='off'] *::after {
    Обе пары выровнены по общим колонкам, разделитель внутренний — начинается от текстовой колонки,
    поэтому плиточная колонка читается как непрерывная рейка. */
 /* Строка корзины собрана из системного ряда .row-item; своя только правая рейка «сумма + счётчик» */
-.cart-row__rail{ display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
-.cart-row__sum{ font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--lv-ink); white-space: nowrap; }
-.cart-row__rail .qty button svg{ width: 16px; height: 16px; }
+.row-rail{ display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+.row-amount{ font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--lv-ink); white-space: nowrap; }
+.row-rail .qty button svg{ width: 16px; height: 16px; }
 
 /* Сводка (cart-summary) */
 .cart-summary{margin: 16px 0 0; padding: 16px; background-color: var(--lv-card);}

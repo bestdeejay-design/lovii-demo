@@ -119,8 +119,8 @@ function oCartProductRow(cart, item) {
         <div class="nm">${oEsc(item.name)}</div>
         ${many ? `<div class="sb">${oFmt(item.price)}&nbsp;₽ / шт</div>` : ''}
       </div>
-      <div class="cart-row__rail">
-        <span class="cart-row__sum">${oFmt(item.price * item.qty)}&nbsp;₽</span>
+      <div class="row-rail">
+        <span class="row-amount">${oFmt(item.price * item.qty)}&nbsp;₽</span>
         <span class="qty">
           <button type="button" aria-label="${many ? 'Меньше' : 'Удалить'}" data-action="o-dec" data-store="${oEsc(cart.slug)}" data-slug="${oEsc(item.slug)}">${icon(many ? 'minus' : 'trash')}</button>
           <span class="n">${item.qty}</span>
