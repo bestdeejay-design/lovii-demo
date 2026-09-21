@@ -117,7 +117,7 @@ function oCartProductRow(cart, item) {
       <span class="ri-emoji" style="background-color:${item.bg || '#eee'}"><i class="sf-emoji sf-emoji-sm">${item.emoji}</i></span>
       <div class="ri-mid">
         <div class="nm">${oEsc(item.name)}</div>
-        ${many ? `<div class="sb">${oFmt(item.price)}&nbsp;₽ / шт</div>` : ''}
+        <div class="sb">${oFmt(item.price)}&nbsp;₽ / шт</div>
       </div>
       <div class="row-rail">
         <span class="row-amount">${oFmt(item.price * item.qty)}&nbsp;₽</span>

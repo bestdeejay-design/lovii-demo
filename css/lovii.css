@@ -3388,6 +3388,13 @@ html[data-motion='off'] *::after {
 :root{ --lv-pink-ink: var(--lv-pink-dark); }
 :root[data-theme="dark"]{ --lv-pink-ink: color-mix(in srgb, var(--lv-pink) 45%, var(--lv-white)); }
 
+/* Корзина и заказ: строка выравнивается по двум линиям — [название | сумма] / [цена за шт | счётчик] */
+.cart-list .ri-mid, .cart-info__products .ri-mid,
+.cart-list .row-rail, .cart-info__products .row-rail{
+  display: grid; grid-template-rows: auto 36px; align-items: center; gap: 0;
+}
+.cart-list .row-rail, .cart-info__products .row-rail{ justify-items: end; }
+.cart-list .ri-mid .sb, .cart-info__products .ri-mid .sb{ margin-top: 0; }
 /* Строка корзины собрана из системного ряда .row-item; своя только правая рейка «сумма + счётчик» */
 .row-rail{ display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
 .row-amount{ font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--lv-ink); white-space: nowrap; }
