@@ -138,11 +138,11 @@
 
   <section id="buttons">
     <h2>04 · Кнопки и контролы</h2>
-    <p class="cap">Основные действия, иконные кнопки, строки-кнопки. Состояния: обычное, наведение, недоступное.</p>
+    <p class="cap">Основные действия, иконные кнопки, строки-кнопки. Состояния: обычное, наведение, недоступное. Важно: внутри пилюли система скрывает шеврон правилом <code>.pill-btn .chev{display:none}</code> — поэтому шеврон показан только в строках; это расхождение стоит разобрать.</p>
     <div class="panel stack">
       <div class="row">
         <button class="pill-btn"><span class="lbl">Пилюля</span></button>
-        <button class="pill-btn"><span class="lbl">С шевроном</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+        <button class="pill-btn"><span class="lbl">Пилюля с иконкой</span><svg class="icon-16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
         <button class="icon-btn" aria-label="Поиск"><svg class="icon-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
         <button class="link-btn">Ссылка-действие</button>
         <button class="btn-card">Кнопка-карточка</button>
