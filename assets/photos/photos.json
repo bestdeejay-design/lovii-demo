@@ -545,5 +545,195 @@
   "prompt": "переиспользован кадр «flowers»",
   "name": "Цветы «Бутон»",
   "fetched": "2026-09-22"
+ },
+ "cd1": {
+  "file": "assets/photos/cd1.jpg",
+  "id": 1368,
+  "prompt": "cappuccino in a paper cup with foam, food photography, warm light",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-9hs3mzhivzdb.jpg",
+  "detail": "https://www.picsum.dev/gallery/1368",
+  "fetched": "2026-09-22",
+  "name": "Капучино"
+ },
+ "cd2": {
+  "file": "assets/photos/cd2.jpg",
+  "id": 1369,
+  "prompt": "latte in a glass with latte art, food photography",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-4ugltfpx90zk.jpg",
+  "detail": "https://www.picsum.dev/gallery/1369",
+  "fetched": "2026-09-22",
+  "name": "Латте"
+ },
+ "cd3": {
+  "file": "assets/photos/cd3.jpg",
+  "id": 1370,
+  "prompt": "espresso shot in a small cup, dark table, food photography",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-j6bphgstjebz.jpg",
+  "detail": "https://www.picsum.dev/gallery/1370",
+  "fetched": "2026-09-22",
+  "name": "Эспрессо"
+ },
+ "cd6": {
+  "file": "assets/photos/cd6.jpg",
+  "id": 1371,
+  "prompt": "slice of cheesecake with berries, food photography",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-kqpvjmi0a9tf.jpg",
+  "detail": "https://www.picsum.dev/gallery/1371",
+  "fetched": "2026-09-22",
+  "name": "Чизкейк"
+ },
+ "cd7": {
+  "file": "assets/photos/cd7.jpg",
+  "id": 1372,
+  "prompt": "tiramisu dessert portion, food photography",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-df1kmsaxhuve.jpg",
+  "detail": "https://www.picsum.dev/gallery/1372",
+  "fetched": "2026-09-22",
+  "name": "Тирамису"
+ },
+ "py1": {
+  "file": "assets/photos/py1.jpg",
+  "id": 1373,
+  "prompt": "classic butter croissant on a light plate, food photography",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-qgbgfatvy0yv.jpg",
+  "detail": "https://www.picsum.dev/gallery/1373",
+  "fetched": "2026-09-22",
+  "name": "Круассан классический"
+ },
+ "py2": {
+  "file": "assets/photos/py2.jpg",
+  "id": 1374,
+  "prompt": "cinnamon roll bun, food photography",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-jrw4l9uc8uqm.jpg",
+  "detail": "https://www.picsum.dev/gallery/1374",
+  "fetched": "2026-09-22",
+  "name": "Булочка с корицей"
+ },
+ "py3": {
+  "file": "assets/photos/py3.jpg",
+  "id": 1375,
+  "prompt": "dark rye bread loaf, food photography",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-xwcbofm6apat.jpg",
+  "detail": "https://www.picsum.dev/gallery/1375",
+  "fetched": "2026-09-22",
+  "name": "Хлеб бородинский"
+ },
+ "kr1": {
+  "file": "assets/photos/kr1.jpg",
+  "id": 1376,
+  "prompt": "manicure tools and polished nails, beauty salon, soft light",
+  "category": "business",
+  "source": "https://www.picsum.dev/images/ai/business/business-l3kgksodxehz.jpg",
+  "detail": "https://www.picsum.dev/gallery/1376",
+  "fetched": "2026-09-22",
+  "name": "Маникюр"
+ },
+ "kr2": {
+  "file": "assets/photos/kr2.jpg",
+  "id": 1377,
+  "prompt": "scissors and comb in a hair salon, soft light",
+  "category": "business",
+  "source": "https://www.picsum.dev/images/ai/business/business-p72efxsf5tdq.jpg",
+  "detail": "https://www.picsum.dev/gallery/1377",
+  "fetched": "2026-09-22",
+  "name": "Стрижка"
+ },
+ "ud1": {
+  "file": "assets/photos/ud1.jpg",
+  "id": 1378,
+  "prompt": "milk bottle and glass on a light background",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-zsjnkeedoi0a.jpg",
+  "detail": "https://www.picsum.dev/gallery/1378",
+  "fetched": "2026-09-22",
+  "name": "Молоко 2,5%"
+ },
+ "ud2": {
+  "file": "assets/photos/ud2.jpg",
+  "id": 1379,
+  "prompt": "fresh red gala apples, top view, light background",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-jsis7nkneati.jpg",
+  "detail": "https://www.picsum.dev/gallery/1379",
+  "fetched": "2026-09-22",
+  "name": "Яблоки Гала"
+ },
+ "ud3": {
+  "file": "assets/photos/ud3.jpg",
+  "id": 1380,
+  "prompt": "gouda cheese wedge and slices, food photography",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-3rou0inf2xk3.jpg",
+  "detail": "https://www.picsum.dev/gallery/1380",
+  "fetched": "2026-09-22",
+  "name": "Сыр Гауда"
+ },
+ "gr1": {
+  "file": "assets/photos/gr1.jpg",
+  "id": 1381,
+  "prompt": "classic cheeseburger, food photography",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-xadgpnjkp2gl.jpg",
+  "detail": "https://www.picsum.dev/gallery/1381",
+  "fetched": "2026-09-22",
+  "name": "Бургер классический"
+ },
+ "gr2": {
+  "file": "assets/photos/gr2.jpg",
+  "id": 1382,
+  "prompt": "french fries in a paper cup, food photography",
+  "category": "food",
+  "source": "https://www.picsum.dev/images/ai/food/food-ou7x8ujsc6it.jpg",
+  "detail": "https://www.picsum.dev/gallery/1382",
+  "fetched": "2026-09-22",
+  "name": "Картофель фри"
+ },
+ "ap1": {
+  "file": "assets/photos/ap1.jpg",
+  "id": 1383,
+  "prompt": "vitamin C pills and orange slices, clean light background",
+  "category": "business",
+  "source": "https://www.picsum.dev/images/ai/business/business-gmrsozorowxx.jpg",
+  "detail": "https://www.picsum.dev/gallery/1383",
+  "fetched": "2026-09-22",
+  "name": "Витамин C"
+ },
+ "ap2": {
+  "file": "assets/photos/ap2.jpg",
+  "id": 1384,
+  "prompt": "digital thermometer on a clean white background",
+  "category": "business",
+  "source": "https://www.picsum.dev/images/ai/business/business-livwnqitznpu.jpg",
+  "detail": "https://www.picsum.dev/gallery/1384",
+  "fetched": "2026-09-22",
+  "name": "Термометр"
+ },
+ "fi1": {
+  "file": "assets/photos/fi1.jpg",
+  "id": 1385,
+  "prompt": "gym day pass, fitness club interior, clean light space",
+  "category": "sports",
+  "source": "https://www.picsum.dev/images/ai/sports/sports-yvacngzjqgqg.jpg",
+  "detail": "https://www.picsum.dev/gallery/1385",
+  "fetched": "2026-09-22",
+  "name": "Разовое посещение"
+ },
+ "fi2": {
+  "file": "assets/photos/fi2.jpg",
+  "id": 1386,
+  "prompt": "gym equipment, fitness club interior, clean light space",
+  "category": "sports",
+  "source": "https://www.picsum.dev/images/ai/sports/sports-pwkxklp19fqo.jpg",
+  "detail": "https://www.picsum.dev/gallery/1386",
+  "fetched": "2026-09-22",
+  "name": "Месяц без лимита"
  }
 }

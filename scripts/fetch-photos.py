@@ -59,6 +59,26 @@ DEFAULT_SERVICE_CATEGORY = "food"
 # Позиции, которых нет в data.js (встречаются только в зеркале витрины).
 # donor — взять кадр другой позиции (одно фото на несколько заведений — это нормально).
 EXTRA = {
+    # товары, которые есть только в зеркале витрины (у них свои идентификаторы)
+    "cd1": {"service": "food", "prompt": "cappuccino in a paper cup with foam, food photography, warm light", "name": "Капучино"},
+    "cd2": {"service": "food", "prompt": "latte in a glass with latte art, food photography", "name": "Латте"},
+    "cd3": {"service": "food", "prompt": "espresso shot in a small cup, dark table, food photography", "name": "Эспрессо"},
+    "cd6": {"service": "food", "prompt": "slice of cheesecake with berries, food photography", "name": "Чизкейк"},
+    "cd7": {"service": "food", "prompt": "tiramisu dessert portion, food photography", "name": "Тирамису"},
+    "py1": {"service": "food", "prompt": "classic butter croissant on a light plate, food photography", "name": "Круассан классический"},
+    "py2": {"service": "food", "prompt": "cinnamon roll bun, food photography", "name": "Булочка с корицей"},
+    "py3": {"service": "food", "prompt": "dark rye bread loaf, food photography", "name": "Хлеб бородинский"},
+    "kr1": {"service": "business", "prompt": "manicure tools and polished nails, beauty salon, soft light", "name": "Маникюр"},
+    "kr2": {"service": "business", "prompt": "scissors and comb in a hair salon, soft light", "name": "Стрижка"},
+    "ud1": {"service": "food", "prompt": "milk bottle and glass on a light background", "name": "Молоко 2,5%"},
+    "ud2": {"service": "food", "prompt": "fresh red gala apples, top view, light background", "name": "Яблоки Гала"},
+    "ud3": {"service": "food", "prompt": "gouda cheese wedge and slices, food photography", "name": "Сыр Гауда"},
+    "gr1": {"service": "food", "prompt": "classic cheeseburger, food photography", "name": "Бургер классический"},
+    "gr2": {"service": "food", "prompt": "french fries in a paper cup, food photography", "name": "Картофель фри"},
+    "ap1": {"service": "business", "prompt": "vitamin C pills and orange slices, clean light background", "name": "Витамин C"},
+    "ap2": {"service": "business", "prompt": "digital thermometer on a clean white background", "name": "Термометр"},
+    "fi1": {"service": "sports", "prompt": "gym day pass, fitness club interior, clean light space", "name": "Разовое посещение"},
+    "fi2": {"service": "sports", "prompt": "gym equipment, fitness club interior, clean light space", "name": "Месяц без лимита"},
     "fitness": {"service": "sports", "name": "Клуб «Сила»",
                 "prompt": "modern gym interior, dumbbells, mats, clean light space"},
     "cvety":   {"name": "Цветы «Бутон»", "donor": "flowers"},
