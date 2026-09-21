@@ -56,6 +56,15 @@ SERVICE_CATEGORY = {
 DEFAULT_SERVICE_CATEGORY = "food"
 
 
+# Позиции, которых нет в data.js (встречаются только в зеркале витрины).
+# donor — взять кадр другой позиции (одно фото на несколько заведений — это нормально).
+EXTRA = {
+    "fitness": {"service": "sports", "name": "Клуб «Сила»",
+                "prompt": "modern gym interior, dumbbells, mats, clean light space"},
+    "cvety":   {"name": "Цветы «Бутон»", "donor": "flowers"},
+}
+
+
 def service_category(cat):
     return SERVICE_CATEGORY.get(cat, DEFAULT_SERVICE_CATEGORY)
 
@@ -150,6 +159,34 @@ def main():
     if args.limit:
         todo = todo[:args.limit]
     print(f"фото есть: {len(manifest)}; к генерации: {len(todo)}")
+
+    # сначала «зеркальные» позиции: переиспользование чужого кадра или отдельная генерация
+    for slug, meta in EXTRA.items():
+        if slug in manifest:
+            continue
+        try:
+            if meta.get("donor"):
+                srcf = OUT / f"{meta['donor']}.jpg"
+                dest = OUT / f"{slug}.jpg"
+                dest.write_bytes(srcf.read_bytes())
+                manifest[slug] = {"file": f"assets/photos/{slug}.jpg", "from": f"assets/photos/{meta['donor']}.jpg",
+                                  "prompt": f"переиспользован кадр «{meta['donor']}»", "name": meta.get("name", ""),
+                                  "fetched": time.strftime("%Y-%m-%d")}
+                print(f"  = {slug:<20} переиспользован {meta['donor']}")
+            else:
+                need_token = None
+                op_tmp = opener()
+                token_tmp = get_csrf(op_tmp)
+                res = generate(op_tmp, token_tmp, meta.get("service", "business"), meta["prompt"])
+                dest = OUT / f"{slug}.jpg"
+                download(op_tmp, res["url"], dest)
+                manifest[slug] = {"file": f"assets/photos/{slug}.jpg", "id": res.get("id"), "prompt": meta["prompt"],
+                                  "category": meta.get("service"), "source": res.get("url"), "detail": res.get("detail"),
+                                  "fetched": time.strftime("%Y-%m-%d"), "name": meta.get("name", "")}
+                print(f"  + {slug:<20} {dest.stat().st_size // 1024} КБ")
+            MANIFEST.write_text(json.dumps(manifest, ensure_ascii=False, indent=1), encoding="utf-8")
+        except Exception as e:
+            print(f"  ! {slug}: {e}")
 
     op = opener()
     token = None

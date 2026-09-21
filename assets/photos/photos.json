@@ -528,5 +528,22 @@
   "detail": "https://www.picsum.dev/gallery/1366",
   "fetched": "2026-09-22",
   "name": "Полная реставрация обуви"
+ },
+ "fitness": {
+  "file": "assets/photos/fitness.jpg",
+  "id": 1367,
+  "prompt": "modern gym interior, dumbbells, mats, clean light space",
+  "category": "sports",
+  "source": "https://www.picsum.dev/images/ai/sports/sports-lgpebmufzqhy.jpg",
+  "detail": "https://www.picsum.dev/gallery/1367",
+  "fetched": "2026-09-22",
+  "name": "Клуб «Сила»"
+ },
+ "cvety": {
+  "file": "assets/photos/cvety.jpg",
+  "from": "assets/photos/flowers.jpg",
+  "prompt": "переиспользован кадр «flowers»",
+  "name": "Цветы «Бутон»",
+  "fetched": "2026-09-22"
  }
 }

@@ -111,6 +111,7 @@ function sfPromos() {
       <div class="home-promos__list">
         ${VITRINA_MIRROR.promos.map((p) => `
           <a href="#/stores" class="promo-card" style="background:${p.grad}">
+            ${promoPhoto(p.store)}
             <span class="promo-card__badge">Акция</span>
             <b class="promo-card__title">${mEsc2(p.title)}</b>
             <span class="promo-card__sub">${mEsc2(p.sub)}</span>
@@ -189,6 +190,11 @@ function sfNearby() {
           </a>`).join('')}
       </div>
     </section>`;
+}
+
+function promoPhoto(storeName) {
+  const src = (window.LOVII_PHOTO_NAMES || {})[String(storeName || '').trim().toLowerCase()];
+  return src ? `<span class="promo-card__photo" style="background-image:url('${src}')" aria-hidden="true"></span>` : '';
 }
 
 function renderHomeMirror() {

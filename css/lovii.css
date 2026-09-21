@@ -3731,7 +3731,7 @@ body.cabinet-mode #view{ padding-bottom: 0; }
   background: rgba(255, 255, 255, 0.12); color: rgba(255, 255, 255, 0.9);
   font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
 }
-.promo-card__title{ margin-top: 6px; color: var(--lv-white); font-size: 15px; font-weight: 800; line-height: 1.3; letter-spacing: -0.01em; }
+.promo-card__title{ margin-top: 6px; color: var(--lv-white); font-size: 15px; font-weight: 800; line-height: 1.3; letter-spacing: -0.01em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .promo-card__sub{ color: rgba(255, 255, 255, 0.75); font-size: 12px; line-height: 1.4; }
 .promo-card__foot{
   margin-top: auto; padding-top: 10px; display: flex; align-items: center;
@@ -3865,3 +3865,10 @@ body:has(#view .create-order) .create-order__cta{
 
 /* Фото позиции внутри плитки: заполняет плитку, сохраняя её размер и радиус */
 .thumb-img{ width:100%; height:100%; object-fit:cover; display:block; border-radius:inherit; }
+
+/* Акция: фотография заведения как фон + затемнение, чтобы текст читался */
+.promo-card{ isolation: isolate; }
+.promo-card__photo{ position: absolute; inset: 0; z-index: -1; background-size: cover; background-position: center; }
+.promo-card__photo::after{ content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(22,14,18,.18) 0%, rgba(22,14,18,.55) 55%, rgba(22,14,18,.78) 100%); }
+.promo-card > *:not(.promo-card__photo){ position: relative; z-index: 1; }
