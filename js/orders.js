@@ -117,16 +117,13 @@ function oCartProductRow(cart, item) {
       <span class="ri-emoji" style="background-color:${item.bg || '#eee'}"><i class="sf-emoji sf-emoji-sm">${item.emoji}</i></span>
       <div class="ri-mid">
         <div class="nm">${oEsc(item.name)}</div>
-        <div class="sb">${oFmt(item.price)}&nbsp;₽ / шт</div>
+        <div class="sb"><span class="row-amount">${oFmt(item.price * item.qty)}&nbsp;₽</span>${many ? `&nbsp;· &nbsp;${oFmt(item.price)}&nbsp;₽ / шт` : ''}</div>
       </div>
-      <div class="row-rail">
-        <span class="row-amount">${oFmt(item.price * item.qty)}&nbsp;₽</span>
-        <span class="qty">
-          <button type="button" aria-label="${many ? 'Меньше' : 'Удалить'}" data-action="o-dec" data-store="${oEsc(cart.slug)}" data-slug="${oEsc(item.slug)}">${icon(many ? 'minus' : 'trash')}</button>
-          <span class="n">${item.qty}</span>
-          <button type="button" aria-label="Больше" data-action="sf-add" data-store="${oEsc(cart.slug)}" data-slug="${oEsc(item.slug)}">${icon('plus')}</button>
-        </span>
-      </div>
+      <span class="qty">
+        <button type="button" aria-label="${many ? 'Меньше' : 'Удалить'}" data-action="o-dec" data-store="${oEsc(cart.slug)}" data-slug="${oEsc(item.slug)}">${icon('minus')}</button>
+        <span class="n">${item.qty}</span>
+        <button type="button" aria-label="Больше" data-action="sf-add" data-store="${oEsc(cart.slug)}" data-slug="${oEsc(item.slug)}">${icon('plus')}</button>
+      </span>
     </div>`;
 }
 
@@ -359,7 +356,7 @@ function renderOrderDetailMirror(id) {
               <span class="ri-emoji" style="background-color:${it.bg || '#eee'}"><i class="sf-emoji sf-emoji-sm">${it.emoji}</i></span>
               <div class="ri-mid">
                 <div class="nm">${oEsc(it.name)}</div>
-                <div class="sb">${oFmt(it.price)}&nbsp;₽ × ${it.qty}</div>
+                <div class="sb"><span class="row-amount">${oFmt(it.price * it.qty)}&nbsp;₽</span>${it.qty > 1 ? `&nbsp;· &nbsp;${oFmt(it.price)}&nbsp;₽ × ${it.qty}` : ''}</div>
               </div>
             </div>`).join('')}
         </div>
