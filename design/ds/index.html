@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LOVII · Каталог дизайн-системы</title>
+<link rel="stylesheet" href="../../assets/lovii-tokens.css">
+<link rel="stylesheet" href="../../css/lovii.css">
+<style>
+  /* Каркас страницы каталога — только токены системы */
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--lv-bg);color:var(--lv-ink);
+       font-family:var(--lv-font, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif);
+       font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .ds-top{position:sticky;top:0;z-index:30;background:var(--lv-card);border-bottom:1px solid var(--lv-line)}
+  .ds-top-in{max-width:1100px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:14px}
+  .ds-title{font-size:15px;font-weight:800;letter-spacing:-.01em}
+  .ds-title small{display:block;font-size:11px;font-weight:600;color:var(--lv-dim);letter-spacing:.06em;text-transform:uppercase}
+  .ds-top .sp{flex:1}
+  .ds-wrap{max-width:1100px;margin:0 auto;padding:8px 20px 90px}
+  .ds-nav{display:flex;flex-wrap:wrap;gap:6px;padding:10px 0 2px}
+  .ds-nav a{font-size:12px;font-weight:600;color:var(--lv-dim);text-decoration:none;
+            border:1px solid var(--lv-line);border-radius:var(--lv-r-pill);padding:4px 10px;background:var(--lv-card)}
+  .ds-nav a:hover{color:var(--lv-ink);border-color:var(--lv-line-strong)}
+  section{padding:26px 0 6px;border-top:1px solid var(--lv-line);margin-top:26px}
+  section:first-of-type{border-top:0;margin-top:6px}
+  h2{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--lv-dim);margin:0 0 4px;font-weight:800}
+  .cap{font-size:13px;color:var(--lv-dim);margin:0 0 14px;max-width:78ch}
+  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .stack{display:flex;flex-direction:column;gap:10px}
+  .cols{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .label{font-size:11px;font-weight:700;color:var(--lv-dim);letter-spacing:.05em;text-transform:uppercase;margin:0 0 6px}
+  .panel{background:var(--lv-card);border:1px solid var(--lv-line);border-radius:var(--lv-r-lg);padding:14px 16px}
+  .demo-toasts{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+  .demo-toasts .toast{position:static;animation:none}
+  .sw{display:flex;flex-wrap:wrap;gap:8px}
+  .sw .chip{display:flex;flex-direction:column;gap:6px;align-items:flex-start;font-size:11px;color:var(--lv-dim);font-family:ui-monospace,Menlo,monospace}
+  .sw .boxbox{width:64px;height:44px;border-radius:var(--lv-r-sm);border:1px solid var(--lv-line-strong)}
+  .fs{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:baseline}
+</style>
+</head>
+<body>
+
+<div class="ds-top"><div class="ds-top-in">
+  <div class="ds-title">Каталог дизайн-системы LOVII<small>витрина · собран из реальных классов</small></div>
+  <div class="sp"></div>
+  <button class="pill-btn" id="ds-theme"><span class="lbl">Тема</span></button>
+</div></div>
+
+<div class="ds-wrap">
+
+  <nav class="ds-nav">
+    <a href="#tokens">Токены</a><a href="#type">Типографика</a><a href="#icons">Иконки</a>
+    <a href="#buttons">Кнопки</a><a href="#chips">Чипы и бейджи</a><a href="#tones">Тоны</a>
+    <a href="#forms">Формы</a><a href="#rows">Строки и списки</a><a href="#cards">Карточки</a>
+    <a href="#toasts">Уведомления</a>
+  </nav>
+
+  <section id="tokens">
+    <h2>01 · Токены</h2>
+    <p class="cap">Цвет, линии, радиусы, тени. Всё остальное на странице собрано только из этих значений — если чего-то не хватает, это видно сразу.</p>
+    <div class="cols">
+      <div class="panel">
+        <div class="label">Бренд и акценты</div>
+        <div class="sw">
+          <div class="chip"><span class="boxbox" style="background:var(--lv-pink)"></span>--lv-pink</div>
+          <div class="chip"><span class="boxbox" style="background:var(--lv-pink-dark)"></span>--lv-pink-dark</div>
+          <div class="chip"><span class="boxbox" style="background:var(--lv-tiffany)"></span>--lv-tiffany</div>
+          <div class="chip"><span class="boxbox" style="background:var(--lv-gold)"></span>--lv-gold</div>
+          <div class="chip"><span class="boxbox" style="background:var(--lv-negative)"></span>--lv-negative</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="label">Поверхности</div>
+        <div class="sw">
+          <div class="chip"><span class="boxbox" style="background:var(--lv-bg)"></span>--lv-bg</div>
+          <div class="chip"><span class="boxbox" style="background:var(--lv-card)"></span>--lv-card</div>
+          <div class="chip"><span class="boxbox" style="background:var(--lv-surface)"></span>--lv-surface</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="label">Линии — три ступени</div>
+        <div class="sw">
+          <div class="chip"><span class="boxbox" style="background:var(--lv-line)"></span>--lv-line</div>
+          <div class="chip"><span class="boxbox" style="background:var(--lv-line-2)"></span>--lv-line-2</div>
+          <div class="chip"><span class="boxbox" style="background:var(--lv-line-strong)"></span>--lv-line-strong</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="label">Радиусы и тени</div>
+        <div class="row">
+          <span class="app-badge app-badge_tertiary app-badge_s">r-sm</span>
+          <span class="app-badge app-badge_tertiary app-badge_s">r-md</span>
+          <span class="app-badge app-badge_tertiary app-badge_s">r-lg</span>
+          <span class="app-badge app-badge_tertiary app-badge_s">r-pill</span>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <span class="panel" style="box-shadow:var(--lv-shadow-soft);padding:10px 14px;font-size:12px">soft</span>
+          <span class="panel" style="box-shadow:var(--lv-shadow-float);padding:10px 14px;font-size:12px">float</span>
+          <span class="panel" style="box-shadow:var(--lv-shadow-lift);padding:10px 14px;font-size:12px">lift</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="type">
+    <h2>02 · Типографика</h2>
+    <p class="cap">Кегли как есть в системе. Здесь видно разнобой: значений много, и это следующий кандидат на шкалу.</p>
+    <div class="panel">
+      <div class="fs">
+        <span style="font-size:28px;font-weight:800">28 · заголовок экрана</span>
+        <span style="font-size:22px;font-weight:800">22 · крупный</span>
+        <span style="font-size:18px;font-weight:800">18 · итог</span>
+        <span style="font-size:16px;font-weight:700">16 · подзаголовок</span>
+        <span style="font-size:15px;font-weight:700">15 · название</span>
+        <span style="font-size:14px;font-weight:600">14 · текст</span>
+        <span style="font-size:13px;font-weight:500">13 · служебный</span>
+      </div>
+      <div class="fs" style="margin-top:14px">
+        <span style="font-size:12px">12 · подпись</span>
+        <span style="font-size:11px;font-weight:700">11 · бейдж</span>
+        <span style="font-size:10px;color:var(--lv-dim)">10 · тихая метка</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="icons">
+    <h2>03 · Иконки</h2>
+    <p class="cap">Ступени 12 / 16 / 20 / 24 / 32. Классы в системе объявлены, но на экранах размеры чаще задаются вручную — это цель третьего батча.</p>
+    <div class="panel"><div class="row" style="gap:20px;align-items:flex-end">
+      <div class="stack" style="align-items:center"><svg class="icon-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="label" style="margin:6px 0 0">12</span></div>
+      <div class="stack" style="align-items:center"><svg class="icon-16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="label" style="margin:6px 0 0">16</span></div>
+      <div class="stack" style="align-items:center"><svg class="icon-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="label" style="margin:6px 0 0">20</span></div>
+      <div class="stack" style="align-items:center"><svg class="icon-24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="label" style="margin:6px 0 0">24</span></div>
+      <div class="stack" style="align-items:center"><svg class="icon-32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="label" style="margin:6px 0 0">32</span></div>
+    </div></div>
+  </section>
+
+  <section id="buttons">
+    <h2>04 · Кнопки и контролы</h2>
+    <p class="cap">Основные действия, иконные кнопки, строки-кнопки. Состояния: обычное, наведение, недоступное.</p>
+    <div class="panel stack">
+      <div class="row">
+        <button class="pill-btn"><span class="lbl">Пилюля</span></button>
+        <button class="pill-btn"><span class="lbl">С шевроном</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+        <button class="icon-btn" aria-label="Поиск"><svg class="icon-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+        <button class="link-btn">Ссылка-действие</button>
+        <button class="btn-card">Кнопка-карточка</button>
+      </div>
+      <div class="row">
+        <button class="pill-btn" disabled><span class="lbl">Недоступна</span></button>
+        <span class="app-badge app-badge_brand app-badge_s">Бренд</span>
+        <span class="app-badge app-badge_tertiary app-badge_s">Третичный</span>
+        <span class="app-badge app-badge_tertiary app-badge_xs">xs</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="chips">
+    <h2>05 · Чипы, бейджи, статусы</h2>
+    <p class="cap">Одинаковые по смыслу, но разные по имени: статус, чип и пилюля рисуются четырьмя разными наборами классов.</p>
+    <div class="panel stack">
+      <div class="row">
+        <span class="status-pill">Статус</span>
+        <span class="st-chip">Чип</span>
+        <span class="stat-pill">Пилюля</span>
+        <span class="info-pill">Инфо</span>
+        <span class="role-pill">Роль</span>
+      </div>
+      <div class="row">
+        <span class="st-chip st-active">активно</span>
+        <span class="status-tiffany">бирюза</span>
+        <span class="status-pink">розовый</span>
+        <span class="status-dim">тихий</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="tones">
+    <h2>06 · Тоны</h2>
+    <p class="cap">Смысловые тоны на одинаковых блоках. Каждый тон — одна пара «фон + текст» из токенов; после батча 1 это три правила на семейство вместо тридцати пяти.</p>
+    <div class="cols">
+      <div class="panel"><div class="label">Позитив</div><span class="stat-pill tiffany">бирюза · stat-pill</span></div>
+      <div class="panel"><div class="label">Важное</div><span class="stat-pill gold">золото · stat-pill</span></div>
+      <div class="panel"><div class="label">Финансы</div><span class="stat-pill pink">розовый · stat-pill</span></div>
+    </div>
+    <div class="stack" style="margin-top:12px">
+      <div class="dash-note tone-tiffany">Заметка в тоне «позитив» — .dash-note.tone-tiffany</div>
+      <div class="dash-note tone-gold">Заметка в тоне «важное» — .dash-note.tone-gold</div>
+      <div class="dash-note tone-pink">Заметка в тоне «финансы» — .dash-note.tone-pink</div>
+      <div class="dash-note tone-dim">Заметка в тихом тоне — .dash-note.tone-dim</div>
+    </div>
+  </section>
+
+  <section id="forms">
+    <h2>07 · Формы и переключатели</h2>
+    <p class="cap">Поле ввода, переключатель, счётчик количества.</p>
+    <div class="cols">
+      <div class="panel stack">
+        <label class="acc-field">Имя
+          <input type="text" value="Сергей" placeholder="Как к вам обращаться">
+        </label>
+        <label class="acc-field">Телефон
+          <input type="tel" value="" placeholder="+7 ___ ___ __ __">
+        </label>
+      </div>
+      <div class="panel stack">
+        <div class="label">Переключатель</div>
+        <div class="row">
+          <button type="button" class="app-switch on" aria-label="Включено"><span class="app-switch__knob"></span></button>
+          <button type="button" class="app-switch" aria-label="Выключено"><span class="app-switch__knob"></span></button>
+        </div>
+        <div class="label" style="margin-top:8px">Счётчик</div>
+        <div class="row">
+          <span class="qty"><button aria-label="Меньше">−</button><b>2</b><button aria-label="Больше">+</button></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="rows">
+    <h2>08 · Строки и списки</h2>
+    <p class="cap">Базовый приём системы: карточка-список и строки внутри неё. Отсюда растёт строка товара в корзине.</p>
+    <div class="list-card">
+      <div class="row-item">
+        <span class="ri-emoji" style="background:var(--lv-soft-tiffany)">☕</span>
+        <div class="ri-mid"><div class="nm">Кофейня «Daily»<span class="st-chip st-active">открыто</span></div>
+          <div class="sb">Пекарня · 300 м · 12 мин</div></div>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </div>
+      <div class="row-item">
+        <span class="ri-emoji" style="background:var(--lv-soft-gold)">🥐</span>
+        <div class="ri-mid"><div class="nm">Круассан с миндалём<span class="app-badge app-badge_tertiary app-badge_s">хит</span></div>
+          <div class="sb">220 ₽ / шт</div></div>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="cards">
+    <h2>09 · Карточки</h2>
+    <p class="cap">Один рецепт поверхности: фон карточки, линия-обводка, радиус и мягкая тень. Ниже — разные семейства карточек рядом.</p>
+    <div class="cols">
+      <div class="card" style="padding:14px 16px">Карточка .card — базовый рецепт поверхности</div>
+      <div class="code-card">Карточка .code-card — служебный блок</div>
+      <div class="priv-card">Карточка .priv-card — привилегия</div>
+      <div class="tier-card">Карточка .tier-card — уровень</div>
+    </div>
+  </section>
+
+  <section id="toasts">
+    <h2>10 · Уведомления</h2>
+    <p class="cap">Тоны уведомлений. Здесь показаны вне фиксированной позиции — в приложении они всплывают снизу.</p>
+    <div class="panel demo-toasts">
+      <div class="toast">Нейтральное сообщение<span class="d">подпись в одну строку</span></div>
+      <div class="toast toast_t-positive">Готово — заказ оформлен<span class="d">подпись</span></div>
+      <div class="toast toast_t-important">Важное: проверьте адрес<span class="d">подпись</span></div>
+      <div class="toast toast_t-negative">Не получилось оплатить<span class="d">подпись</span></div>
+      <div class="toast toast_t-error">Ошибка сервиса<span class="d">подпись</span></div>
+      <div class="toast toast_t-financial">+120 баллов начислено<span class="d">подпись</span></div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  document.getElementById('ds-theme').addEventListener('click', function () {
+    var r = document.documentElement;
+    r.setAttribute('data-theme', r.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+</script>
+</body>
+</html>
