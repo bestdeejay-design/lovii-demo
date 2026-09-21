@@ -201,18 +201,6 @@ function renderCheckoutMirror(slug) {
   return `
     <main class="create-order container">
 
-      <section class="create-order-recipient">
-        <h5>Комментарий к заказу</h5>
-        <div class="sf-search"><input type="text" placeholder="Комментарий заведению" data-action="o-comment"></div>
-      </section>
-
-      <section class="create-order-products">
-        <h5>Товары</h5>
-        <div class="card cart-info__products">
-          ${cart.items.map((it) => oCartProductRow(cart, it)).join('')}
-        </div>
-      </section>
-
       <section class="create-order-delivery">
         <h5>Способ получения</h5>
         <div class="seg" role="radiogroup" aria-label="Способ получения">
@@ -231,10 +219,38 @@ function renderCheckoutMirror(slug) {
           </div>`}
       </section>
 
+      <section class="create-order-recipient">
+        <label class="acc-field">Комментарий к заказу
+          <input type="text" placeholder="Например: без сахара" data-action="o-comment" value="${oEsc(checkoutUi.comment || '')}">
+        </label>
+      </section>
+
+      <section class="create-order-payment">
+        <h5>Оплата</h5>
+        <div class="list-card">
+          <div class="row-item">
+            <span class="sr-ico t-tiffany">${icon('banknote')}</span>
+            <div class="ri-mid">
+              <div class="nm">При получении</div>
+              <div class="sb">Картой или наличными на точке</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      ${mCollapse({
+        title: `Товары (${cart.items.reduce((s, c) => s + c.qty, 0)})`,
+        subtitle: `${oFmt(cart.subtotal)} ₽ · посмотреть состав`,
+        open: false,
+        testid: 'checkout-products',
+        inner: `<div class="cart-info__products">${cart.items.map((it) => oCartProductRow(cart, it)).join('')}</div>`,
+      })}
+
+      ${delivery ? `
       <section class="card cart-summary">
         <div class="sum-row"><span>Товары (${cart.items.reduce((s, c) => s + c.qty, 0)})</span><span class="v">${oFmt(cart.subtotal)}&nbsp;₽</span></div>
-        <div class="sum-row"><span>Доставка</span><span class="v">${delivery ? 'по тарифам заведения' : 'самовывоз'}</span></div>
-      </section>
+        <div class="sum-row"><span>Доставка</span><span class="v">по тарифам заведения</span></div>
+      </section>` : ''}
 
       <div class="create-order__cta">
         <div class="create-order__total">

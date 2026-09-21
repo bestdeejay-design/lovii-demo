@@ -185,7 +185,7 @@
   "create-order-delivery__address",
   "create-order-delivery__address-empty",
   "create-order-delivery__merchant",
-  "create-order-products",
+  "create-order-payment",
   "create-order-recipient",
   "create-order__cta",
   "create-order__total",

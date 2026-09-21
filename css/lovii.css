@@ -3434,8 +3434,7 @@ html[data-motion='off'] *::after {
 .order-receipt__rows .sum-row{ font-size: 13px; }
 
 /* Оформление заказа (CreateOrder) */
-.create-order{ display: flex; flex-flow: column; gap: 16px; padding: 0 16px calc(var(--lv-navbar-offset) + 116px); }.create-order-delivery, .create-order-recipient{ margin: 16px 0 0; display: flex; flex-flow: column; gap: 10px; }
-.create-order-delivery > h5, .create-order-recipient > h5, .create-order-products > h5{ margin: 0; color: var(--lv-ink); font-size: 16px; font-weight: 800; line-height: 1.35; }
+.create-order{ display: flex; flex-flow: column; gap: 16px; padding: 0 16px calc(var(--lv-navbar-offset) + 116px); }.create-order-delivery, .create-order-recipient, .create-order-payment{ margin: 16px 0 0; display: flex; flex-flow: column; gap: 10px; }
 .create-order-delivery__address, .create-order-delivery__merchant{
   display: flex; align-items: center; gap: 10px; padding: 12px 12px; border-radius: var(--lv-r-sm);
   border: 1px solid var(--lv-line-strong); background: var(--lv-card);
@@ -3444,8 +3443,6 @@ html[data-motion='off'] *::after {
 .create-order-delivery__address{ justify-content: space-between; cursor: pointer; }
 .create-order-delivery__address-empty{ color: var(--lv-dim); font-weight: 400; }.create-order-delivery__address > svg, .role-next__arrow svg{ width: 16px; height: 16px; color: var(--lv-dim); }.create-order-delivery__merchant > span, .order-preview__products > span{ width: 36px; height: 36px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; }
 .create-order-delivery__merchant > p{ margin: 0; }
-.create-order-products{ margin: 16px 0 0; }
-.create-order-products .cart-info__products{ padding: 14px 16px 16px; }
 .create-order__cta{
   position: fixed; left: 0; right: 0; bottom: var(--lv-navbar-offset, 64px); z-index: 2;
   display: grid; gap: 10px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
@@ -3854,3 +3851,14 @@ body.cabinet-mode #view{ padding-bottom: 0; }
 }
 .roles-periods::-webkit-scrollbar{ display: none; }
 .roles-periods .app-chip{ flex-shrink: 0; }
+
+/* Оформление заказа: это отдельный шаг, а не продолжение корзины — нижнее меню здесь скрываем */
+body:has(#view .create-order) .app-nav{ display: none; }
+/* Контента может быть меньше экрана: панель не «висит» в пустоте, а липнет к низу контента */
+body:has(#view .create-order) .create-order{ padding-bottom: 16px; min-height: calc(100dvh - 114px); }
+body:has(#view .create-order) .create-order__cta{
+  position: sticky; bottom: 0; margin-top: auto;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+}
+.create-order .collapse .cart-info__products{ padding: 0 0 4px; }
+.create-order .collapse .cart-info__products .row-item{ padding: 10px 12px; }
