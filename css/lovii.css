@@ -3471,13 +3471,15 @@ html[data-motion='off'] *::after {
 .order-preview__info{ display: grid; grid-template-columns: 1fr; gap: 4px; min-width: 0; }
 .order-preview__info > h5{
   margin: 0; display: flex; align-items: center; justify-content: space-between; gap: 8px;
-  flex-wrap: wrap; row-gap: 4px; color: var(--lv-ink); font-size: 13px; font-weight: 600; line-height: 1.5;
+  flex-wrap: wrap; row-gap: 4px; color: var(--lv-ink); font-size: 15px; font-weight: 700; line-height: 1.4;
 }.order-preview__info > p, .order-preview__address > p{ margin: 0; color: var(--lv-dim); font-size: 12px; line-height: 1.5; }
 .order-preview__address{ display: flex; flex-flow: column; align-items: flex-start; gap: 4px; }
 .order-preview__footer{ display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 12px 0 0; }
 .order-preview__products{ display: flex; gap: 6px; }
 .sf-emoji-xs{ font-size: 18px; }
-.order-preview__footer > p{ margin: 0; color: var(--lv-ink); font-size: 14px; font-weight: 800; }
+.order-preview__footer > p{ margin: 0 0 0 auto; color: var(--lv-ink); font-size: 14px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.order-preview__footer .chev{ flex: 0 0 auto; }
+.order-preview__info > p b{ color: var(--lv-ink); font-weight: 700; }
 .order-detail__meta{ margin: 12px 0 0; color: var(--lv-dim); font-size: 12px; line-height: 1.5; }
 
 /* Дополнительные тона бейджей (AppBadge) */

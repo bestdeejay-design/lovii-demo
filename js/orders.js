@@ -50,9 +50,9 @@ const ORDERS_MIRROR_SEED = [
 ];
 
 const ORDER_STATUS = {
-  cooking: { label: 'Готовится', color: 'gold' },
-  ready: { label: 'Готов к выдаче', color: 'brand' },
-  done: { label: 'Выполнен', color: 'tertiary' },
+  cooking: { label: 'Готовится', chip: 'st-chip st-wait' },
+  ready: { label: 'Готов к выдаче', chip: 'st-chip st-active' },
+  done: { label: 'Выполнен', badge: 'tertiary' },
 };
 
 /* ---------- Хелперы ---------- */
@@ -84,7 +84,9 @@ function oAllOrders() {
 
 function oBadge(status) {
   const meta = ORDER_STATUS[status] || ORDER_STATUS.done;
-  return `<span class="app-badge app-badge_${meta.color} app-badge_s">${meta.label}</span>`;
+  return meta.chip
+    ? `<span class="${meta.chip}">${meta.label}</span>`
+    : `<span class="app-badge app-badge_${meta.badge} app-badge_s">${meta.label}</span>`;
 }
 
 /* ---------- Корзина (CartModule) ---------- */
@@ -312,7 +314,7 @@ function oOrderCard(order) {
         <span class="order-preview__logo" style="background-color:${order.merchant.bg || '#eee'}"><i class="sf-emoji sf-emoji-sm">${order.merchant.emoji || '🛍️'}</i></span>
         <div class="order-preview__info">
           <h5>${oEsc(order.merchant.name)} ${oBadge(order.status || 'done')}</h5>
-          <p>Заказ №${oEsc(order.id)} от ${oDate(order.createdAt)}</p>
+          <p><b>№${oEsc(order.id)}</b> от ${oDate(order.createdAt)}</p>
           <div class="order-preview__address">
             <span class="app-badge app-badge_tertiary app-badge_xs">${order.deliveryType === 'delivery' ? 'Доставка' : 'Самовывоз'}</span>
             ${order.address ? `<p>${oEsc(order.address)}</p>` : ''}
@@ -322,6 +324,7 @@ function oOrderCard(order) {
       <div class="order-preview__footer">
         <div class="order-preview__products">${thumbs}</div>
         <p>${oFmt(order.total)}&nbsp;₽</p>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
       </div>
     </a>`;
 }
@@ -349,21 +352,24 @@ function renderOrderDetailMirror(id) {
           <span style="background-color:${order.merchant.bg || '#eee'}"><i class="sf-emoji sf-emoji-sm">${order.merchant.emoji || '🛍️'}</i></span>
           <p>${oEsc(order.merchant.name)} ${oBadge(order.status || 'done')}</p>
         </div>
-        <p class="order-detail__meta">Заказ №${oEsc(order.id)} от ${oDate(order.createdAt)} · ${order.deliveryType === 'delivery' ? `Доставка · ${oEsc(order.address || '')}` : 'Самовывоз'}</p>
+        <p class="order-detail__meta">${oDate(order.createdAt)} · ${order.deliveryType === 'delivery' ? `Доставка · ${oEsc(order.address || '')}` : 'Самовывоз'}</p>
         <div class="card cart-info__products">
           ${order.items.map((it) => `
             <div class="row-item">
               <span class="ri-emoji" style="background-color:${it.bg || '#eee'}"><i class="sf-emoji sf-emoji-sm">${it.emoji}</i></span>
               <div class="ri-mid">
                 <div class="nm">${oEsc(it.name)}</div>
-                <div class="sb"><span class="row-amount">${oFmt(it.price * it.qty)}&nbsp;₽</span>${it.qty > 1 ? `&nbsp;· &nbsp;${oFmt(it.price)}&nbsp;₽ × ${it.qty}` : ''}</div>
+                ${it.qty > 1 ? `<div class="sb">${oFmt(it.price)}&nbsp;₽ × ${it.qty}</div>` : ''}
               </div>
+              <span class="row-amount">${oFmt(it.price * it.qty)}&nbsp;₽</span>
             </div>`).join('')}
         </div>
       </section>
       <section class="card cart-summary">
-        <ul><li>Товары (${order.items.reduce((s, c) => s + c.qty, 0)}) <span>${oFmt(order.subtotal ?? order.total)}&nbsp;₽</span></li></ul>
-        <p>Итого: <span>${oFmt(order.total)}&nbsp;₽</span></p>
+        ${(order.subtotal ?? order.total) !== order.total
+          ? `<div class="sum-row"><span>Товары (${order.items.reduce((s, c) => s + c.qty, 0)})</span><span class="v">${oFmt(order.subtotal)}&nbsp;₽</span></div>`
+          : ''}
+        <div class="sum-total"><span class="l">Итого</span><span class="v">${oFmt(order.total)}&nbsp;₽</span></div>
       </section>
     </main>`;
 }
