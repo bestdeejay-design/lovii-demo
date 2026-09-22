@@ -3861,8 +3861,6 @@ body:has(#view .create-order) .create-order__cta{
   position: sticky; bottom: 0; margin-top: auto;
   padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
 }
-.create-order .collapse .cart-info__products{ padding: 0 0 4px; }
-.create-order .collapse .cart-info__products .row-item{ padding: 10px 12px; }
 
 /* Фото позиции внутри плитки: заполняет плитку, сохраняя её размер и радиус */
 .thumb-img{ width:100%; height:100%; object-fit:cover; display:block; border-radius:inherit; }
@@ -3895,3 +3893,6 @@ body:has(#view .create-order) .create-order__cta{
   display: flex; align-items: center; justify-content: center;
 }
 .place-card__info{ padding: 16px; }
+/* Оформление заказа: состав заказа в складыше — строки ровно как в корзине (фото держит край) */
+.create-order .collapse .collapse__inner{ padding: 0; }
+.create-order .collapse .collapse__body > div{ padding: 0; }
