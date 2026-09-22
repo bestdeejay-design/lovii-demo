@@ -3805,9 +3805,10 @@ body:has(#view .create-order) .create-order__cta{
 .row-item .nm{ color: var(--lv-ink); }
 .row-item .sb{ color: var(--lv-dim); }
 .row-item .sb a{ color: inherit; }
-/* Подпись строки: если места мало — цена за штуку уходит на вторую строку
-   вместе с разделителем («· 150 ₽ / шт»), а не рвётся посередине. */
+/* Подпись строки: если места мало — пара «· цена / шт» уходит на вторую строку ЦЕЛИКОМ
+   (перенос разрешён перед ней, но запрещён внутри неё). */
 .ri-mid .sb{ align-items: baseline; }
+.ri-mid .sb > span:not(.row-amount){ white-space: nowrap; }
 /* Страница точки: блоки держат общий боковой отступ страницы (16px),
    как и остальные секции (.place-search, .store-categories). */
 .place-catalog{ margin: 24px 0 0; padding: 0 var(--lv-gutter); }
