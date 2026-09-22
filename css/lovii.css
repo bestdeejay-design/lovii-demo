@@ -3896,3 +3896,9 @@ body:has(#view .create-order) .create-order__cta{
 /* Оформление заказа: состав заказа в складыше — строки ровно как в корзине (фото держит край) */
 .create-order .collapse .collapse__inner{ padding: 0; }
 .create-order .collapse .collapse__body > div{ padding: 0; }
+/* Карточка заведения в списке: фото — левой колонкой в высоту карточки, вплотную с трёх сторон */
+.catalog-store{ padding: 0; align-items: stretch; }
+.catalog-store__link{ grid-template-columns: 76px minmax(0, 1fr); gap: 0; align-items: stretch; }
+.catalog-store__logo{ width: 76px; height: auto; align-self: stretch; border-radius: 0; }
+.catalog-store__info{ padding: 10px 12px; justify-content: center; }
+.catalog-store .fav-heart{ align-self: center; margin-right: 10px; }
