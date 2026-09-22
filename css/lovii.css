@@ -3377,7 +3377,7 @@ html[data-motion='off'] *::after {
 .cart-info__store > span{ width: 40px; height: 40px; border-radius: 8px; padding: 4px; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; }
 .cart-info__store > p{ margin: 0; color: var(--lv-ink); font-size: 14px; font-weight: 600; line-height: 1.4; }
 /* SZ-062 · карточка списка товаров в корзине: внутренние отступы */
-.cart-info__products{ padding: 4px 0 16px; }
+.cart-info__products{ padding: 0; }
 .cart-info__products{ gap: 0; }
 .cart-info__products, .orders__list{ margin: 16px 0 0; display: grid; grid-template-columns: 1fr; gap: 16px; }
 
@@ -3877,3 +3877,21 @@ body:has(#view .create-order) .create-order__cta{
 /* Плашка адреса в шапке: шеврон показываем — он означает «сменить район».
    Общее правило .pill-btn .chev{display:none} остаётся для остальных пилюль. */
 .app-header .pill-btn .chev{ display: inline-flex; }
+
+/* Фото позиции/заведения — левой колонкой в высоту блока, вплотную с трёх сторон.
+   Так делаем и в корзине, и в шапке магазина: фото держит левый край блока. */
+.cart-info__products .row-item{ padding: 0 12px 0 0; gap: 0; align-items: stretch; }
+.cart-info__products .ri-emoji{
+  width: 92px; height: 92px; align-self: stretch; flex: 0 0 92px;
+  border-radius: 0; overflow: hidden;
+}
+.cart-info__products .ri-mid{ padding: 12px 0 12px 12px; }
+.cart-info__products .row-item > .sb{ margin-top: 2px; }
+
+.place-card{ padding: 0; display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 0; align-items: stretch; }
+.place-card > span{
+  position: relative; width: 104px; height: 100%;
+  border-radius: 0; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.place-card__info{ padding: 16px; }
