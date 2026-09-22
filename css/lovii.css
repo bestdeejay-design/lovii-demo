@@ -3872,3 +3872,11 @@ body:has(#view .create-order) .create-order__cta{
 /* Корзина: товары идут отдельными карточками, а не одним блоком с разделителями */
 .cart-info__products{ padding: 0; gap: 10px; background: none; border: 0; box-shadow: none; }
 .cart-info__products > .row-item + .row-item{ border-top: 0; }
+/* Все плитки с фотографиями берут скругление из общего параметра системы */
+.product-preview > span,
+.popular-store > span,
+.nearby-store__info > span,
+.nearby-store__products > span,
+.catalog-store .ri-emoji,
+.place-card > span,
+.cart-info__store > span{ border-radius: var(--lv-img-radius); }
