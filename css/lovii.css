@@ -3822,3 +3822,7 @@ body:has(#view .create-order) .create-order__cta{
 }
 .place-card__tools > button > svg{ width: 20px; height: 20px; }
 .place-card__tools .fav-pill{ width: auto; height: auto; background: transparent; }
+/* Список заведений: тот же боковой отступ страницы, что и на других экранах (16px) */
+.stores__catalog{ padding: 0 16px; }
+/* Большое фото товара: как и все изображения витрины — на отступе страницы и со скруглением */
+.product__image{ margin: 0 16px; border-radius: var(--lv-r-lg); overflow: hidden; }
