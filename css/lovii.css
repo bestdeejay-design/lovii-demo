@@ -3798,3 +3798,10 @@ body:has(#view .create-order) .create-order__cta{
 .row-item--media > .ri-mid{ padding: 12px 0 12px 12px; }
 .row-item--media.row-item--sm > .ri-emoji,
 .row-item--media.row-item--sm > .sr-ico{ flex-basis: 76px; width: 76px; min-height: 76px; }
+/* Системная строка: текст не должен наследовать вид ссылки.
+   Строка часто целиком является ссылкой — цвет и подчёркивание задаём явно. */
+.row-item{ color: var(--lv-ink); }
+.row-item a{ color: inherit; text-decoration: none; }
+.row-item .nm{ color: var(--lv-ink); }
+.row-item .sb{ color: var(--lv-dim); }
+.row-item .sb a{ color: inherit; }
