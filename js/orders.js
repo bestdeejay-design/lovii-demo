@@ -119,7 +119,7 @@ function oCartProductRow(cart, item) {
       <span class="ri-emoji" style="background-color:${item.bg || '#eee'}">${thumb(item, 'sf-emoji-sm')}</span>
       <div class="ri-mid">
         <div class="nm">${oEsc(item.name)}</div>
-        <div class="sb"><span class="row-amount">${oFmt(item.price * item.qty)}&nbsp;₽</span>${many ? `&nbsp;· &nbsp;${oFmt(item.price)}&nbsp;₽ / шт` : ''}</div>
+        <div class="sb"><span class="row-amount">${oFmt(item.price * item.qty)}&nbsp;₽</span>${many ? `<span>·&nbsp;${oFmt(item.price)}&nbsp;₽ / шт</span>` : ''}</div>
       </div>
       <span class="qty">
         <button type="button" aria-label="${many ? 'Меньше' : 'Удалить'}" data-action="o-dec" data-store="${oEsc(cart.slug)}" data-slug="${oEsc(item.slug)}">${icon('minus')}</button>

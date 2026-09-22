@@ -3805,3 +3805,6 @@ body:has(#view .create-order) .create-order__cta{
 .row-item .nm{ color: var(--lv-ink); }
 .row-item .sb{ color: var(--lv-dim); }
 .row-item .sb a{ color: inherit; }
+/* Подпись строки: перенос допустим только ПЕРЕД единицей измерения;
+   разделитель «·» не должен уезжать в начало строки один. */
+.ri-mid .sb > span:not(.row-amount){ white-space: nowrap; }
