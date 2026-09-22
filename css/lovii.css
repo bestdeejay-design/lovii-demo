@@ -116,7 +116,7 @@ main#view{ flex: 1; }
 
 /* ---------- Шапка (стекло) ---------- */
 .app-header{ position: sticky; top: 0; z-index: 40; background: var(--lv-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--lv-line); }
-.app-header-in{ display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 16px; }
+.app-header-in{ display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 var(--lv-gutter); }
 .logo{ display: inline-flex; align-items: center; gap: 6px; font-weight: 800; letter-spacing: -.02em; font-size: 22px; color: var(--lv-ink); }
 .logo svg{ width: 24px; height: 24px; color: var(--lv-pink); }
 .logo .lv{ color: var(--lv-pink); }
@@ -207,7 +207,7 @@ main#view{ flex: 1; }
 }
 
 .stat-pill.grey, .open-pill.off, .stock-out{ background: var(--lv-grey-soft); color: var(--lv-dim); }
-.search-trigger{ display: flex; align-items: center; gap: 10px; width: 100%; height: 44px; padding: 0 16px; margin-top: 16px; border-radius: var(--lv-r-pill); background: var(--lv-surface); color: var(--lv-dim); font-size: 14px; text-align: left; transition: background .2s; }
+.search-trigger{ display: flex; align-items: center; gap: 10px; width: 100%; height: 44px; padding: 0 var(--lv-gutter); margin-top: 16px; border-radius: var(--lv-r-pill); background: var(--lv-surface); color: var(--lv-dim); font-size: 14px; text-align: left; transition: background .2s; }
 
 /* ---------- Категории ---------- */
 .cats{ display: flex; gap: 8px; overflow-x: auto; padding: 8px 16px 4px;
@@ -217,7 +217,7 @@ main#view{ flex: 1; }
 /* Липкая плашка чипов: непрозрачная, БЕЗ отрицательных отступов (иначе вылезает за край экрана),
    без постоянной тени; тень только в прилипшем состоянии — .stuck вешает IntersectionObserver (app.js) */
 .cats-sticky{ position: sticky; top: 56px; z-index: 25; padding: 10px 0 16px; background: var(--lv-card); }
-.cats-sticky .cats{ padding: 0 16px; }
+.cats-sticky .cats{ padding: 0 var(--lv-gutter); }
 .cats-sticky.stuck{ box-shadow: var(--lv-shadow-stuck); }
 .cats-sentinel{ height: 0; }
 @layer primitives{
@@ -234,7 +234,7 @@ main#view{ flex: 1; }
 .section > .section-head, .st-goods .section-head{ margin-bottom: 12px; }
 /* Заголовок каталога дышит сильнее остальных: 16px сверху (даёт плашка чипов) и 16px снизу */
 #catalog-head{ margin-bottom: 16px; }
-.section-head{ display: flex; align-items: center; justify-content: space-between; padding: 0 16px; gap: 8px; flex-wrap: wrap; }.section-head h2, .where-h h2{ margin: 0; font-size: 16px; font-weight: 800; }
+.section-head{ display: flex; align-items: center; justify-content: space-between; padding: 0 var(--lv-gutter); gap: 8px; flex-wrap: wrap; }.section-head h2, .where-h h2{ margin: 0; font-size: 16px; font-weight: 800; }
 .section-head .sub{ color: var(--lv-dim); font-weight: 600; font-size: 14px; }
 @layer primitives{
 
@@ -242,7 +242,7 @@ main#view{ flex: 1; }
 }
 
 .link-btn:hover{ gap: 6px; }
-.hscroll{ display: flex; gap: 12px; overflow-x: auto; padding: 0 16px 4px;
+.hscroll{ display: flex; gap: 12px; overflow-x: auto; padding: 0 var(--lv-gutter) 4px;
   /* карточки мягко растворяются у краёв ленты */
   -webkit-mask-image: linear-gradient(90deg, transparent 0, var(--lv-black) 16px, var(--lv-black) calc(100% - 16px), transparent 100%);
   mask-image: linear-gradient(90deg, transparent 0, var(--lv-black) 16px, var(--lv-black) calc(100% - 16px), transparent 100%); }
@@ -294,7 +294,7 @@ main#view{ flex: 1; }
 .promo-timer{ display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; color: var(--lv-pink-dark); margin-top: 10px; }
 
 /* ---------- Карточка товара ---------- */
-.prod-grid{ display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; padding: 0 16px 4px; }
+.prod-grid{ display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; padding: 0 var(--lv-gutter) 4px; }
 .product-card{ display: block; width: 100%; text-align: left; background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: var(--lv-r-lg); box-shadow: var(--lv-shadow-soft); overflow: hidden; transition: transform .2s, box-shadow .2s, opacity .2s; }
 .product-card.disabled{ opacity: .6; }
 .product-card.disabled:hover{ transform: none; box-shadow: var(--lv-shadow-soft); }
@@ -361,12 +361,12 @@ main#view{ flex: 1; }
 .pd-cover{ margin: 16px 16px 0; height: 176px; border-radius: var(--lv-r-xl); display: flex; align-items: center; justify-content: center; position: relative; }
 .pd-cover .em{ font-size: 72px; }
 .pd-cover .badge-pill{ top: 12px; left: 12px; height: 24px; padding: 0 10px; font-size: 11px; }
-.price-row{ display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; padding: 0 16px; margin-top: 14px; }
+.price-row{ display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; padding: 0 var(--lv-gutter); margin-top: 14px; }
 .price-row .price{ font-size: 22px; }
 .price-row .old-price{ font-size: 16px; }
-.pd-name{ padding: 0 16px; margin: 4px 0 0; font-size: 22px; font-weight: 800; line-height: 1.3; }
-.pd-desc{ padding: 0 16px; margin: 6px 0 0; font-size: 14px; color: var(--lv-dim); line-height: 1.6; }
-.status-row{ display: flex; gap: 8px; flex-wrap: wrap; padding: 0 16px; margin-top: 12px; }
+.pd-name{ padding: 0 var(--lv-gutter); margin: 4px 0 0; font-size: 22px; font-weight: 800; line-height: 1.3; }
+.pd-desc{ padding: 0 var(--lv-gutter); margin: 6px 0 0; font-size: 14px; color: var(--lv-dim); line-height: 1.6; }
+.status-row{ display: flex; gap: 8px; flex-wrap: wrap; padding: 0 var(--lv-gutter); margin-top: 12px; }
 .stat-pill.md{ height: 32px; font-size: 12px; font-weight: 700; }
 .where-h{ padding: 20px 16px 0; }.where-h .cnt, .page-h .cnt{ color: var(--lv-dim); font-size: 14px; font-weight: 600; margin-left: 6px; }
 .where-h .note{ font-size: 12px; color: var(--lv-dim); margin: 4px 0 0; }
@@ -386,7 +386,7 @@ main#view{ flex: 1; }
 .out-note{ font-size: 11px; color: var(--lv-dim); }
 @layer primitives{
 
-.cta-btn { height: 36px; padding: 0 16px; border-radius: var(--lv-r-pill); color: var(--lv-on-brand); font-size: 12px; font-weight: 700; transition: all .2s; display: inline-flex; align-items: center; justify-content: center; }
+.cta-btn { height: 36px; padding: 0 var(--lv-gutter); border-radius: var(--lv-r-pill); color: var(--lv-on-brand); font-size: 12px; font-weight: 700; transition: all .2s; display: inline-flex; align-items: center; justify-content: center; }
 }
 
 .cta-btn:active{ transform: scale(.95); }
@@ -443,7 +443,7 @@ main#view{ flex: 1; }
 
 @layer primitives{
 
-.search-bar { display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: var(--lv-r-pill); background: var(--lv-surface); transition: all .2s; }
+.search-bar { display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 var(--lv-gutter); border-radius: var(--lv-r-pill); background: var(--lv-surface); transition: all .2s; }
 }
 
 .search-bar:focus-within{ background: var(--lv-card); box-shadow: var(--lv-ring-search); }
@@ -536,15 +536,15 @@ main#view{ flex: 1; }
 .sheet.open{ transform: translateY(0); visibility: visible; }
 .sheet-head{ padding: 20px 16px 8px; }
 .sheet-head p{ margin: 4px 0 0; font-size: 14px; color: var(--lv-dim); }
-.sheet-body{ padding: 0 16px 24px; overflow-y: auto; display: grid; gap: 8px; }
-.district-row{ display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 16px; border-radius: var(--lv-r-lg); border: 1px solid var(--lv-line-strong); transition: all .2s; text-align: left; }
+.sheet-body{ padding: 0 var(--lv-gutter) 24px; overflow-y: auto; display: grid; gap: 8px; }
+.district-row{ display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 var(--lv-gutter); border-radius: var(--lv-r-lg); border: 1px solid var(--lv-line-strong); transition: all .2s; text-align: left; }
 .district-row.active{ border-color: var(--lv-pink); background: var(--lv-soft-pink); }
 .district-row .ic{ width: 36px; height: 36px; border-radius: var(--lv-r-sm); background: var(--lv-soft-pink); display: flex; align-items: center; justify-content: center; }
 .district-row .nm{ display: block; font-size: 14px; font-weight: 600; }
 .district-row .mt{ display: block; font-size: 12px; color: var(--lv-dim); }
 
 /* ---------- Тосты ---------- */
-.toast-wrap{ position: fixed; left: 0; right: 0; bottom: 84px; z-index: 60; display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; padding: 0 16px; }
+.toast-wrap{ position: fixed; left: 0; right: 0; bottom: 84px; z-index: 60; display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; padding: 0 var(--lv-gutter); }
 /* Уведомление: ширина по содержимому с потолком узкой капсулы (--lv-container, 480px),
    иначе длинный текст растягивался на всё окно. Тоны — на семантике канона. */
 .toast{ width: max-content; max-width: min(100%, var(--lv-container, 480px)); display: flex; flex-flow: column; gap: 2px; background: var(--lv-ink); color: var(--lv-card); border: 1px solid transparent; border-radius: var(--lv-r-lg); padding: 12px 16px; font-size: 13px; font-weight: 600; line-height: 1.35; text-align: center; box-shadow: var(--lv-shadow-toast); animation: toast-in .25s ease-out; }
@@ -595,7 +595,7 @@ main#view{ flex: 1; }
    ============================================================ */
 
 /* ---------- Кнопки-призраки, служебные ---------- */
-.ghost-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 40px; padding: 0 16px; border-radius: var(--lv-r-pill); border: 1.5px solid var(--lv-line-strong); background: var(--lv-card); font-size: 13px; font-weight: 700; color: var(--lv-ink); transition: all .2s; flex-shrink: 0; }
+.ghost-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 40px; padding: 0 var(--lv-gutter); border-radius: var(--lv-r-pill); border: 1.5px solid var(--lv-line-strong); background: var(--lv-card); font-size: 13px; font-weight: 700; color: var(--lv-ink); transition: all .2s; flex-shrink: 0; }
 }
 .ghost-btn svg, .trash-btn svg{ width: 16px; height: 15px; }.ghost-btn.sm, .cta-btn.sm{ height: 32px; padding: 0 12px; font-size: 12px; }
 @layer primitives{
@@ -708,7 +708,7 @@ main#view{ flex: 1; }
 .ah-mid h1{ margin: 2px 0 0; font-size: 22px; font-weight: 800; }
 @layer primitives{
 
-.f-field { display: block; padding: 0 16px; margin-top: 12px; }
+.f-field { display: block; padding: 0 var(--lv-gutter); margin-top: 12px; }
 }
 
 .f-field .lb{ display: block; margin-bottom: 6px; font-size: 12px; font-weight: 700; color: var(--lv-ink); }
@@ -752,7 +752,7 @@ main#view{ flex: 1; }
 .msg.me{ align-self: flex-end; background-image: linear-gradient(135deg, var(--lv-pink), var(--lv-pink-dark)); color: var(--lv-on-brand); border-bottom-right-radius: 6px; }
 .msg.sys{ align-self: center; background: var(--lv-soft-gold); color: var(--lv-gold-text); font-size: 11px; font-weight: 700; border-radius: var(--lv-r-pill); padding: 6px 12px; max-width: 92%; text-align: center; }
 .chat-input-bar{ position: sticky; bottom: 0; z-index: 30; display: flex; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: var(--lv-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-top: 1px solid var(--lv-line); }
-.chat-input-bar input{ flex: 1; min-width: 0; height: 44px; border: 1.5px solid var(--lv-line-strong); border-radius: var(--lv-r-pill); padding: 0 16px; font: inherit; font-size: 14px; outline: none; background: var(--lv-surface); }
+.chat-input-bar input{ flex: 1; min-width: 0; height: 44px; border: 1.5px solid var(--lv-line-strong); border-radius: var(--lv-r-pill); padding: 0 var(--lv-gutter); font: inherit; font-size: 14px; outline: none; background: var(--lv-surface); }
 .chat-input-bar input:focus{ border-color: var(--lv-pink); background: var(--lv-card); }
 .send-btn{ flex-shrink: 0; width: 44px; height: 44px; border-radius: var(--lv-r-pill); display: flex; align-items: center; justify-content: center; color: var(--lv-on-brand); }
 .send-btn svg{ width: 20px; height: 20px; }
@@ -815,7 +815,7 @@ main#view{ flex: 1; }
   /* Десктоп: нижняя навигация превращается в плавающую капсулу */
   .app-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); border: 1px solid var(--lv-line); border-radius: var(--lv-r-pill); box-shadow: 0 12px 32px -12px rgba(26, 26, 26, .28); padding-bottom: 0; }
   .app-nav-in { grid-template-columns: repeat(5, auto); height: 60px; max-width: none; padding: 0 8px; }
-  .nav-btn { padding: 0 16px; border-radius: var(--lv-r-pill); }
+  .nav-btn { padding: 0 var(--lv-gutter); border-radius: var(--lv-r-pill); }
   main#view { padding-bottom: 96px; }
 }
 
@@ -1183,7 +1183,7 @@ main#view{ flex: 1; }
 .acct-btn.ghost{ border: 1px solid var(--lv-line-strong); color: var(--lv-ink); background: var(--lv-card); }
 
 /* ---------- 4. История операций ---------- */
-.tx-tabs{ display: flex; gap: 6px; padding: 0 16px; margin: 10px 0 2px; overflow-x: auto; }
+.tx-tabs{ display: flex; gap: 6px; padding: 0 var(--lv-gutter); margin: 10px 0 2px; overflow-x: auto; }
 .tx-tabs .tab-btn{ flex-shrink: 0; padding: 6px 12px; border-radius: var(--lv-r-pill); background: var(--lv-surface); font-size: 12px; font-weight: 700; color: var(--lv-dim); transition: background .15s, color .15s; }
 .tx-list{ padding: 2px 12px; }
 .tx-day{ padding: 12px 0 4px; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--lv-dim); }
@@ -1229,7 +1229,7 @@ main#view{ flex: 1; }
    карта → счёт → история → статус. Привилегии — сеткой. */
 .pay-cols{ display: block; }
 @media (min-width: 640px){
-  .pay-cols { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: start; gap: 0 22px; padding: 0 16px; }
+  .pay-cols { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: start; gap: 0 22px; padding: 0 var(--lv-gutter); }
   .pay-col-a, .pay-col-b { min-width: 0; }
   /* липкая левая колонка: карта остаётся на экране при скролле истории
      (только на достаточно высоких окнах — иначе липкая ловушка) */
@@ -1321,7 +1321,7 @@ main#view{ flex: 1; }
 .mini-card.skin-biz .mc-chip{ background: linear-gradient(135deg, rgba(214, 255, 249, .9), rgba(7, 125, 120, 1)); }
 .mini-card.active{ box-shadow: 0 0 0 2px var(--lv-card), 0 0 0 4px var(--lv-pink); }
 .mini-card:focus-visible{ outline: 2px solid var(--lv-pink); outline-offset: 3px; }
-/* карусель в левой колонке ≥640px: колонка уже даёт 16px по бокам (padding: 0 16px) —
+/* карусель в левой колонке ≥640px: колонка уже даёт 16px по бокам (padding: 0 var(--lv-gutter)) —
    горизонтальный запас карусели гасим, вертикальный остаётся (docs/10 §2.3) */
 @media (min-width: 640px){
   .pay-cols .pay-carousel { margin: -42px 0; padding-inline: 0; }
@@ -1545,7 +1545,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
   grid-template-rows: 1fr auto;
   gap: 16px;
   min-height: calc(100dvh - 56px);
-  padding: 0 16px calc(var(--lv-navbar-offset) + 16px);
+  padding: 0 var(--lv-gutter) calc(var(--lv-navbar-offset) + 16px);
   max-width: 640px;
   margin-inline: auto;
   width: 100%;
@@ -2260,7 +2260,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
   min-width: 0;
   scroll-snap-align: center;
   scroll-snap-stop: always;
-  padding: 0 16px;
+  padding: 0 var(--lv-gutter);
 }
 .wallet__dots{ display: flex; justify-content: center; gap: 6px; margin-top: 2px; }
 .wallet__dot{
@@ -2486,7 +2486,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
   .home { padding: 0 0 96px; }
 }
 .home-top{ padding: 0 0 16px; }
-.home-top__banner{ margin: 16px 0 0; width: 100%; padding: 0 16px; }
+.home-top__banner{ margin: 16px 0 0; width: 100%; padding: 0 var(--lv-gutter); }
 
 /* ---------- Герой (HomeHero) ---------- */
 .home-hero{
@@ -2569,7 +2569,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
   gap: 10px;
   width: 100%;
   height: 44px;
-  padding: 0 16px;
+  padding: 0 var(--lv-gutter);
   margin-top: 16px;
   border: 0;
   border-radius: var(--lv-r-pill);
@@ -2617,7 +2617,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
   width: 100%;
   overflow: auto;
   margin: 16px 0 0;
-  padding: 0 16px 0 0;
+  padding: 0 var(--lv-gutter) 0 0;
   display: flex;
   align-items: stretch;
   justify-content: flex-start;
@@ -2753,7 +2753,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
 .home-banner__dot.active{ width: 16px; border-radius: 3px; background: var(--lv-white); }
 
 /* ---------- Возле вас (HomeNearbyPlaces + NearbyStore) ---------- */
-.nearby-stores{ margin: 24px 0 0; padding: 0 16px; }
+.nearby-stores{ margin: 24px 0 0; padding: 0 var(--lv-gutter); }
 .nearby-stores > h3{ margin: 0; color: var(--lv-ink); font-size: 16px; font-weight: 800; line-height: 1.35; }
 .nearby-stores__list{
   margin: 16px 0 0;
@@ -2828,7 +2828,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
 }
 .stores__header{
   margin: 16px 0 0;
-  padding: 0 16px;
+  padding: 0 var(--lv-gutter);
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 6px;
@@ -2911,11 +2911,11 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
 .app-badge_brand{ color: var(--lv-on-brand, var(--lv-white)); background-image: var(--lv-gradient-brand); }
 
 /* Поиск в заведении */
-.place-search{ padding: 0 16px; margin: 18px 0 0; }
+.place-search{ padding: 0 var(--lv-gutter); margin: 18px 0 0; }
 .place-search .sf-search{ height: 40px; border-radius: 10px; }
 
 /* Категории товаров (StoreCategories) */
-.store-categories{ padding: 0 16px; margin: 16px 0 0; display: flex; flex-flow: column; justify-content: flex-start; align-items: flex-start; }
+.store-categories{ padding: 0 var(--lv-gutter); margin: 16px 0 0; display: flex; flex-flow: column; justify-content: flex-start; align-items: flex-start; }
 .store-categories__list{
   width: 100%;
   margin: 16px 0 0;
@@ -3033,7 +3033,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 16px;
+  padding: 0 var(--lv-gutter);
   height: 36px;
   color: var(--lv-on-brand, var(--lv-white));
   cursor: pointer;
@@ -3089,8 +3089,8 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
   justify-content: center;
   cursor: pointer;
 }
-.product__info{ margin: 40px 0 0; padding: 0 16px; }.product__info > h3, .more-products > h4{ margin: 0; color: var(--lv-ink); font-size: 16px; font-weight: 800; line-height: 1.35; }
-.product__description{ width: 100%; margin: 24px 0 0; padding: 0 16px; }
+.product__info{ margin: 40px 0 0; padding: 0 var(--lv-gutter); }.product__info > h3, .more-products > h4{ margin: 0; color: var(--lv-ink); font-size: 16px; font-weight: 800; line-height: 1.35; }
+.product__description{ width: 100%; margin: 24px 0 0; padding: 0 var(--lv-gutter); }
 .product__description > button{
   width: 100%;
   display: flex;
@@ -3111,7 +3111,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
 .product__description > button > svg{ width: 24px; height: 24px; transition: all 0.3s ease-out; }
 .product__description > button.active > svg{ transform: rotate(-90deg); }
 .product__description > article{ padding: 12px 4px; color: var(--lv-ink); font-size: 13px; line-height: 1.55; }
-.more-products{ margin: 24px 0 0; padding: 0 16px; }
+.more-products{ margin: 24px 0 0; padding: 0 var(--lv-gutter); }
 .more-products__list{
   margin: 16px 0 0;
   display: grid;
@@ -3260,14 +3260,14 @@ html[data-motion='off'] *::after {
 }
 
 /* Подсказка-примечание в карточке настроек */
-.set-hint{ margin: 4px 0 2px; padding: 0 16px 10px; color: var(--lv-dim); font-size: 12px; line-height: 1.45; }
+.set-hint{ margin: 4px 0 2px; padding: 0 var(--lv-gutter) 10px; color: var(--lv-dim); font-size: 12px; line-height: 1.45; }
 
 /* ============================================================
    ЗЕРКАЛО СТЕЙДЖА · КОРЗИНА, ЧЕКАУТ, ЗАКАЗЫ
    Порт CartModule (CartInfo/CartProduct/CartEmpty), CreateOrder,
    OrdersModule (OrderPreview) из lovii-app (origin/staging 1fc7a27).
    ============================================================ */
-.cart{ min-height: calc(100dvh - 104px); padding: 0 16px calc(var(--lv-navbar-offset) + 8px); }
+.cart{ min-height: calc(100dvh - 104px); padding: 0 var(--lv-gutter) calc(var(--lv-navbar-offset) + 8px); }
 
 /* Вкладки магазинов (CartModule > cart__shops) */
 .cart__shops{ display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 16px 0 0; }.cart__shops::-webkit-scrollbar, /* ============================================================ ЗЕРКАЛО СТЕЙДЖА · КАБИНЕТ МСП (CabinetLayout + роли, v1) ============================================================ */ /* Режим кабинета: фирменный хедер остаётся над кабинетом (как в CabinetLayout@staging — AppHeader sticky над всеми экранами), свои разделы кабинета живут в его нижнем баре, витринная навигация скрыта */ body.cabinet-mode .app-nav{ display: none; }
@@ -3333,7 +3333,7 @@ html[data-motion='off'] *::after {
 .cart-empty__action .acct__btn{ width: 100%; }
 
 /* Экран успеха после создания заказа (раньше переиспользовал состояние «пустая корзина») */
-.order-success-page{ padding: 0 16px calc(var(--lv-navbar-offset) + 16px); }
+.order-success-page{ padding: 0 var(--lv-gutter) calc(var(--lv-navbar-offset) + 16px); }
 .order-success{ margin: 24px 0 0; padding: 24px 16px 20px; display: flex; flex-flow: column; align-items: center; gap: 10px; text-align: center; }
 .order-success__ico{ width: 56px; height: 56px; border-radius: var(--lv-r-lg); background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); display: inline-flex; align-items: center; justify-content: center; }
 .order-success__ico svg{ width: 26px; height: 26px; }
@@ -3344,7 +3344,7 @@ html[data-motion='off'] *::after {
 .order-receipt__rows .sum-row{ font-size: 13px; }
 
 /* Оформление заказа (CreateOrder) */
-.create-order{ display: flex; flex-flow: column; gap: 16px; padding: 0 16px calc(var(--lv-navbar-offset) + 116px); }.create-order-delivery, .create-order-recipient, .create-order-payment{ margin: 16px 0 0; display: flex; flex-flow: column; gap: 10px; }
+.create-order{ display: flex; flex-flow: column; gap: 16px; padding: 0 var(--lv-gutter) calc(var(--lv-navbar-offset) + 116px); }.create-order-delivery, .create-order-recipient, .create-order-payment{ margin: 16px 0 0; display: flex; flex-flow: column; gap: 10px; }
 .create-order-delivery__address, .create-order-delivery__merchant{
   display: flex; align-items: center; gap: 10px; padding: 12px 12px; border-radius: var(--lv-r-sm);
   border: 1px solid var(--lv-line-strong); background: var(--lv-card);
@@ -3369,7 +3369,7 @@ html[data-motion='off'] *::after {
 .create-order__total > span{ font-size: 16px; font-weight: 800; }
 
 /* История заказов (OrdersModule + OrderPreview) */
-.orders{ padding: 0 16px calc(var(--lv-navbar-offset) + 8px); min-height: calc(100dvh - 104px); }
+.orders{ padding: 0 var(--lv-gutter) calc(var(--lv-navbar-offset) + 8px); min-height: calc(100dvh - 104px); }
 .order-preview{width: 100%; padding: 12px 16px; text-decoration: none; box-sizing: border-box; transition: background 0.2s ease-out;}
 .order-preview:active{ background: var(--background-other-soft-neutral); }
 .order-preview__header{ display: grid; grid-template-columns: 56px 1fr; gap: 12px; }
@@ -3409,7 +3409,7 @@ body.cabinet-mode #view{ padding-bottom: 0; }
 .cabinet__title{ margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.01em; color: var(--lv-ink); }
 .cabinet__note{ margin: 2px 0 0; color: var(--lv-dim); font-size: 12px; line-height: 1.5; }
 
-.cabinet__body{ flex: 1; width: 100%; padding: 0 16px calc(var(--lv-navbar-offset) + 16px); max-width: 924px; margin-inline: auto; }
+.cabinet__body{ flex: 1; width: 100%; padding: 0 var(--lv-gutter) calc(var(--lv-navbar-offset) + 16px); max-width: 924px; margin-inline: auto; }
 
 /* Нижний бар разделов (Material 3 Navigation bar, родственник NavBar) */
 .cabinet__bar{
@@ -3445,7 +3445,7 @@ body.cabinet-mode #view{ padding-bottom: 0; }
 
 /* Карточки и заголовки разделов (role-card / role-section-head) */
 .role-card{margin: 12px 0 0; padding: 16px 0 0; overflow: hidden;}
-.role-section-head{ display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 0 16px; }
+.role-section-head{ display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 0 var(--lv-gutter); }
 .role-section-head h2{ margin: 0; color: var(--lv-ink); font-size: 14px; font-weight: 800; line-height: 1.35; }
 .role-section-head__sub{ color: var(--lv-dim); font-size: 12px; font-weight: 600; }
 .role-link{ border: 0; background: none; padding: 0; color: var(--lv-pink); font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; }
@@ -3455,7 +3455,7 @@ body.cabinet-mode #view{ padding-bottom: 0; }
 .msp-starter__progress-label{ color: var(--lv-dim); font-size: 12px; font-weight: 600; }
 .msp-starter__meter{ flex: 1; max-width: 140px; height: 8px; border-radius: var(--lv-r-pill); background: var(--background-other-soft-neutral); overflow: hidden; display: block; }
 .msp-starter__meter-fill{ display: block; height: 100%; border-radius: var(--lv-r-pill); background-image: var(--lv-gradient-brand); }
-.msp-starter__steps{ margin: 12px 0 0; padding: 0 16px 16px; list-style: none; display: grid; gap: 8px; }
+.msp-starter__steps{ margin: 12px 0 0; padding: 0 var(--lv-gutter) 16px; list-style: none; display: grid; gap: 8px; }
 .msp-starter__step{ display: flex; align-items: center; gap: 10px; color: var(--lv-dim); font-size: 13px; }
 .msp-starter__step b{ font-weight: 700; color: var(--lv-ink); }
 .msp-starter__step-check{
@@ -3546,7 +3546,7 @@ body.cabinet-mode #view{ padding-bottom: 0; }
    Порт ProfileAddresses (AddressItem/AddressesEmpty), AddressForm,
    ProfileEditForm из lovii-app (origin/staging 1fc7a27).
    ============================================================ */
-.addresses{ padding: 0 16px calc(var(--lv-navbar-offset) + 8px); }
+.addresses{ padding: 0 var(--lv-gutter) calc(var(--lv-navbar-offset) + 8px); }
 .addresses__head{ display: flex; align-items: center; justify-content: space-between; margin: 16px 0 0; padding: 0; }.addresses__head h4, .home-promos > h3{ margin: 0; color: var(--lv-ink); font-size: 16px; font-weight: 800; line-height: 1.35; }
 .addresses__list{ margin: 16px 0 0; display: grid; grid-template-columns: 1fr; gap: 8px; }
 
@@ -3560,7 +3560,7 @@ body.cabinet-mode #view{ padding-bottom: 0; }
   width: 40px; height: 40px; border: 0; border-radius: var(--lv-r-sm); background: var(--background-other-soft-neutral);
   color: var(--lv-dim); display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
 }
-.address-item__edit svg{ width: 16px; height: 16px; }/* Форма адреса (AddressForm) */ .address-form, /* Редактирование профиля (ProfileEditForm) */ .profile-edit{ padding: 0 16px calc(var(--lv-navbar-offset) + 16px); display: grid; gap: 12px; }
+.address-item__edit svg{ width: 16px; height: 16px; }/* Форма адреса (AddressForm) */ .address-form, /* Редактирование профиля (ProfileEditForm) */ .profile-edit{ padding: 0 var(--lv-gutter) calc(var(--lv-navbar-offset) + 16px); display: grid; gap: 12px; }
 .acc-map{
   position: relative; height: 180px; border-radius: var(--lv-r-lg); overflow: hidden;
   background:
@@ -3627,7 +3627,7 @@ body.cabinet-mode #view{ padding-bottom: 0; }
 /* ---------- Акции рядом (карточки акций точек, канон прежней демки) ---------- */
 .home-promos{ width: 100%; margin: 16px 0 0; padding: 0 0 0 16px; }
 .home-promos__list{
-  width: 100%; overflow: auto; margin: 12px 0 0; padding: 0 16px 4px 0;
+  width: 100%; overflow: auto; margin: 12px 0 0; padding: 0 var(--lv-gutter) 4px 0;
   display: flex; align-items: stretch; justify-content: flex-start; gap: 12px;
   scrollbar-width: none;
 }
@@ -3810,8 +3810,8 @@ body:has(#view .create-order) .create-order__cta{
 .ri-mid .sb > span:not(.row-amount){ white-space: nowrap; }
 /* Страница точки: блоки держат общий боковой отступ страницы (16px),
    как и остальные секции (.place-search, .store-categories). */
-.place-catalog{ margin: 24px 0 0; padding: 0 16px; }
-.place-card{ margin: 14px 0 0; padding: 0 16px; }
+.place-catalog{ margin: 24px 0 0; padding: 0 var(--lv-gutter); }
+.place-card{ margin: 14px 0 0; padding: 0 var(--lv-gutter); }
 .place__teaser{ margin: 16px 0; padding: 16px; }
 /* Кнопки шапки точки (избранное и «о заведении») — правый слот системного ряда */
 .place-card__tools{ display: flex; align-items: center; gap: 4px; flex: 0 0 auto; }
@@ -3823,6 +3823,52 @@ body:has(#view .create-order) .create-order__cta{
 .place-card__tools > button > svg{ width: 20px; height: 20px; }
 .place-card__tools .fav-pill{ width: auto; height: auto; background: transparent; }
 /* Список заведений: тот же боковой отступ страницы, что и на других экранах (16px) */
-.stores__catalog{ padding: 0 16px; }
+.stores__catalog{ padding: 0 var(--lv-gutter); }
 /* Большое фото товара: как и все изображения витрины — на отступе страницы и со скруглением */
 .product__image{ margin: 0 16px; border-radius: var(--lv-r-lg); overflow: hidden; }
+
+/* ============================================================
+   ОБЩИЕ ПАРАМЕТРЫ СТРАНИЦ (единый источник, вместо повторов по экранам)
+   ------------------------------------------------------------
+   --lv-gutter        отступ контента от края экрана
+   --lv-section-gap   вертикальный ритм между блоками
+   --lv-img-radius    скругление изображений (как у всех фото в системе)
+   Поля и чипы ниже приведены к одному размерному ряду — см. блоки FIELD и CHIP.
+   ============================================================ */
+:root{
+  --lv-gutter: 16px;
+  --lv-section-gap: 16px;
+  --lv-img-radius: var(--lv-r-sm);
+}
+
+/* ---- CHIP: один размерный ряд для чипов, статусов и бейджей ----
+   Было 10 высот и 4 радиуса на одинаковых по смыслу элементах.
+   Стало три ступени: 24 / 20 / 16 px. Тона и цвета у каждого свои, геометрия общая. */
+.stat-pill, .pay-badge, .wallet__badge, .st-chip, .app-badge, .status-pill, .info-pill, .role-pill{
+  display: inline-flex; align-items: center; gap: 4px;
+  height: 24px; padding: 0 9px; border-radius: var(--lv-r-pill);
+  font-size: 11px; font-weight: 600; line-height: 1; white-space: nowrap;
+}
+.app-badge_s, .app-badge--s, .promo-card__badge, .pay-chip{ height: 20px; padding: 0 7px; font-size: 11px; border-radius: var(--lv-r-pill); }
+.app-badge_xs, .app-badge--xs{ height: 16px; padding: 0 5px; font-size: 10px; border-radius: var(--lv-r-pill); }
+
+/* ---- FIELD: одна анатомия поля ввода ----
+   44 px, радиус 12, рамка line-strong, фон карточки. Было три разных набора. */
+.acc-field input, .acc-field textarea, input.fld, .msp-signup input, .msp-signup textarea{
+  height: 44px; padding: 0 12px; border: 1px solid var(--lv-line-strong);
+  border-radius: var(--lv-r-sm); background: var(--lv-card); color: var(--lv-ink);
+  font: inherit; font-size: 14px; box-sizing: border-box;
+}
+.acc-field textarea, .msp-signup textarea{ height: auto; min-height: 88px; padding: 10px 12px; line-height: 1.5; }
+.acc-field input:focus, .acc-field textarea:focus, .msp-signup input:focus{ outline: none; border-color: var(--lv-pink); }
+
+/* Картинки системы: единое скругление */
+.thumb-img{ border-radius: inherit; }
+/* Те же ступени для мест, где правила были переопределены своими значениями */
+.home-hero__stats .stat-pill{ height: 24px; padding: 0 9px; font-size: 11px; }
+.f-field input, .f-field textarea{
+  height: 44px; padding: 0 12px; border: 1px solid var(--lv-line-strong);
+  border-radius: var(--lv-r-sm); background: var(--lv-card); color: var(--lv-ink);
+  font: inherit; font-size: 14px; box-sizing: border-box;
+}
+.f-field input:focus, .f-field textarea:focus{ outline: none; border-color: var(--lv-pink); }
