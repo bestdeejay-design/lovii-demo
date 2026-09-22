@@ -3808,3 +3808,8 @@ body:has(#view .create-order) .create-order__cta{
 /* Подпись строки: перенос допустим только ПЕРЕД единицей измерения;
    разделитель «·» не должен уезжать в начало строки один. */
 .ri-mid .sb > span:not(.row-amount){ white-space: nowrap; }
+/* Страница точки: блоки держат общий боковой отступ страницы (16px),
+   как и остальные секции (.place-search, .store-categories). */
+.place-catalog{ margin: 24px 0 0; padding: 0 16px; }
+.place-card{ padding: 0 16px; }
+.place__teaser{ margin: 16px 0; padding: 16px; }
