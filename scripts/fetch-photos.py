@@ -145,12 +145,46 @@ def download(op, url, dest):
     tmp.unlink(missing_ok=True)
 
 
+# Широкие кадры: блоки бывают разной пропорции (акция 240×148 ≈ 1.62:1).
+# Квадратное фото в такой рамке теряет треть высоты — поэтому для широких блоков
+# берём тот же кадр в нужной пропорции: /i/{id}/{w}/{h} отдаёт его же, но обрезанным ровно под рамку.
+WIDE = {"w": 720, "h": 444, "dir": "wide"}
+
+
+def fetch_wide(op, manifest):
+    """Для каждой позиции с id — широкий вариант того же кадра."""
+    out = {}
+    outdir = OUT / WIDE["dir"]
+    outdir.mkdir(parents=True, exist_ok=True)
+    for slug, meta in sorted(manifest.items()):
+        img_id = meta.get("id")
+        donor = meta.get("from")
+        dest = outdir / f"{slug}.jpg"
+        try:
+            if img_id:
+                url = f"{BASE}/i/{img_id}/{WIDE['w']}/{WIDE['h']}"
+                download(op, url, dest)
+                out[slug] = f"assets/photos/{WIDE['dir']}/{slug}.jpg"
+            elif donor:
+                src = OUT / donor.replace("assets/photos/", "")
+                wsrc = outdir / Path(donor).name
+                if not dest.exists() and wsrc.exists():
+                    dest.write_bytes(wsrc.read_bytes())
+                    out[slug] = f"assets/photos/{WIDE['dir']}/{slug}.jpg"
+        except Exception as e:
+            print(f"  ! wide {slug}: {e}")
+    return out
+
+
 def write_js_map(manifest):
     """Карта slug → файл для витрины: работает офлайн и кэшируется PWA."""
+    wide = globals().get("_WIDE_MAP", {})
+    by_wide = ", ".join(f'"{k}": "{v}"' for k, v in sorted(wide.items()))
     by_slug = ", ".join(f'"{k}": "{v["file"]}"' for k, v in sorted(manifest.items()))
     by_name = ", ".join(f'"{str(v.get("name","")).strip().lower()}": "{v["file"]}"'
                         for k, v in sorted(manifest.items()) if v.get("name"))
-    js = ("/* Карта фото: по slug позиции и по названию (в зеркале витрины идентификаторы отличаются) */\n"
+    js = (f"window.LOVII_PHOTOS_WIDE = {{{by_wide}}};\n"
+          "/* Карта фото: по slug позиции и по названию (в зеркале витрины идентификаторы отличаются) */\n"
           f"window.LOVII_PHOTOS = {{{by_slug}}};\n"
           f"window.LOVII_PHOTO_NAMES = {{{by_name}}};\n")
     (ROOT / "js" / "photos.js").write_text(js, encoding="utf-8")
@@ -230,6 +264,9 @@ def main():
             print(f"  ! {it['slug']}: {e}")
             token = None               # токен мог протухнуть — берём новый
             time.sleep(1)
+    global _WIDE_MAP
+    _WIDE_MAP = fetch_wide(op, manifest)
+    print(f"широких кадров: {len(_WIDE_MAP)}")
     write_js_map(manifest)
     print(f"готово, всего фото: {len(manifest)}")
     return 0

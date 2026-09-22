@@ -193,7 +193,9 @@ function sfNearby() {
 }
 
 function promoPhoto(storeName) {
-  const src = (window.LOVII_PHOTO_NAMES || {})[String(storeName || '').trim().toLowerCase()];
+  const key = String(storeName || '').trim().toLowerCase();
+  const wide = (window.LOVII_WIDE_NAMES || {})[key];      // кадр в пропорции плашки
+  const src = wide || (window.LOVII_PHOTO_NAMES || {})[key];
   return src ? `<span class="promo-card__photo" style="background-image:url('${src}')" aria-hidden="true"></span>` : '';
 }
 
