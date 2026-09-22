@@ -2782,7 +2782,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
   border-radius: 8px;
   display: flex;
   align-items: center;
-  justify-content: center; border: 1px solid var(--lv-line-2); }
+  justify-content: center; }
 .nearby-store__info{
   width: 100%;
   margin: 8px 0 0;
@@ -2798,7 +2798,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px; border: 1px solid var(--lv-line-2); }
+  }
 .nearby-store__description{
   display: flex;
   flex-flow: column;
@@ -2899,7 +2899,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px; border: 1px solid var(--lv-line-2); }
+  }
 .catalog-store__logo .sf-emoji{ font-size: 22px; }
 .catalog-store__info{ display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .catalog-store__name{
@@ -2951,8 +2951,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
-}
+  }
 .place-card__info{ display: flex; flex-flow: column; justify-content: flex-start; align-items: flex-start; gap: 4px; min-width: 0; }
 .place-card__info > h3{
   margin: 0;
