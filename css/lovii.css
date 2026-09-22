@@ -2813,7 +2813,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
   font-size: 13px;
   font-weight: 600;
   line-height: 1.5; }
-.nearby-store__description > p{ margin: 0; font-size: 11px; font-weight: 400; line-height: 1.45; }
+.nearby-store__description > p{ margin: 0; font-size: 11px; font-weight: 600; line-height: 1.45; }
 .nearby-store__description > p.open{ color: var(--lv-info); }.nearby-store__description > p.close, .catalog-store__status.is-closed{ color: var(--lv-negative); }
 .nearby-store__description > span{ color: var(--lv-pink); font-size: 11px; line-height: 1.45; font-weight: 600; }
 
