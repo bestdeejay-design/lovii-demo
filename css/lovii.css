@@ -3877,3 +3877,6 @@ body:has(#view .create-order) .create-order__cta{
    Пара «сумма» / «· цена / шт» переносится целиком, внутри пары разрыва нет. */
 .cart-info__products .ri-mid .sb{ gap: 4px; margin-top: 2px; }
 .cart-info__products .ri-mid .sb .row-amount{ font-size: 14px; }
+/* Корзина: товары идут отдельными карточками, а не одним блоком с разделителями */
+.cart-info__products{ padding: 0; gap: 10px; background: none; border: 0; box-shadow: none; }
+.cart-info__products > .row-item + .row-item{ border-top: 0; }

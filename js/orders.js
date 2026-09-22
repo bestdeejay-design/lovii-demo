@@ -115,7 +115,7 @@ function oCartGroups() {
 function oCartProductRow(cart, item) {
   const many = item.qty > 1;
   return `
-    <div class="row-item row-item--media">
+    <div class="card row-item row-item--media">
       <span class="ri-emoji" style="background-color:${item.bg || '#eee'}">${thumb(item, 'sf-emoji-sm')}</span>
       <div class="ri-mid">
         <div class="nm">${oEsc(item.name)}</div>
@@ -167,7 +167,7 @@ function renderCartMirror() {
           <span class="ri-emoji" style="background-color:${cart.bg}">${thumb(cart)}</span>
           <div class="ri-mid"><div class="nm">${oEsc(cart.name)}</div></div>
         </div>
-        <div class="card cart-info__products">
+        <div class="cart-info__products">
           ${cart.items.map((it) => oCartProductRow(cart, it)).join('')}
         </div>
       </section>
@@ -369,7 +369,7 @@ function renderOrderDetailMirror(id) {
           <p>${oEsc(order.merchant.name)} ${oBadge(order.status || 'done')}</p>
         </div>
         <p class="order-detail__meta">${oDate(order.createdAt)} · ${order.deliveryType === 'delivery' ? `Доставка · ${oEsc(order.address || '')}` : 'Самовывоз'}</p>
-        <div class="card cart-info__products">
+        <div class="cart-info__products">
           ${order.items.map((it) => `
             <div class="row-item">
               <span class="ri-emoji" style="background-color:${it.bg || '#eee'}">${thumb(it, 'sf-emoji-sm')}</span>
