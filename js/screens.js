@@ -129,7 +129,7 @@ function promoCardHtml(p) {
 function compactRowHtml(p) {
   return `
   <button class="card compact-row" data-go="product:${p.slug}">
-    <span class="em-tile ${tileBg(p.storeColor || 'ink')}">${p.emoji}</span>
+    <span class="em-tile ${tileBg(p.storeColor || 'ink')}">${thumb(p)}</span>
     <span class="mid">
       <span class="nm">${esc(p.name)}</span>
       <span class="sb">${p.isService ? 'Услуга · ' : ''}${esc(p.storeName || '')}${p.pointsCount > 1 ? ` · ещё в ${p.pointsCount - 1} рядом` : ''}</span>
@@ -451,7 +451,7 @@ function searchListHtml() {
           .map(
             (s) => `
         <button class="card compact-row" data-go="store:${s.slug}">
-          <span class="em-tile ${tileBg(s.color)}">${s.emoji}</span>
+          <span class="em-tile ${tileBg(s.color)}">${thumb(s)}</span>
           <span class="mid">
             <span class="nm">${esc(s.name)}</span>
             <span class="sb">${esc(s.address)} · ${s.open ? 'открыто' : 'закрыто'}</span>
