@@ -3366,7 +3366,7 @@ html[data-motion='off'] *::after {
   background: var(--lv-card); color: var(--lv-ink);
   font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
 }
-.cart__shops > button.active{ border-color: var(--lv-accent, var(--lv-pink)); background: var(--lv-accent-soft, var(--lv-soft-pink)); color: var(--lv-accent-text, var(--lv-pink-dark)); }
+.cart__shops > button.active{ border-color: var(--lv-tiffany); background: var(--lv-soft-tiffany); color: var(--lv-tiffany-text); }
 .cart__shops > button > span:first-child{
   width: 28px; height: 28px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;
 }
@@ -3377,7 +3377,7 @@ html[data-motion='off'] *::after {
 .cart-info__store > span{ width: 40px; height: 40px; border-radius: 8px; padding: 4px; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; }
 .cart-info__store > p{ margin: 0; color: var(--lv-ink); font-size: 14px; font-weight: 600; line-height: 1.4; }
 /* SZ-062 · карточка списка товаров в корзине: внутренние отступы */
-.cart-info__products{ padding: 4px 16px 16px; }
+.cart-info__products{ padding: 4px 0 16px; }
 .cart-info__products{ gap: 0; }
 .cart-info__products, .orders__list{ margin: 16px 0 0; display: grid; grid-template-columns: 1fr; gap: 16px; }
 
