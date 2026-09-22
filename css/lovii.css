@@ -2881,7 +2881,6 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
 .stores__noresult{ margin: 0; padding: 16px 0; color: var(--lv-dim); font-size: 13px; line-height: 1.55; }
 
 /* Карточка точки каталога (CatalogStore) */
-.catalog-store__logo .sf-emoji{ font-size: 22px; }
 .catalog-store__status{ font-size: 12px; font-weight: 600; line-height: 1.5; }
 .catalog-store__status.is-open{ color: var(--lv-tiffany); }
 
@@ -3850,16 +3849,9 @@ body:has(#view .create-order) .create-order__cta{
   height: 24px; padding: 0 9px; border-radius: var(--lv-r-pill);
   font-size: 11px; font-weight: 600; line-height: 1; white-space: nowrap;
 }
-.app-badge_s, .app-badge--s, .promo-card__badge, .pay-chip{ height: 20px; padding: 0 7px; font-size: 11px; border-radius: var(--lv-r-pill); }
-.app-badge_xs, .app-badge--xs{ height: 16px; padding: 0 5px; font-size: 10px; border-radius: var(--lv-r-pill); }
 
 /* ---- FIELD: одна анатомия поля ввода ----
    44 px, радиус 12, рамка line-strong, фон карточки. Было три разных набора. */
-.acc-field input, .acc-field textarea, input.fld, .msp-signup input, .msp-signup textarea{
-  height: 44px; padding: 0 12px; border: 1px solid var(--lv-line-strong);
-  border-radius: var(--lv-r-sm); background: var(--lv-card); color: var(--lv-ink);
-  font: inherit; font-size: 14px; box-sizing: border-box;
-}
 .acc-field textarea, .msp-signup textarea{ height: auto; min-height: 88px; padding: 10px 12px; line-height: 1.5; }
 .acc-field input:focus, .acc-field textarea:focus, .msp-signup input:focus{ outline: none; border-color: var(--lv-pink); }
 
