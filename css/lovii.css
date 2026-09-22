@@ -3088,18 +3088,18 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
 }
 .product-preview__info > h4{
   margin: 0;
-  color: var(--lv-dim);
-  font-size: 11px;
-  font-weight: 400;
-  line-height: 1.45;
+  color: var(--lv-ink);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  max-height: calc(3 * 1.45em);
+  max-height: calc(2 * 1.35em);
 }
-.product-preview__info > span{ margin: 2px 0 0; color: var(--lv-dim); font-size: 11px; font-weight: 400; line-height: 1.4; }
+.product-preview__info > span{ margin: 3px 0 0; color: var(--lv-dim); font-size: 11px; font-weight: 400; line-height: 1.4; }
 .product-preview__info > p{
   margin: 0;
   display: flex;
@@ -3107,11 +3107,13 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
   justify-content: flex-start;
   gap: 8px;
   color: var(--lv-ink);
-  font-size: 14px;
-  font-weight: 600;
+  margin-top: auto;
+  font-size: 15px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
   line-height: 1.4;
 }
-.product-preview__info > p > del{ color: var(--lv-ink); font-size: 13px; font-weight: 600; text-decoration: line-through; }
+.product-preview__info > p > del{ color: var(--lv-dim); font-size: 12px; font-weight: 500; text-decoration: line-through; }
 .product-preview__info > button{
   width: 100%;
   margin: 16px 0 0;
