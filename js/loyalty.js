@@ -1,9 +1,13 @@
 /* ============================================================
  * LOVII Демо · ПРОМО-КОНСТРУКТОР ПАРТНЁРА — кабинет МСП (#/msp)
  *
- * Раздел «Промо»: кэшбэк (умолчание + группы) и акции (сумма чека / комбо).
- * Комбо публикуется ТОВАРОМ на витрину, акции — карточками в промо-блок.
- * Подписи кэшбэка добавляются в корзину и чекаут (мост в orders.js).
+ * Раздел «Промо»: кэшбэк (умолчание + группы) и акции:
+ *  • сумма чека (кэшбэк +N% / подарок)
+ *  • комбо (публикуется ТОВАРОМ на витрину)
+ *  • штампы «N-й в подарок»
+ *  • счастливые часы (дни недели + интервал)
+ *  • бюджет акции с авто-стопом (общий контур для всех правил)
+ * Подписи выгоды добавляются в корзину и чекаут (мост в orders.js).
  *
  * Демо-прототип к SZ-070/SZ-071. Модель и правила — design/loyalty-constructor/.
  * Грузится ПОСЛЕ msp.js/storefront.js/orders.js: дополняет MSP_TABS, оборачивает
@@ -14,6 +18,7 @@ const LV_KEY = '***';
 const LV_DEF_PCT = 5;        // кэшбэк по умолчанию, %
 const LV_MAX = 30;           // потолок кэшбэка, %
 const LV_MAX_DISCOUNT = 50;  // потолок скидки, %
+const LV_DAY_LABELS = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 
 const LV_CATS = [
   { id: 'drinks', name: 'Напитки', emojis: ['☕', '🥛', '🥤'] },
@@ -48,15 +53,26 @@ function lvDefaults(pt) {
     groups.push({ id: 'g_' + c.id, name: c.name, cat: c.id, percent: LV_GROUP_PCT[c.id] || LV_DEF_PCT, on: true, add: [], drop: [] });
   });
   const rules = [
-    { id: 'r_thr', type: 'threshold', name: '', minSum: 2000, mode: 'gift', addPercent: 2, giftPid: (pt.products[0] || {}).id || null, on: true, published: false },
+    { id: 'r_thr', type: 'threshold', name: '', minSum: 2000, mode: 'gift', addPercent: 2, giftPid: (pt.products[0] || {}).id || null, on: true, published: false, budget: 0, autostop: true, spent: 0 },
+    { id: 'r_hours', type: 'hours', name: '', addPercent: 2, days: [0, 1, 2, 3, 4, 5, 6], from: '08:00', to: '23:00', on: true, published: false, budget: 0, autostop: true, spent: 0 },
+    { id: 'r_stamps', type: 'stamps', name: '', cat: 'drinks', count: 6, giftPid: (pt.products[0] || {}).id || null, on: true, published: false, budget: 0, autostop: true, spent: 0 },
   ];
   return { def: { percent: LV_DEF_PCT, on: true }, groups, rules };
+}
+
+/* Общие поля новых правил (совместимость со старым сохранённым состоянием) */
+function lvMigrateRule(r) {
+  if (typeof r.budget !== 'number') r.budget = 0;
+  if (typeof r.autostop !== 'boolean') r.autostop = true;
+  if (typeof r.spent !== 'number') r.spent = 0;
+  return r;
 }
 
 function lvMigrate(st) {
   if (!Array.isArray(st.groups)) st.groups = [];
   if (!Array.isArray(st.rules)) st.rules = [];
   st.groups.forEach((g) => { if (!Array.isArray(g.add)) g.add = []; if (!Array.isArray(g.drop)) g.drop = []; });
+  st.rules.forEach(lvMigrateRule);
   return st;
 }
 
@@ -118,11 +134,58 @@ function lvPlural(n, one, few, many) {
   return many;
 }
 
+/* ---------- Контуры: бюджет/авто-стоп и расписание ---------- */
+
+/* Акция остановлена автоматически по исчерпанию бюджета */
+function lvRuleStopped(r) {
+  return !!r.autostop && r.budget > 0 && (r.spent || 0) >= r.budget;
+}
+
+/* Правило реально работает: включено и не остановлено бюджетом */
+function lvRuleLive(r) {
+  return r.on && !lvRuleStopped(r);
+}
+
+/* Счастливые часы: попадает ли момент в окно (дни недели + интервал) */
+function lvNowInWindow(r, d) {
+  const day = (d.getDay() + 6) % 7; // 0 = понедельник
+  if (Array.isArray(r.days) && r.days.length && !r.days.includes(day)) return false;
+  const cur = d.getHours() * 60 + d.getMinutes();
+  const [fh, fm] = String(r.from || '00:00').split(':').map(Number);
+  const [th, tm] = String(r.to || '23:59').split(':').map(Number);
+  return cur >= fh * 60 + fm && cur <= th * 60 + tm;
+}
+
+function lvHoursActive(r, d) {
+  return lvRuleLive(r) && lvNowInWindow(r, d || new Date());
+}
+
+/* Штампы: сколько товаров нужной категории уже в корзине */
+function lvCartCatQty(cart, cat) {
+  return cart.items.reduce((s, it) => s + (lvCatOf({ emoji: it.emoji }) === cat ? it.qty : 0), 0);
+}
+
+function lvStampsProgress(cart, r) {
+  const count = Math.max(1, r.count || 1);
+  const have = lvCartCatQty(cart, r.cat);
+  return { have, count, done: have >= count };
+}
+
+function lvBudgetLabel(r) {
+  if (!r.budget) return 'Без лимита';
+  return `${oFmt(r.budget)} ₽/мес`;
+}
+
 function lvRuleTitle(rule, pt) {
   if (rule.type === 'combo') {
     const items = rule.items.map((id) => pt.products.find((p) => p.id === id)).filter(Boolean);
     return 'Комбо: ' + (items.map((i) => i.name).join(' + ') || 'выберите товары');
   }
+  if (rule.type === 'stamps') {
+    const g = pt.products.find((p) => p.id === rule.giftPid);
+    return `${rule.count}-й товар в подарок${g ? ' · ' + g.name : ''}`;
+  }
+  if (rule.type === 'hours') return `Счастливые часы +${rule.addPercent}%`;
   if (rule.type === 'threshold') {
     const sum = oFmt(rule.minSum) + ' ₽';
     return rule.mode === 'gift' ? `Подарок к чеку от ${sum}` : `Кэшбэк +${rule.addPercent}% от ${sum}`;
@@ -130,20 +193,39 @@ function lvRuleTitle(rule, pt) {
   return rule.name || 'Акция';
 }
 
+function lvDaysLabel(days) {
+  if (!Array.isArray(days) || !days.length || days.length === 7) return 'ежедневно';
+  return days.slice().sort((a, b) => a - b).map((d) => LV_DAY_LABELS[d]).join(', ');
+}
+
 function lvRuleMeta(rule, pt) {
   if (rule.type === 'combo') {
     const items = rule.items.map((id) => pt.products.find((p) => p.id === id)).filter(Boolean);
     const sum = items.reduce((s, i) => s + i.price, 0);
     const price = Math.round(sum * (100 - rule.percent) / 100);
-    return `${items.length} ${lvPlural(items.length, 'товар', 'товара', 'товаров')} · ${oFmt(price)} ₽ вместо ${oFmt(sum)} ₽`;
+    return `${items.length} ${lvPlural(items.length, 'товар', 'товара', 'товаров')} · ${oFmt(price)} ₽ вместо ${oFmt(sum)} ₽${lvBudgetSuffix(rule)}`;
+  }
+  if (rule.type === 'stamps') {
+    const c = LV_CATS.find((x) => x.id === rule.cat);
+    return `${c ? c.name : 'любая категория'} · ${rule.count} шт → подарок${lvBudgetSuffix(rule)}`;
+  }
+  if (rule.type === 'hours') {
+    const inWin = lvNowInWindow(rule, new Date()) ? ' · действует сейчас' : ' · вне окна';
+    return `${lvDaysLabel(rule.days)}, ${rule.from}–${rule.to}${inWin}${lvBudgetSuffix(rule)}`;
   }
   if (rule.type === 'threshold') {
     if (rule.mode === 'gift') {
       const g = pt.products.find((p) => p.id === rule.giftPid);
-      return g ? `Подарок: ${g.name}` : 'Подарок не выбран';
+      return `${g ? 'Подарок: ' + g.name : 'Подарок не выбран'}${lvBudgetSuffix(rule)}`;
     }
-    return `Кэшбэк на весь чек +${rule.addPercent}%`;
+    return `Кэшбэк на весь чек +${rule.addPercent}%${lvBudgetSuffix(rule)}`;
   }
+  return '';
+}
+
+function lvBudgetSuffix(rule) {
+  if (lvRuleStopped(rule)) return ' · остановлена по бюджету';
+  if (rule.budget) return ` · бюджет ${oFmt(rule.budget)} ₽`;
   return '';
 }
 
@@ -206,6 +288,19 @@ function lvPromoCard(rule, pt, title, sub, deadline) {
 
 function lvPublishPromo(pt, rule) {
   if (rule.type === 'combo') return lvPublishCombo(pt, rule);
+  if (rule.type === 'stamps') {
+    const g = pt.products.find((p) => p.id === rule.giftPid);
+    rule.published = true;
+    lvPromoCard(rule, pt, `${rule.count}-й товар в подарок`, g ? `каждый ${rule.count}-й — ${g.name} бесплатно` : 'штампы', 'карта штампов');
+    lvSave();
+    return true;
+  }
+  if (rule.type === 'hours') {
+    rule.published = true;
+    lvPromoCard(rule, pt, 'Счастливые часы', `${lvDaysLabel(rule.days)} ${rule.from}–${rule.to} · +${rule.addPercent}% баллами`, `${rule.from}–${rule.to}`);
+    lvSave();
+    return true;
+  }
   const title = rule.mode === 'gift' ? 'Подарок к заказу' : `Кэшбэк +${rule.addPercent}%`;
   const sub = rule.mode === 'gift'
     ? `при чеке от ${oFmt(rule.minSum)} ₽`
@@ -236,15 +331,23 @@ function lvCartBonus(cart) {
     const pct = lvCartPercent(cart.slug, it);
     if (pct > 0) { any = true; bonus += Math.round(it.price * it.qty * pct / 100); }
   }
-  let extraPct = 0; const gifts = [];
-  for (const r of st.rules.filter((x) => x.on && x.published && x.type === 'threshold')) {
-    if (cart.subtotal < r.minSum) continue;
-    if (r.mode === 'cashback') extraPct += r.addPercent;
-    else { const g = pt.products.find((p) => p.id === r.giftPid); if (g) gifts.push(g); }
+  let extraPct = 0; let hoursPct = 0; const gifts = []; let stamps = null;
+  for (const r of st.rules) {
+    if (!lvRuleLive(r)) continue;
+    if (r.type === 'threshold' && cart.subtotal >= r.minSum) {
+      if (r.mode === 'cashback') extraPct += r.addPercent;
+      else { const g = pt.products.find((p) => p.id === r.giftPid); if (g) gifts.push({ product: g, from: 'чек' }); }
+    }
+    if (r.type === 'hours' && lvNowInWindow(r, new Date())) { extraPct += r.addPercent; hoursPct += r.addPercent; }
+    if (r.type === 'stamps') {
+      const pr = lvStampsProgress(cart, r);
+      if (pr.done) { const g = pt.products.find((p) => p.id === r.giftPid); if (g) gifts.push({ product: g, from: 'штампы' }); }
+      else if (!stamps || pr.have > stamps.have) stamps = pr;
+    }
   }
   if (extraPct) bonus += Math.round(cart.subtotal * extraPct / 100);
-  if (!any && !extraPct && !gifts.length) return null;
-  return { bonus, extraPct, gifts };
+  if (!any && !extraPct && !gifts.length && !stamps) return null;
+  return { bonus, extraPct, hoursPct, gifts, stamps };
 }
 
 /* Оборачиваем строку корзины: подпись кэшбэка под ценой (разметка корзины: .row-item > .ri-mid > .sb) */
@@ -268,8 +371,10 @@ function lvBonusRows(cart) {
   const b = lvCartBonus(cart);
   if (!b) return '';
   let out = '';
+  if (b.hoursPct) out += `<div class="sum-row lv-cb-row"><span>Счастливые часы</span><span class="v">+${b.hoursPct}% к кэшбэку</span></div>`;
   if (b.bonus > 0) out += `<div class="sum-row lv-cb-row"><span>Кэшбэк баллами</span><span class="v">+${oFmt(b.bonus)} балл.</span></div>`;
-  b.gifts.forEach((g) => { out += `<div class="sum-row lv-cb-row"><span>Подарок · ${mEsc2(g.name)}</span><span class="v">0 ₽</span></div>`; });
+  if (b.stamps) out += `<div class="sum-row lv-cb-row"><span>Штампы</span><span class="v">${b.stamps.have} из ${b.stamps.count}</span></div>`;
+  b.gifts.forEach((g) => { out += `<div class="sum-row lv-cb-row"><span>Подарок${g.from === 'штампы' ? ' по штампам' : ''} · ${mEsc2(g.product.name)}</span><span class="v">0 ₽</span></div>`; });
   return out;
 }
 
@@ -360,14 +465,20 @@ function lvGroupsCard(pt, state) {
 
 function lvPromosCard(pt, state) {
   const rows = state.rules.map((r) => {
-    const badge = r.type === 'combo' ? 'Комбо' : (r.mode === 'gift' ? 'Подарок' : 'Сумма чека');
+    const badge = r.type === 'combo' ? 'Комбо'
+      : r.type === 'stamps' ? 'Штампы'
+        : r.type === 'hours' ? 'Часы'
+          : (r.mode === 'gift' ? 'Подарок' : 'Сумма чека');
+    const tag = lvRuleStopped(r)
+      ? '<span class="lv-type lv-type--stop">Стоп по бюджету</span>'
+      : r.published ? '<span class="lv-pin">На витрине</span>' : `<span class="lv-type">${badge}</span>`;
     return `
       <div class="lv-row">
         <button type="button" class="lv-row__main" data-action="lv-rule-open" data-id="${r.id}">
           <span class="lv-row__name">${mEsc2(lvRuleTitle(r, pt))}</span>
           <span class="lv-row__meta">${mEsc2(lvRuleMeta(r, pt))}</span>
         </button>
-        ${r.published ? '<span class="lv-pin">На витрине</span>' : `<span class="lv-type">${badge}</span>`}
+        ${tag}
         <button type="button" class="app-switch${r.on ? ' on' : ''}" data-action="lv-rule-toggle" data-id="${r.id}" aria-label="Акция активна"><span class="app-switch__knob"></span></button>
       </div>`;
   }).join('');
@@ -405,7 +516,7 @@ function lvSummaryCard(pt, state) {
 function lvListView(pt, state) {
   return `
     <div class="cabinet-screen">
-      <p class="lv-note" style="margin-top:4px">Партнёр сам собирает акции: кэшбэк, порог чека, комбо. Комбо выходит на витрину товаром. Демо к SZ-070/071.</p>
+      <p class="lv-note" style="margin-top:4px">Партнёр сам собирает акции: кэшбэк, порог чека, комбо, штампы, счастливые часы. Комбо выходит на витрину товаром. Демо к SZ-070/071.</p>
       ${lvDefaultCard(state)}
       ${lvGroupsCard(pt, state)}
       ${lvPromosCard(pt, state)}
@@ -430,6 +541,16 @@ function lvNewView() {
             <span class="lv-mech__ico">${icon('ticket')}</span>
             <span class="lv-mech__t">Комбо</span>
             <span class="lv-mech__d">2+ товара вместе со скидкой — <b>выходит на витрину товаром</b></span>
+          </button>
+          <button type="button" class="lv-mech__item" data-action="lv-mech" data-mech="stamps">
+            <span class="lv-mech__ico">${icon('star')}</span>
+            <span class="lv-mech__t">Штампы · N-й в подарок</span>
+            <span class="lv-mech__d">Каждый <b>N-й товар</b> категории — в подарок (карта штампов)</span>
+          </button>
+          <button type="button" class="lv-mech__item" data-action="lv-mech" data-mech="hours">
+            <span class="lv-mech__ico">${icon('clock')}</span>
+            <span class="lv-mech__t">Счастливые часы</span>
+            <span class="lv-mech__d">Кэшбэк <b>+N%</b> в выбранные дни и часы</span>
           </button>
           <button type="button" class="lv-mech__item" data-action="lv-mech" data-mech="group">
             <span class="lv-mech__ico">${icon('gift')}</span>
@@ -639,6 +760,156 @@ function lvComboView(pt, state) {
     </div>`;
 }
 
+/* ---------- Общий блок: бюджет и авто-стоп ---------- */
+
+function lvBudgetCard(r) {
+  const stopped = lvRuleStopped(r);
+  const pct = r.budget > 0 ? Math.min(100, Math.round(((r.spent || 0) / r.budget) * 100)) : 0;
+  return `
+    <section class="role-card" style="padding-bottom:0">
+      <div class="role-section-head"><h2>Бюджет акции</h2><span class="role-section-head__sub">${lvBudgetLabel(r)}</span></div>
+      <div class="lv-hero" style="padding-top:14px">
+        <span class="lv-big">${r.budget ? oFmt(r.budget) + ' ₽' : '∞'}</span>
+        <span class="lv-stepper">
+          <button type="button" class="lv-step-btn" data-action="lv-bud-dec" aria-label="Меньше">−</button>
+          <span class="lv-step-val">${r.budget ? oFmt(r.budget) : '0'}</span>
+          <button type="button" class="lv-step-btn" data-action="lv-bud-inc" aria-label="Больше">+</button>
+        </span>
+      </div>
+      <div class="lv-meter" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div>
+      <p class="lv-note">Расход (демо): ${oFmt(r.spent || 0)} ₽ ${r.budget ? 'из ' + oFmt(r.budget) + ' ₽' : '(лимит не задан)'}. Шаг — 5 000 ₽, 0 — без лимита.</p>
+      <div class="lv-row">
+        <span class="lv-row__main" style="cursor:default"><span class="lv-row__name">Авто-стоп по бюджету</span><span class="lv-row__meta">акция выключится сама, когда бюджет исчерпан</span></span>
+        <button type="button" class="app-switch${r.autostop ? ' on' : ''}" data-action="lv-bud-autostop" aria-label="Авто-стоп"><span class="app-switch__knob"></span></button>
+      </div>
+      <div class="lv-actions">
+        <button type="button" class="lv-btn" data-action="lv-bud-sim">Смоделировать исчерпание (демо)</button>
+        <button type="button" class="lv-btn" data-action="lv-bud-reset">Сбросить расход</button>
+      </div>
+      ${stopped ? '<p class="lv-note">Акция остановлена по бюджету — на покупателе не отражается.</p>' : ''}
+    </section>`;
+}
+
+/* ---------- Редактор «Счастливые часы» ---------- */
+
+function lvHoursView(pt, state) {
+  const r = state.rules.find((x) => x.id === lvUi.rule);
+  if (!r) { lvUi.sub = 'list'; return lvListView(pt, state); }
+  const live = lvHoursActive(r);
+  const dayChips = LV_DAY_LABELS.map((lbl, i) => `
+    <button type="button" class="app-chip${r.days.includes(i) ? ' active' : ''}" data-action="lv-day" data-day="${i}">${lbl}</button>`).join('');
+
+  return `
+    <div class="cabinet-screen">
+      <section class="role-card">
+        <div class="role-section-head"><h2>Счастливые часы</h2><button type="button" class="role-link" data-action="lv-back">← К списку</button></div>
+        <div class="lv-hero" style="padding-top:14px">
+          <span class="lv-big">+${r.addPercent}%</span>
+          <span class="lv-stepper">
+            <button type="button" class="lv-step-btn" data-action="lv-hrs-dec" aria-label="Меньше">−</button>
+            <span class="lv-step-val">${r.addPercent}%</span>
+            <button type="button" class="lv-step-btn" data-action="lv-hrs-inc" aria-label="Больше">+</button>
+          </span>
+        </div>
+        <p class="lv-note">Добавляется к кэшбэку заказа внутри окна. ${live ? '<b>Сейчас действует.</b>' : 'Сейчас вне окна.'}</p>
+      </section>
+
+      <section class="role-card">
+        <div class="role-section-head"><h2>Дни недели</h2><span class="role-section-head__sub">${lvDaysLabel(r.days)}</span></div>
+        <div class="lv-chips" style="margin-top:10px">${dayChips}</div>
+      </section>
+
+      <section class="role-card">
+        <div class="role-section-head"><h2>Интервал</h2><span class="role-section-head__sub">24 часа</span></div>
+        <div class="lv-times">
+          <label class="lv-field" style="padding:0"><span class="lb">С</span><input type="text" inputmode="numeric" maxlength="5" value="${r.from}" data-action="lv-hrs-from"></label>
+          <label class="lv-field" style="padding:0"><span class="lb">До</span><input type="text" inputmode="numeric" maxlength="5" value="${r.to}" data-action="lv-hrs-to"></label>
+        </div>
+        <p class="lv-note">Демо: окно сверяется с текущим временем вашего устройства.</p>
+      </section>
+
+      ${lvBudgetCard(r)}
+
+      <section class="role-card" style="padding-bottom:0">
+        <div class="role-section-head"><h2>Как увидит покупатель</h2></div>
+        <div style="margin-top:10px">
+          <div class="lv-preview">
+            <span class="lv-preview__emoji">${icon('clock')}</span>
+            <div class="lv-preview__main">
+              <div class="lv-preview__name">${mEsc2(lvRuleTitle(r, pt))}</div>
+              <div class="lv-preview__sub">В корзине: «Счастливые часы · +${r.addPercent}% к кэшбэку»</div>
+            </div>
+          </div>
+        </div>
+        <div class="lv-actions">
+          <button type="button" class="lv-btn lv-btn_danger" data-action="lv-rule-del" data-id="${r.id}">Удалить</button>
+          <button type="button" class="lv-btn lv-btn_primary" data-action="lv-publish" data-id="${r.id}">На витрину</button>
+        </div>
+        ${r.published ? '<p class="lv-note">Опубликовано в промо-блоке на главной.</p>' : ''}
+      </section>
+    </div>`;
+}
+
+/* ---------- Редактор «Штампы» ---------- */
+
+function lvStampsView(pt, state) {
+  const r = state.rules.find((x) => x.id === lvUi.rule);
+  if (!r) { lvUi.sub = 'list'; return lvListView(pt, state); }
+
+  const catChips = LV_CATS.map((c) => `
+    <button type="button" class="app-chip${r.cat === c.id ? ' active' : ''}" data-action="lv-stamps-cat" data-cat="${c.id}">${c.name}</button>`).join('');
+
+  const giftList = pt.products.slice(0, 6).map((p) => `
+    <button type="button" class="lv-pick${r.giftPid === p.id ? ' is-on' : ''}" data-action="lv-stamps-gift" data-pid="${p.id}">
+      <span class="lv-prod__emoji">${p.emoji}</span>
+      <span class="lv-prod__name">${mEsc2(p.name)}</span>
+      <span class="lv-pick__check">${r.giftPid === p.id ? icon('check') : ''}</span>
+    </button>`).join('');
+
+  const n = Math.max(1, r.count || 1);
+  const dots = Array.from({ length: Math.min(n, 10) }, (_, i) =>
+    `<span class="lv-stamp${i === Math.min(n, 10) - 1 ? ' lv-stamp--gift' : ''}">${i === Math.min(n, 10) - 1 ? icon('gift') : ''}</span>`).join('');
+
+  return `
+    <div class="cabinet-screen">
+      <section class="role-card">
+        <div class="role-section-head"><h2>Штампы · N-й в подарок</h2><button type="button" class="role-link" data-action="lv-back">← К списку</button></div>
+        <div class="lv-hero" style="padding-top:14px">
+          <span class="lv-big">${r.count}</span>
+          <span class="lv-stepper">
+            <button type="button" class="lv-step-btn" data-action="lv-stamps-dec" aria-label="Меньше">−</button>
+            <span class="lv-step-val">${r.count} шт</span>
+            <button type="button" class="lv-step-btn" data-action="lv-stamps-inc" aria-label="Больше">+</button>
+          </span>
+        </div>
+        <p class="lv-note">Каждый <b>${r.count}-й</b> товар категории — в подарок. Классика для кофеен и пекарен.</p>
+      </section>
+
+      <section class="role-card">
+        <div class="role-section-head"><h2>Категория товара</h2><span class="role-section-head__sub">что считаем штампом</span></div>
+        <div class="lv-chips" style="margin-top:10px">${catChips}</div>
+      </section>
+
+      <section class="role-card" style="padding-bottom:0">
+        <div class="role-section-head"><h2>Товар-подарок</h2></div>
+        <div class="lv-picks">${giftList}</div>
+      </section>
+
+      ${lvBudgetCard(r)}
+
+      <section class="role-card" style="padding-bottom:0">
+        <div class="role-section-head"><h2>Карта штампов</h2><span class="role-section-head__sub">${r.count} ${lvPlural(r.count, 'штамп', 'штампа', 'штампов')}</span></div>
+        <div class="lv-stamps-row">${dots}</div>
+        <p class="lv-note" style="margin-bottom:12px">В корзине покупатель видит прогресс: «Штампы: 1 из ${r.count}».</p>
+        <div class="lv-actions">
+          <button type="button" class="lv-btn lv-btn_danger" data-action="lv-rule-del" data-id="${r.id}">Удалить</button>
+          <button type="button" class="lv-btn lv-btn_primary" data-action="lv-publish" data-id="${r.id}">На витрину</button>
+        </div>
+        ${r.published ? '<p class="lv-note">Опубликовано в промо-блоке на главной.</p>' : ''}
+      </section>
+    </div>`;
+}
+
 /* ---------- Точка входа раздела ---------- */
 
 function mspLoyalty() {
@@ -649,6 +920,8 @@ function mspLoyalty() {
   if (lvUi.sub === 'new') return lvNewView();
   if (lvUi.sub === 'threshold') return lvThresholdView(pt, state);
   if (lvUi.sub === 'combo') return lvComboView(pt, state);
+  if (lvUi.sub === 'stamps') return lvStampsView(pt, state);
+  if (lvUi.sub === 'hours') return lvHoursView(pt, state);
   return lvListView(pt, state);
 }
 
@@ -693,9 +966,12 @@ document.addEventListener('click', (e) => {
       const g = { id: 'g' + Date.now(), name: 'Новая группа', cat: null, percent: LV_DEF_PCT, on: true, add: [], drop: [] };
       state.groups.push(g); lvUi.sub = 'group'; lvUi.group = g.id;
     } else {
-      const r = mech === 'combo'
-        ? { id: 'r' + Date.now(), type: 'combo', items: [], percent: 15, on: true, published: false }
-        : { id: 'r' + Date.now(), type: 'threshold', minSum: 2000, mode: 'gift', addPercent: 2, giftPid: (pt.products[0] || {}).id || null, on: true, published: false };
+      const base = { id: 'r' + Date.now(), on: true, published: false, budget: 0, autostop: true, spent: 0 };
+      let r;
+      if (mech === 'combo') r = { ...base, type: 'combo', items: [], percent: 15 };
+      else if (mech === 'stamps') r = { ...base, type: 'stamps', cat: 'drinks', count: 6, giftPid: (pt.products[0] || {}).id || null };
+      else if (mech === 'hours') r = { ...base, type: 'hours', addPercent: 2, days: [0, 1, 2, 3, 4, 5, 6], from: '08:00', to: '23:00' };
+      else r = { ...base, type: 'threshold', minSum: 2000, mode: 'gift', addPercent: 2, giftPid: (pt.products[0] || {}).id || null };
       state.rules.push(r); lvUi.sub = mech; lvUi.rule = r.id;
     }
     lvSave(); renderViewPreserveScroll(); return;
@@ -749,6 +1025,28 @@ document.addEventListener('click', (e) => {
   }
   if (action === 'lv-combo-inc') { r.percent = Math.min(LV_MAX_DISCOUNT, r.percent + 1); lvSave(); renderViewPreserveScroll(); return; }
   if (action === 'lv-combo-dec') { r.percent = Math.max(0, r.percent - 1); lvSave(); renderViewPreserveScroll(); return; }
+  if (action === 'lv-hrs-inc') { r.addPercent = Math.min(LV_MAX, r.addPercent + 1); lvSave(); renderViewPreserveScroll(); return; }
+  if (action === 'lv-hrs-dec') { r.addPercent = Math.max(0, r.addPercent - 1); lvSave(); renderViewPreserveScroll(); return; }
+  if (action === 'lv-day') {
+    const d = Number(el.dataset.day);
+    r.days = r.days.includes(d) ? r.days.filter((x) => x !== d) : [...r.days, d].sort((a, b) => a - b);
+    lvSave(); renderViewPreserveScroll(); return;
+  }
+  if (action === 'lv-stamps-inc') { r.count = Math.min(12, (r.count || 1) + 1); lvSave(); renderViewPreserveScroll(); return; }
+  if (action === 'lv-stamps-dec') { r.count = Math.max(2, (r.count || 1) - 1); lvSave(); renderViewPreserveScroll(); return; }
+  if (action === 'lv-stamps-cat') { r.cat = el.dataset.cat; lvSave(); renderViewPreserveScroll(); return; }
+  if (action === 'lv-stamps-gift') { r.giftPid = el.dataset.pid; lvSave(); renderViewPreserveScroll(); return; }
+  /* --- бюджет акции --- */
+  if (action === 'lv-bud-inc') { r.budget = (r.budget || 0) + 5000; lvSave(); renderViewPreserveScroll(); return; }
+  if (action === 'lv-bud-dec') { r.budget = Math.max(0, (r.budget || 0) - 5000); lvSave(); renderViewPreserveScroll(); return; }
+  if (action === 'lv-bud-autostop') { r.autostop = !r.autostop; lvSave(); renderViewPreserveScroll(); return; }
+  if (action === 'lv-bud-sim') {
+    if (!r.budget) r.budget = 20000;
+    r.spent = r.budget;
+    if (typeof toast === 'function') toast(r.autostop ? 'Демо: бюджет исчерпан — акция остановлена' : 'Демо: бюджет исчерпан, авто-стоп выключен');
+    lvSave(); renderViewPreserveScroll(); return;
+  }
+  if (action === 'lv-bud-reset') { r.spent = 0; lvSave(); renderViewPreserveScroll(); return; }
   if (action === 'lv-publish') {
     const ok = lvPublishPromo(pt, r);
     if (typeof toast === 'function') toast(ok ? 'Демо: акция опубликована на витрине' : 'Демо: выберите минимум 2 товара комбо');
@@ -762,16 +1060,40 @@ document.addEventListener('click', (e) => {
 
 /* Числовые и текстовые поля — без ререндера (не теряем фокус) */
 document.addEventListener('input', (e) => {
-  const el = e.target.closest('[data-action="lv-name"], [data-action="lv-thr-input"]');
+  const el = e.target.closest('[data-action="lv-name"], [data-action="lv-thr-input"], [data-action="lv-hrs-from"], [data-action="lv-hrs-to"]');
   if (!el) return;
   const pt = mspActivePoint();
   if (!pt) return;
   const state = lvState(pt);
-  if (el.dataset.action === 'lv-name') {
+  const act = el.dataset.action;
+  if (act === 'lv-name') {
     const g = state.groups.find((x) => x.id === lvUi.group);
     if (g) { g.name = el.value; lvSave(); }
-  } else {
-    const r = state.rules.find((x) => x.id === lvUi.rule);
-    if (r) { r.minSum = Math.max(0, Number(el.value) || 0); lvSave(); }
+    return;
   }
+  const r = state.rules.find((x) => x.id === lvUi.rule);
+  if (!r) return;
+  if (act === 'lv-thr-input') {
+    r.minSum = Math.max(0, Number(el.value) || 0);
+    lvSave();
+    return;
+  }
+  /* Время окна — маска ЧЧ:ММ (тот же хелпер, что в кабинете МСП) */
+  el.value = typeof mspTimeMask === 'function' ? mspTimeMask(el.value) : el.value;
+  const key = act === 'lv-hrs-from' ? 'from' : 'to';
+  if (/^\d{2}:\d{2}$/.test(el.value)) r[key] = el.value;
+  lvSave();
+});
+
+/* Уход с поля времени — добиваем минуты до ЧЧ:ММ */
+document.addEventListener('focusout', (e) => {
+  const el = e.target.closest('[data-action="lv-hrs-from"], [data-action="lv-hrs-to"]');
+  if (!el) return;
+  const pt = mspActivePoint();
+  if (!pt) return;
+  const r = lvState(pt).rules.find((x) => x.id === lvUi.rule);
+  if (!r) return;
+  const v = (el.value || '00:00') + '0';
+  el.value = typeof mspTimeMask === 'function' ? mspTimeMask(v).slice(0, 5) : el.value;
+  if (/^\d{2}:\d{2}$/.test(el.value)) { r[el.dataset.action === 'lv-hrs-from' ? 'from' : 'to'] = el.value; lvSave(); }
 });
