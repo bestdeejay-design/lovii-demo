@@ -3075,7 +3075,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
 .product-preview{overflow: hidden; display: grid; grid-template-columns: 1fr; grid-template-rows: 142px 1fr; text-decoration: none;;}
 .product-preview > span{
   width: 100%;
-  aspect-ratio: 1 / 1; height: auto;
+  height: 100%; overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
