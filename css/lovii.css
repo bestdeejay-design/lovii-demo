@@ -2871,7 +2871,6 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
   align-items: center;
   justify-content: center;
   cursor: pointer;
-}.sf-filter-btn svg, .place-card__tools > button > svg{ width: 20px; height: 20px; }.stores__catalog, /* Каталог позиции (StoreProducts) */ .place-catalog{ margin: 24px 0 0; padding: 0 16px; }.stores__catalog > h4, .store-categories > h4, .place-catalog > h3{ margin: 0; color: var(--lv-ink); font-size: 16px; font-weight: 800; line-height: 1.35; }
 .stores__list{
   margin: 16px 0 0;
   display: grid;
@@ -2881,48 +2880,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
 .stores__noresult{ margin: 0; padding: 16px 0; color: var(--lv-dim); font-size: 13px; line-height: 1.55; }
 
 /* Карточка точки каталога (CatalogStore) */
-.catalog-store{ border-radius: var(--lv-r-sm); padding: 8px; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px; transition: box-shadow .2s, border-color .2s; }
-.catalog-store__link{
-  display: grid;
-  grid-template-columns: 48px minmax(0, 1fr);
-  gap: 12px;
-  align-items: center;
-  min-width: 0;
-  text-decoration: none;
-}
-.catalog-store__logo{
-  position: relative;
-  width: 48px;
-  height: 48px;
-  border-radius: var(--lv-r-sm);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  }
 .catalog-store__logo .sf-emoji{ font-size: 22px; }
-.catalog-store__info{ display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.catalog-store__name{
-  margin: 0;
-  color: var(--lv-ink);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.35;
-}
-.catalog-store__meta{
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 4px;
-  color: var(--lv-dim);
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.5;
-}
 .catalog-store__status{ font-size: 12px; font-weight: 600; line-height: 1.5; }
 .catalog-store__status.is-open{ color: var(--lv-tiffany); }
 
@@ -2937,50 +2895,6 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
 }
 
 /* Шапка точки (StoreCard) */
-.place-card{
-  padding: 16px;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 12px;
-}
-.place-card > span{
-  position: relative;
-  width: 72px;
-  height: 72px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  }
-.place-card__info{ display: flex; flex-flow: column; justify-content: flex-start; align-items: flex-start; gap: 4px; min-width: 0; }
-.place-card__info > h3{
-  margin: 0;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  color: var(--lv-ink);
-  font-size: 16px;
-  font-weight: 800;
-  line-height: 1.35;
-}
-.place-card__info > h3 > span:first-child{ overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.place-card__info > p{ margin: 0; color: var(--lv-dim); font-size: 12px; font-weight: 400; line-height: 1.5; }
-.place-card__info > p > span{ color: var(--lv-line-strong); }
-.place-card__tools{ display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
-.place-card__tools > button{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  border: 0;
-  border-radius: var(--lv-r-pill);
-  background: none;
-  color: var(--lv-dim);
-  cursor: pointer;
-}
 .stat-pill.pink, .status-pink,
 .code-card.tone-pink,
 .tx-tabs .tab-btn.active, .tx-ico.buy, .priv-card.t-pink .pc-ico,
@@ -2989,10 +2903,6 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
 .profile__nav-ico.t-pink, .collapse__head:hover .collapse__chev, .collapse_open .collapse__chev,
 .priv__card_pink .priv__ico, .cabinets__ico.t-pink, .history__ico.t-pink,
 .stat-pill.pink,
-.place-card__tools .fav-pill{
-  background:var(--lv-soft-pink);color:var(--lv-pink-ink)
-}
-.place-card__tools .fav-pill.active svg{ fill: currentColor; }
 
 /* Тизер точки (SZ-035) */
 .place__teaser{margin: 16px 0 0; padding: 16px; display: flex; align-items: center; gap: 12px;}
@@ -3374,8 +3284,6 @@ html[data-motion='off'] *::after {
 /* Состав корзины (CartInfo) */
 .cart-info{ margin: 24px 0 0; display: grid; gap: 12px; }
 
-.cart-info__store > span{ width: 40px; height: 40px; border-radius: 8px; padding: 4px; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; }
-.cart-info__store > p{ margin: 0; color: var(--lv-ink); font-size: 14px; font-weight: 600; line-height: 1.4; }
 /* SZ-062 · карточка списка товаров в корзине: внутренние отступы */
 .cart-info__products{ padding: 0; }
 .cart-info__products{ gap: 0; }
@@ -3876,42 +3784,16 @@ body:has(#view .create-order) .create-order__cta{
    Общее правило .pill-btn .chev{display:none} остаётся для остальных пилюль. */
 .app-header .pill-btn .chev{ display: inline-flex; }
 
-/* Фото позиции/заведения — левой колонкой в высоту блока, вплотную с трёх сторон.
-   Так делаем и в корзине, и в шапке магазина: фото держит левый край блока. */
-.cart-info__products .row-item{ padding: 0 12px 0 0; gap: 0; align-items: center; }
-.cart-info__products .ri-emoji{
-  width: 92px; height: 92px; align-self: stretch; flex: 0 0 92px;
-  border-radius: 0; overflow: hidden;
-}
-.cart-info__products .ri-mid{ padding: 12px 0 12px 12px; }
-.cart-info__products .row-item > .sb{ margin-top: 2px; }
-
-.place-card{ padding: 0; display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 0; align-items: stretch; }
-.place-card > span{
-  position: relative; width: 104px; height: 100%;
-  border-radius: 0; overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
-}
-.place-card__info{ padding: 16px; }
 /* Оформление заказа: состав заказа в складыше — строки ровно как в корзине (фото держит край) */
 .create-order .collapse .collapse__inner{ padding: 0; }
 .create-order .collapse .collapse__body > div{ padding: 0; }
-/* Карточка заведения в списке: фото — левой колонкой в высоту карточки, вплотную с трёх сторон */
-.catalog-store{ padding: 0; align-items: stretch; }
-.catalog-store__link{ grid-template-columns: 76px minmax(0, 1fr); gap: 0; align-items: stretch; }
-.catalog-store__logo{ width: 76px; height: auto; align-self: stretch; border-radius: 0; }
-.catalog-store__info{ padding: 10px 12px; justify-content: center; }
-.catalog-store .fav-heart{ align-self: center; margin-right: 10px; }
-/* Фото заведения в корзине — тем же правилом, что в списке и в шапке магазина:
-   колонка во всю высоту блока, вплотную с трёх сторон, без скругления и отступов. */
-/* Шапка заведения в корзине: поверхность без обводки (это шапка, а не контентная карточка),
-   фото — левой колонкой в высоту блока, вплотную с трёх сторон. */
-.cart-info__store{
-  padding: 0; display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 0; align-items: stretch;
-  background: var(--lv-card); border-radius: var(--lv-r-lg); overflow: hidden;
-  box-shadow: var(--lv-shadow-soft);
-}
-.cart-info__store > span{ width: 76px; height: 100%; border-radius: 0; overflow: hidden;
-  display: flex; align-items: center; justify-content: center; }
-.cart-info__store > p{ margin: 0; padding: 14px 16px; align-self: center;
-  color: var(--lv-ink); font-size: 15px; font-weight: 700; }
+/* ===== Ряд с медиа-колонкой (канон: .row-item--media) =====
+   Один системный вариант на все экраны, где строка начинается с фото:
+   товар в корзине и в заказе, заведение в корзине и в списках.
+   Фото — левая колонка в высоту строки, вплотную к трём сторонам; текст по центру. */
+.row-item--media{ padding: 0 12px 0 0; gap: 0; align-items: center; }
+.row-item--media > .ri-emoji,
+.row-item--media > .sr-ico{ flex: 0 0 92px; width: 92px; min-height: 92px; align-self: stretch; border-radius: 0; overflow: hidden; }
+.row-item--media > .ri-mid{ padding: 12px 0 12px 12px; }
+.row-item--media.row-item--sm > .ri-emoji,
+.row-item--media.row-item--sm > .sr-ico{ flex-basis: 76px; width: 76px; min-height: 76px; }

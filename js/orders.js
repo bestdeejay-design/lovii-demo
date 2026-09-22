@@ -115,7 +115,7 @@ function oCartGroups() {
 function oCartProductRow(cart, item) {
   const many = item.qty > 1;
   return `
-    <div class="row-item">
+    <div class="row-item row-item--media">
       <span class="ri-emoji" style="background-color:${item.bg || '#eee'}">${thumb(item, 'sf-emoji-sm')}</span>
       <div class="ri-mid">
         <div class="nm">${oEsc(item.name)}</div>
@@ -163,9 +163,9 @@ function renderCartMirror() {
         </section>` : ''}
 
       <section class="cart-info">
-        <div class="cart-info__store">
-          <span style="background-color:${cart.bg}">${thumb(cart, 'sf-emoji-sm')}</span>
-          <p>${oEsc(cart.name)}</p>
+        <div class="row-item row-item--media row-item--sm">
+          <span class="ri-emoji" style="background-color:${cart.bg}">${thumb(cart)}</span>
+          <div class="ri-mid"><div class="nm">${oEsc(cart.name)}</div></div>
         </div>
         <div class="card cart-info__products">
           ${cart.items.map((it) => oCartProductRow(cart, it)).join('')}

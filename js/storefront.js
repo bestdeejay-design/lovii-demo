@@ -216,18 +216,16 @@ function renderHomeMirror() {
 
 function sfCatalogRow(s) {
   return `
-    <div class="card card--tap catalog-store">
-      <a href="#/store/${sfEsc(s.id)}" class="catalog-store__link" data-testid="store-card">
-        <span class="catalog-store__logo" style="background-color:${s.logoBg}">${thumb(s)}</span>
-        <span class="catalog-store__info">
-          <h4 class="catalog-store__name">${sfEsc(s.name)}</h4>
-          <p class="catalog-store__meta">
-            <span class="catalog-store__status ${s.open ? 'is-open' : 'is-closed'}">${sfAvailability(s)}</span>
-            <span class="catalog-store__sep" aria-hidden="true">·</span>
-            ${sfDistance(s.distanceKm)}
-            ${s.minOrder > 0 ? `<span class="catalog-store__sep" aria-hidden="true">·</span>заказ от ${s.minOrder.toLocaleString('ru-RU')}&nbsp;₽` : ''}
-          </p>
-        </span>
+    <div class="card card--tap row-item row-item--media row-item--sm catalog-store">
+      <span class="ri-emoji" style="background-color:${s.logoBg}">${thumb(s)}</span>
+      <a href="#/store/${sfEsc(s.id)}" class="ri-mid" data-testid="store-card">
+        <div class="nm">${sfEsc(s.name)}</div>
+        <div class="sb">
+          <span class="catalog-store__status ${s.open ? 'is-open' : 'is-closed'}">${sfAvailability(s)}</span>
+          <span class="catalog-store__sep" aria-hidden="true">·</span>
+          ${sfDistance(s.distanceKm)}
+          ${s.minOrder > 0 ? `<span class="catalog-store__sep" aria-hidden="true">·</span>заказ от ${s.minOrder.toLocaleString('ru-RU')}&nbsp;₽` : ''}
+        </div>
       </a>
       <button type="button" class="fav-heart" aria-label="В избранное" data-action="mir-fav">${icon('heart')}</button>
     </div>`;
@@ -434,17 +432,17 @@ function renderStoreMirror(slug) {
   const goods = sfStoreGoods(slug);
 
   const card = `
-    <section class="place-card">
-      <span style="background-color:${store.logoBg}">${thumb(store, 'sf-emoji-lg')}</span>
-      <div class="place-card__info">
-        <h3>
+    <section class="row-item row-item--media row-item--sm place-card">
+      <span class="ri-emoji" style="background-color:${store.logoBg}">${thumb(store)}</span>
+      <div class="ri-mid">
+        <div class="nm">
           <span>${sfEsc(store.name)}</span>
           <span class="place-card__tools">
             <button type="button" class="fav-pill${store.fav ? ' active' : ''}" aria-label="В избранное" data-action="mir-fav">${icon('heart')}</button>
             <button type="button" aria-label="О заведении" data-action="sf-info">${icon('info')}</button>
           </span>
-        </h3>
-        <p data-testid="store-card-availability">
+        </div>
+        <div class="sb" data-testid="store-card-availability">
           ${sfAvailability(store)} <span>|</span> ${sfDistance(store.distanceKm)}
           ${store.minOrder > 0 ? `<span>|</span> Заказ от: ${store.minOrder.toLocaleString('ru-RU')}&nbsp;₽` : ''}
         </p>
