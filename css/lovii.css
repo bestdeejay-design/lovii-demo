@@ -3794,7 +3794,7 @@ body:has(#view .create-order) .create-order__cta{
    Фото — левая колонка в высоту строки, вплотную к трём сторонам; текст по центру. */
 .row-item--media{ padding: 0 12px 0 0; gap: 0; align-items: center; }
 .row-item--media > .ri-emoji,
-.row-item--media > .sr-ico{ flex: 0 0 92px; width: 92px; min-height: 92px; align-self: stretch; border-radius: 0; overflow: hidden; }
+.row-item--media > .sr-ico{ flex: 0 0 92px; width: 92px; min-height: 92px; align-self: stretch; border-radius: var(--lv-r-sm); overflow: hidden; }
 .row-item--media > .ri-mid{ padding: 12px 0 12px 12px; }
 .row-item--media.row-item--sm > .ri-emoji,
 .row-item--media.row-item--sm > .sr-ico{ flex-basis: 76px; width: 76px; min-height: 76px; }
