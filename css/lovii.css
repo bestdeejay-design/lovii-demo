@@ -3299,7 +3299,7 @@ html[data-motion='off'] *::after {
 :root[data-theme="dark"]{ --lv-pink-ink: color-mix(in srgb, var(--lv-pink) 45%, var(--lv-white)); }
 
 /* Корзина и заказ: деньги живут в текстовой колонке, счётчик — один и по центру справа */
-.cart-list .ri-mid .sb, .cart-info__products .ri-mid .sb{ display: block; margin-top: 2px; }
+
 .cart-list .ri-mid .sb .row-amount, .cart-info__products .ri-mid .sb .row-amount{ font-size: 14px; margin-right: 4px; }
 /* Строка корзины собрана из системного ряда .row-item; своя только правая рейка «сумма + счётчик» */
 .row-amount{ font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--lv-ink); white-space: nowrap; }
@@ -3873,3 +3873,7 @@ body:has(#view .create-order) .create-order__cta{
   font: inherit; font-size: 14px; box-sizing: border-box;
 }
 .f-field input:focus, .f-field textarea:focus{ outline: none; border-color: var(--lv-pink); }
+/* Подпись строки в корзине: перенос работает (flex + wrap), а не вылезает под счётчик.
+   Пара «сумма» / «· цена / шт» переносится целиком, внутри пары разрыва нет. */
+.cart-info__products .ri-mid .sb{ gap: 4px; margin-top: 2px; }
+.cart-info__products .ri-mid .sb .row-amount{ font-size: 14px; }
