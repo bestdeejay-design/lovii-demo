@@ -3729,16 +3729,16 @@ body.cabinet-mode #view{ padding-bottom: 0; }
 }
 .promo-card__badge{
   align-self: flex-start; padding: 2px 8px; border-radius: var(--lv-r-pill);
-  background: rgba(255, 255, 255, 0.12); color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.20); color: var(--lv-white);
   font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
 }
 .promo-card__title{ margin-top: 6px; color: var(--lv-white); font-size: 14px; font-weight: 800; line-height: 1.3; letter-spacing: -0.01em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.promo-card__sub{ color: rgba(255, 255, 255, 0.75); font-size: 12px; line-height: 1.4; }
+.promo-card__sub{ color: rgba(255, 255, 255, 0.94); font-size: 12px; line-height: 1.4; }
 .promo-card__foot{
   margin-top: auto; padding-top: 10px; display: flex; align-items: center;
   justify-content: space-between; gap: 8px; font-size: 11px; font-weight: 700;
 }.promo-card__dl, .owner-cabinet .cabinet__bar-link--active{ color: var(--lv-gold-text); }
-.promo-card__store{ color: rgba(255, 255, 255, 0.55); font-weight: 400; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.promo-card__store{ color: rgba(255, 255, 255, 0.88); font-weight: 400; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 /* ---------- МСП: детальный заказ (статусная машина,MspOrderDetail) ---------- */
 .msp-order-row.is-link{ cursor: pointer; transition: background 0.15s; }
@@ -3871,5 +3871,5 @@ body:has(#view .create-order) .create-order__cta{
 .promo-card{ isolation: isolate; }
 .promo-card__photo{ position: absolute; inset: 0; z-index: -1; background-size: cover; background-position: center; }
 .promo-card__photo::after{ content: ""; position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(22,14,18,.18) 0%, rgba(22,14,18,.55) 55%, rgba(22,14,18,.78) 100%); }
+  background: linear-gradient(180deg, rgba(22,14,18,.30) 0%, rgba(22,14,18,.66) 45%, rgba(22,14,18,.88) 100%); }
 .promo-card > *:not(.promo-card__photo){ position: relative; z-index: 1; }
