@@ -3373,7 +3373,7 @@ html[data-motion='off'] *::after {
 
 /* Состав корзины (CartInfo) */
 .cart-info{ margin: 24px 0 0; display: grid; gap: 12px; }
-.cart-info__store{ padding: 14px 16px;  display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: center; }
+
 .cart-info__store > span{ width: 40px; height: 40px; border-radius: 8px; padding: 4px; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; }
 .cart-info__store > p{ margin: 0; color: var(--lv-ink); font-size: 14px; font-weight: 600; line-height: 1.4; }
 /* SZ-062 · карточка списка товаров в корзине: внутренние отступы */
@@ -3878,7 +3878,7 @@ body:has(#view .create-order) .create-order__cta{
 
 /* Фото позиции/заведения — левой колонкой в высоту блока, вплотную с трёх сторон.
    Так делаем и в корзине, и в шапке магазина: фото держит левый край блока. */
-.cart-info__products .row-item{ padding: 0 12px 0 0; gap: 0; align-items: stretch; }
+.cart-info__products .row-item{ padding: 0 12px 0 0; gap: 0; align-items: center; }
 .cart-info__products .ri-emoji{
   width: 92px; height: 92px; align-self: stretch; flex: 0 0 92px;
   border-radius: 0; overflow: hidden;
@@ -3902,3 +3902,10 @@ body:has(#view .create-order) .create-order__cta{
 .catalog-store__logo{ width: 76px; height: auto; align-self: stretch; border-radius: 0; }
 .catalog-store__info{ padding: 10px 12px; justify-content: center; }
 .catalog-store .fav-heart{ align-self: center; margin-right: 10px; }
+/* Фото заведения в корзине — тем же правилом, что в списке и в шапке магазина:
+   колонка во всю высоту блока, вплотную с трёх сторон, без скругления и отступов. */
+.cart-info__store{ padding: 0; display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 0; align-items: stretch; }
+.cart-info__store > span{ width: 76px; height: 100%; border-radius: 0; overflow: hidden;
+  display: flex; align-items: center; justify-content: center; }
+.cart-info__store > p{ margin: 0; padding: 14px 16px; align-self: center;
+  color: var(--lv-ink); font-size: 15px; font-weight: 700; }
