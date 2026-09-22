@@ -163,7 +163,7 @@ function renderCartMirror() {
         </section>` : ''}
 
       <section class="cart-info">
-        <div class="card cart-info__store">
+        <div class="cart-info__store">
           <span style="background-color:${cart.bg}">${thumb(cart, 'sf-emoji-sm')}</span>
           <p>${oEsc(cart.name)}</p>
         </div>
