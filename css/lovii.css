@@ -3072,10 +3072,10 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
 }
 
 /* Карточка позиции (ProductPreview) */
-.product-preview{overflow: hidden; display: grid; grid-template-columns: 1fr; grid-template-rows: 142px 1fr; text-decoration: none;;}
+.product-preview{overflow: hidden; display: grid; grid-template-columns: 1fr; grid-template-rows: auto 1fr; text-decoration: none;}
 .product-preview > span{
   width: 100%;
-  height: 100%; overflow: hidden;
+  aspect-ratio: 1 / 1; height: auto; overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
