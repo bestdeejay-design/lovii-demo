@@ -3813,3 +3813,12 @@ body:has(#view .create-order) .create-order__cta{
 .place-catalog{ margin: 24px 0 0; padding: 0 16px; }
 .place-card{ margin: 14px 0 0; padding: 0 16px; }
 .place__teaser{ margin: 16px 0; padding: 16px; }
+/* Кнопки шапки точки (избранное и «о заведении») — правый слот системного ряда */
+.place-card__tools{ display: flex; align-items: center; gap: 4px; flex: 0 0 auto; }
+.place-card__tools > button{
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border: 0; border-radius: var(--lv-r-sm);
+  background: var(--lv-surface, var(--lv-line)); color: var(--lv-dim);
+}
+.place-card__tools > button > svg{ width: 20px; height: 20px; }
+.place-card__tools .fav-pill{ width: auto; height: auto; background: transparent; }

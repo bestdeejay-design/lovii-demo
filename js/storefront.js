@@ -435,18 +435,17 @@ function renderStoreMirror(slug) {
     <section class="row-item row-item--media row-item--sm place-card">
       <span class="ri-emoji" style="background-color:${store.logoBg}">${thumb(store)}</span>
       <div class="ri-mid">
-        <div class="nm">
-          <span>${sfEsc(store.name)}</span>
-          <span class="place-card__tools">
-            <button type="button" class="fav-pill${store.fav ? ' active' : ''}" aria-label="В избранное" data-action="mir-fav">${icon('heart')}</button>
-            <button type="button" aria-label="О заведении" data-action="sf-info">${icon('info')}</button>
-          </span>
+        <div class="nm" data-testid="store-card-availability">
+          <span class="catalog-store__status ${store.open ? 'is-open' : 'is-closed'}">${sfAvailability(store)}</span>
+          <span class="catalog-store__sep" aria-hidden="true">·</span>
+          ${sfDistance(store.distanceKm)}
+          ${store.minOrder > 0 ? `<span class="catalog-store__sep" aria-hidden="true">·</span>заказ от ${store.minOrder.toLocaleString('ru-RU')}&nbsp;₽` : ''}
         </div>
-        <div class="sb" data-testid="store-card-availability">
-          ${sfAvailability(store)} <span>|</span> ${sfDistance(store.distanceKm)}
-          ${store.minOrder > 0 ? `<span>|</span> Заказ от: ${store.minOrder.toLocaleString('ru-RU')}&nbsp;₽` : ''}
-        </p>
       </div>
+      <span class="place-card__tools">
+        <button type="button" class="fav-pill${store.fav ? ' active' : ''}" aria-label="В избранное" data-action="mir-fav">${icon('heart')}</button>
+        <button type="button" class="icon-btn" aria-label="О заведении" data-action="sf-info">${icon('info')}</button>
+      </span>
     </section>`;
 
   // SZ-035: точка-тизер — шапка видна, витрина закрыта
