@@ -3909,3 +3909,6 @@ body:has(#view .create-order) .create-order__cta{
   display: flex; align-items: center; justify-content: center; }
 .cart-info__store > p{ margin: 0; padding: 14px 16px; align-self: center;
   color: var(--lv-ink); font-size: 15px; font-weight: 700; }
+/* Блок заведения в корзине — это шапка, а не контентная карточка: рамка не нужна,
+   фото и так держит левый край. Фон и мягкая тень остаются. */
+.cart-info__store{ border: 0; }
