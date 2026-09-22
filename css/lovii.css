@@ -2911,7 +2911,7 @@ button.kpi.as-btn:hover .v{ color: var(--lv-pink-dark); }
 .app-badge_brand{ color: var(--lv-on-brand, var(--lv-white)); background-image: var(--lv-gradient-brand); }
 
 /* Поиск в заведении */
-.place-search{ padding: 0 16px; margin: 4px 0 0; }
+.place-search{ padding: 0 16px; margin: 18px 0 0; }
 .place-search .sf-search{ height: 40px; border-radius: 10px; }
 
 /* Категории товаров (StoreCategories) */
@@ -3811,5 +3811,5 @@ body:has(#view .create-order) .create-order__cta{
 /* Страница точки: блоки держат общий боковой отступ страницы (16px),
    как и остальные секции (.place-search, .store-categories). */
 .place-catalog{ margin: 24px 0 0; padding: 0 16px; }
-.place-card{ padding: 0 16px; }
+.place-card{ margin: 14px 0 0; padding: 0 16px; }
 .place__teaser{ margin: 16px 0; padding: 16px; }
