@@ -39,6 +39,11 @@ const TRANSFER_RESOLVED = {
    'to-pay' — счёт компании → PAY (0%). */
 const transferMirrorUi = { mode: 'p2p', destination: '', amount: '', done: null };
 
+/* Есть ли у профиля счёт компании: без него выбор источника не нужен. */
+function tMirrorHasCompany() {
+  return (PROFILE_MIRROR_SEED?.accounts ?? []).some((account) => account.kind === 'company');
+}
+
 /* Баллы PAY: берём из общего сида витрины (1 балл = 1 ₽). */
 function tMirrorPayBalance() {
   return PROFILE_MIRROR_SEED?.wallet?.balance ?? 125_000;
@@ -208,6 +213,9 @@ function renderTransferMirror() {
       </main>`;
   }
 
+  const hasCompany = tMirrorHasCompany();
+  if (!hasCompany && ui.mode !== 'p2p') ui.mode = 'p2p';
+
   const validation = tMirrorValidation();
   const showValidation = tMirrorEntered() > 0 && validation !== null;
   const detected = tMirrorDetect(ui.destination);
@@ -228,7 +236,7 @@ function renderTransferMirror() {
         ${ui.mode === 'to-business' ? `
           <p class="transfer__rules">${esc(tMirrorDirectionText())} — по тарифной сетке.</p>
         ` : `
-          ${tMirrorSourceSelect()}
+          ${hasCompany ? tMirrorSourceSelect() : ''}
           ${isBusinessSource
             ? `<p class="transfer__rules">Только себе: со счёта компании можно перевести лишь в свои баллы PAY — без комиссии.</p>`
             : `
@@ -256,9 +264,9 @@ function renderTransferMirror() {
         <p class="transfer__rules transfer__self">
           ${ui.mode === 'to-business'
             ? `<button type="button" class="link-btn" data-t-mode="p2p">← Перевод другому пользователю</button>`
-            : isBusinessSource
-              ? ''
-              : `<button type="button" class="link-btn" data-t-mode="to-business">Себе: PAY → счёт компании</button>`}
+            : hasCompany && !isBusinessSource
+              ? `<button type="button" class="link-btn" data-t-mode="to-business">Себе: PAY → счёт компании</button>`
+              : ''}
         </p>
       </form>
     </main>`;
