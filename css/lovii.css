@@ -3880,3 +3880,45 @@ body:has(#view .create-order) .create-order__cta{
 .catalog-store .ri-emoji,
 .place-card > span,
 .cart-info__store > span{ border-radius: var(--lv-img-radius); }
+
+/* ---- Перевод баллов (#/transfer) — зеркало ProfileTransfer.vue
+   (SZ-076 · «Переводы 2.0», решение владельца 24.09). Только токены. ---- */
+.wallet__transfer{ display:inline-flex; align-items:center; gap:6px; margin:10px 16px 0; padding:10px 16px; border:0; border-radius:var(--lv-r-pill); background:var(--lv-pink); color:var(--lv-surface); font-size:13px; font-weight:600; cursor:pointer; }
+.wallet__transfer svg{ width:15px; height:15px; flex-shrink:0; }
+.wallet__transfer:active{ opacity:.85; }
+
+.transfer__balance{ display:flex; align-items:center; gap:12px; margin:12px 16px 0; padding:14px 16px; background:var(--lv-card); border:1px solid var(--lv-line); border-radius:var(--lv-r-lg); box-shadow:var(--lv-shadow-soft); }
+.transfer__bal-ico{ display:grid; place-items:center; flex:0 0 auto; width:36px; height:36px; border-radius:var(--lv-r-md); background:var(--lv-soft-pink); color:var(--lv-pink-dark); }
+.transfer__bal-ico svg{ width:19px; height:19px; }
+.transfer__balance-label{ margin:0; font-size:12px; font-weight:600; color:var(--lv-dim); }
+.transfer__balance-value{ margin:2px 0 0; font-size:20px; font-weight:800; color:var(--lv-ink); font-variant-numeric:tabular-nums; }
+
+.transfer__form{ display:block; margin-top:16px; }
+.transfer__form > .seg{ margin:0 16px 12px; }
+.transfer__found{ display:flex; align-items:center; gap:6px; margin:8px 16px 0; font-size:12.5px; font-weight:600; color:var(--lv-tiffany-text); }
+.transfer__found svg{ width:14px; height:14px; flex-shrink:0; }
+.transfer__rules{ margin:10px 16px 0; font-size:12.5px; line-height:1.45; color:var(--lv-dim); }
+.transfer__guidance{ margin:6px 16px 0; font-size:12px; line-height:1.45; color:var(--lv-gold-text); }
+.transfer__quote{ margin:12px 16px 0; padding:12px 14px; background:var(--lv-surface); border:1px solid var(--lv-line); border-radius:var(--lv-r-md); font-size:13px; color:var(--lv-ink); }
+.transfer__quote p{ margin:0; }
+.transfer__quote-muted{ color:var(--lv-dim); }
+.transfer__cta{ padding:14px 16px 0; }
+.transfer__cta .cta-btn[disabled]{ opacity:.45; pointer-events:none; }
+
+/* ---- Упрощённый перевод: авто-расчёт, экран успеха, тихие ссылки «себе»
+   (решение владельца 25.09: одно поле + сумма + авто-математика). Только токены. ---- */
+.transfer__calc-line{ margin:0; font-size:13px; color:var(--lv-dim); }
+.transfer__calc-line + .transfer__calc-line{ margin-top:4px; }
+.transfer__calc-total{ margin:8px 0 0; padding-top:8px; border-top:1px solid var(--lv-line); font-size:13.5px; color:var(--lv-ink); }
+
+.transfer__self{ margin-top:14px; text-align:center; }
+.transfer__self .link-btn{ font-size:12.5px; }
+
+.transfer__done{ display:flex; flex-direction:column; align-items:center; text-align:center; margin:32px 16px 0; padding:28px 20px; background:var(--lv-card); border:1px solid var(--lv-line); border-radius:var(--lv-r-lg); box-shadow:var(--lv-shadow-soft); }
+.transfer__done-ico{ display:grid; place-items:center; width:56px; height:56px; border-radius:var(--lv-r-pill); background:var(--lv-soft-tiffany); color:var(--lv-tiffany-text); }
+.transfer__done-ico svg{ width:28px; height:28px; }
+.transfer__done-title{ margin:14px 0 0; font-size:18px; font-weight:800; color:var(--lv-ink); }
+.transfer__done-text{ margin:6px 0 0; font-size:13.5px; line-height:1.45; color:var(--lv-dim); max-width:34ch; }
+.transfer__done-sum{ margin:10px 0 0; font-size:14px; font-weight:700; color:var(--lv-tiffany-text); }
+
+.transfer__home{ display:block; width:100%; margin-top:8px; height:44px; }

@@ -161,6 +161,10 @@ function renderWalletMirror() {
               </div>
             </section>` : ''}
 
+          <button type="button" class="wallet__transfer" data-go="transfer" data-testid="wallet-transfer">
+            ${icon('send')} Перевести баллы
+          </button>
+
           <section class="wallet__acct" data-testid="wallet-account">
             <div class="wallet__sec-head">
               <h2 class="wallet__sec-title">${acctTitle}</h2>

@@ -19,7 +19,7 @@ const PROFILE_MIRROR_SEED = {
     initials: 'А',
   },
   // Рублёвый контур баллов: сумма в копейках (как в API).
-  wallet: { balance: 125_000 },
+  wallet: { balance: 480_000 },
   // Счета → карты карусели. kind: personal | company | nominal.
   // Для витрины скинов в демо добавлены все накопленные карты: PAY/PASS/VIP —
   // личные (по канону «счёт один», номер от account_id, баланс общий),
