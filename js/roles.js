@@ -15,7 +15,7 @@ const rolesUi = { rep: 'overview', amb: 'overview', owner: 'overview', investor:
 
 function rolesShell(role, inner) {
   const CFG = {
-    rep: { title: 'Представитель', note: 'Развитие сети представителей · промокод AA2222', icon: 'sparkles', cls: 'rep-cabinet' },
+    rep: { title: 'Представитель', note: `Открываете бизнесу района выход на Лови · промокод ${REP_SEED.promo}`, icon: 'sparkles', cls: 'rep-cabinet' },
     amb: { title: 'Амбассадор', note: 'Развитие района · обучение представителей', icon: 'sparkles', cls: 'amb-cabinet' },
     owner: { title: 'Владелец', note: 'Платформа целиком · LOVII', icon: 'crown', cls: 'owner-cabinet' },
     investor: { title: 'Инвестор', note: 'Рост и доходность платформы', icon: 'trending-up', cls: 'investor-cabinet' },
@@ -24,7 +24,7 @@ function rolesShell(role, inner) {
   document.body.classList.add('cabinet-mode');
 
   const TABS = {
-    rep: [['overview', 'Обзор', 'bar-chart'], ['points', 'Точки', 'store'], ['approvals', 'Заявки', 'check-circle'], ['income', 'Доход', 'wallet'], ['profile', 'Профиль', 'user']],
+    rep: [['overview', 'Обзор', 'bar-chart'], ['points', 'Торговые точки', 'store'], ['approvals', 'Заявки', 'check-circle'], ['income', 'Доход', 'wallet'], ['profile', 'Профиль', 'user']],
     amb: [['overview', 'Обзор', 'bar-chart'], ['reps', 'Структура', 'users'], ['training', 'Обучение', 'star'], ['income', 'Доход', 'wallet']],
     owner: [['overview', 'Обзор', 'bar-chart'], ['finance', 'Финансы', 'banknote'], ['structure', 'Структура', 'network']],
     investor: [['growth', 'Рост', 'trending-up'], ['sales', 'Продажи', 'bag'], ['money', 'Доходность', 'wallet']],
@@ -60,13 +60,25 @@ function rolesShell(role, inner) {
 
 /* ---------- Сид representative / ambassador ---------- */
 
+const REP_PROMO = 'AA2BTK'; // единый промокод кабинета представителя (совпадает с карточками заявок)
+
 const REP_SEED = {
-  promo: 'AA2222',
+  promo: REP_PROMO,
   applications: 3,
   activePoints: 2,
   queue: [
-    { name: 'Пекарня «Пышки»', status: 'На модерации' },
-    { name: 'Салон «Красота»', status: 'На модерации' },
+    {
+      merchant: 'Продукты у дома', legal: 'ООО «Пивоваренная компания «Балтика»»',
+      inn: '7802849641', ogrn: '1147847032838',
+      point: 'Санкт-Петербург, улица Белы Куна, 1к1',
+      phone: '+7 000 000-00-01', promo: REP_PROMO, date: '27 сентября, 16:25', emoji: '🍺',
+    },
+    {
+      merchant: 'Пекарня «Пышка»', legal: 'ООО «АТМОСФЕРА»',
+      inn: '7842216839', ogrn: '',
+      point: 'Санкт-Петербург',
+      phone: '+7 911 928-74-78', promo: REP_PROMO, date: '27 сентября, 01:08', emoji: '🥐',
+    },
   ],
   points: [
     { name: 'Пекарня «Пышки»', status: 'Активна', address: 'Столешников пер., 7' },
@@ -80,11 +92,11 @@ const AMB_SEED = {
   training: [
     { name: 'Старт: как работает LOVII', done: true, lessons: '4 урока' },
     { name: 'Промокод и заявки МСП', done: true, lessons: '3 урока' },
-    { name: 'Ведение точки после запуска', done: false, lessons: '5 уроков' },
+    { name: 'Ведение торговой точки после запуска', done: false, lessons: '5 уроков' },
   ],
   repsList: [
-    { name: 'Представитель · Тверская', note: '2 активные точки' },
-    { name: 'Представитель · Патриаршие', note: '1 активная точка' },
+    { name: 'Представитель · Тверская', note: '2 активные торговые точки' },
+    { name: 'Представитель · Патриаршие', note: '1 активная торговая точка' },
   ],
 };
 
@@ -99,7 +111,7 @@ function repKpi() {
         <span class="role-kpi__sub">по вашему промокоду</span>
       </div>
       <div class="card role-kpi">
-        <span class="role-kpi__label">Активные точки</span>
+        <span class="role-kpi__label">Активные торговые точки</span>
         <span class="role-kpi__value">${REP_SEED.activePoints}</span>
         <span class="role-kpi__sub">подтверждены платформой</span>
       </div>
@@ -111,7 +123,7 @@ function repKpi() {
       <div class="card role-kpi">
         <span class="role-kpi__label">Уровень</span>
         <span class="role-kpi__value">—</span>
-        <span class="role-kpi__sub">откроется с первыми точками</span>
+        <span class="role-kpi__sub">откроется с первыми торговыми точками</span>
       </div>
     </section>`;
 }
@@ -120,11 +132,11 @@ function repOverview() {
   return `
     <div class="rep-overview cabinet-screen">
       ${repKpi()}
-      <a href="#/dash/rep" class="card role-next" data-testid="rep-overview-next" onclick="return false">
+      <a href="#/dash/rep" class="card role-next" data-testid="rep-overview-next" data-action="roles-tab" data-role="rep" data-tab="approvals" onclick="return false">
         <span class="role-next__icon">${icon(REP_SEED.queue.length > 0 ? 'check-circle' : 'sparkles')}</span>
         <span class="role-next__body">
           <span class="role-next__title">${REP_SEED.queue.length > 0 ? `${REP_SEED.queue.length} заявки ждут решения` : 'Очередь пуста — новых заявок нет'}</span>
-          <span class="role-next__desc">${REP_SEED.queue.length > 0 ? 'Подтвердите заявку — точка получит верификационный счёт' : 'Заявка появится здесь, как только владелец точки введёт ваш промокод'}</span>
+          <span class="role-next__desc">${REP_SEED.queue.length > 0 ? 'Подтвердите заявку — торговая точка получит верификационный счёт' : 'Заявка появится здесь, как только владелец торговой точки введёт ваш промокод'}</span>
         </span>
         <span class="role-next__arrow">${icon('chev-right')}</span>
       </a>
@@ -135,10 +147,10 @@ function repOverview() {
             <div class="msp-order-row">
               <span class="sr-ico t-gold">${icon('store')}</span>
               <div class="ri-mid">
-                <div class="nm">${mEsc2(q.name)}</div>
-                <div class="sb">${mEsc2(q.status)}</div>
+                <div class="nm">${mEsc2(q.merchant)}</div>
+                <div class="sb">${mEsc2(q.legal)}</div>
               </div>
-              <span class="role-tag">${mEsc2(q.status)}</span>
+              <span class="role-tag">Ждёт решения</span>
             </div>`).join('')}
         </div>
       </section>
@@ -149,7 +161,7 @@ function repPoints() {
   return `
     <div class="rep-points cabinet-screen">
       <section class="card role-card">
-        <div class="role-section-head"><h2>Мои точки</h2><span class="role-section-head__sub">${REP_SEED.points.length}</span></div>
+        <div class="role-section-head"><h2>Мои торговые точки</h2><span class="role-section-head__sub">${REP_SEED.points.length}</span></div>
         <div class="msp-orders__list">
           ${REP_SEED.points.map((p) => `
             <div class="msp-order-row">
@@ -166,23 +178,33 @@ function repPoints() {
 }
 
 function repApprovals() {
-  return `
-    <div class="rep-approvals cabinet-screen">
-      <section class="card role-card">
-        <div class="role-section-head"><h2>Заявки по промокоду ${REP_SEED.promo}</h2><span class="role-section-head__sub">${REP_SEED.applications}</span></div>
-        <div class="msp-orders__list">
-          ${REP_SEED.queue.concat(REP_SEED.points.map((p) => ({ name: p.name, status: 'Одобрена' }))).map((q) => `
-            <div class="msp-order-row">
-              <span class="sr-ico t-gold">${icon('store')}</span>
-              <div class="ri-mid">
-                <div class="nm">${mEsc2(q.name)}</div>
-                <div class="sb">${mEsc2(q.status)}</div>
-              </div>
-              <span class="role-tag">${mEsc2(q.status)}</span>
-            </div>`).join('')}
+  const cell = (label, value) => `<div><span>${label}</span><b>${value ? mEsc2(value) : '—'}</b></div>`;
+  const card = (a) => `
+    <div class="approval-card">
+      <div class="approval-head">
+        <span class="sr-ico t-tiffany">${icon('store')}</span>
+        <div class="ri-mid">
+          <div class="nm">${mEsc2(a.merchant)}</div>
+          <div class="sb">${mEsc2(a.legal)}</div>
         </div>
-        <p class="tier__cta-note" style="padding:0 16px 14px">Подтверждение заявки — верификационный счёт точке (FINANCIAL_CONTOUR §2)</p>
-      </section>
+      </div>
+      <div class="review-grid">
+        ${cell('ИНН', a.inn)}
+        ${cell('ОГРН', a.ogrn)}
+        ${cell('Адрес торговой точки', a.point)}
+        ${cell('Контакт', a.phone)}
+        ${cell('Промокод', a.promo)}
+        ${cell('Подана', a.date)}
+      </div>
+      <div class="approval-actions">
+        <button type="button" class="cta-btn brand-gradient" data-action="rep-approve">Подтвердить</button>
+        <button type="button" class="ghost-btn" data-action="rep-reject">Отклонить</button>
+      </div>
+    </div>`;
+  return `
+    <div class="rep-approvals cabinet-screen" style="padding-top:6px">
+      ${REP_SEED.queue.map(card).join('')}
+      <p class="tier__cta-note" style="padding:10px 16px 14px;margin:0">Подтверждение заявки выдаёт верификационный счёт торговой точке.<!-- канон: FINANCIAL_CONTOUR §2 --></p>
     </div>`;
 }
 
@@ -387,7 +409,7 @@ function ownerOverview() {
         <div class="card role-kpi role-kpi_accent">
           <span class="role-kpi__label">GMV · период</span>
           <span class="role-kpi__value">${rolesMoney(f.gmv)}</span>
-          <span class="role-kpi__sub">оборот всех точек</span>
+          <span class="role-kpi__sub">оборот всех торговых точек</span>
         </div>
         <div class="card role-kpi">
           <span class="role-kpi__label">Комиссия · 10%</span>
@@ -419,7 +441,7 @@ function ownerOverview() {
               <span class="sr-ico t-gold">${icon('building')}</span>
               <div class="ri-mid">
                 <div class="nm">${mEsc2(l.name)}</div>
-                <div class="sb">суммарная выручка точек</div>
+                <div class="sb">суммарная выручка торговых точек</div>
               </div>
               <span class="role-tag">${rolesMoney(l.gmv)}</span>
             </div>`).join('')}
@@ -440,7 +462,7 @@ function ownerFinance() {
       <section class="card role-card" style="padding:16px">
         <div class="role-section-head" style="padding:0"><h2>Финансы периода</h2><span class="role-section-head__sub">${(ROLES_PERIODS.find((p) => p.id === rolesUi.ownerPeriod) || ROLES_PERIODS[0]).label}</span></div>
         <div style="margin-top:10px">
-          ${row('Выручка по точкам (GMV)', rolesMoney(f.gmv))}
+          ${row('Выручка по торговым точкам (GMV)', rolesMoney(f.gmv))}
           ${row('Комиссия платформы · 10%', '+ ' + rolesMoney(f.commission), 'var(--lv-tiffany-text)')}
           ${row('Списания за подписку LOVII PASS', '+ ' + rolesMoney(f.pass), 'var(--lv-tiffany-text)')}
           ${row('Выплаты представителям · 4%', '− ' + rolesMoney(f.payouts), 'var(--lv-pink-dark)')}
@@ -462,7 +484,7 @@ function ownerStructure() {
   return `
     <div class="msp-overview cabinet-screen">
       <section class="card role-card">
-        <div class="role-section-head"><h2>Точки платформы</h2><span class="role-section-head__sub">${rows.length}</span></div>
+        <div class="role-section-head"><h2>Торговые точки платформы</h2><span class="role-section-head__sub">${rows.length}</span></div>
         <div class="msp-orders__list">
           ${rows.map((r) => `
             <div class="msp-order-row">
@@ -490,7 +512,7 @@ function investorGrowth() {
         <div class="card role-kpi role-kpi_accent">
           <span class="role-kpi__label">GMV · период</span>
           <span class="role-kpi__value">${rolesMoney(f.gmv)}</span>
-          <span class="role-kpi__sub">оборот всех точек</span>
+          <span class="role-kpi__sub">оборот всех торговых точек</span>
         </div>
         <div class="card role-kpi">
           <span class="role-kpi__label">Пользователи</span>
@@ -498,7 +520,7 @@ function investorGrowth() {
           <span class="role-kpi__sub">всего на платформе</span>
         </div>
         <div class="card role-kpi">
-          <span class="role-kpi__label">Точки</span>
+          <span class="role-kpi__label">Торговые точки</span>
           <span class="role-kpi__value">${inv.points[inv.points.length - 1]}</span>
           <span class="role-kpi__sub">на витрине платформы</span>
         </div>
@@ -521,7 +543,7 @@ function investorSales() {
     <div class="msp-overview cabinet-screen">
       ${rolesPeriodChipRow('investor')}
       <section class="card role-card">
-        <div class="role-section-head"><h2>Топ точки · месяц</h2></div>
+        <div class="role-section-head"><h2>Топ торговых точек · месяц</h2></div>
         <div class="msp-orders__list">
           ${LOVII_DATA.stores.slice(0, 3).map((s) => `
             <div class="msp-order-row">
@@ -595,6 +617,15 @@ document.addEventListener('click', (e) => {
   if (tabEl) {
     rolesUi[tabEl.dataset.role] = tabEl.dataset.tab;
     renderViewPreserveScroll();
+    return;
+  }
+  const act = e.target.closest('[data-action="rep-approve"], [data-action="rep-reject"]');
+  if (act) {
+    const isApprove = act.dataset.action === 'rep-approve';
+    if (isApprove) toast('Торговая точка подтверждена', 'Выдан счёт верификации', 'positive');
+    else toast('Заявка отклонена', 'Владелец получит уведомление', 'negative');
+    const card = act.closest('.approval-card');
+    if (card) card.remove();
     return;
   }
   const per = e.target.closest('[data-action="roles-period"]');
