@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LOVII · Утверждённые блоки и компоненты</title>
+<style>
+  @font-face { font-family:"Inter"; src:url("assets/fonts/Inter-Regular.woff2") format("woff2"); font-weight:400; font-display:swap; }
+  @font-face { font-family:"Inter"; src:url("assets/fonts/Inter-Medium.woff2") format("woff2"); font-weight:500; font-display:swap; }
+  @font-face { font-family:"Inter"; src:url("assets/fonts/Inter-SemiBold.woff2") format("woff2"); font-weight:600; font-display:swap; }
+  @font-face { font-family:"Inter"; src:url("assets/fonts/Inter-Bold.woff2") format("woff2"); font-weight:700; font-display:swap; }
+  @font-face { font-family:"Inter"; src:url("assets/fonts/Inter-ExtraBold.woff2") format("woff2"); font-weight:800; font-display:swap; }
+
+  :root{
+    --paper:#fbfaf8; --ink:#1a161b; --ink-2:#514a53; --ink-3:#867e88; --hair:#e0dade; --hair-2:#ece7eb;
+    --accent:#c92a6a; --ok:#3f7a33; --warn:#8a6a25;
+    /* живые токены приложения (светлая тема) */
+    --ink-a:#1a1a1a; --dim:#888888; --page:#f8f5f0; --card:#fff; --surface:#f8f8f8;
+    --line:#ece5da; --line-2:#f6f1e8; --line-strong:#8f8578;
+    --pink:#f64a8a; --pink-dark:#c92a6a; --soft-pink:rgba(246,74,138,.12);
+    --soft-gold:rgba(212,168,84,.16); --gold:#d4a854; --gold-text:#80611e;
+    --soft-tiffany:rgba(10,186,181,.12); --tiffany-text:#07726f;
+    --neg:#ed3244;
+    --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:56px 28px 100px}
+
+  header{border-bottom:1px solid var(--hair);padding-bottom:26px}
+  .kicker{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 14px}
+  h1{font-family:Georgia,serif;font-weight:400;font-size:38px;line-height:1.14;letter-spacing:-.015em;margin:0 0 14px}
+  .lead{font-size:17px;color:var(--ink-2);margin:0;max-width:70ch}
+
+  h2{font-family:Georgia,serif;font-weight:400;font-size:23px;margin:52px 0 4px}
+  .sec-label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px}
+  p{margin:10px 0;max-width:72ch}
+
+  /* компонентная карточка галереи */
+  .comp{border:1px solid var(--hair);background:#fff;margin:26px 0;padding:20px 20px 16px}
+  .comp-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+  .comp-name{font-family:Georgia,serif;font-size:20px;margin:0}
+  .tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border:1px solid var(--hair);border-radius:2px;white-space:nowrap}
+  .tag.ok{color:var(--ok);border-color:#c9dcc2}
+  .tag.info{color:var(--ink-3)}
+  .comp-where{font-size:12.5px;color:var(--ink-3);margin:2px 0 14px}
+  .specimen{background:var(--page);border:1px solid var(--hair-2);padding:18px;display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  .specimen.on-white{background:#fff}
+  .spec{font-family:var(--mono);font-size:12px;color:var(--ink-3);line-height:1.7;margin:12px 0 0}
+  .spec b{color:var(--ink-2)}
+  .note{font-size:13px;color:var(--ink-2);margin:10px 0 0}
+
+  /* --- токены компонентов --- */
+  .sbtn{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 22px;border-radius:999px;font-family:Inter;font-weight:700;font-size:14px;color:#fff}
+  .sbtn_brand{background-image:linear-gradient(135deg,#d6336f 0%,#c92a6a 100%)}
+  .sbtn_outline{background:#fff;border:1.5px solid var(--line);color:var(--ink-a)}
+  .chip{display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:999px;background:var(--soft-gold);font-family:Inter;font-weight:800;font-size:10.5px;line-height:1;color:var(--gold-text);white-space:nowrap}
+  .field{width:300px;max-width:100%}
+  .field .flabel{font-family:Inter;font-size:12px;font-weight:700;color:var(--ink-a);margin-bottom:4px;display:block}
+  .field .farea{display:flex;align-items:center;height:44px;border:1.5px solid var(--line-strong);border-radius:14px;padding:0 14px;background:#fff}
+  .field .ftext{font-family:Inter;font-size:16px;color:#b5aca0}
+  .pill{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:999px;font-family:Inter;font-size:11px;font-weight:600}
+  .pill svg{width:16px;height:16px}
+  .pill.pink{background:var(--soft-pink);color:var(--pink-dark)}
+  .pill.tiffany{background:var(--soft-tiffany);color:var(--tiffany-text)}
+  .pill.gold{background:var(--soft-gold);color:var(--gold-text)}
+
+  .rowcard{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;width:358px;max-width:100%}
+  .row-item{display:flex;align-items:center;gap:12px;width:100%;padding:14px 16px;border:0;border-top:1px solid var(--line);background:none;text-align:left;font-family:Inter;min-height:44px}
+  .row-item:first-child{border-top:0}
+  .sr-ico{flex-shrink:0;width:36px;height:36px;border-radius:12px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:18px}
+  .ri-mid{flex:1;min-width:0}
+  .ri-mid .nm{display:block;font-size:14px;font-weight:600;color:var(--ink-a)}
+  .ri-mid .sb{display:block;font-size:12px;color:var(--dim);margin-top:1px}
+  .chev{flex-shrink:0;width:18px;height:18px;color:var(--dim)}
+  .chev svg{width:100%;height:100%}
+
+  .cascade{display:flex;align-items:center;gap:10px;width:358px;max-width:100%;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px;font-family:Inter}
+  .cascade .cc-mid{flex:1;min-width:0}
+  .cascade .cc-lbl{display:block;font-size:12px;color:var(--dim)}
+  .cascade .cc-val{display:block;font-size:14px;font-weight:600;color:var(--ink-a);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  .chip-chev{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:999px;background:var(--surface);color:var(--dim)}
+  .chip-chev svg{width:16px;height:16px}
+  .chip-chev.open{background:var(--soft-pink);color:var(--pink-dark)}
+  .chip-chev.open svg{transform:rotate(180deg)}
+
+  /* --- экранные макеты --- */
+  .phone{width:362px;max-width:100%;background:var(--card);border:1px solid var(--hair);border-radius:20px;overflow:hidden;font-family:Inter;color:var(--ink-a)}
+  .phone.dark{background:#211b26;color:#f3ebf0;border-color:#2e2535;--card:#211b26;--surface:#2b2331;--line:#372d3e;--line-strong:#8d7f88;--dim:#a798a6;--soft-pink:rgba(246,74,138,.14);--neg:#f75464;--ink-a:#f3ebf0}
+  .ap-head{display:flex;align-items:center;padding:16px;height:56px;color:inherit}
+  .ap-col{width:100%;padding:0 16px 18px;display:flex;flex-direction:column;align-items:center}
+  .ap-logo{height:30px;width:auto;display:block}
+  .ap-title{margin:22px 0 0;font-weight:800;font-size:22px;line-height:1.25;letter-spacing:-0.01em;text-align:center}
+  .ap-note{margin:8px 0 0;font-weight:400;font-size:13px;line-height:1.5;color:var(--dim);text-align:center;max-width:330px}
+  .ap-field{width:100%;margin:24px 0 0}
+  .ap-field .farea{display:flex;align-items:center;height:55px;border:1.5px solid var(--line-strong);border-radius:14px;padding:0 14px;background:var(--card)}
+  .ap-field .ftxt{font-size:16px}
+  .ap-legal{margin:14px 0 0;font-size:11px;line-height:1.5;color:var(--dim);text-align:center;max-width:330px}
+  .ap-legal a{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+  .ap-cta{margin:22px 0 0;width:100%;height:52px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+  .ap-cells{display:flex;gap:12px;margin:28px auto 0}
+  .ap-cell{width:64px;height:72px;border-radius:14px;background:var(--surface);border:1.5px solid var(--line-strong);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:28px;font-variant-numeric:tabular-nums}
+  .ap-cell.act{border-color:var(--pink);box-shadow:0 0 0 4px rgba(246,74,138,.1)}
+  .ap-cell.err{border-color:var(--neg)}
+  .ap-status{margin:16px auto 0;min-height:20px;font-size:13px;line-height:1.5;color:var(--dim);text-align:center}
+  .ap-status.neg{color:var(--neg)}
+
+  /* герой */
+  .hero-mock{width:358px;max-width:100%;margin:0 auto;background:var(--page);padding:16px;border:1px solid var(--hair-2)}
+  .hero-card{margin:0;padding:16px;border-radius:16px;background:radial-gradient(120% 100% at 100% 0%, var(--soft-pink) 0%, transparent 60%),radial-gradient(90% 80% at 0% 100%, var(--soft-gold) 0%, transparent 55%),#fff;border:1px solid var(--line);box-shadow:0 1px 3px rgba(26,26,26,.06);font-family:Inter}
+  .hero-tab{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:14px;background:#fff;border:1px solid var(--line);box-shadow:0 1px 3px rgba(26,26,26,.06);font-size:14px;font-weight:600;color:var(--ink-a)}
+  .hero-tab .pin{width:16px;height:16px;color:var(--pink);flex-shrink:0}
+  .hero-tab .lbl{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hero-tab .tchev{flex-shrink:0;width:24px;height:24px;border-radius:999px;background:var(--soft-pink);color:var(--pink);display:flex;align-items:center;justify-content:center}
+  .hero-tab .tchev svg{width:14px;height:14px}
+  .hero-h1{margin:12px 0 0;font-size:24px;font-weight:800;line-height:1.2;letter-spacing:-0.01em;color:var(--ink-a)}
+  .hero-h1 .accent{color:var(--pink)}
+  .hero-lead{margin:6px 0 0;font-size:15px;line-height:1.5;color:var(--dim)}
+  .hero-lead b{color:var(--ink-a);font-weight:600}
+  .hero-stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .hero-search{display:flex;align-items:center;gap:10px;width:100%;height:44px;padding:0 16px;margin-top:16px;border-radius:999px;background:var(--surface);color:var(--dim);font-size:14px;font-family:Inter}
+  .hero-search svg{width:16px;height:16px}
+
+  /* популярная плитка */
+  .tile{width:100px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 1px 3px rgba(26,26,26,.06);overflow:hidden;font-family:Inter}
+  .tile .img{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;font-size:36px;background:var(--soft-gold)}
+  .tile h5{margin:0;padding:8px 10px 12px;font-size:11px;font-weight:600;line-height:1.45;text-align:center;color:var(--ink-a)}
+
+  /* карточка акции */
+  .promo-card{width:334px;max-width:100%;padding:16px;border-radius:16px;background-image:linear-gradient(150deg,#262023 0%,#1a1a1a 55%,#2b1219 100%);color:#fff;font-family:Inter;display:flex;flex-direction:column;gap:4px}
+  .promo-badge{align-self:flex-start;padding:2px 8px;border-radius:999px;background:rgba(255,255,255,.2);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+  .promo-title{font-size:16px;font-weight:800;line-height:1.3;letter-spacing:-0.01em}
+  .promo-sub{font-size:12px;color:rgba(255,255,255,.94)}
+  .promo-foot{display:flex;justify-content:space-between;gap:12px;margin-top:10px;font-size:11px;font-weight:600;color:rgba(255,255,255,.9)}
+
+  table{width:100%;border-collapse:collapse;margin:14px 0 0;font-size:14px}
+  th,td{text-align:left;padding:8px 12px 8px 0;border-bottom:1px solid var(--hair-2);vertical-align:top}
+  th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid var(--hair)}
+  code{font-family:var(--mono);font-size:.86em;background:var(--hair-2);padding:1px 5px;border-radius:2px}
+  footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--hair);color:var(--ink-3);font-size:13px}
+  footer p{margin:5px 0;color:var(--ink-3)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="kicker">LOVII · демо-витрина · галерея приёмок</p>
+  <h1>Утверждённые блоки и компоненты</h1>
+  <p class="lead">Живая коллекция блоков, которые прошли приёмку владельца. У каждого — имя, живой вид,
+  короткая спека и подсказка «где используется». Собирается по мере приёмок: сюда попадает только то,
+  что утверждено — здесь это и дорабатываем дальше вместе.</p>
+</header>
+
+<!-- 01 КНОПКА -->
+<div class="comp">
+  <div class="comp-head"><h2 class="comp-name" style="margin:0">Кнопка · брендовая</h2><span class="tag ok">принято 28.09</span></div>
+  <p class="comp-where">Главные действия: «Перевести», подтверждения, CTA кабинетов · решение 1-B</p>
+  <div class="specimen on-white">
+    <span class="sbtn sbtn_brand">Перевести</span>
+    <span class="sbtn sbtn_outline">Продолжить</span>
+  </div>
+  <p class="spec"><b>брендовая:</b> градиент 135° <code>#d6336f → #c92a6a</code>, текст белый 14/700, контраст 4.60–5.22 ·
+  <b>контурная:</b> бордер <code>--lv-line</code>, фон карточка, текст основной. Высоты: l = 44, xl = 52, радиус — пилюля.</p>
+</div>
+
+<!-- 02 ЧИП -->
+<div class="comp">
+  <div class="comp-head"><h2 class="comp-name" style="margin:0">Чип статуса · «ожидание» (золото)</h2><span class="tag ok">принято 28.09</span></div>
+  <p class="comp-where">Статусы заявок и точек в кабинетах · решение 2-Б</p>
+  <div class="specimen on-white">
+    <span class="chip">Ждём подтверждения представителя</span>
+    <span class="chip">Ожидание апрува</span>
+  </div>
+  <p class="spec">высота 22, паддинг 0/9, 10.5/800 · текст <code>#80611e</code> на soft-gold — 4.9–5.1 <b>(светлая тема; тёмная не менялась)</b>.</p>
+</div>
+
+<!-- 03 ПОЛЕ -->
+<div class="comp">
+  <div class="comp-head"><h2 class="comp-name" style="margin:0">Поле ввода · размер m</h2><span class="tag ok">принято 28.09</span></div>
+  <p class="comp-where">Формы приложения (переводы, заявки, настройки) · решение 4.3</p>
+  <div class="specimen on-white">
+    <label class="field"><span class="flabel">Телефон, карта или промокод</span><span class="farea"><span class="ftext">+7 900 000-00-00</span></span></label>
+  </div>
+  <p class="spec">высота <b>44</b> (было 42), бордер 1.5 <code>--lv-line-strong</code>, радиус 14, текст 16.</p>
+</div>
+
+<!-- 04 ВХОД -->
+<div class="comp">
+  <div class="comp-head"><h2 class="comp-name" style="margin:0">Экран «Вход» (телефон)</h2><span class="tag ok">принято 28.09</span></div>
+  <p class="comp-where">Авторизация, шаг 1 · SZ-080</p>
+  <div class="specimen on-white">
+    <div class="phone" style="padding-bottom:18px">
+      <div class="ap-head"><span style="width:32px;height:32px;display:flex;align-items:center;justify-content:center">✕-подобная</span></div>
+      <div class="ap-col">
+        <span class="ap-logo" style="height:30px;font-weight:900;font-size:22px;letter-spacing:.02em">ЛОВИ<span style="color:#f64a8a">И</span></span>
+        <div class="ap-title">Введите номер телефона</div>
+        <div class="ap-field"><span class="farea"><span class="ftxt" style="color:var(--ink-a)">+7 911 928-74-78</span></span></div>
+        <p class="ap-legal">При входе и регистрации вы соглашаетесь с <a href="#">Условиями</a> и <a href="#">Политикой обработки персональных данных</a></p>
+        <div class="ap-cta">Продолжить</div>
+      </div>
+    </div>
+  </div>
+  <p class="spec">лого 30px · заголовок 22/800 по центру · поле xl (52) · CTA контурная <b>в потоке под формой</b> (зазор 24) — не прижата к низу экрана.</p>
+</div>
+
+<!-- 05 OTP -->
+<div class="comp">
+  <div class="comp-head"><h2 class="comp-name" style="margin:0">Экран «Код» (OTP)</h2><span class="tag ok">принято 28.09</span></div>
+  <p class="comp-where">Авторизация, шаг 3 (MAX / Telegram / VK / SMS) · SZ-080</p>
+  <div class="specimen on-white">
+    <div class="phone">
+      <div class="ap-col" style="padding-top:18px">
+        <span class="ap-logo" style="height:30px;font-weight:900;font-size:22px">ЛОВИ<span style="color:#f64a8a">И</span></span>
+        <div class="ap-title">Введите код подтверждения</div>
+        <p class="ap-note">Код отправлен в бот «Лови» в MAX — откройте чат с ботом и найдите последнее сообщение</p>
+        <div class="ap-cells"><span class="ap-cell">4</span><span class="ap-cell act">8</span><span class="ap-cell"></span><span class="ap-cell"></span></div>
+        <div class="ap-status">Новый код можно получить через 58 сек.</div>
+      </div>
+    </div>
+    <div class="phone dark">
+      <div class="ap-col" style="padding-top:18px">
+        <span class="ap-logo" style="height:30px;font-weight:900;font-size:22px;color:#fff">ЛОВИ<span style="color:#f64a8a">И</span></span>
+        <div class="ap-title">Введите код подтверждения</div>
+        <div class="ap-cells" style="margin-top:20px"><span class="ap-cell err">4</span><span class="ap-cell err">0</span><span class="ap-cell err">1</span><span class="ap-cell err">2</span></div>
+        <div class="ap-status neg">Неверный код — попробуйте ещё</div>
+      </div>
+    </div>
+  </div>
+  <p class="spec">4 ячейки 64×72, зазор 12, радиус 14, фон surface, бордер line-strong · активная — pink + кольцо · ошибка — <code>--feedback-negative-solid</code> ·
+  <b>одна строка статуса</b> (aria-live, высота зарезервирована): таймер → «Проверяем код…» → ошибка → повтор.</p>
+</div>
+
+<!-- 06 КАНАЛЫ -->
+<div class="comp">
+  <div class="comp-head"><h2 class="comp-name" style="margin:0">Экран «Каналы» (список способов)</h2><span class="tag ok">принято 28.09</span></div>
+  <p class="comp-where">Авторизация, шаг 2 · SZ-080 · карточка-список + строки</p>
+  <div class="specimen on-white">
+    <div class="rowcard">
+      <button class="row-item"><span class="sr-ico">М</span><span class="ri-mid"><span class="nm">MAX</span><span class="sb">Бот «Лови» в MAX</span></span><span class="chev"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+      <button class="row-item"><span class="sr-ico">✈</span><span class="ri-mid"><span class="nm">Telegram</span><span class="sb">Бот «Лови» в Telegram</span></span><span class="chev"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+      <button class="row-item"><span class="sr-ico">ВК</span><span class="ri-mid"><span class="nm">ВКонтакте</span><span class="sb">Сообщество «Лови»</span></span><span class="chev"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+    </div>
+  </div>
+  <p class="spec">карточка-список <code>.list-card</code> + строки <code>.row-item</code>: иконка 36, имя 14/600, подпись 12 dim, стрелка 18, зона ≥44.</p>
+</div>
+
+<!-- 07 СТРОКА -->
+<div class="comp">
+  <div class="comp-head"><h2 class="comp-name" style="margin:0">Строка-действие (row-item)</h2><span class="tag ok">принято 28.09</span></div>
+  <p class="comp-where">Списки кабинетов: настройки, команда, заявки · порт SZ-076</p>
+  <div class="specimen on-white">
+    <div class="rowcard">
+      <button class="row-item"><span class="sr-ico">🎨</span><span class="ri-mid"><span class="nm">Акции и скидки</span><span class="sb">Включены · 4 активные</span></span><span class="chev"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+      <button class="row-item"><span class="sr-ico">📦</span><span class="ri-mid"><span class="nm">Товары точки</span><span class="sb">29 позиций · 25 с фото</span></span><span class="chev"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+    </div>
+  </div>
+  <p class="spec">паддинг 14/16, разделитель line, стрелка 18 dim справа · кликается вся строка.</p>
+</div>
+
+<!-- 08 КАСКАД + ПЛАШКА -->
+<div class="comp">
+  <div class="comp-head"><h2 class="comp-name" style="margin:0">Каскад и плашка-раскрытие</h2><span class="tag ok">принято 28.09</span></div>
+  <p class="comp-where">Каскады: переводы («Откуда»), кабинеты (юрлицо → бренд → точка) · свёртки блоков</p>
+  <div class="specimen on-white">
+    <div class="cascade">
+      <span class="cc-mid"><span class="cc-lbl">Откуда</span><span class="cc-val">ООО «АТМОСФЕРА» · Основной счёт</span></span>
+      <span class="chev"><svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </div>
+    <span class="chip-chev"><svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    <span class="chip-chev open"><svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  </div>
+  <p class="spec">каскад: стрелка 18 dim, клик открывает шит (без поворота) · плашка: круг 32, стрелка 16, при раскрытии — поворот 180° и акцент soft-pink.</p>
+</div>
+
+<!-- 09 ПИЛЮЛИ -->
+<div class="comp">
+  <div class="comp-head"><h2 class="comp-name" style="margin:0">Пилюли статистики</h2><span class="tag ok">принято 28.09</span></div>
+  <p class="comp-where">Герой Главной · три тона</p>
+  <div class="specimen on-white">
+    <span class="pill pink">📍 12 точек рядом</span>
+    <span class="pill tiffany">👣 ближайшая — 240 м</span>
+    <span class="pill gold">✨ баллы 1:1</span>
+  </div>
+  <p class="spec">высота 24, паддинг 0/9, 11/600, иконка 16 · тона: soft-pink / soft-tiffany / soft-gold.</p>
+</div>
+
+<!-- 10 ГЕРОЙ -->
+<div class="comp">
+  <div class="comp-head"><h2 class="comp-name" style="margin:0">Герой Главной</h2><span class="tag ok">принято 28.09</span></div>
+  <p class="comp-where">Первый блок Главной · часть большого маркетинга</p>
+  <div class="hero-mock">
+    <div class="hero-card">
+      <div class="hero-tab"><span class="pin"><svg viewBox="0 0 16 16" fill="none"><path d="M8 14s5-4.2 5-8a5 5 0 1 0-10 0c0 3.8 5 8 5 8z" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="6" r="1.8" stroke="currentColor" stroke-width="1.5"/></svg></span><span class="lbl">Твой район: Невский проспект</span><span class="tchev"><svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="hero-h1">Всё нужное — <span class="accent">в шаговой доступности</span></div>
+      <p class="hero-lead">Точки твоего района добавляют товары и услуги. Покажем, <b>где что есть и сколько стоит</b> — и сколько идти пешком.</p>
+      <div class="hero-stats">
+        <span class="pill pink">📍 точек рядом</span>
+        <span class="pill tiffany">👣 рядом</span>
+        <span class="pill gold">✨ баллы 1:1</span>
+      </div>
+      <div class="hero-search"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Найти товар или точку рядом…</div>
+    </div>
+  </div>
+  <p class="spec">скруглённая карточка 16, отступы блока · база — белая, тёплое свечение: soft-pink из правого верхнего угла, soft-gold из левого нижнего ·
+  бордер + мягкая тень · чип района с видимым контуром · свёртка: заголовок/лид/пилюли прячутся, чип и поиск остаются.</p>
+</div>
+
+<!-- 11 ПЛИТКА -->
+<div class="comp">
+  <div class="comp-head"><h2 class="comp-name" style="margin:0">Плитка точки («Популярное»)</h2><span class="tag ok">принято 28.09</span></div>
+  <p class="comp-where">Главная → «Популярные заведения» · каталог</p>
+  <div class="specimen on-white">
+    <div class="tile"><div class="img">🥯</div><h5>Пышки &amp; Пончики</h5></div>
+    <div class="tile"><div class="img" style="background:var(--soft-pink)">☕</div><h5>Кофейня «Мелодия»</h5></div>
+  </div>
+  <p class="spec">ширина 100 · фото-квадрат 1:1 во всю плитку (без внутренних отступов) · подпись 8/10/12, 11/600, по центру · бордер + тень карточки.</p>
+</div>
+
+<!-- 12 АКЦИЯ -->
+<div class="comp">
+  <div class="comp-head"><h2 class="comp-name" style="margin:0">Карточка акции</h2><span class="tag ok">принято 28.09</span></div>
+  <p class="comp-where">Главная → «Акции рядом» (ротация из сервиса лояльности)</p>
+  <div class="specimen on-white">
+    <div class="promo-card">
+      <span class="promo-badge">Кэшбэк</span>
+      <span class="promo-title">Кэшбэк 10% на всё меню</span>
+      <span class="promo-sub">Пышки &amp; Пончики · до конца недели</span>
+      <span class="promo-foot"><span>до 5 октября</span><span>Перейти в точку</span></span>
+    </div>
+  </div>
+  <p class="spec">тёмная база (инк-градиент) · бейдж 10/800 капсом на мягкой белой подложке · заголовок 16/800 · подпись 12 · нижняя строка 11/600 · ротация 6 сек + точки.</p>
+</div>
+
+<!-- 13 СТРЕЛКИ -->
+<div class="comp">
+  <div class="comp-head"><h2 class="comp-name" style="margin:0">Стрелки · свод правил</h2><span class="tag ok">принято 28.09</span></div>
+  <p class="comp-where">Единый канон для всех шевронов: строки, каскады, плашки, шапки</p>
+  <table>
+    <thead><tr><th>Роль</th><th>Где</th><th>Стрелка / размер</th></tr></thead>
+    <tbody>
+      <tr><td>Навигация в строке</td><td>списки кабинетов</td><td>› вправо · 18, вторичный</td></tr>
+      <tr><td>Каскад</td><td>юрлицо/бренд/точка, «Откуда»</td><td>⌄ вниз · 18, вторичный</td></tr>
+      <tr><td>Плашка-раскрытие</td><td>свёртки, «куда зачислить»</td><td>⌄ · 16 в плашке 32, поворот при раскрытии</td></tr>
+      <tr><td>Пилюля шапки</td><td>адрес</td><td>⌄ · 14, вторичный</td></tr>
+      <tr><td>Назад</td><td>подшапка / вход</td><td>‹ · 24 (вход — 32), основной</td></tr>
+    </tbody>
+  </table>
+  <p class="spec">один контурный набор (штрих 2) · «вверх» отдельной стрелки нет — раскрытие показываем поворотом · кликается блок, не стрелка.</p>
+</div>
+
+<footer>
+  <p>Собрано из приёмок 28.09.2026. Полные спеки и доказательства — в артефактах: auth-OTP, решения по канону, наполнение стенда.</p>
+  <p>Как добавить компонент: см. README рядом. Обновляется по мере приёмок владельца.</p>
+</footer>
+
+</div>
+</body>
+</html>
