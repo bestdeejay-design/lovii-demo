@@ -462,7 +462,7 @@ function mspTeam() {
         </div>
         <div style="padding:12px 16px 16px">
           <button type="button" class="acct__btn acct__btn_brand" data-action="msp-invite">${icon('plus')} Пригласить сотрудника</button>
-          <p class="tier__cta-note">По телефону · роль выбирается при приглашении (SZ-047)</p>
+          <p class="tier__cta-note">По телефону · роль выбирается при приглашении.<!-- канон: SZ-047 --></p>
         </div>
       </section>
     </div>`;

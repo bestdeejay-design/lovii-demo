@@ -464,7 +464,7 @@ async function renderSettingsHtml() {
     <div class="seg-row">${seg(FONT_SCALE_OPTIONS.map(([v, l]) => [v, l]), s.fontScale || 'normal', 'set-font', 'Размер текста')}</div>
     <div class="row-item switch-row">
       <span class="sr-ico t-gold">${icon('sparkles')}</span>
-      <div class="ri-mid"><div class="nm">Анимации</div><div class="sb">Выключите, если движение некомфортно (SZ-030)</div></div>
+      <div class="ri-mid"><div class="nm">Анимации</div><div class="sb">Выключите, если движение некомфортно.<!-- канон: SZ-030 --></div></div>
     </div>
     <div class="seg-row">${seg(MOTION_OPTIONS, s.motion || 'system', 'set-motion', 'Анимации')}</div>
   </div>
