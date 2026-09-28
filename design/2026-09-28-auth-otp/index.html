@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LOVII · Вход и OTP — канонический макет</title>
+<style>
+  @font-face { font-family:"Inter"; src:url("assets/fonts/Inter-Regular.woff2") format("woff2"); font-weight:400; font-display:swap; }
+  @font-face { font-family:"Inter"; src:url("assets/fonts/Inter-Medium.woff2") format("woff2"); font-weight:500; font-display:swap; }
+  @font-face { font-family:"Inter"; src:url("assets/fonts/Inter-SemiBold.woff2") format("woff2"); font-weight:600; font-display:swap; }
+  @font-face { font-family:"Inter"; src:url("assets/fonts/Inter-Bold.woff2") format("woff2"); font-weight:700; font-display:swap; }
+  @font-face { font-family:"Inter"; src:url("assets/fonts/Inter-ExtraBold.woff2") format("woff2"); font-weight:800; font-display:swap; }
+
+  :root{
+    --paper:#fbfaf8; --ink:#1a161b; --ink-2:#514a53; --ink-3:#867e88;
+    --hair:#e0dade; --hair-2:#ece7eb;
+    --accent:#c92a6a; --ok:#3f7a33; --warn:#8a6a25;
+    --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+  .wrap{max-width:900px;margin:0 auto;padding:56px 28px 96px}
+
+  header{border-bottom:1px solid var(--hair);padding-bottom:26px}
+  .kicker{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 14px}
+  h1{font-family:Georgia,serif;font-weight:400;font-size:38px;line-height:1.14;letter-spacing:-.015em;margin:0 0 14px}
+  .lead{font-size:17px;color:var(--ink-2);margin:0;max-width:68ch}
+
+  h2{font-family:Georgia,serif;font-weight:400;font-size:25px;margin:56px 0 4px}
+  .sec-label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px}
+  h3{font-size:15px;margin:26px 0 8px}
+  p{margin:10px 0;max-width:72ch}
+  .muted{color:var(--ink-3)}
+  .small{font-size:13.5px}
+
+  /* ====== состояния и макеты ====== */
+  .stage{display:flex;flex-wrap:wrap;gap:22px;margin:22px 0}
+  .frame{border:1px solid var(--hair);padding:14px;background:#fff}
+  .frame .cap{font-size:12.5px;color:var(--ink-2);margin:10px 0 0}
+  .frame .cap b{color:var(--ink)}
+
+  .aphone{width:362px;height:520px;border-radius:20px;overflow:hidden;position:relative;flex-shrink:0;
+    --bg:#ffffff; --card:#fff; --surf:#f8f8f8; --ink:#1a1a1a; --dim:#888888; --line:#ece5da; --line-strong:#8f8578; --pink:#f64a8a; --pink-d:#c92a6a; --neg:#ed3244; --ring:rgba(246,74,138,.1);
+    background:var(--bg);font-family:Inter,sans-serif;color:var(--ink);border:1px solid #e8e2d8}
+  .aphone.dark{--bg:#211b26;--card:#211b26;--surf:#2b2331;--ink:#f3ebf0;--dim:#a798a6;--line:#372d3e;--line-strong:#8d7f88;--pink:#f64a8a;--pink-d:#f64a8a;--neg:#f75464;--ring:rgba(246,74,138,.14);border-color:#2e2535}
+
+  .ap-head{display:flex;align-items:center;padding:16px;height:64px}
+  .ap-clear{width:32px;height:32px;display:flex;align-items:center;justify-content:center}
+
+  .ap-col{width:100%;padding:0 16px;display:flex;flex-direction:column;align-items:flex-start}
+  .ap-logo{height:30px;width:auto;display:block;align-self:center;margin-top:2px}
+  .ap-title{margin:22px 0 0;font-weight:800;font-size:22px;line-height:1.25;letter-spacing:-0.01em;text-align:center;align-self:center}
+  .ap-note{margin:8px 0 0;font-weight:400;font-size:13px;line-height:1.5;color:var(--dim);text-align:center;align-self:center;max-width:330px}
+  .ap-cells{display:flex;gap:12px;margin:28px auto 0}
+  .ap-cell{width:64px;height:72px;border-radius:14px;background:var(--surf);border:1.5px solid var(--line-strong);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:28px;font-variant-numeric:tabular-nums}
+  .ap-cell.act{border-color:var(--pink);box-shadow:0 0 0 4px var(--ring)}
+  .ap-cell.err{border-color:var(--neg)}
+  .ap-status{margin:16px auto 0;min-height:20px;font-size:13px;line-height:1.5;color:var(--dim);text-align:center;max-width:300px}
+  .ap-status.neg{color:var(--neg)}
+  .ap-status .link{color:var(--pink-d);font-weight:600}
+  .ap-dim{opacity:.6}
+
+  .ap-field{width:100%;margin:24px 0 0;display:flex;flex-direction:column;gap:4px}
+  .ap-field .farea{display:flex;align-items:center;height:55px;border:1.5px solid var(--line-strong);border-radius:14px;padding:0 14px;background:var(--card)}
+  .ap-field .ftxt{font-size:16px;color:var(--ink)}
+  .ap-legal{margin:14px 0 0;font-size:11px;line-height:1.5;color:var(--dim);text-align:center;align-self:center;max-width:330px}
+  .ap-legal a{color:var(--pink-d);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+  .ap-cta{margin:22px auto 0;width:100%;height:52px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+  .ap-cta.brand{background-image:linear-gradient(135deg,#d6336f 0%,#c92a6a 100%);border:0;color:#fff}
+
+  .ev{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;border:1px solid var(--hair);background:#fff;padding:14px;margin:16px 0}
+  .ev img{display:block;border:1px solid var(--hair-2);max-width:100%}
+  .ev .txt{font-size:13.5px;color:var(--ink-2)}
+  .ev .txt b{color:var(--ink)}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14.5px}
+  th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--hair-2);vertical-align:top}
+  th{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid var(--hair)}
+  code{font-family:var(--mono);font-size:.88em;background:var(--hair-2);padding:1px 5px;border-radius:2px}
+  ul{margin:10px 0;padding-left:20px} li{margin:6px 0}
+  .rule{border:0;border-top:1px solid var(--hair);margin:34px 0}
+  .note{border:1px solid var(--hair);padding:18px 20px;margin:24px 0;background:#fff}
+  .note .t{font-family:Georgia,serif;font-size:17px;margin:0 0 8px}
+  footer{margin-top:70px;padding-top:18px;border-top:1px solid var(--hair);color:var(--ink-3);font-size:13px}
+  footer p{margin:5px 0;color:var(--ink-3)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="kicker">LOVII · экран входа · канонический макет к приёмке · 28 сентября 2026</p>
+  <h1>Вход и OTP: спокойный, собранный экран</h1>
+  <p class="lead">Жалоба была точная: тексты наезжали друг на друга, экран прыгал, поля кода выглядели незавершённо, логотипа не было вовсе.
+  Ниже — макет по паттерну пинкод-экрана (быстрый вход): логотип, четыре ячейки кода и одна строка статуса, которая меняет текст, а не место.
+  Всё в колонке по центру — как на пинкод-экране. Обе темы и все состояния — состояния можно щёлкать глазами, как на живом экране.</p>
+</header>
+
+<section>
+  <h2><span class="sec-label">Как это выглядит</span>Экран телефона — «до» и «после»</h2>
+  <div class="stage">
+    <div class="frame">
+      <div class="aphone light">
+        <div class="ap-head"><span class="ap-clear"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/></svg></span></div>
+        <div class="ap-col">
+          <img class="ap-logo" src="assets/img/lovii-logo-light.svg" alt="Лови" style="height:30px">
+          <div class="ap-title">Введите номер телефона</div>
+          <div class="ap-field"><span class="farea"><span class="ftxt">+7 911 928-74-78</span></span></div>
+          <p class="ap-legal">При входе и регистрации вы соглашаетесь с <a href="#">Условиями использования</a> и <a href="#">Политикой обработки персональных данных</a></p>
+          <div class="ap-cta">Продолжить</div>
+        </div>
+      </div>
+      <p class="cap"><b>После · светлая.</b> Логотип, спокойный ритм, поля по канону.</p>
+    </div>
+    <div class="frame">
+      <div class="aphone dark">
+        <div class="ap-head"><span class="ap-clear"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/></svg></span></div>
+        <div class="ap-col">
+          <img class="ap-logo" src="assets/img/lovii-logo-dark.svg" alt="Лови" style="height:30px">
+          <div class="ap-title">Введите номер телефона</div>
+          <div class="ap-field"><span class="farea"><span class="ftxt">+7 911 928-74-78</span></span></div>
+          <p class="ap-legal">При входе и регистрации вы соглашаетесь с <a href="#">Условиями использования</a> и <a href="#">Политикой обработки персональных данных</a></p>
+          <div class="ap-cta">Продолжить</div>
+        </div>
+      </div>
+      <p class="cap"><b>После · тёмная.</b> Тот же ритм, белый вордмарк.</p>
+    </div>
+    <div class="frame">
+      <div class="aphone light" style="height:320px">
+        <div class="ap-head"><span class="ap-clear"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="ap-col">
+          <div class="ap-title" style="margin-top:4px;align-self:stretch;text-align:left">Введите код подтверждения</div>
+          <div style="margin:24px auto 0;display:flex;gap:8px;align-items:center">
+            <span style="display:inline-flex;justify-content:center;width:148px;padding:0 0 8px;border-bottom:1px solid #c9c2b6;font-weight:800;font-size:26px;color:#1a1a1a">0000</span>
+          </div>
+          <div class="ap-status" style="margin-top:32px">Новый код можно получить через 58 сек.</div>
+        </div>
+      </div>
+      <p class="cap"><b>Как сейчас</b> — одно узкое поле, статусы живут каждый со своим отступом и наезжают. Живой кадр ниже.</p>
+    </div>
+  </div>
+
+  <div class="ev">
+    <img src="assets/auth-code-before-light.png" alt="Экран кода — как сейчас, светлая тема" style="width:181px">
+    <div class="txt">
+      <b>Живой кадр «до» со стенда (28.09).</b> Экран кода сегодня: заголовок слева, узкое подчёркнутое поле 148px, «Новый код…» отдельным блоком со своим отступом 32px, ниже — «Отправить код повторно» со своим 40px, ошибки — третьим слоем. Отсюда наезды и прыжки.
+      Логотипа нет: экран входа начинается «из ниоткуда». Это и лечим.
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section>
+  <h2><span class="sec-label">Экран кода · состояния</span>Одна строка статуса вместо четырёх блоков</h2>
+  <p>Все состояния — в одной строке под ячейками: она меняет <b>текст</b>, а не добавляет новые строки. Поэтому экран не прыгает: клавиатура, таймер, ошибки и повтор живут в одном месте.</p>
+
+  <div class="stage">
+    <div class="frame">
+      <div class="aphone light">
+        <div class="ap-head"><span class="ap-clear"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="ap-col">
+          <img class="ap-logo" src="assets/img/lovii-logo-light.svg" alt="Лови">
+          <div class="ap-title">Введите код подтверждения</div>
+          <div class="ap-note">Код отправлен в бот «Лови» в MAX — откройте чат с ботом и найдите последнее сообщение</div>
+          <div class="ap-cells"><span class="ap-cell act"></span><span class="ap-cell"></span><span class="ap-cell"></span><span class="ap-cell"></span></div>
+          <div class="ap-status">Новый код можно получить через 58 сек.</div>
+        </div>
+      </div>
+      <p class="cap"><b>Пусто · таймер.</b> Курсор в первой ячейке, кнопка повтора появится здесь же.</p>
+    </div>
+
+    <div class="frame">
+      <div class="aphone light">
+        <div class="ap-head"><span class="ap-clear"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="ap-col">
+          <img class="ap-logo" src="assets/img/lovii-logo-light.svg" alt="Лови">
+          <div class="ap-title">Введите код подтверждения</div>
+          <div class="ap-note">Код отправлен в бот «Лови» в MAX — откройте чат с ботом и найдите последнее сообщение</div>
+          <div class="ap-cells"><span class="ap-cell">4</span><span class="ap-cell">8</span><span class="ap-cell act"></span><span class="ap-cell"></span></div>
+          <div class="ap-status">Проверяем код…</div>
+        </div>
+      </div>
+      <p class="cap"><b>Ввод · проверка.</b> Цифры крупные, фокус ведёт за собой; подтверждение — в той же строке.</p>
+    </div>
+
+    <div class="frame">
+      <div class="aphone light">
+        <div class="ap-head"><span class="ap-clear"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="ap-col">
+          <img class="ap-logo" src="assets/img/lovii-logo-light.svg" alt="Лови">
+          <div class="ap-title">Введите код подтверждения</div>
+          <div class="ap-note">Код отправлен в бот «Лови» в MAX — откройте чат с ботом и найдите последнее сообщение</div>
+          <div class="ap-cells ap-dim"><span class="ap-cell err">4</span><span class="ap-cell err">0</span><span class="ap-cell err">1</span><span class="ap-cell err">2</span></div>
+          <div class="ap-status neg">Неверный код — попробуйте ещё</div>
+        </div>
+      </div>
+      <p class="cap"><b>Ошибка.</b> Контур ячеек краснеет, текст ошибки — на месте таймера. Ничего не съезжает.</p>
+    </div>
+
+    <div class="frame">
+      <div class="aphone dark">
+        <div class="ap-head"><span class="ap-clear"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="ap-col">
+          <img class="ap-logo" src="assets/img/lovii-logo-dark.svg" alt="Лови">
+          <div class="ap-title">Введите код подтверждения</div>
+          <div class="ap-note">Код отправлен в бот «Лови» в MAX — откройте чат с ботом и найдите последнее сообщение</div>
+          <div class="ap-cells"><span class="ap-cell">4</span><span class="ap-cell">8</span><span class="ap-cell">0</span><span class="ap-cell act"></span></div>
+          <div class="ap-status"><span class="link">Отправить код повторно</span></div>
+        </div>
+      </div>
+      <p class="cap"><b>Тёмная · повтор доступен.</b> «Отправить код повторно» — та же строка, цвет бренда.</p>
+    </div>
+  </div>
+
+  <div class="note">
+    <p class="t">Почему это лечит жалобу</p>
+    <ul class="small" style="margin:4px 0">
+      <li><b>Наезды</b> — потому что четыре независимых блока («Проверяем…», таймер, повтор, ошибка) каждый со своим margin заменены <b>одним слотом</b> с фиксированной минимальной высотой.</li>
+      <li><b>Прыжки</b> — потому что слот один и он не меняет высоту: меняется только текст внутри.</li>
+      <li><b>«Нормальный логотип»</b> — тот же знак, что на пинкод-экране и в шапке (30px, свой вариант под тему). Второй логотип не рисуем.</li>
+      <li><b>«Поля OTP»</b> — четыре ячейки вместо узкого подчёркивания: цифры крупные, зона ввода внутри ячейки, вставка кода и авто-подстановка SMS-кода сохраняются.</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section>
+  <h2><span class="sec-label">Спецификация для исполнения</span>Что именно собрать в коде</h2>
+  <table>
+    <thead><tr><th>Элемент</th><th>Значение</th></tr></thead>
+    <tbody>
+      <tr><td>Контейнер</td><td>Как сейчас: <code>.auth</code> — фиксированный слой, фон <code>--background-normal-surface</code>; шапка с «назад/закрыть» 32px не меняется.</td></tr>
+      <tr><td>Логотип</td><td>Высота <b>30px</b>, по центру, отступ сверху 4px. Светлая тема — <code>lovii-logo-light.svg</code>, тёмная — <code>lovii-logo-dark.svg</code> (оба уже в репозитории, как на пинкод-экране).</td></tr>
+      <tr><td>Заголовок</td><td><b>22px / 800</b>, интерлиньяж 1.25, трекинг −0.01em — как заголовки шагов в демо-каноне (сейчас 14px — мелко). <b>По центру</b> (правка владельца 28.09).</td></tr>
+      <tr><td>Подсказка канала</td><td>13px, приглушённый, по центру; текст для MAX/Telegram сохраняется, живёт сразу под заголовком (не «плавающий» блок).</td></tr>
+      <tr><td>Ячейки кода</td><td>4 шт., <b>64×72</b>, зазор 12, радиус 14 (<code>--lv-r-md</code>), фон <code>--lv-surface</code>, бордер 1.5px <code>--lv-line-strong</code>; цифра <b>28/800</b>, табличные цифры, по центру. Активная — бордер <code>--lv-pink</code> + кольцо <code>--lv-ring-field</code>; ошибка — бордер <code>--feedback-negative-solid</code>.</td></tr>
+      <tr><td>Ввод</td><td>Скрытый input с <code>autocomplete="one-time-code"</code> и маской <code>####</code>: фокус-карусель, вставка кода, авто-заполнение iOS/Android. Длина 4 — не меняется.</td></tr>
+      <tr><td>Строка статуса</td><td><b>Один слот</b>, <code>aria-live="polite"</code>, минимальная высота 20px, 13px, по центру. Тексты: «Новый код можно получить через N сек.» (tabular-nums) → «Отправить код повторно» (брендовая ссылка) / «Проверяем код…» / ошибка (красная). Серверные тексты блокировок переносятся по словам, не ломают сетку.</td></tr>
+      <tr><td>Ритм</td><td>Лого → 22px → заголовок → 8px → подсказка канала → 28px → ячейки → 16px → строка статуса. Всё значения — существующие токены, новых не требуется.</td></tr>
+      <tr><td>Поведение</td><td>Логика не меняется: таймер 60с, честный повтор тем же каналом, ожидание подтверждения, серверные ошибки. Тест-иды <code>auth-confirming</code>, <code>auth-resend-code</code>, <code>auth-resend-error</code> — сохранить (E2E).</td></tr>
+      <tr><td>Телефонный экран</td><td>Тот же логотип и ритм; заголовок 22/800; поле и подпись согласий — как сейчас; кнопка «Продолжить» остаётся контурной (смену на брендовую — после решения по градиенту).</td></tr>
+    </tbody>
+  </table>
+  <p class="small muted">Приёмка: серия кадров 390 и 1280 в двух темах — пусто/ввод/ошибка/таймер/повтор/длинная серверная ошибка; наездов нет, экран не прыгает; DS-guard зелёный; E2E авторизации не сломан.</p>
+</section>
+
+<footer>
+  <p>Собрано 28 сентября 2026. Основа: жалоба владельца 27.09, карточка SZ-080, паттерн пинкод-экрана (AppLock) и зеркало авторизации в демо-каноне.</p>
+  <p>Кадр «до» снят со стенда :5175; макеты — на реальных токенах и шрифте приложения (Inter).</p>
+</footer>
+
+</div>
+</body>
+</html>

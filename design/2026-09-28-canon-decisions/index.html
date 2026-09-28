@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LOVII · Решения по канону — 28.09</title>
+<style>
+  @font-face { font-family:"Inter"; src:url("assets/fonts/Inter-Regular.woff2") format("woff2"); font-weight:400; font-display:swap; }
+  @font-face { font-family:"Inter"; src:url("assets/fonts/Inter-Medium.woff2") format("woff2"); font-weight:500; font-display:swap; }
+  @font-face { font-family:"Inter"; src:url("assets/fonts/Inter-SemiBold.woff2") format("woff2"); font-weight:600; font-display:swap; }
+  @font-face { font-family:"Inter"; src:url("assets/fonts/Inter-Bold.woff2") format("woff2"); font-weight:700; font-display:swap; }
+  @font-face { font-family:"Inter"; src:url("assets/fonts/Inter-ExtraBold.woff2") format("woff2"); font-weight:800; font-display:swap; }
+
+  :root{
+    --paper:#fbfaf8; --ink:#1a161b; --ink-2:#514a53; --ink-3:#867e88;
+    --hair:#e0dade; --hair-2:#ece7eb;
+    --accent:#c92a6a; --ok:#3f7a33; --warn:#8a6a25;
+    /* живые токены приложения (светлая тема) */
+    --app-ink:#1a1a1a; --app-dim:#888888; --app-page:#f8f5f0; --app-card:#fff;
+    --app-surface:#f8f8f8; --app-line:#ece5da; --app-line-strong:#8f8578;
+    --app-pink:#f64a8a; --app-pink-dark:#c92a6a; --app-soft-gold:rgba(212,168,84,.16);
+    --app-gold-text:#8a6a25; --app-gold-text-b:#80611e;
+    --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+  .wrap{max-width:880px;margin:0 auto;padding:56px 28px 96px}
+
+  header{border-bottom:1px solid var(--hair);padding-bottom:26px}
+  .kicker{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 14px}
+  h1{font-family:Georgia,serif;font-weight:400;font-size:38px;line-height:1.14;letter-spacing:-.015em;margin:0 0 14px}
+  .lead{font-size:17px;color:var(--ink-2);margin:0 0 16px;max-width:66ch}
+  .howto{display:inline-block;font-size:13.5px;color:var(--ink-2);border:1px solid var(--hair);padding:8px 12px;border-radius:3px;background:#fff}
+  .howto b{color:var(--accent)}
+
+  h2{font-family:Georgia,serif;font-weight:400;font-size:25px;margin:58px 0 4px;letter-spacing:-.005em}
+  .sec-label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px}
+  h3{font-size:15px;margin:30px 0 8px}
+  p{margin:10px 0;max-width:70ch}
+  .muted{color:var(--ink-3)}
+  .small{font-size:13.5px}
+
+  .rec{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ok);border:1px solid #c9dcc2;padding:2px 8px;border-radius:2px;margin-left:8px;vertical-align:2px}
+  .ask{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--warn);border:1px solid #e6d7b2;padding:2px 8px;border-radius:2px;margin-left:8px;vertical-align:2px}
+
+  /* --- карточка варианта --- */
+  .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin:20px 0}
+  .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:20px 0}
+  @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}}
+  .vs{border:1px solid var(--hair);background:#fff;padding:16px}
+  .vs .cap{font-size:13px;color:var(--ink-2);margin:0 0 12px}
+  .vs .cap b{color:var(--ink)}
+  .vs .meta{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin:12px 0 0;line-height:1.6}
+  .num{font-weight:700}
+  .bad{color:var(--accent)}
+  .good{color:var(--ok)}
+
+  /* --- кнопка приложения --- */
+  .sbtn{display:flex;align-items:center;justify-content:center;height:44px;border-radius:999px;
+    font-family:Inter,sans-serif;font-weight:700;font-size:14px;color:#fff;letter-spacing:0}
+  .sbtn_a{background-image:linear-gradient(135deg,#f64a8a 0%,#c92a6a 100%)}
+  .sbtn_b{background-image:linear-gradient(135deg,#d6336f 0%,#c92a6a 100%)}
+  .sbtn_c{background:#c92a6a}
+  .btn-shot{width:100%;display:block;border:1px solid var(--hair-2)}
+
+  /* --- чип --- */
+  .chiprow{display:flex;align-items:center;gap:10px;padding:14px 12px;border-radius:6px}
+  .chiprow.on-card{background:#fff;border:1px solid var(--hair-2)}
+  .chiprow.on-surface{background:#f8f8f8;border:1px solid var(--hair-2)}
+  .chip{display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:999px;
+    background:rgba(212,168,84,.16);font-family:Inter,sans-serif;font-weight:800;font-size:10.5px;line-height:1;white-space:nowrap}
+  .chip_a{color:#8a6a25}
+  .chip_b{color:#80611e}
+  .chip_c{color:#856621}
+  .swatch-label{font-size:12px;color:var(--ink-3);margin-left:auto;white-space:nowrap}
+
+  /* --- мок шапки --- */
+  .phone{width:390px;max-width:100%;margin:0 auto;background:var(--app-page);border:1px solid var(--hair);border-radius:12px;overflow:hidden}
+  .phone .mh{display:flex;align-items:center;justify-content:space-between;gap:8px;height:56px;padding:0 16px;background:rgba(255,255,255,.88);border-bottom:1px solid var(--app-line)}
+  .mh .logo{display:block;flex-shrink:0}
+  .mh .actions{display:flex;align-items:center;gap:8px;flex:1;min-width:0;justify-content:flex-end}
+  .pill{display:flex;align-items:center;gap:6px;height:36px;padding:0 10px;border-radius:999px;background:var(--app-surface);
+    font-family:Inter,sans-serif;font-weight:500;font-size:14px;color:var(--app-ink);min-width:0}
+  .pill .lbl{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pill svg{flex-shrink:0}
+  .icon36{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:999px;background:var(--app-surface);flex-shrink:0}
+  .profile44{display:flex;align-items:center;justify-content:center;width:44px;height:44px;margin:-4px;flex-shrink:0}
+  .profile44 .avatar{width:28px;height:28px;border-radius:50%;background:#e2dcd2}
+  .phone .body{height:74px;display:flex;align-items:center;justify-content:center;color:#b9b2a6;font-size:12px}
+
+  /* --- мок субхедера --- */
+  .sub{display:grid;grid-template-columns:40px 1fr 40px;align-items:center;height:48px;padding:0 12px;gap:8px;background:rgba(255,255,255,.88);border-bottom:1px solid var(--app-line)}
+  .sub.w44{grid-template-columns:44px 1fr 44px}
+  .backbtn{position:relative;display:flex;align-items:center;justify-content:center;width:40px;height:40px}
+  .backbtn.b44{width:44px;height:44px}
+  .backbtn .zone{content:"";position:absolute;inset:2px;border:1px dashed var(--app-pink);border-radius:8px;display:none}
+  .backbtn.show-zone .zone{display:block}
+  .backbtn .zone span{position:absolute;left:50%;transform:translateX(-50%);bottom:-14px;font-size:9px;color:var(--app-pink);font-family:var(--mono);white-space:nowrap;display:none}
+  .sub .title{grid-column:2;text-align:center;font-family:Inter,sans-serif;font-weight:800;font-size:20px;letter-spacing:-.01em;color:var(--app-ink)}
+
+  /* --- мок поля --- */
+  .field{display:flex;flex-direction:column;gap:4px;width:358px;max-width:100%}
+  .field .flabel{font-family:Inter,sans-serif;font-size:12px;font-weight:700;color:var(--app-ink)}
+  .field .farea{display:flex;align-items:center;height:42px;border:1.5px solid var(--app-line-strong);border-radius:14px;padding:0 14px;background:#fff}
+  .field.h44 .farea{height:44px}
+  .field .ftext{font-family:Inter,sans-serif;font-size:16px;color:#b5aca0}
+
+  /* --- доказательства --- */
+  .ev{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;border:1px solid var(--hair);background:#fff;padding:14px;margin:16px 0}
+  .ev img{display:block;border:1px solid var(--hair-2);max-width:100%}
+  .ev .txt{font-size:13.5px;color:var(--ink-2)}
+  .ev .txt b{color:var(--ink)}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14.5px}
+  th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--hair-2);vertical-align:top}
+  th{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid var(--hair)}
+  td:first-child{white-space:nowrap}
+  code{font-family:var(--mono);font-size:.88em;background:var(--hair-2);padding:1px 5px;border-radius:2px}
+  ul{margin:10px 0;padding-left:20px}
+  li{margin:6px 0}
+  .rule{border:0;border-top:1px solid var(--hair);margin:34px 0}
+
+  .note{border:1px solid var(--hair);padding:18px 20px;margin:24px 0;background:#fff}
+  .note .t{font-family:Georgia,serif;font-size:17px;margin:0 0 8px}
+  footer{margin-top:70px;padding-top:18px;border-top:1px solid var(--hair);color:var(--ink-3);font-size:13px}
+  footer p{margin:5px 0;color:var(--ink-3)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="kicker">LOVII · дизайн-система · решения для приёмки · 28 сентября 2026</p>
+  <h1>Четыре решения по канону</h1>
+  <p class="lead">Ниже — каждый вопрос живым макетом: как сейчас, как можно, и что это даёт в цифрах.
+  Макеты собраны на реальных токенах и размерах приложения; рядом местами — живые кадры со стенда.</p>
+  <p class="howto">Отвечайте буквой: например <b>«1-B, 2-Б, 3-да, 4.1-B, 4.2-C, 4.3-Б»</b>. После решения внесу правку в канон и передам в исполнение.</p>
+</header>
+
+<!-- ================= 1. КНОПКА ================= -->
+<section>
+  <h2><span class="sec-label">Решение 1 · кнопка с брендовым градиентом</span>Белому тексту на градиенте не хватает контраста</h2>
+  <p>Замер: самый светлый угол градиента даёт <span class="num bad">3.35</span> при норме 4.5 для мелкого текста (14 px жирного).
+  Тёмный край — <span class="num good">5.22</span>, там всё в порядке. Ниже три варианта; рекомендую <b>B</b> — минимальное изменение, кнопка остаётся розовой и узнаваемой.</p>
+
+  <h3>Как это выглядит</h3>
+  <div class="grid2">
+    <div class="vs">
+      <p class="cap"><b>A · как сейчас</b> — светлый край #f64a8a</p>
+      <div class="sbtn sbtn_a">Перевести</div>
+      <p class="meta">светлый край: <span class="num bad">3.35</span> · тёмный край: 5.22<br>норма AA для мелкого текста: 4.5</p>
+    </div>
+    <div class="vs">
+      <p class="cap"><b>B · светлый край глубже</b> — #d6336f <span class="rec">рекомендую</span></p>
+      <div class="sbtn sbtn_b">Перевести</div>
+      <p class="meta">светлый край: <span class="num good">4.60</span> · тёмный край: 5.22<br>кнопка остаётся розовой, оттенок глубже на один шаг</p>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="vs">
+      <p class="cap"><b>C · сплошной бренд-тёмный</b> — без градиента</p>
+      <div class="sbtn sbtn_c">Перевести</div>
+      <p class="meta">ровно <span class="num good">5.22</span> по всей кнопке<br>просто и строго, но теряется фирменный градиент</p>
+    </div>
+    <div class="vs">
+      <p class="cap">Живой кадр со стенда — кнопка «Перевести», 358×44</p>
+      <img class="btn-shot" src="assets/brandbtn-light.png" alt="Кнопка Перевести — как сейчас">
+      <p class="meta">градиент тянется в ~10 местах системы:<br>кнопки, нижний навбар, кабинеты в профиле, метры</p>
+    </div>
+  </div>
+  <p class="small muted">Почему не «просто увеличить буквы»: чтобы текст считался «крупным» по норме, кегль кнопки пришлось бы поднять с 14 до ~19 — кнопки станут заметно тяжелее. Вариант B честнее.</p>
+</section>
+
+<hr class="rule">
+
+<!-- ================= 2. ЧИП ================= -->
+<section>
+  <h2><span class="sec-label">Решение 2 · чип «ожидание» (золото, светлая тема)</span>Недобор всего 0.14, но лечится без следов</h2>
+  <p>Золотой текст статуса на мягкой золотой подложке: на белой карточке <span class="num">4.48</span>, на серых поверхностях до <span class="num bad">4.25</span> (в аудите — 4.36). Норма — 4.5.
+  Сдвиг текста на два шага темнее решает вопрос, глазу почти не заметен. Тёмная тема — не меняется (там 6.26 с запасом).</p>
+
+  <div class="grid2">
+    <div class="vs">
+      <p class="cap"><b>A · как сейчас</b> — текст #8a6a25</p>
+      <div class="chiprow on-card"><span class="chip chip_a">Ждём подтверждения представителя</span><span class="swatch-label">на карточке → 4.48</span></div>
+      <div class="chiprow on-surface"><span class="chip chip_a">Ждём подтверждения представителя</span><span class="swatch-label">на сером → 4.25</span></div>
+    </div>
+    <div class="vs">
+      <p class="cap"><b>Б · текст глубже</b> — #80611e <span class="rec">рекомендую</span></p>
+      <div class="chiprow on-card"><span class="chip chip_b">Ждём подтверждения представителя</span><span class="swatch-label">на карточке → 5.13</span></div>
+      <div class="chiprow on-surface"><span class="chip chip_b">Ждём подтверждения представителя</span><span class="swatch-label">на сером → 4.86</span></div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="vs">
+      <p class="cap"><b>В · минимальный сдвиг</b> — #856621 (если хочется совсем незаметно)</p>
+      <div class="chiprow on-card"><span class="chip chip_c">Ждём подтверждения представителя</span><span class="swatch-label">на карточке → 4.77</span></div>
+      <div class="chiprow on-surface"><span class="chip chip_c">Ждём подтверждения представителя</span><span class="swatch-label">на сером → 4.52</span></div>
+    </div>
+    <div class="vs">
+      <p class="cap">Где живёт</p>
+      <p class="small" style="margin:4px 0">Чипы статусов заявок и точек в кабинетах (тот же токен золотого текста — «премиум»-подписи). Меняется только светлая тема.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ================= 3. КОПИРАЙТ ================= -->
+<section>
+  <h2><span class="sec-label">Решение 3 · копирайт «Вы» → «ты»</span>Омолаживаем без фамильярности</h2>
+  <p>По разбору — около 17 формальных обращений и слова из запрещённого списка («магазин», «каталог»).
+  Ваш ориентир принял так: <b>«твой / твоя / твои / тебе / тебя» — да</b>; прямое «Ты …» в начале фразы — не пишем; где местоимение можно убрать без потери смысла — убираем.
+  Вот реальные строки из приложения и что с ними станет:</p>
+
+  <table>
+    <thead><tr><th>Сейчас</th><th>Предлагаю</th><th>Приём</th></tr></thead>
+    <tbody>
+      <tr><td>Введите ваш номер телефона</td><td>Введите номер телефона</td><td>местоимение убрано</td></tr>
+      <tr><td>Ваш заказ</td><td>Твой заказ</td><td>«твой» ровно по вашему правилу</td></tr>
+      <tr><td>Ваша точка активна!</td><td>Точка активна!</td><td>восклицание остаётся, канцелярит уходит</td></tr>
+      <tr><td>Ваша точка на витрине</td><td>Точка на витрине</td><td>чище и короче</td></tr>
+      <tr><td>Вас пригласил представитель · код AA2BTK</td><td>Тебя пригласил представитель · код AA2BTK</td><td>«тебя» — мягкая форма</td></tr>
+      <tr><td>Вам пока не назначено ни одной точки — попросите владельца выдать доступ.</td><td>Пока не назначено ни одной точки — попросите владельца выдать доступ.</td><td>без «Вам»</td></tr>
+      <tr><td>Ваша доля — 40% пула LOVII…</td><td>Твоя доля — 40% пула LOVII…</td><td>«твоя»</td></tr>
+    </tbody>
+  </table>
+  <p class="small muted">Ещё правила прохода: «магазин / филиал / заведение» → «точка»; «каталог» → «товары»; кнопки — глаголом («Проверить», «Оплатить»), без «Вы» и без «пожалуйста».</p>
+  <p><b>Решение:</b> принимаю эти правила как стандарт текстов и отдельным проходом обновляю ~17 мест? <span class="ask">да / доработать</span></p>
+</section>
+
+<hr class="rule">
+
+<!-- ================= 4. ШАПКА ================= -->
+<section>
+  <h2><span class="sec-label">Решение 4 · общая шапка</span>Три мелких стандарта для всех экранов</h2>
+
+  <!-- 4.1 -->
+  <h3>4.1 · Кнопка «назад» в подшапке</h3>
+  <p>Сейчас 40×40 — на 4 px меньше нормы касания 44. Вижу три пути; рекомендую <b>B</b>: визуально ничего не меняется, а зона касания становится нормативной — как уже сделано у иконок основной шапки.</p>
+  <div class="grid3">
+    <div class="vs">
+      <p class="cap"><b>A · как сейчас</b> — 40×40, зона = размеру</p>
+      <div class="phone">
+        <div class="sub">
+          <span class="backbtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="title">Перевод</span>
+        </div>
+        <div class="body">…</div>
+      </div>
+      <p class="meta">норма касания 44 — недобор 4</p>
+    </div>
+    <div class="vs">
+      <p class="cap"><b>B · 40 + невидимая зона 44</b> <span class="rec">рекомендую</span></p>
+      <div class="phone">
+        <div class="sub">
+          <span class="backbtn show-zone"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="zone"></span></span>
+          <span class="title">Перевод</span>
+        </div>
+        <div class="body">пунктир — зона касания</div>
+      </div>
+      <p class="meta">визуал не меняется · зона 44 ✓</p>
+    </div>
+    <div class="vs">
+      <p class="cap"><b>C · видимая 44×44</b></p>
+      <div class="phone">
+        <div class="sub w44">
+          <span class="backbtn b44"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="title">Перевод</span>
+        </div>
+        <div class="body">кнопка заметно крупнее</div>
+      </div>
+      <p class="meta">норма ✓ · визуально тяжелее</p>
+    </div>
+  </div>
+
+  <!-- 4.2 -->
+  <h3>4.2 · Адрес в шапке — текст обрезается</h3>
+  <p>Живой замер со стенда: пилюле адреса достаётся <b>109 px</b>, хотя рядом логотип занимает <b>153 px</b>. Итог — «Невский про…», а в пустом состоянии «Выбрат…».
+  Вот как это выглядит сейчас и что дают варианты; рекомендую <b>B</b> — логотип на телефонах компактнее, как в каталоге демо-витрины.</p>
+
+  <div class="grid2">
+    <div class="vs">
+      <p class="cap"><b>A · как сейчас</b> — лого 153 px, пилюля 109 px</p>
+      <div class="phone">
+        <div class="mh">
+          <img class="logo" src="assets/logo-light.svg" alt="Лови" style="width:152.7px;height:32px">
+          <div class="actions">
+            <span class="pill" style="width:109.3px"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 14s5-4.2 5-8a5 5 0 1 0-10 0c0 3.8 5 8 5 8z" stroke="#f64a8a" stroke-width="1.5"/><circle cx="8" cy="6" r="1.8" stroke="#f64a8a" stroke-width="1.5"/></svg><span class="lbl">Невский проспект</span></span>
+            <span class="icon36"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" stroke="#1a1a1a" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+            <span class="profile44"><span class="avatar"></span></span>
+          </div>
+        </div>
+        <div class="body">«Невский про…» · пусто → «Выбрат…»</div>
+      </div>
+      <p class="meta">пилюля <span class="num bad">109 px</span> из 358 доступных</p>
+    </div>
+    <div class="vs">
+      <p class="cap"><b>B · лого по демо на узких</b> — 92 px <span class="rec">рекомендую</span></p>
+      <div class="phone">
+        <div class="mh">
+          <img class="logo" src="assets/logo-light.svg" alt="Лови" style="width:92px;height:19.3px">
+          <div class="actions">
+            <span class="pill" style="width:170px"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 14s5-4.2 5-8a5 5 0 1 0-10 0c0 3.8 5 8 5 8z" stroke="#f64a8a" stroke-width="1.5"/><circle cx="8" cy="6" r="1.8" stroke="#f64a8a" stroke-width="1.5"/></svg><span class="lbl">Невский проспект</span></span>
+            <span class="icon36"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" stroke="#1a1a1a" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+            <span class="profile44"><span class="avatar"></span></span>
+          </div>
+        </div>
+        <div class="body">«Невский проспект» целиком · «Выбрать адрес» целиком</div>
+      </div>
+      <p class="meta">пилюля 170 px · улицы до 128 px — целиком</p>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="vs">
+      <p class="cap"><b>C · B + кнопка темы уходит в настройки на телефонах</b></p>
+      <div class="phone">
+        <div class="mh">
+          <img class="logo" src="assets/logo-light.svg" alt="Лови" style="width:92px;height:19.3px">
+          <div class="actions">
+            <span class="pill" style="width:214px"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 14s5-4.2 5-8a5 5 0 1 0-10 0c0 3.8 5 8 5 8z" stroke="#f64a8a" stroke-width="1.5"/><circle cx="8" cy="6" r="1.8" stroke="#f64a8a" stroke-width="1.5"/></svg><span class="lbl">Лиговский проспект</span></span>
+            <span class="profile44"><span class="avatar"></span></span>
+          </div>
+        </div>
+        <div class="body">влезают длинные улицы, вплоть до «Каменноостровский»</div>
+      </div>
+      <p class="meta">пилюля 214 px · тема переключается в настройках</p>
+    </div>
+    <div class="vs">
+      <p class="cap">Живой кадр: пилюля «как сейчас»</p>
+      <img src="assets/pill-clipped-light.png" alt="Пилюля адреса — обрезка" style="width:219px">
+      <p class="meta">замер: текст 128 px не помещается в 67 px<br>канон демо: лого на узких 118/92 px — берём как ориентир</p>
+    </div>
+  </div>
+  <p><b>Решение:</b> какой вариант? <span class="ask">A / B / C</span> <span class="muted small">(можно «B, но лого оставить крупнее» — обсудим словами)</span></p>
+
+  <!-- 4.3 -->
+  <h3>4.3 · Поле ввода (размер m — весь продукт)</h3>
+  <p>Поля сейчас 42 px по высоте — на 2 px ниже нормы касания 44. Поле широкое, риск для пальца минимальный, но раз наводим стандарт — предлагаю довести. Ниже как выглядит разница.</p>
+  <div class="grid2">
+    <div class="vs">
+      <p class="cap"><b>A · как сейчас</b> — 42 px</p>
+      <div class="field"><span class="flabel">Телефон, карта или промокод</span><span class="farea"><span class="ftext">+7 900 000-00-00</span></span></div>
+      <p class="meta">дельта −2 к норме · всё приложение</p>
+    </div>
+    <div class="vs">
+      <p class="cap"><b>Б · довести до 44</b> <span class="rec">рекомендую</span></p>
+      <div class="field h44"><span class="flabel">Телефон, карта или промокод</span><span class="farea"><span class="ftext">+7 900 000-00-00</span></span></div>
+      <p class="meta">+2 px ко всем полям размера m · норма ✓</p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ================= ЧТО СМОТРЕТЬ ================= -->
+<section>
+  <h2><span class="sec-label">Приложение · после выкладки готовых фиксов</span>Что смотреть, когда скажете «пуш»</h2>
+  <p>В ветке лежат четыре правки из разбора 27-го. Вот куда смотреть на стенде после выкладки — каждая с картинкой «после»:</p>
+  <table>
+    <thead><tr><th>Экран</th><th>Что проверить</th></tr></thead>
+    <tbody>
+      <tr><td>Оплата МСП (отказ)</td><td>Нет суммы, кода и блока «Как оплатить»; видна причина и поддержка; кнопка «Проверить статус» — 44 px.</td></tr>
+      <tr><td>Кабинеты, тёмная тема</td><td>Розовые ссылки пустых состояний читаются (5.01), светлая тема — не изменилась.</td></tr>
+      <tr><td>МСП → Товары</td><td>Табы «Добавить / Категория» со стилями, тап-зона 44; блок категории не «голый».</td></tr>
+      <tr><td>Статусы заявки</td><td>Везде «Инсталляционный платёж» (8 мест, без опечатки).</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2">
+    <div class="vs"><p class="cap">Оплата МСП — тёмная тема, после правок</p><img class="btn-shot" src="assets/check-payment-dark.png" alt="Оплата МСП после правок"></div>
+    <div class="vs"><p class="cap">Очередь заявок представителя — после правок</p><img class="btn-shot" src="assets/check-approvals-light.png" alt="Очередь заявок после правок"></div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ================= ИМЕНА ================= -->
+<section>
+  <h2><span class="sec-label">Словарь для разговоров · стартовый список</span>Имена компонентов, чтобы вы могли на них ссылаться</h2>
+  <p>Начну с основ и соберу полный каталог отдельным проходом — с картинкой и каноном по каждому. Пока — десять имён, которые мы уже используем в работе:</p>
+  <table>
+    <thead><tr><th>Имя</th><th>Что это</th><th>Где видно</th></tr></thead>
+    <tbody>
+      <tr><td><b>Каскад</b></td><td>Карточка-переключатель: имя + значение + шеврон, тап открывает шит выбора</td><td>Переводы («Откуда»), кабинет МСП</td></tr>
+      <tr><td><b>Шит</b></td><td>Нижняя панель выбора со списком и маркером «выбран»</td><td>Выбор счёта, адреса, каналов</td></tr>
+      <tr><td><b>Пилюля</b></td><td>Капсула в шапке (адрес) и мелкие капсулы-действия</td><td>Шапка всех экранов</td></tr>
+      <tr><td><b>Чип статуса</b></td><td>Метка состояния заявки/точки в тонах (тиффани/золото/розовый)</td><td>Кабинеты, списки</td></tr>
+      <tr><td><b>Плитка-акцент</b></td><td>Квадратик с иконкой на мягкой заливке (PAY — розовая, бизнес — тиффани)</td><td>Переводы, шиты источников</td></tr>
+      <tr><td><b>Карточка</b></td><td>Белый блок с бордером и радиусом 16 — база кабинетов</td><td>Везде</td></tr>
+      <tr><td><b>Тост</b></td><td>Всплывающее уведомление, шесть тонов</td><td>По всему приложению</td></tr>
+      <tr><td><b>Поле</b></td><td>Ввод с подписью, видимым бордером и сообщением об ошибке</td><td>Формы</td></tr>
+      <tr><td><b>Кнопка</b></td><td>Пилюля-действие: брендовая (градиент), контурная, «тихая»</td><td>Везде</td></tr>
+      <tr><td><b>Сегмент</b></td><td>Переключатель из двух-трёх вариантов внутри экрана</td><td>Кошелёк, каталоги</td></tr>
+    </tbody>
+  </table>
+  <div class="note">
+    <p class="t">Что уже решено и ждёт только команды</p>
+    <p class="small">Выкладка готовых фиксов (оплата, контраст, каталог, опечатка) — по вашему «пуш». Скрины и чек-лист — выше.</p>
+  </div>
+</section>
+
+<footer>
+  <p>Снято и собрано 28 сентября 2026 · живые замеры со стенда :5175 (computed styles), контрасты — по WCAG 2.1.</p>
+  <p>Контекст: направление «Дизайн-система» — следующие шаги: экран входа и OTP (канонический макет — отдельным документом).</p>
+</footer>
+
+</div>
+</body>
+</html>
