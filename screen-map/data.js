@@ -1,6 +1,6 @@
-/* Сгенерировано _tools/gen-screen-map.mjs 2026-11-16T11:38:47.173Z — руками не править */
+/* Сгенерировано _tools/gen-screen-map.mjs 2026-11-16T13:34:22.548Z — руками не править */
 window.SCREEN_MAP_DATA = {
- "generated_at": "2026-11-16T11:38:47.173Z",
+ "generated_at": "2026-11-16T13:34:22.548Z",
  "manifest_generated_at": "2026-11-16T00:00:00Z",
  "shoot_date": "2026-11-16",
  "stats": {
@@ -83,7 +83,7 @@ window.SCREEN_MAP_DATA = {
    "priority": 1,
    "screenId": "APP-P-001-home",
    "title": "Главный экран (витрина)",
-   "version": "v2-2026-11-16",
+   "version": "v3-2026-11-16",
    "shots": {
     "mobile": "shots/APP-P-001-home-mobile.png",
     "fold": "shots/APP-P-001-home-fold.png",
@@ -93,12 +93,12 @@ window.SCREEN_MAP_DATA = {
    "meta": {
     "id": "APP-P-001-home",
     "title": "APP-P-001-home",
-    "version": "v2-2026-11-16",
+    "version": "v3-2026-11-16",
     "date": "2026-11-16",
     "stand": "app-staging.lovii.ru",
     "app_slice": "staging (текущий на 2026-11-16)",
-    "profile": "+79009997009",
-    "tool": "Playwright chrome, fullPage @2x: mobile 390×844, fold 717×844, tablet 1024×768, web 1440×900",
+    "profile": "+79000000011 (ACT-01 покупатель; адрес доставки ул. Белы Куна, 6 — в зоне доставки точки «Пекарь Белы Куна»)",
+    "tool": "вьюпорт на всю высоту контента (анти-артефакт sticky таб-бара), fullPage не используется",
     "route": "/",
     "final_url": "https://app-staging.lovii.ru/",
     "states": {
@@ -108,7 +108,7 @@ window.SCREEN_MAP_DATA = {
      "tablet.png": "1024×768",
      "web.png": "1440×900"
     },
-    "notes": "полный пересъём baseline 02.10 → 16.11"
+    "notes": "тур 16.11: в промо-ленте главной карточка акции МСП «Кэшбэк +10% на чек от 500 ₽» (rule 15, Пекарь Белы Куна) — связка «МСП включил акцию → покупатель видит на главной». Гео-скоуп честный: адрес внутри зоны доставки точки (радиус 900 м)"
    }
   },
   {
@@ -1891,7 +1891,7 @@ window.SCREEN_MAP_DATA = {
    "priority": 2,
    "screenId": "APP-P-049-msp-loyalty",
    "title": "МСП — Промо (лояльность)",
-   "version": "v4-2026-11-16",
+   "version": "v5-2026-11-16",
    "shots": {
     "mobile": "shots/APP-P-049-msp-loyalty-mobile.png",
     "fold": "shots/APP-P-049-msp-loyalty-fold.png",
@@ -1901,11 +1901,11 @@ window.SCREEN_MAP_DATA = {
    "meta": {
     "id": "APP-P-049-msp-loyalty",
     "title": "APP-P-049-msp-loyalty",
-    "version": "v4-2026-11-16",
+    "version": "v5-2026-11-16",
     "date": "2026-11-16",
     "stand": "app-staging.lovii.ru",
     "app_slice": "staging (текущий на 2026-11-16)",
-    "profile": "+79119287478 (user 51)",
+    "profile": "+79009990006 (Пекарь Белы Куна, MSP-owner)",
     "tool": "вьюпорт на всю высоту контента (анти-артефакт sticky), fullPage не используется",
     "route": "/cabinet/msp/loyalty",
     "final_url": "https://app-staging.lovii.ru/cabinet/msp/loyalty",
@@ -1916,7 +1916,7 @@ window.SCREEN_MAP_DATA = {
      "tablet.png": "1024×768",
      "web.png": "1440×900"
     },
-    "notes": "вторая волна пересъёмки 16.11: честная подготовка данных"
+    "notes": "тур 16.11: акция rule 15 «Кэшбэк +10% на чек от 500 ₽» включена тумблером и выведена на витрину (кабинет: активные 1, на витрине 1). Правило создано контрактом мастера «Промо» (POST /loyalty/rules, threshold, branch 2)"
    }
   },
   {
