@@ -19,8 +19,12 @@ body {
   max-width: 1280px; margin: 0 auto;
   display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between;
 }
-.sm-head h1 { margin: 0 0 4px; font-size: 28px; font-weight: 800; letter-spacing: -0.02em; }
-.sm-brand { opacity: 0.85; font-weight: 700; }
+.sm-head h1 { margin: 0 0 4px; font-size: 28px; font-weight: 800; letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.sm-brand { display: inline-flex; align-items: center; }
+/* Шапка screen-map всегда на розовом градиенте — используем каноничный
+   вариант для тёмного фона (белый вордмарк) независимо от темы */
+.sm-brand-logo { display: block; height: 22px; width: auto; }
+.sm-brand-logo--light { display: none; }
 .sm-sub { margin: 0; font-size: 14px; opacity: 0.92; }
 .sm-head-actions { display: flex; gap: 10px; }
 

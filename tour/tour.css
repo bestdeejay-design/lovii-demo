@@ -68,7 +68,12 @@ button { font-family: inherit; border: 0; background: none; padding: 0; cursor: 
   box-shadow: 0 8px 30px rgba(0,0,0,.12);
 }
 .hero__mark { width: 26px; height: 26px; }
-.hero__word { font-weight: 900; letter-spacing: .22em; font-size: 14px; color: var(--lv-ink); }
+.hero__word { display: inline-flex; align-items: center; }
+.tour-logo { display: block; height: 16px; width: auto; }
+.stats-bar__word { display: inline-flex; align-items: center; }
+.stats-bar__brand .stats-bar__word .tour-logo { width: auto; height: 14px; }
+[data-theme="dark"] .tour-logo--light { display: none; }
+[data-theme="light"] .tour-logo--dark { display: none; }
 .hero__title {
   margin: 0 0 20px; font-weight: 900; letter-spacing: -.02em;
   font-size: clamp(40px, 9vw, 76px); line-height: 1.04;
