@@ -317,3 +317,35 @@ button { font-family: inherit; border: 0; background: none; padding: 0; cursor: 
 }
 .lb-close:hover { background: color-mix(in srgb, var(--lv-pink) 75%, transparent); }
 body.lb-open { overflow: hidden; }
+
+/* ---------- лайтбокс на мобильных (<680px): кадр в полную ширину,
+   скролл по вертикали, свайп влево/вправо листает экраны ---------- */
+@media (max-width: 679px) {
+  .lightbox {
+    flex-direction: column; align-items: stretch; justify-content: flex-start;
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
+  }
+  .lightbox__stage { max-width: 100%; padding: 52px 0 0; gap: 0; }
+  .lightbox__frame {
+    width: 100%; flex: none; height: auto; border-radius: 0; overflow: visible;
+    touch-action: pan-y;
+  }
+  .lightbox__frame img {
+    width: 100%; height: auto; max-width: 100%;
+    border-radius: 0; box-shadow: none;
+  }
+  .lb-spinner { position: fixed; top: 50%; }
+  /* стрелки не нужны: листание свайпом */
+  .lb-arrow { display: none; }
+  /* подпись и чипы — под кадром, липкая полоса снизу: видна без прокрутки */
+  .lightbox__caption {
+    position: sticky; bottom: 0; z-index: 2; max-width: 100%;
+    background: rgba(10, 7, 10, .86);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    padding: 10px 16px calc(12px + env(safe-area-inset-bottom));
+  }
+  .lightbox__meta b { font-size: 15px; }
+  .lightbox__meta p { font-size: 12.5px; }
+  .lb-vps { display: flex; gap: 8px; flex-wrap: wrap; width: 100%; }
+  .lb-vp { height: 32px; padding: 0 12px; font-size: 11.5px; }
+}

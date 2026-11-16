@@ -200,7 +200,11 @@
     if (dt > 800) return;
     var adx = Math.abs(dx), ady = Math.abs(dy);
     if (adx > 48 && adx > ady * 1.4) nav(dx < 0 ? 1 : -1);
-    else if (ady > 48 && ady > adx * 1.4) setViewport(vpIndex + (dy < 0 ? 1 : -1));
+    /* вертикальный свайп = смена устройства только на десктопе;
+       на мобильных (<680px) вертикальный свайп скроллит длинный кадр */
+    else if (ady > 48 && ady > adx * 1.4 && window.matchMedia('(min-width: 680px)').matches) {
+      setViewport(vpIndex + (dy < 0 ? 1 : -1));
+    }
   }, { passive: true });
 
   /* лёгкий drag мышью на десктопе — по желанию, стрелки и клавиатура основные */
