@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Лови — Карта экранов</title>
+  <meta name="description" content="Каталог всех экранов платформы LOVII: маршруты, роли, статусы, скриншоты четырёх вьюпортов.">
+  <script>
+    /* Тема до отрисовки: явный выбор → системная (как в demo index.html). Без вспышки */
+    (function () {
+      try {
+        var t = localStorage.getItem('lovii_theme');
+        if (t !== 'dark' && t !== 'light') {
+          t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.dataset.theme = t;
+      } catch (e) { document.documentElement.dataset.theme = 'light'; }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Токены — снапшот lovii-design (тот же, что у демо, ../ на Pages = /assets/) -->
+  <link rel="stylesheet" href="../assets/lovii-tokens.css?v=27">
+  <link rel="stylesheet" href="screen-map.css?v=1">
+</head>
+<body>
+  <header class="sm-head">
+    <div class="sm-head-in">
+      <div>
+        <h1>Карта экранов <span class="sm-brand">Лови</span></h1>
+        <p class="sm-sub" id="sm-subtitle">Загрузка…</p>
+      </div>
+      <div class="sm-head-actions">
+        <button class="sm-btn" id="theme-toggle" aria-label="Сменить тему">🌙</button>
+        <a class="sm-btn sm-btn-primary" href="../index.html">Открыть демо ↗</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="sm-filters" id="sm-filters">
+    <div class="sm-filters-in">
+      <input type="search" id="f-search" class="sm-search" placeholder="Поиск по названию, пути или компоненту…" autocomplete="off">
+      <div class="sm-chiprow" id="f-role"></div>
+      <div class="sm-chiprow" id="f-module"></div>
+      <div class="sm-chiprow" id="f-status"></div>
+      <p class="sm-count" id="sm-count"></p>
+    </div>
+  </section>
+
+  <main class="sm-grid" id="sm-grid"></main>
+
+  <section class="sm-backlog">
+    <h2>Бэклог и известные особенности</h2>
+    <div class="sm-backlog-cols">
+      <div class="sm-backlog-card">
+        <h3>Модальные экраны (9)</h3>
+        <ul id="sm-modals"><li>Загрузка…</li></ul>
+      </div>
+      <div class="sm-backlog-card">
+        <h3>Известное</h3>
+        <ul id="sm-known"></ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="sm-foot">
+    <p>Собрано генератором <code>_tools/gen-screen-map.mjs</code> · источник истины — <code>screen-map-manifest.json</code> и каталог <code>lovii_docs/screens/</code></p>
+  </footer>
+
+  <!-- Лайтбокс -->
+  <div class="sm-lightbox" id="sm-lightbox" hidden role="dialog" aria-modal="true">
+    <div class="sm-lb-top">
+      <div class="sm-lb-title" id="lb-title"></div>
+      <button class="sm-btn" id="lb-close" aria-label="Закрыть">✕</button>
+    </div>
+    <div class="sm-lb-tabs" id="lb-tabs"></div>
+    <div class="sm-lb-body">
+      <button class="sm-lb-nav" id="lb-prev" aria-label="Предыдущий вьюпорт">‹</button>
+      <img id="lb-img" alt="">
+      <button class="sm-lb-nav" id="lb-next" aria-label="Следующий вьюпорт">›</button>
+    </div>
+    <p class="sm-lb-meta" id="lb-meta"></p>
+  </div>
+
+  <script src="data.js?v=1"></script>
+  <script src="screen-map.js?v=1"></script>
+</body>
+</html>

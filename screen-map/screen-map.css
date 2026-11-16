@@ -1,0 +1,133 @@
+/* Карта экранов LOVII — токены из ../assets/lovii-tokens.css (--lv-*) */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: var(--lv-bg, #faf7f2);
+  color: var(--lv-ink);
+  line-height: 1.5;
+}
+
+/* Шапка */
+.sm-head {
+  background: linear-gradient(120deg, var(--lv-pink) 0%, var(--lv-pink-dark) 100%);
+  color: #fff;
+  padding: 28px 16px 22px;
+}
+.sm-head-in {
+  max-width: 1280px; margin: 0 auto;
+  display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between;
+}
+.sm-head h1 { margin: 0 0 4px; font-size: 28px; font-weight: 800; letter-spacing: -0.02em; }
+.sm-brand { opacity: 0.85; font-weight: 700; }
+.sm-sub { margin: 0; font-size: 14px; opacity: 0.92; }
+.sm-head-actions { display: flex; gap: 10px; }
+
+/* Кнопки */
+.sm-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.14); color: #fff;
+  border-radius: 999px; padding: 9px 16px;
+  font: inherit; font-weight: 700; font-size: 14px;
+  cursor: pointer; text-decoration: none; transition: background 0.15s;
+}
+.sm-btn:hover { background: rgba(255,255,255,0.28); }
+.sm-btn-primary { background: #fff; color: var(--lv-pink-dark); border-color: #fff; }
+.sm-btn-primary:hover { background: var(--lv-soft-pink, #fde8ef); }
+
+/* Фильтры */
+.sm-filters { background: var(--lv-card); border-bottom: 1px solid var(--lv-line); padding: 16px; position: sticky; top: 0; z-index: 40; }
+.sm-filters-in { max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+.sm-search {
+  width: 100%; padding: 11px 16px;
+  border: 1.5px solid var(--lv-line-strong); border-radius: 999px;
+  background: var(--lv-surface); color: var(--lv-ink);
+  font: inherit; font-size: 15px; outline: none;
+}
+.sm-search:focus { border-color: var(--lv-pink); }
+.sm-chiprow { display: flex; flex-wrap: wrap; gap: 8px; }
+.sm-chiprow-label { font-size: 12px; color: var(--lv-dim); align-self: center; min-width: 64px; }
+.sm-chip {
+  border: 1.5px solid var(--lv-line-strong); background: transparent; color: var(--lv-ink);
+  border-radius: 999px; padding: 5px 12px; font: inherit; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.12s;
+}
+.sm-chip:hover { border-color: var(--lv-pink); color: var(--lv-pink); }
+.sm-chip.on { background: var(--lv-pink); border-color: var(--lv-pink); color: #fff; }
+.sm-count { margin: 2px 0 0; font-size: 13px; color: var(--lv-dim); }
+
+/* Сетка карточек */
+.sm-grid {
+  max-width: 1280px; margin: 24px auto; padding: 0 16px;
+  display: grid; grid-template-columns: 1fr; gap: 20px;
+}
+@media (min-width: 700px) { .sm-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1080px) { .sm-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.sm-card {
+  min-width: 0;
+  background: var(--lv-card); border: 1px solid var(--lv-line);
+  border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 10px;
+}
+.sm-card-top { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+.sm-card h3 { margin: 0; font-size: 16px; font-weight: 700; }
+.sm-route { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--lv-dim); word-break: break-all; }
+.sm-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.sm-tag { font-size: 11.5px; font-weight: 700; border-radius: 999px; padding: 3px 10px; background: var(--lv-surface); color: var(--lv-dim); }
+.sm-tag-role { background: var(--lv-soft-pink, #fde8ef); color: var(--lv-pink-dark); }
+
+.sm-badge { border-radius: 999px; padding: 3px 10px; font-size: 12px; font-weight: 800; white-space: nowrap; }
+.sm-badge-ok { background: rgba(10,186,181,0.14); color: var(--lv-tiffany-text, #07726f); }
+.sm-badge-stub { background: rgba(246,74,138,0.12); color: var(--lv-pink-dark); }
+.sm-badge-mock { background: rgba(255,165,0,0.16); color: #9a6a00; }
+
+/* Лента скринов */
+.sm-shots { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; scroll-snap-type: x mandatory; }
+.sm-shot { flex: 0 0 auto; width: 120px; scroll-snap-align: start; border: 1px solid var(--lv-line); border-radius: 12px; overflow: hidden; background: var(--lv-surface); cursor: zoom-in; padding: 0; }
+.sm-shot img { display: block; width: 100%; height: auto; }
+.sm-shot-label { display: block; font-size: 11px; font-weight: 700; color: var(--lv-dim); text-align: center; padding: 4px 0; }
+.sm-shot:hover { border-color: var(--lv-pink); }
+
+.sm-card-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: auto; }
+.sm-comp { font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: var(--lv-dim); word-break: break-all; }
+.sm-link { color: var(--lv-pink); font-weight: 700; font-size: 13px; text-decoration: none; white-space: nowrap; }
+.sm-link:hover { text-decoration: underline; }
+
+/* Бэклог */
+.sm-backlog { max-width: 1280px; margin: 32px auto 16px; padding: 0 16px; }
+.sm-backlog h2 { font-size: 22px; font-weight: 800; margin: 0 0 14px; }
+.sm-backlog-cols { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 900px) { .sm-backlog-cols { grid-template-columns: 1fr 1fr; } }
+.sm-backlog-card { background: var(--lv-card); border: 1px solid var(--lv-line); border-radius: 20px; padding: 18px; }
+.sm-backlog-card h3 { margin: 0 0 10px; font-size: 15px; }
+.sm-backlog-card ul { margin: 0; padding-left: 18px; font-size: 13.5px; }
+.sm-backlog-card li { margin-bottom: 8px; }
+.sm-backlog-card code { font-size: 12px; }
+
+.sm-foot { max-width: 1280px; margin: 0 auto; padding: 24px 16px 40px; color: var(--lv-dim); font-size: 12.5px; }
+.sm-foot code { font-size: 11.5px; }
+
+/* Лайтбокс */
+.sm-lightbox {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(20,12,18,0.94);
+  display: flex; flex-direction: column; padding: 16px; gap: 10px;
+}
+.sm-lightbox[hidden] { display: none; }
+.sm-lb-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: #fff; }
+.sm-lb-title { font-weight: 800; font-size: 16px; }
+.sm-lb-tabs { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.sm-lb-tab { border: 1.5px solid rgba(255,255,255,0.4); background: transparent; color: #fff; border-radius: 999px; padding: 6px 16px; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+.sm-lb-tab.on { background: var(--lv-pink); border-color: var(--lv-pink); }
+.sm-lb-body { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 0; }
+.sm-lb-body img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 10px; box-shadow: 0 12px 60px rgba(0,0,0,0.5); }
+.sm-lb-nav { border: 0; background: rgba(255,255,255,0.12); color: #fff; font-size: 32px; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; flex: 0 0 auto; }
+.sm-lb-nav:hover { background: rgba(255,255,255,0.25); }
+.sm-lb-meta { text-align: center; color: rgba(255,255,255,0.75); font-size: 12.5px; margin: 0; }
+
+@media (max-width: 480px) {
+  .sm-head h1 { font-size: 22px; }
+  .sm-shot { width: 104px; }
+}
