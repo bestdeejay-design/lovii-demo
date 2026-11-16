@@ -67,9 +67,9 @@ button { font-family: inherit; border: 0; background: none; padding: 0; cursor: 
   border: 1px solid color-mix(in srgb, var(--lv-pink) 25%, transparent);
   box-shadow: 0 8px 30px rgba(0,0,0,.12);
 }
-.hero__mark { width: 26px; height: 26px; }
 .hero__word { display: inline-flex; align-items: center; }
-.tour-logo { display: block; height: 16px; width: auto; }
+/* один канонический локап — вордмарк, как в шапке app (AppHeader.vue) */
+.tour-logo { display: block; height: 18px; width: auto; }
 .stats-bar__word { display: inline-flex; align-items: center; }
 .stats-bar__brand .stats-bar__word .tour-logo { width: auto; height: 14px; }
 [data-theme="dark"] .tour-logo--light { display: none; }
