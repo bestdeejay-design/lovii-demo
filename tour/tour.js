@@ -57,6 +57,9 @@
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+  /* Счётчики досчитываются сразу при загрузке: панель может стать видимой
+     на любом скролле — нули в панели недопустимы. */
+  if (!counted) { counted = true; runCounters(); }
 
   function runCounters() {
     document.querySelectorAll('[data-count]').forEach(function (el) {

@@ -41,7 +41,7 @@ const VIEWPORTS = [
 const CHAPTERS = [
   {
     id: 'buyer', title: 'Покупателю',
-    lead: 'От «что рядом?» до оплаченного заказа — один путь, без лишних экранов. Витрина района, корзины по точкам, оплата, баллы и переводы — уже работает.',
+    lead: 'От «что рядом?» до оформленного заказа — один путь, без лишних экранов. Витрина района, корзины по точкам, заказы, баллы и переводы. Эквайринг — интеграция: на демо платёж показывает банк-мок.',
     ids: ['APP-P-001-home','APP-P-002-popular','APP-P-003-stores','APP-P-004-store','APP-P-005-product',
           'APP-P-006-cart','APP-P-007-cart-order','APP-P-057-payment-result','APP-P-008-profile',
           'APP-P-009-wallet','APP-P-010-transfer','APP-P-013-profile-edit','APP-P-014-email-verify',
@@ -88,8 +88,14 @@ for (const r of manifest.routes) {
 function findShotsDir(cid) {
   const dir = path.join(SCREENS, cid);
   if (!fs.existsSync(dir)) return null;
-  const versions = fs.readdirSync(dir).filter((n) => /^v\d+-\d{4}-\d{2}-\d{2}$/.test(n)).sort();
-  const exact = versions.find((v) => v.endsWith(PREFERRED_DATE));
+  const versions = fs.readdirSync(dir).filter((n) => /^v\d+-\d{4}-\d{2}-\d{2}$/.test(n))
+    .sort((a, b) => {
+      const [na, da] = a.slice(1).split('-');
+      const [nb, db] = b.slice(1).split('-');
+      return da.localeCompare(db) || (Number(na) - Number(nb));
+    });
+  // Самая свежая дата; среди версий одной даты — наивысший vN
+  const exact = [...versions].reverse().find((v) => v.endsWith(PREFERRED_DATE));
   const vdir = exact || versions[versions.length - 1];
   return vdir ? path.join(dir, vdir) : null;
 }
