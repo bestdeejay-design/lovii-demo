@@ -68,10 +68,14 @@ button { font-family: inherit; border: 0; background: none; padding: 0; cursor: 
   box-shadow: 0 8px 30px rgba(0,0,0,.12);
 }
 .hero__word { display: inline-flex; align-items: center; }
-/* один канонический локап — вордмарк, как в шапке app (AppHeader.vue) */
-.tour-logo { display: block; height: 18px; width: auto; }
+/* один канонический локап — вордмарк, как в шапке app (AppHeader.vue):
+   высота 32px на десктопе, 28px на ≤360px */
+.tour-logo { display: block; height: 32px; width: auto; }
 .stats-bar__word { display: inline-flex; align-items: center; }
-.stats-bar__brand .stats-bar__word .tour-logo { width: auto; height: 14px; }
+.stats-bar__brand .stats-bar__word .tour-logo { width: auto; height: 32px; }
+@media (max-width: 360px) {
+  .tour-logo, .stats-bar__brand .stats-bar__word .tour-logo { height: 28px; }
+}
 [data-theme="dark"] .tour-logo--light { display: none; }
 [data-theme="light"] .tour-logo--dark { display: none; }
 .hero__title {
