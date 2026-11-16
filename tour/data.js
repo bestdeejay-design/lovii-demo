@@ -1,10 +1,10 @@
-/* Сгенерировано tour/_tools/gen-tour.mjs — не править руками. 2026-11-16T09:27:08.282Z */
+/* Сгенерировано tour/_tools/gen-tour.mjs — не править руками. 2026-11-16T11:38:47.393Z */
 window.TOUR = {
  "stats": {
   "screens": 59,
   "roles": 4,
   "chapters": 5,
-  "cards": 52
+  "cards": 48
  },
  "chapters": [
   {
@@ -27,7 +27,7 @@ window.TOUR = {
     {
      "id": "APP-P-002-popular",
      "title": "Популярное рядом",
-     "desc": "Лучшие заведения района на одном экране — с расстоянием и минимумом заказа.",
+     "desc": "Лучшие заведения района на одном экране — карточная витрина по выбранному адресу доставки.",
      "shots": {
       "mobile": "shots/APP-P-002-popular-mobile.png",
       "fold": "shots/APP-P-002-popular-fold.png",
@@ -159,7 +159,7 @@ window.TOUR = {
     {
      "id": "APP-P-014-email-verify",
      "title": "Подтверждение e-mail",
-     "desc": "Код из письма — и почта подтверждена для чеков и уведомлений.",
+     "desc": "Код из письма подтверждает почту — она нужна для чеков и уведомлений о заказах.",
      "shots": {
       "mobile": "shots/APP-P-014-email-verify-mobile.png",
       "fold": "shots/APP-P-014-email-verify-fold.png",
@@ -227,18 +227,6 @@ window.TOUR = {
       "web": "shots/APP-P-020-settings-web.png"
      },
      "route": "/settings"
-    },
-    {
-     "id": "APP-P-059-auth-by-binding",
-     "title": "Вход из бота",
-     "desc": "«Войти в приложение» из мессенджера — и вы уже залогинены, без кода.",
-     "shots": {
-      "mobile": "shots/APP-P-059-auth-by-binding-mobile.png",
-      "fold": "shots/APP-P-059-auth-by-binding-fold.png",
-      "tablet": "shots/APP-P-059-auth-by-binding-tablet.png",
-      "web": "shots/APP-P-059-auth-by-binding-web.png"
-     },
-     "route": "/auth/by-binding"
     }
    ]
   },
@@ -248,45 +236,9 @@ window.TOUR = {
    "lead": "Точка подключается за день: заявка с честным таймлайном, кабинет с доской заказов, товары, лояльность, команда и чеки 54-ФЗ. Сотрудник работает в отдельном лёгком кабинете.",
    "items": [
     {
-     "id": "APP-P-021-business-landing",
-     "title": "Лови Бизнес",
-     "desc": "Что даёт подключение точки: условия, тарифы и вход в заявку — витрина для предпринимателя.",
-     "shots": {
-      "mobile": "shots/APP-P-021-business-landing-mobile.png",
-      "fold": "shots/APP-P-021-business-landing-fold.png",
-      "tablet": "shots/APP-P-021-business-landing-tablet.png",
-      "web": "shots/APP-P-021-business-landing-web.png"
-     },
-     "route": "/business"
-    },
-    {
-     "id": "APP-P-022-business-apply",
-     "title": "Заявка на подключение",
-     "desc": "Название, адрес с подсказками, контакты — заявка уходит за пару минут.",
-     "shots": {
-      "mobile": "shots/APP-P-022-business-apply-mobile.png",
-      "fold": "shots/APP-P-022-business-apply-fold.png",
-      "tablet": "shots/APP-P-022-business-apply-tablet.png",
-      "web": "shots/APP-P-022-business-apply-web.png"
-     },
-     "route": "/business/apply"
-    },
-    {
-     "id": "APP-P-023-business-status",
-     "title": "Статус заявки",
-     "desc": "Честный таймлайн из пяти вех: видно, на каком шаге заявка и что дальше.",
-     "shots": {
-      "mobile": "shots/APP-P-023-business-status-mobile.png",
-      "fold": "shots/APP-P-023-business-status-fold.png",
-      "tablet": "shots/APP-P-023-business-status-tablet.png",
-      "web": "shots/APP-P-023-business-status-web.png"
-     },
-     "route": "/business/status"
-    },
-    {
      "id": "APP-P-024-business-result",
      "title": "Точка активна",
-     "desc": "Подключение подтверждено — точка готова принимать заказы.",
+     "desc": "Подключение подтверждено — кабинет точки активен и принимает заказы (кадр: verified-кабинет АКСИОМА на стендовых данных).",
      "shots": {
       "mobile": "shots/APP-P-024-business-result-mobile.png",
       "fold": "shots/APP-P-024-business-result-fold.png",
@@ -310,7 +262,7 @@ window.TOUR = {
     {
      "id": "APP-P-045-msp-payment",
      "title": "Верификация счёта",
-     "desc": "Проверочный рубль подтверждает расчётный счёт — код и инструкция на экране.",
+     "desc": "Счёт на верификацию приходит после заявки на подключение: проверочный рубль подтверждает расчётный счёт.",
      "shots": {
       "mobile": "shots/APP-P-045-msp-payment-mobile.png",
       "fold": "shots/APP-P-045-msp-payment-fold.png",
@@ -485,7 +437,7 @@ window.TOUR = {
     {
      "id": "APP-P-028-rep-approvals",
      "title": "Согласование заявок",
-     "desc": "Подтвердить или вернуть на правку — решение по заявке в два касания.",
+     "desc": "Очередь заявок по промокодам: подтвердить или вернуть на правку. На кадре очередь пуста — заявки появляются по мере подключений.",
      "shots": {
       "mobile": "shots/APP-P-028-rep-approvals-mobile.png",
       "fold": "shots/APP-P-028-rep-approvals-fold.png",

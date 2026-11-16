@@ -1,6 +1,6 @@
-/* Сгенерировано _tools/gen-screen-map.mjs 2026-11-16T07:54:14.747Z — руками не править */
+/* Сгенерировано _tools/gen-screen-map.mjs 2026-11-16T11:38:47.173Z — руками не править */
 window.SCREEN_MAP_DATA = {
- "generated_at": "2026-11-16T07:54:14.747Z",
+ "generated_at": "2026-11-16T11:38:47.173Z",
  "manifest_generated_at": "2026-11-16T00:00:00Z",
  "shoot_date": "2026-11-16",
  "stats": {
@@ -122,7 +122,7 @@ window.SCREEN_MAP_DATA = {
    "priority": 1,
    "screenId": "APP-P-002-popular",
    "title": "Популярное",
-   "version": "v2-2026-11-16",
+   "version": "v3-2026-11-16",
    "shots": {
     "mobile": "shots/APP-P-002-popular-mobile.png",
     "fold": "shots/APP-P-002-popular-fold.png",
@@ -132,11 +132,11 @@ window.SCREEN_MAP_DATA = {
    "meta": {
     "id": "APP-P-002-popular",
     "title": "APP-P-002-popular",
-    "version": "v2-2026-11-16",
+    "version": "v3-2026-11-16",
     "date": "2026-11-16",
     "stand": "app-staging.lovii.ru",
     "app_slice": "staging (текущий на 2026-11-16)",
-    "profile": "+79009997009",
+    "profile": "+79009997009 (адрес «Невский 22» создан через UI и выбран)",
     "tool": "Playwright chrome, fullPage @2x: mobile 390×844, fold 717×844, tablet 1024×768, web 1440×900",
     "route": "/popular",
     "final_url": "https://app-staging.lovii.ru/popular",
@@ -147,7 +147,7 @@ window.SCREEN_MAP_DATA = {
      "tablet.png": "1024×768",
      "web.png": "1440×900"
     },
-    "notes": "полный пересъём baseline 02.10 → 16.11"
+    "notes": "вторая волна 16.11: актёр создал адрес через UI с гео-подсказками и выбрал его — расстояния и минимумы живые"
    }
   },
   {
@@ -161,7 +161,7 @@ window.SCREEN_MAP_DATA = {
    "priority": 1,
    "screenId": "APP-P-003-stores",
    "title": "Поиск заведений и товаров",
-   "version": "v3-2026-11-16",
+   "version": "v4-2026-11-16",
    "shots": {
     "mobile": "shots/APP-P-003-stores-mobile.png",
     "fold": "shots/APP-P-003-stores-fold.png",
@@ -171,11 +171,11 @@ window.SCREEN_MAP_DATA = {
    "meta": {
     "id": "APP-P-003-stores",
     "title": "APP-P-003-stores",
-    "version": "v3-2026-11-16",
+    "version": "v4-2026-11-16",
     "date": "2026-11-16",
     "stand": "app-staging.lovii.ru",
     "app_slice": "staging (текущий на 2026-11-16)",
-    "profile": "+79009997009",
+    "profile": "+79009997009 (адрес выбран)",
     "tool": "Playwright chrome, fullPage @2x: mobile 390×844, fold 717×844, tablet 1024×768, web 1440×900",
     "route": "/stores",
     "final_url": "https://app-staging.lovii.ru/stores",
@@ -186,7 +186,7 @@ window.SCREEN_MAP_DATA = {
      "tablet.png": "1024×768",
      "web.png": "1440×900"
     },
-    "notes": "полный пересъём baseline 02.10 → 16.11"
+    "notes": "вторая волна 16.11: каталог с выбранным адресом — расстояния, фильтры, сортировка"
    }
   },
   {
@@ -278,7 +278,7 @@ window.SCREEN_MAP_DATA = {
    "priority": 1,
    "screenId": "APP-P-006-cart",
    "title": "Корзина",
-   "version": "v2-2026-11-16",
+   "version": "v3-2026-11-16",
    "shots": {
     "mobile": "shots/APP-P-006-cart-mobile.png",
     "fold": "shots/APP-P-006-cart-fold.png",
@@ -288,11 +288,11 @@ window.SCREEN_MAP_DATA = {
    "meta": {
     "id": "APP-P-006-cart",
     "title": "APP-P-006-cart",
-    "version": "v2-2026-11-16",
+    "version": "v3-2026-11-16",
     "date": "2026-11-16",
     "stand": "app-staging.lovii.ru",
     "app_slice": "staging (текущий на 2026-11-16)",
-    "profile": "+79009997009",
+    "profile": "+79009997009 (3 позиции добавлены через UI)",
     "tool": "Playwright chrome, fullPage @2x: mobile 390×844, fold 717×844, tablet 1024×768, web 1440×900",
     "route": "/cart",
     "final_url": "https://app-staging.lovii.ru/cart",
@@ -303,7 +303,7 @@ window.SCREEN_MAP_DATA = {
      "tablet.png": "1024×768",
      "web.png": "1440×900"
     },
-    "notes": "полный пересъём baseline 02.10 → 16.11"
+    "notes": "вторая волна 16.11: 3 позиции добавлены в корзину через UI витрины точки — позиции, итоги, платформенный минимум"
    }
   },
   {
@@ -512,7 +512,7 @@ window.SCREEN_MAP_DATA = {
    "priority": 3,
    "screenId": "APP-P-012-operations-redirect",
    "title": "Редирект «Все операции»",
-   "version": "v2-2026-11-16",
+   "version": "v3-2026-11-16",
    "shots": {
     "mobile": "shots/APP-P-012-operations-redirect-mobile.png",
     "fold": "shots/APP-P-012-operations-redirect-fold.png",
@@ -522,13 +522,13 @@ window.SCREEN_MAP_DATA = {
    "meta": {
     "id": "APP-P-012-operations-redirect",
     "title": "APP-P-012-operations-redirect",
-    "version": "v2-2026-11-16",
+    "version": "v3-2026-11-16",
     "date": "2026-11-16",
     "stand": "app-staging.lovii.ru",
     "app_slice": "staging (текущий на 2026-11-16)",
     "profile": "+79009997009",
-    "tool": "Playwright chrome, fullPage @2x: mobile 390×844, fold 717×844, tablet 1024×768, web 1440×900",
-    "route": "/profile/operations",
+    "tool": "вьюпорт на всю высоту контента (анти-артефакт sticky), fullPage не используется",
+    "route": "/profile/operations -> кошелёк (tab=operations)",
     "final_url": "https://app-staging.lovii.ru/profile/operations",
     "states": {
      "default.png": "копия mobile.png",
@@ -537,7 +537,7 @@ window.SCREEN_MAP_DATA = {
      "tablet.png": "1024×768",
      "web.png": "1440×900"
     },
-    "notes": "redirect /profile/operations -> кошелёк (tab=operations)"
+    "notes": "вторая волна 16.11: анти-артефакт липкой шапки — вьюпорт на всю высоту контента"
    }
   },
   {
@@ -590,7 +590,7 @@ window.SCREEN_MAP_DATA = {
    "priority": 2,
    "screenId": "APP-P-014-email-verify",
    "title": "Подтверждение e-mail",
-   "version": "v2-2026-11-16",
+   "version": "v5-2026-11-16",
    "shots": {
     "mobile": "shots/APP-P-014-email-verify-mobile.png",
     "fold": "shots/APP-P-014-email-verify-fold.png",
@@ -600,11 +600,11 @@ window.SCREEN_MAP_DATA = {
    "meta": {
     "id": "APP-P-014-email-verify",
     "title": "APP-P-014-email-verify",
-    "version": "v2-2026-11-16",
+    "version": "v5-2026-11-16",
     "date": "2026-11-16",
     "stand": "app-staging.lovii.ru",
     "app_slice": "staging (текущий на 2026-11-16)",
-    "profile": "+79009997009",
+    "profile": "+79009997009 (e-mail задан, код запрошен; сам код не вводился)",
     "tool": "Playwright chrome, fullPage @2x: mobile 390×844, fold 717×844, tablet 1024×768, web 1440×900",
     "route": "/profile/edit/email/verify",
     "final_url": "https://app-staging.lovii.ru/profile/edit/email/verify",
@@ -615,7 +615,7 @@ window.SCREEN_MAP_DATA = {
      "tablet.png": "1024×768",
      "web.png": "1440×900"
     },
-    "notes": "полный пересъём baseline 02.10 → 16.11"
+    "notes": "вторая волна 16.11: e-mail задан через UI, код запрошен кнопкой «Получить код» — экран ввода кода в состоянии «Код отправлен»; сам код не вводился (доступа к почте нет), адрес остаётся неподтверждённым"
    }
   },
   {
@@ -785,7 +785,7 @@ window.SCREEN_MAP_DATA = {
    "priority": 2,
    "screenId": "APP-P-019-address-edit",
    "title": "Редактирование адреса",
-   "version": "v2-2026-11-16",
+   "version": "v7-2026-11-16",
    "shots": {
     "mobile": "shots/APP-P-019-address-edit-mobile.png",
     "fold": "shots/APP-P-019-address-edit-fold.png",
@@ -795,14 +795,14 @@ window.SCREEN_MAP_DATA = {
    "meta": {
     "id": "APP-P-019-address-edit",
     "title": "APP-P-019-address-edit",
-    "version": "v2-2026-11-16",
+    "version": "v7-2026-11-16",
     "date": "2026-11-16",
     "stand": "app-staging.lovii.ru",
     "app_slice": "staging (текущий на 2026-11-16)",
-    "profile": "+79119287478 (user 51, view-only — влад. данные не менялись)",
+    "profile": "+79009997009 (правка адреса «Дом»)",
     "tool": "Playwright chrome, fullPage @2x: mobile 390×844, fold 717×844, tablet 1024×768, web 1440×900",
-    "route": "(динамический, resolve через UI)",
-    "final_url": "https://app-staging.lovii.ru/profile/addresses/edit/65",
+    "route": "/profile/addresses/edit/<id>",
+    "final_url": "https://app-staging.lovii.ru/profile/addresses/edit/83",
     "states": {
      "default.png": "копия mobile.png",
      "mobile.png": "390×844",
@@ -810,7 +810,7 @@ window.SCREEN_MAP_DATA = {
      "tablet.png": "1024×768",
      "web.png": "1440×900"
     },
-    "notes": "полный пересъём baseline 02.10 → 16.11"
+    "notes": "вторая волна 16.11: честный переход в форму редактирования существующего адреса (карандаш в списке)"
    }
   },
   {
@@ -994,7 +994,7 @@ window.SCREEN_MAP_DATA = {
    "priority": 2,
    "screenId": "APP-P-024-business-result",
    "title": "ЛОВИ Бизнес — результат заявки",
-   "version": "v4-2026-11-16",
+   "version": "v5-2026-11-16",
    "shots": {
     "mobile": "shots/APP-P-024-business-result-mobile.png",
     "fold": "shots/APP-P-024-business-result-fold.png",
@@ -1004,14 +1004,14 @@ window.SCREEN_MAP_DATA = {
    "meta": {
     "id": "APP-P-024-business-result",
     "title": "APP-P-024-business-result",
-    "version": "v4-2026-11-16",
+    "version": "v5-2026-11-16",
     "date": "2026-11-16",
     "stand": "app-staging.lovii.ru",
     "app_slice": "staging (текущий на 2026-11-16)",
-    "profile": "+79009990004 (NEW-1, view-only)",
-    "tool": "Playwright chrome, fullPage @2x: mobile 390×844, fold 717×844, tablet 1024×768, web 1440×900",
-    "route": "/business/result",
-    "final_url": "https://app-staging.lovii.ru/business/result",
+    "profile": "+79119287478 (user 51, verified АКСИОМА)",
+    "tool": "вьюпорт на всю высоту контента (анти-артефакт sticky), fullPage не используется",
+    "route": "/cabinet/msp (подмена: verified-кабинет точки как состояние «точка активна»)",
+    "final_url": "https://app-staging.lovii.ru/cabinet/msp",
     "states": {
      "default.png": "копия mobile.png",
      "mobile.png": "390×844",
@@ -1019,7 +1019,7 @@ window.SCREEN_MAP_DATA = {
      "tablet.png": "1024×768",
      "web.png": "1440×900"
     },
-    "notes": "гейт: у актёра NEW-1 нет живой заявки — редирект в профиль"
+    "notes": "честное ограничение: экран /business/result требует свежую verified-заявку; снят verified-кабинет точки АКСИОМА (user 51) — это и есть «точка активна»; данные стендовые"
    }
   },
   {
@@ -1033,7 +1033,7 @@ window.SCREEN_MAP_DATA = {
    "priority": 3,
    "screenId": "APP-P-025-mypoint",
    "title": "Редирект «Моя точка»",
-   "version": "v2-2026-11-16",
+   "version": "v3-2026-11-16",
    "shots": {
     "mobile": "shots/APP-P-025-mypoint-mobile.png",
     "fold": "shots/APP-P-025-mypoint-fold.png",
@@ -1043,13 +1043,13 @@ window.SCREEN_MAP_DATA = {
    "meta": {
     "id": "APP-P-025-mypoint",
     "title": "APP-P-025-mypoint",
-    "version": "v2-2026-11-16",
+    "version": "v3-2026-11-16",
     "date": "2026-11-16",
     "stand": "app-staging.lovii.ru",
     "app_slice": "staging (текущий на 2026-11-16)",
-    "profile": "+79119287478 (user 51, view-only — влад. данные не менялись)",
-    "tool": "Playwright chrome, fullPage @2x: mobile 390×844, fold 717×844, tablet 1024×768, web 1440×900",
-    "route": "/business/point",
+    "profile": "+79119287478 (user 51, view-only)",
+    "tool": "вьюпорт на всю высоту контента (анти-артефакт sticky), fullPage не используется",
+    "route": "/business/point -> MspOverview",
     "final_url": "https://app-staging.lovii.ru/business/point",
     "states": {
      "default.png": "копия mobile.png",
@@ -1058,7 +1058,7 @@ window.SCREEN_MAP_DATA = {
      "tablet.png": "1024×768",
      "web.png": "1440×900"
     },
-    "notes": "redirect /business/point -> MspOverview (итоговый экран кабинета МСП, user 51 view-only)"
+    "notes": "вторая волна пересъёмки 16.11: честная подготовка данных"
    }
   },
   {
@@ -1696,7 +1696,7 @@ window.SCREEN_MAP_DATA = {
    "priority": 1,
    "screenId": "APP-P-044-msp-overview",
    "title": "Кабинет МСП — Обзор («Мой магазин»)",
-   "version": "v6-2026-11-16",
+   "version": "v7-2026-11-16",
    "shots": {
     "mobile": "shots/APP-P-044-msp-overview-mobile.png",
     "fold": "shots/APP-P-044-msp-overview-fold.png",
@@ -1706,12 +1706,12 @@ window.SCREEN_MAP_DATA = {
    "meta": {
     "id": "APP-P-044-msp-overview",
     "title": "APP-P-044-msp-overview",
-    "version": "v6-2026-11-16",
+    "version": "v7-2026-11-16",
     "date": "2026-11-16",
     "stand": "app-staging.lovii.ru",
     "app_slice": "staging (текущий на 2026-11-16)",
-    "profile": "+79119287478 (user 51, view-only — влад. данные не менялись)",
-    "tool": "Playwright chrome, fullPage @2x: mobile 390×844, fold 717×844, tablet 1024×768, web 1440×900",
+    "profile": "+79119287478 (user 51, view-only, АКСИОМА)",
+    "tool": "вьюпорт на всю высоту контента (анти-артефакт sticky), fullPage не используется",
     "route": "/cabinet/msp",
     "final_url": "https://app-staging.lovii.ru/cabinet/msp",
     "states": {
@@ -1721,7 +1721,7 @@ window.SCREEN_MAP_DATA = {
      "tablet.png": "1024×768",
      "web.png": "1440×900"
     },
-    "notes": "полный пересъём baseline 02.10 → 16.11"
+    "notes": "вторая волна 16.11: пересъёмка от артефакта липкого таб-бара (вьюпорт на всю высоту)"
    }
   },
   {
@@ -1774,7 +1774,7 @@ window.SCREEN_MAP_DATA = {
    "priority": 1,
    "screenId": "APP-P-046-msp-orders",
    "title": "МСП — Заказы точки",
-   "version": "v3-2026-11-16",
+   "version": "v4-2026-11-16",
    "shots": {
     "mobile": "shots/APP-P-046-msp-orders-mobile.png",
     "fold": "shots/APP-P-046-msp-orders-fold.png",
@@ -1784,12 +1784,12 @@ window.SCREEN_MAP_DATA = {
    "meta": {
     "id": "APP-P-046-msp-orders",
     "title": "APP-P-046-msp-orders",
-    "version": "v3-2026-11-16",
+    "version": "v4-2026-11-16",
     "date": "2026-11-16",
     "stand": "app-staging.lovii.ru",
     "app_slice": "staging (текущий на 2026-11-16)",
-    "profile": "+79119287478 (user 51, view-only — влад. данные не менялись)",
-    "tool": "Playwright chrome, fullPage @2x: mobile 390×844, fold 717×844, tablet 1024×768, web 1440×900",
+    "profile": "+79119287478 (user 51)",
+    "tool": "вьюпорт на всю высоту контента (анти-артефакт sticky), fullPage не используется",
     "route": "/cabinet/msp/orders",
     "final_url": "https://app-staging.lovii.ru/cabinet/msp/orders",
     "states": {
@@ -1799,7 +1799,7 @@ window.SCREEN_MAP_DATA = {
      "tablet.png": "1024×768",
      "web.png": "1440×900"
     },
-    "notes": "полный пересъём baseline 02.10 → 16.11"
+    "notes": "вторая волна пересъёмки 16.11: честная подготовка данных"
    }
   },
   {
@@ -1891,7 +1891,7 @@ window.SCREEN_MAP_DATA = {
    "priority": 2,
    "screenId": "APP-P-049-msp-loyalty",
    "title": "МСП — Промо (лояльность)",
-   "version": "v3-2026-11-16",
+   "version": "v4-2026-11-16",
    "shots": {
     "mobile": "shots/APP-P-049-msp-loyalty-mobile.png",
     "fold": "shots/APP-P-049-msp-loyalty-fold.png",
@@ -1901,12 +1901,12 @@ window.SCREEN_MAP_DATA = {
    "meta": {
     "id": "APP-P-049-msp-loyalty",
     "title": "APP-P-049-msp-loyalty",
-    "version": "v3-2026-11-16",
+    "version": "v4-2026-11-16",
     "date": "2026-11-16",
     "stand": "app-staging.lovii.ru",
     "app_slice": "staging (текущий на 2026-11-16)",
-    "profile": "+79119287478 (user 51, view-only — влад. данные не менялись)",
-    "tool": "Playwright chrome, fullPage @2x: mobile 390×844, fold 717×844, tablet 1024×768, web 1440×900",
+    "profile": "+79119287478 (user 51)",
+    "tool": "вьюпорт на всю высоту контента (анти-артефакт sticky), fullPage не используется",
     "route": "/cabinet/msp/loyalty",
     "final_url": "https://app-staging.lovii.ru/cabinet/msp/loyalty",
     "states": {
@@ -1916,7 +1916,7 @@ window.SCREEN_MAP_DATA = {
      "tablet.png": "1024×768",
      "web.png": "1440×900"
     },
-    "notes": "полный пересъём baseline 02.10 → 16.11"
+    "notes": "вторая волна пересъёмки 16.11: честная подготовка данных"
    }
   },
   {
@@ -2047,7 +2047,7 @@ window.SCREEN_MAP_DATA = {
    "priority": 1,
    "screenId": "APP-P-053-team-orders",
    "title": "Кабинет команды — Заказы",
-   "version": "v2-2026-11-16",
+   "version": "v3-2026-11-16",
    "shots": {
     "mobile": "shots/APP-P-053-team-orders-mobile.png",
     "fold": "shots/APP-P-053-team-orders-fold.png",
@@ -2057,12 +2057,12 @@ window.SCREEN_MAP_DATA = {
    "meta": {
     "id": "APP-P-053-team-orders",
     "title": "APP-P-053-team-orders",
-    "version": "v2-2026-11-16",
+    "version": "v3-2026-11-16",
     "date": "2026-11-16",
     "stand": "app-staging.lovii.ru",
     "app_slice": "staging (текущий на 2026-11-16)",
-    "profile": "+79119287478 (user 51, view-only — влад. данные не менялись)",
-    "tool": "Playwright chrome, fullPage @2x: mobile 390×844, fold 717×844, tablet 1024×768, web 1440×900",
+    "profile": "+79119287478 (user 51)",
+    "tool": "вьюпорт на всю высоту контента (анти-артефакт sticky), fullPage не используется",
     "route": "/cabinet/team",
     "final_url": "https://app-staging.lovii.ru/cabinet/team",
     "states": {
@@ -2072,7 +2072,7 @@ window.SCREEN_MAP_DATA = {
      "tablet.png": "1024×768",
      "web.png": "1440×900"
     },
-    "notes": "полный пересъём baseline 02.10 → 16.11"
+    "notes": "вторая волна пересъёмки 16.11: честная подготовка данных"
    }
   },
   {
@@ -2086,7 +2086,7 @@ window.SCREEN_MAP_DATA = {
    "priority": 2,
    "screenId": "APP-P-054-team-order-detail",
    "title": "Команда — Заказ точки (деталь)",
-   "version": "v2-2026-11-16",
+   "version": "v3-2026-11-16",
    "shots": {
     "mobile": "shots/APP-P-054-team-order-detail-mobile.png",
     "fold": "shots/APP-P-054-team-order-detail-fold.png",
@@ -2096,13 +2096,13 @@ window.SCREEN_MAP_DATA = {
    "meta": {
     "id": "APP-P-054-team-order-detail",
     "title": "APP-P-054-team-order-detail",
-    "version": "v2-2026-11-16",
+    "version": "v3-2026-11-16",
     "date": "2026-11-16",
     "stand": "app-staging.lovii.ru",
     "app_slice": "staging (текущий на 2026-11-16)",
-    "profile": "+79119287478 (user 51, view-only — влад. данные не менялись)",
-    "tool": "Playwright chrome, fullPage @2x: mobile 390×844, fold 717×844, tablet 1024×768, web 1440×900",
-    "route": "(динамический, resolve через UI)",
+    "profile": "+79119287478 (user 51)",
+    "tool": "вьюпорт на всю высоту контента (анти-артефакт sticky), fullPage не используется",
+    "route": "(динамический, resolve через UI: клик по заказу)",
     "final_url": "https://app-staging.lovii.ru/cabinet/team/orders/120",
     "states": {
      "default.png": "копия mobile.png",
@@ -2111,7 +2111,7 @@ window.SCREEN_MAP_DATA = {
      "tablet.png": "1024×768",
      "web.png": "1440×900"
     },
-    "notes": "полный пересъём baseline 02.10 → 16.11"
+    "notes": "вторая волна пересъёмки 16.11: честная подготовка данных"
    }
   },
   {
@@ -2164,7 +2164,7 @@ window.SCREEN_MAP_DATA = {
    "priority": 2,
    "screenId": "APP-P-056-team-team",
    "title": "Команда — Команда",
-   "version": "v2-2026-11-16",
+   "version": "v3-2026-11-16",
    "shots": {
     "mobile": "shots/APP-P-056-team-team-mobile.png",
     "fold": "shots/APP-P-056-team-team-fold.png",
@@ -2174,12 +2174,12 @@ window.SCREEN_MAP_DATA = {
    "meta": {
     "id": "APP-P-056-team-team",
     "title": "APP-P-056-team-team",
-    "version": "v2-2026-11-16",
+    "version": "v3-2026-11-16",
     "date": "2026-11-16",
     "stand": "app-staging.lovii.ru",
     "app_slice": "staging (текущий на 2026-11-16)",
-    "profile": "+79119287478 (user 51, view-only — влад. данные не менялись)",
-    "tool": "Playwright chrome, fullPage @2x: mobile 390×844, fold 717×844, tablet 1024×768, web 1440×900",
+    "profile": "+79119287478 (user 51)",
+    "tool": "вьюпорт на всю высоту контента (анти-артефакт sticky), fullPage не используется",
     "route": "/cabinet/team/team",
     "final_url": "https://app-staging.lovii.ru/cabinet/team/team",
     "states": {
@@ -2189,7 +2189,7 @@ window.SCREEN_MAP_DATA = {
      "tablet.png": "1024×768",
      "web.png": "1440×900"
     },
-    "notes": "полный пересъём baseline 02.10 → 16.11"
+    "notes": "вторая волна пересъёмки 16.11: честная подготовка данных"
    }
   },
   {
@@ -2203,7 +2203,7 @@ window.SCREEN_MAP_DATA = {
    "priority": 1,
    "screenId": "APP-P-057-payment-result",
    "title": "Результат оплаты заказа",
-   "version": "v2-2026-11-16",
+   "version": "v3-2026-11-16",
    "shots": {
     "mobile": "shots/APP-P-057-payment-result-mobile.png",
     "fold": "shots/APP-P-057-payment-result-fold.png",
@@ -2213,14 +2213,14 @@ window.SCREEN_MAP_DATA = {
    "meta": {
     "id": "APP-P-057-payment-result",
     "title": "APP-P-057-payment-result",
-    "version": "v2-2026-11-16",
+    "version": "v3-2026-11-16",
     "date": "2026-11-16",
     "stand": "app-staging.lovii.ru",
     "app_slice": "staging (текущий на 2026-11-16)",
-    "profile": "+79009997009",
+    "profile": "+79009997009 (заказ оплачен мок-картой 2200…7761 через tbank-mock)",
     "tool": "Playwright chrome, fullPage @2x: mobile 390×844, fold 717×844, tablet 1024×768, web 1440×900",
-    "route": "/payment/result",
-    "final_url": "https://app-staging.lovii.ru/payment/result",
+    "route": "/payment/result?order=N (после оплаты в мок-банке)",
+    "final_url": "https://app-staging.lovii.ru/payment/result?order=137&result=success",
     "states": {
      "default.png": "копия mobile.png",
      "mobile.png": "390×844",
@@ -2228,7 +2228,7 @@ window.SCREEN_MAP_DATA = {
      "tablet.png": "1024×768",
      "web.png": "1440×900"
     },
-    "notes": "полный пересъём baseline 02.10 → 16.11"
+    "notes": "вторая волна 16.11: заказ проведён по UI до оплаты — мок-банк tbank-mock, карта успеха 2200770239097761, итоговый экран с квитанцией"
    }
   },
   {
