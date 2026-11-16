@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Лови — презентация продукта</title>
+  <meta name="description" content="Лови — всё в шаговой доступности. Полностью работающий продукт: витрина района, оплата, лояльность и чеки.">
+  <meta name="theme-color" content="#f64a8a">
+  <link rel="icon" href="../assets/lovii-icon.svg">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('lovii_theme');
+        if (t !== 'dark' && t !== 'light') {
+          t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.dataset.theme = t;
+      } catch (e) { document.documentElement.dataset.theme = 'dark'; }
+    })();
+  </script>
+  <link rel="stylesheet" href="../assets/lovii-tokens.css?v=27">
+  <link rel="stylesheet" href="tour.css?v=1">
+</head>
+<body>
+
+  <!-- Hero -->
+  <header class="hero" id="hero">
+    <div class="hero-glow hero-glow--pink" aria-hidden="true"></div>
+    <div class="hero-glow hero-glow--tiffany" aria-hidden="true"></div>
+    <div class="hero__inner">
+      <div class="hero__brand reveal">
+        <img src="../assets/lovii-icon.svg" alt="" class="hero__mark">
+        <span class="hero__word">ЛОВИ</span>
+      </div>
+      <h1 class="hero__title reveal">Всё —<br><em>в шаговой доступности</em></h1>
+      <p class="hero__sub reveal">Полностью работающий продукт: 59 экранов, 4 роли, оплата, лояльность и чеки 54-ФЗ уже реализованы.</p>
+      <div class="hero__cta reveal">
+        <a class="btn btn--primary" href="#story">Смотреть за 3 минуты</a>
+        <a class="btn btn--ghost" href="/">Открыть живое демо</a>
+      </div>
+    </div>
+    <div class="hero__scroll" aria-hidden="true"><span></span></div>
+  </header>
+
+  <!-- Sticky панель прогресса -->
+  <nav class="stats-bar" id="stats-bar" aria-label="Прогресс продукта">
+    <div class="stats-bar__inner">
+      <a class="stats-bar__brand" href="#hero" aria-label="Наверх">
+        <img src="../assets/lovii-icon.svg" alt=""><b>ЛОВИ</b>
+      </a>
+      <div class="stat"><b data-count="59">0</b><span>экранов</span></div>
+      <div class="stat"><b data-count="4">0</b><span>роли</span></div>
+      <div class="stat"><b class="stat--pay">100%</b><span>оплата&nbsp;+ чеки</span></div>
+      <div class="stat"><b>2</b><span>платформы</span></div>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Сменить тему">
+        <span class="theme-toggle__sun" aria-hidden="true">☀</span>
+        <span class="theme-toggle__moon" aria-hidden="true">☾</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- История -->
+  <main id="story" class="story"></main>
+
+  <!-- Финал -->
+  <footer class="final">
+    <div class="final__inner reveal">
+      <p class="final__kicker">Готово к показу</p>
+      <h2>Демо-стенд доступен по запросу</h2>
+      <p class="final__sub">Проведите руками: витрина, заказ, оплата, баллы, кабинеты всех ролей.</p>
+      <a class="btn btn--primary btn--big" href="/">Открыть интерактивное демо</a>
+    </div>
+    <p class="final__legal">© Лови · lovii.ru</p>
+  </footer>
+
+  <!-- Лайтбокс -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр экрана" hidden>
+    <div class="lightbox__backdrop" data-lb-close></div>
+    <figure class="lightbox__stage">
+      <button class="lb-arrow lb-arrow--prev" type="button" aria-label="Предыдущий экран">‹</button>
+      <div class="lightbox__frame" id="lb-frame">
+        <img id="lb-img" alt="">
+        <div class="lb-spinner" id="lb-spinner" hidden></div>
+      </div>
+      <button class="lb-arrow lb-arrow--next" type="button" aria-label="Следующий экран">›</button>
+    </figure>
+    <figcaption class="lightbox__caption">
+      <div class="lightbox__meta">
+        <b id="lb-title"></b>
+        <p id="lb-desc"></p>
+      </div>
+      <div class="lb-vps" id="lb-vps" role="tablist" aria-label="Устройства"></div>
+    </figcaption>
+    <button class="lb-close" type="button" data-lb-close aria-label="Закрыть">×</button>
+  </div>
+
+  <script src="data.js?v=1"></script>
+  <script src="tour.js?v=1"></script>
+</body>
+</html>
